@@ -1,0 +1,60 @@
+<nav>
+    <mat-card>
+        <mat-card-header>
+            <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Avatar">
+            <mat-card-title>Usuario</mat-card-title>
+            <mat-card-subtitle>Jhon Doe</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>SportBoard</mat-card-title>
+            <mat-card-subtitle>Administración</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list>
+                <mat-selection-list>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['/']">
+                            <mat-icon mat-list-icon>home</mat-icon>
+                            Home
+                        </a>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['usuarios']">
+                            <mat-icon mat-list-icon>people</mat-icon>
+                            Usuarios
+                        </a>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['competencias']">
+                            <mat-icon mat-list-icon>emoji_events</mat-icon>
+                            Competencias
+                        </a>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['calendario']">
+                            <mat-icon mat-list-icon>calendar_today</mat-icon>
+                            Calendario
+                        </a>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['tiempo-real']">
+                            <mat-icon mat-list-icon>update</mat-icon>
+                            Tiempo-real
+                        </a>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <a mat-line [routerLink]="['estadisticas']">
+                            <mat-icon mat-list-icon>bar_chart</mat-icon>
+                            Estadisticas
+                        </a>
+                    </mat-list-item>
+                </mat-selection-list>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+
+</nav>

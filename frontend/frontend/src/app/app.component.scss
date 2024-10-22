@@ -1,0 +1,19 @@
+@use '../variables.scss' as *;
+
+.sidenav-container {
+    height: 100vh; /* Hace que la aplicación ocupe toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+}
+
+mat-sidenav {
+    background-color: $primary; /* Color de fondo del sidebar */
+    border-radius: 0%;
+    width: 250px; /* Ancho de la barra lateral */
+}
+
+mat-sidenav-content {
+    flex: 1; /* Se ajusta al tamaño disponible */
+    display: flex;
+    flex-direction: column;
+}

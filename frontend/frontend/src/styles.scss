@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Definición de colores en variables
+@use 'variables.scss' as *;
+
+// Estilos globales
+:host {
+    // Estilos de la página principal
+    display: grid;
+    // Definición de áreas
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    // Definición de columnas y filas
+    grid-template-columns: auto 1fr;
+    // Definición de filas
+    grid-template-rows: auto 1fr auto;
+    // Altura de la página
+    height: 100vh;
+}
+
+html,
+body {
+    background-color: #f0f2f5;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+header {
+    grid-area: header;
+    background-color: $primary;
+    color: $font-color-light;
+    padding: 10px;
+    text-align: center;
+}
+
+footer {
+    grid-area: footer;
+    background-color: $primary;
+    color: $font-color-light;
+    padding: 10px;
+    text-align: center;
+}
+
+nav {
+    grid-area: sidebar;
+    background-color: $secondary;
+    width: 250px;
+    padding: 15px;
+    transition: transform $transition-duration;
+}
+
+
+
+main {
+    flex: 1; /* Hace que el contenido crezca según el espacio disponible */
+    padding: 20px;
+    overflow-y: auto; /* Añade scroll si el contenido es muy grande */
+}
+
+section {
+    grid-area: content;
+    background-color: $support;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.spacer {
+    flex: 1; /* Añade espacio entre elementos */
+}
