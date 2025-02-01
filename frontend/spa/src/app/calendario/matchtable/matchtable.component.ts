@@ -317,20 +317,22 @@ export class MatchtableComponent implements AfterViewInit {
     'hora',
     'enVivo',
   ];
-  dataSource = new MatTableDataSource<Partido>(this.partidos);
   
-  
+  dataSource = new MatTableDataSource<Partido>(this.getPartidosFiltrados());
 
   public tabSeleccionada: string = 'pasados';
   public expandedPartido: any;
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator!;
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   cambiarTab(tab: string) {
     this.tabSeleccionada = tab;
     this.expandedPartido = null;
+    this.dataSource.data = this.getPartidosFiltrados();
   }
 
   toggleExpansionPanel(partido: any) {
