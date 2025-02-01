@@ -4,7 +4,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarioRoutingModule } from './calendario-routing.module';
 import { MatchtableComponent } from './matchtable/matchtable.component';
 import {SorteoComponent} from './sorteo/sorteo.component';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -13,7 +13,8 @@ import {SorteoComponent} from './sorteo/sorteo.component';
     CalendarioRoutingModule,
     CalendarComponent,
     MatchtableComponent,
-    SorteoComponent
+    SorteoComponent,
+    MatPaginatorModule
   ],
   exports: []
 })
