@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <h4>¿Está seguro de eliminar el usuario?</h4>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial type="submit"
+        style="background-color: lightgreen; color: black;">
+        <mat-icon>check</mat-icon>
+        Confirmar
+    </button>
+    <button mat-button mat-dialog-close style="background-color: lightgrey; color: black;">
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+    </button>
+</mat-dialog-actions>

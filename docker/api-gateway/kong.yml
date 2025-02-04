@@ -50,5 +50,9 @@ services:
     routes:
       - name: ms1-usermanagement-route
         paths:
-          - /api
+          - /api/users
+          - /api/users/
+          - /api/create-superuser
+          - /api/nacionalities
+          - /api/nacionalities/
         strip_path: false
