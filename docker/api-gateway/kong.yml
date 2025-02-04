@@ -50,5 +50,5 @@ services:
     routes:
       - name: ms1-usermanagement-route
         paths:
-          - /ms1/
+          - /api
         strip_path: false
