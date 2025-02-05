@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InicioSesionComponent } from './inicio_sesion/inicio_sesion.component';
+import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
 import { RegistroComponent } from './registro/registro.component';
 import { UsuarioRoutingModule } from './usuario-routing.module';
 

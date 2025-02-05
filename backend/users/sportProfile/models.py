@@ -52,8 +52,8 @@ class User(AbstractUser):
         blank=True,
         related_name='users'
     )
-    birthdate = models.DateField()
-    weigth = models.FloatField()
+    birthdate = models.DateField(null=True, blank=True)
+    weigth = models.FloatField(null=True, blank=True)
     ##
     role = models.CharField(
         max_length=10,
@@ -65,6 +65,9 @@ class User(AbstractUser):
         choices=Status.choices,
         default=Status.ACTIVE
     )
+    first_name = models.CharField(max_length=30, null=True, blank=True)
+    last_name = models.CharField(max_length=150, null=True, blank=True)
+
     objects = UserManager()
     
     groups = models.ManyToManyField(

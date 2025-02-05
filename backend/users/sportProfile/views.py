@@ -1,8 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import User, Nacionality
-from .serializers import UserSerializer, NacionalitySerializer
+from .models import *
+from .serializers import *
 
 # Vista para operaciones CRUD estándar de User
 class UserViewSet(viewsets.ModelViewSet):
@@ -21,6 +21,17 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Vista para operaciones CRUD de Nacionality
 class NacionalityViewSet(viewsets.ModelViewSet):
     queryset = Nacionality.objects.all()
     serializer_class = NacionalitySerializer
+
+# Vista para operaciones CRUD de Profile
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+# Vista para operaciones CRUD de Player
+class PlayerViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer

@@ -9,6 +9,8 @@ from django.conf.urls.static import static
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'nacionalities', NacionalityViewSet, basename='nacionality')
+router.register(r'profiles', ProfileViewSet)
+router.register(r'players', PlayerViewSet)
 
 # Rutas personalizadas (si las necesitas)
 urlpatterns = [
