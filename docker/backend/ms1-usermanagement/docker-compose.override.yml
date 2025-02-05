@@ -31,6 +31,13 @@ services:
             - postgres-usermanagement
         networks:
             - sportboard-network
+        command:
+            - sh
+            - -c
+            - |
+                python manage.py migrate
+                python manage.py runserver
+
 
 networks:
     sportboard-network:

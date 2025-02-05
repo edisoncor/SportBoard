@@ -1,17 +1,25 @@
 
-from django.urls import path
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
-from .views import NacionalityRegisterAPIView, CreateSuperUserAPIView, NacionalityCreateListAPIView, UserListCreateAPIView, UserDetailAPIView, CreateUserAPIView
+# Configuración del router
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
+router.register(r'nacionalities', NacionalityViewSet, basename='nacionality')
 
+# Rutas personalizadas (si las necesitas)
 urlpatterns = [
-
-    path('users/', UserListCreateAPIView.as_view(), name='user-list-create'), #obtener y crear usuarios.
-    path('users/<int:pk>/', UserDetailAPIView.as_view(), name='user-detail'), #obtener, actualizar y eliminar un usuario específico.
-    path('users/create/', CreateUserAPIView.as_view(), name='create-user'), #crear un usuario.
-
-    path('create-superuser/', CreateSuperUserAPIView.as_view(), name='create-superuser'), #crear un superusuario.
-
-    path('nacionalities/', NacionalityCreateListAPIView.as_view(), name='nacionality-list-create'),
-    path('nacionalities/<int:pk>/', NacionalityRegisterAPIView.as_view(), name='nacionality-register'),
-
+    # Ejemplo de ruta personalizada
+    # path('custom-route/', custom_view, name='custom-view'),
 ]
+
+# Agrega las rutas generadas por el router
+urlpatterns += router.urls
+
+# Servir archivos estáticos y multimedia en modo DEBUG
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
