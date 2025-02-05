@@ -1,8 +1,11 @@
 ---
 title: "Documentación de Microservicio: Calendario"
-Autores: "Mora Abel, Guachizaca Santiago, Luna Steven y Aguinsaca Brian"
-format: html
+autores: "Mora Abel, Guachizaca Santiago, Luna Steven y Aguinsaca Brian"
+format: 
+  html:
+    css: styles/styless.css
 ---
+
 
 # Descripción del Microservicio
 
@@ -19,16 +22,25 @@ El microservicio **Calendario** es responsable de gestionar los eventos y calend
 
 # Endpoints
 
-## `GET /api/events`
+## Descripción
+Un endpoint consiste en una dirección específica dentro de una API, la cual permite acceder a un recurso o la ejecución de una acción en un servidor. En otras palabras, es un punto de contacto entre el cliente y el servidor
 
-### Descripción
 
-Obtiene todos los eventos disponibles en el sistema.
+## Endpoints 
+Los Endpoints utilizados en el proyecto estan relacionados a una API REST para el modulo de Calendario.
+A continuación, se presenta los endpoints que permiten realizar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre eventos o registros en el calendario.
 
-### Ejemplo de solicitud
+| **Método HTTP** | **Endpoint**             | **Descripción**                                                         |
+|-----------------|--------------------------|-------------------------------------------------------------------------|
+| `GET`           | `/api/calendario`        | Obtiene todos los eventos del calendario.                               |
+| `GET`           | `/api/calendario/{id}`   | Obtiene un evento específico según su ID.                               |
+| `POST`          | `/api/calendario`        | Crea un nuevo evento en el calendario.                                  |
+| `PUT`           | `/api/calendario/{id}`   | Actualiza un evento existente según su ID.                              |
+| `DELETE`        | `/api/calendario/{id}`   | Elimina un evento del calendario según su ID.                           |
 
-```bash
-curl -X GET http://api.example.com/api/events
+## Ejemplo
+En el código presente, se define un controlador REST mediante Spring Boot el cual maneja solicitudes HTTP dirigidas a `/api/calendar`. A continuación, se expone un ejemplo de endpoint `GET /api/calendar/hola`, el cual responde con el texto que se define: "Hola"
+![Diagrama de Contexto](Files/Endpoint.png)
 
 # Integración de Kong API Gateway con el Microservicio Calendar
 
@@ -166,27 +178,25 @@ El Modelo C4 es una metodología para visualizar la arquitectura de software a d
 Cada nivel proporciona una visión diferente de la arquitectura, ayudando a los equipos de desarrollo, operaciones 
 y otros stakeholders a comprender cómo está estructurado y funciona el sistema.
 
-A continuación, se explicará acerca de los 4 niveles del modelo C4
+A continuación, se explicará acerca de los 4 niveles del modelo C4:
 
-## Nivel 1
+### Nivel 1
 El diagrama de Contexto es el nivel más alto y proporciona una visión global del sistema en su entorno. Este diagrama se centra en el sistema como un todo y muestra cómo interactúa con usuarios externos, sistemas o servicios. No profundiza en los detalles internos, sino que establece el alcance y las interacciones externas.
 
 A continuación, se muestra la visión general del sistema y las interacciones con actores externos:
 ![Diagrama de Contexto](Files/Capa1.png)
 
-## Nivel 2
+### Nivel 2
 El diagrama de Contenedores descompone el sistema en contenedores, que representan aplicaciones o servicios ejecutables. Cada contenedor es un proceso que se ejecuta y tiene una funcionalidad propia (por ejemplo, una base de datos, un servicio web o una aplicación móvil).
 
 A continuación, se desglosa el sistema en aplicaciones o servicios que interactúan entre sí:
 ![Diagrama de Contexto](Files/Capa2.png)
 
-## Nivel 3
+### Nivel 3
 El diagrama de Componentes descompone los contenedores en sus partes más pequeñas y muestra los componentes principales dentro de cada contenedor. Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).
 
 A continuación, se muestra cómo esta estructurado un contenedor, desglosando sus principales componentes: 
 ![Diagrama de Contexto](Files/Capa3.png)
 
-## Nivel 4
+### Nivel 4
 El diagrama de Código es el nivel más bajo de detalle y muestra cómo está implementado un componente a nivel de clases, métodos y relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.
-
-A continuación, se muestra a detalles la implementación del código dentro de cada componente: 

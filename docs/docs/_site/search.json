@@ -214,7 +214,7 @@
     "href": "components/microservices/calendar.html#descripción-2",
     "title": "Documentación de Microservicio: Calendario",
     "section": "4.1 Descripción",
-    "text": "4.1 Descripción\nEl Modelo C4 es una metodología para visualizar la arquitectura de software a diferentes niveles de detalle. Cada nivel proporciona una visión diferente de la arquitectura, ayudando a los equipos de desarrollo, operaciones y otros stakeholders a comprender cómo está estructurado y funciona el sistema.\nA continuación, se explicará acerca de los 4 niveles del modelo C4"
+    "text": "4.1 Descripción\nEl Modelo C4 es una metodología para visualizar la arquitectura de software a diferentes niveles de detalle. Cada nivel proporciona una visión diferente de la arquitectura, ayudando a los equipos de desarrollo, operaciones y otros stakeholders a comprender cómo está estructurado y funciona el sistema.\nA continuación, se explicará acerca de los 4 niveles del modelo C4:\n\n4.1.1 Nivel 1\nEl diagrama de Contexto es el nivel más alto y proporciona una visión global del sistema en su entorno. Este diagrama se centra en el sistema como un todo y muestra cómo interactúa con usuarios externos, sistemas o servicios. No profundiza en los detalles internos, sino que establece el alcance y las interacciones externas.\nA continuación, se muestra la visión general del sistema y las interacciones con actores externos: \n\n\n4.1.2 Nivel 2\nEl diagrama de Contenedores descompone el sistema en contenedores, que representan aplicaciones o servicios ejecutables. Cada contenedor es un proceso que se ejecuta y tiene una funcionalidad propia (por ejemplo, una base de datos, un servicio web o una aplicación móvil).\nA continuación, se desglosa el sistema en aplicaciones o servicios que interactúan entre sí: \n\n\n4.1.3 Nivel 3\nEl diagrama de Componentes descompone los contenedores en sus partes más pequeñas y muestra los componentes principales dentro de cada contenedor. Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).\nA continuación, se muestra cómo esta estructurado un contenedor, desglosando sus principales componentes: \n\n\n4.1.4 Nivel 4\nEl diagrama de Código es el nivel más bajo de detalle y muestra cómo está implementado un componente a nivel de clases, métodos y relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código."
   },
   {
     "objectID": "components/microservices/calendar.html#nivel-1",
@@ -242,6 +242,27 @@
     "href": "components/microservices/calendar.html#nivel-4",
     "title": "Documentación de Microservicio: Calendario",
     "section": "4.5 Nivel 4",
-    "text": "4.5 Nivel 4\nEl diagrama de Código es el nivel más bajo de detalle y muestra cómo está implementado un componente a nivel de clases, métodos y relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.\nA continuación, se muestra a detalles la implementación del código dentro de cada componente:"
+    "text": "4.5 Nivel 4\nEl diagrama de Código es el nivel más bajo de detalle y muestra cómo está implementado un componente a nivel de clases, métodos y relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código."
+  },
+  {
+    "objectID": "components/microservices/calendar.html#descripción",
+    "href": "components/microservices/calendar.html#descripción",
+    "title": "Documentación de Microservicio: Calendario",
+    "section": "2.1 Descripción",
+    "text": "2.1 Descripción\nUn endpoint consiste en una dirección específica dentro de una API, la cual permite acceder a un recurso o la ejecución de una acción en un servidor. En otras palabras, es un punto de contacto entre el cliente y el servidor"
+  },
+  {
+    "objectID": "components/microservices/calendar.html#endpoints-1",
+    "href": "components/microservices/calendar.html#endpoints-1",
+    "title": "Documentación de Microservicio: Calendario",
+    "section": "2.2 Endpoints",
+    "text": "2.2 Endpoints\nLos Endpoints utilizados en el proyecto estan relacionados a una API REST para el modulo de Calendario. A continuación, se presenta los endpoints que permiten realizar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre eventos o registros en el calendario.\n\n\n\n\n\n\n\n\nMétodo HTTP\nEndpoint\nDescripción\n\n\n\n\nGET\n/api/calendario\nObtiene todos los eventos del calendario.\n\n\nGET\n/api/calendario/{id}\nObtiene un evento específico según su ID.\n\n\nPOST\n/api/calendario\nCrea un nuevo evento en el calendario.\n\n\nPUT\n/api/calendario/{id}\nActualiza un evento existente según su ID.\n\n\nDELETE\n/api/calendario/{id}\nElimina un evento del calendario según su ID."
+  },
+  {
+    "objectID": "components/microservices/calendar.html#ejemplo",
+    "href": "components/microservices/calendar.html#ejemplo",
+    "title": "Documentación de Microservicio: Calendario",
+    "section": "2.3 Ejemplo",
+    "text": "2.3 Ejemplo\nEn el código presente, se define un controlador REST mediante Spring Boot el cual maneja solicitudes HTTP dirigidas a /api/calendar. A continuación, se expone un ejemplo de endpoint GET /api/calendar/hola, el cual responde con el texto que se define: “Hola”"
   }
 ]
