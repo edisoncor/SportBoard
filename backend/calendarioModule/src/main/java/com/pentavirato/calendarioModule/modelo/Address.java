@@ -8,6 +8,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String principalStreet;
     private String secondaryStreet;
     private String reference;
@@ -15,8 +16,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(Integer id, String principalStreet, String secondaryStreet, String reference) {
-        this.id = id;
+    public Address(String principalStreet, String secondaryStreet, String reference) {
         this.principalStreet = principalStreet;
         this.secondaryStreet = secondaryStreet;
         this.reference = reference;

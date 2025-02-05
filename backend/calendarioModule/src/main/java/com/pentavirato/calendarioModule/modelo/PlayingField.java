@@ -9,7 +9,8 @@ public class PlayingField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     public PlayingField() {

@@ -12,19 +12,21 @@ services:
   ms5-calendar-database:
     image: postgres:13
     container_name: ms5-calendar-database
+    command: -p 6969
     environment:
       POSTGRES_USER: calendar
-      POSTGRES_DB: kong
+      POSTGRES_DB: calendar    # Cambiado de kong a calendar
       POSTGRES_PASSWORD: admin
+      POSTGRES_ROLE: calendar
     networks:
       - sportboard-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kong"]
+      test: ["CMD-SHELL", "pg_isready -U calendar -p 6969"]
       interval: 30s
       timeout: 30s
       retries: 3
     ports:
-      - "6969:6969"
+      - "7000:6969"
 
   calendar-migrations:
     image: kong:3.5
