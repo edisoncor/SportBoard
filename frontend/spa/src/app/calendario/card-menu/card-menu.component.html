@@ -1,22 +1,59 @@
-<h4>Perfiles</h4>
-<div class="button-container">
-    <button mat-button (click)="navigateToCalendar()" class="custom-button">
-        <mat-icon>calendar_today</mat-icon>
-        <span>CALENDARIO</span>
-    </button>
+<div class="container">
+    <div class="hero">
+        <div class="hero-image">
+            <img src="/assets/img/calendar_img.png" alt="Competencias Hero">
+        </div>
+        <div class="hero-content">
+            <h1>Calendario</h1>
+        </div>
+    </div>
 
-    <button mat-button (click)="navigateToMatchtable()" class="custom-button">
-        <mat-icon>poll</mat-icon>
-        <span>PARTIDOS</span>
-    </button>
-    <button mat-button (click)="navigateToSorteo()" class="custom-button">
-        <mat-icon>poll</mat-icon>
-        <span>SORTEO</span>
-    </button>
+   <div>
+        <h3>Prueba: {{ prueba }}</h3>  <!-- Aquí se muestra el mensaje -->
+    </div>
 
+    <div class="masonry">
+        <mat-card *ngFor="let model of models">
+            <div class="card-content-wrapper">
+                <mat-icon class="card-icon">{{ model.icon }}</mat-icon>
+                <div class="card-text">
+                    <mat-card-title>{{ model.title }}</mat-card-title>
+                    <mat-card-content>
+                        <p>{{ model.description }}</p>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <!-- Tarjetas de navegación -->
+    <div class="cards-container">
+        <mat-card class="custom-card" (click)="navigateToCalendar()">
+            <mat-card-header>
+                <mat-icon>calendar_today</mat-icon>
+            </mat-card-header>
+            <mat-card-content>
+                <h4>CALENDARIO</h4>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="custom-card" (click)="navigateToMatchtable()">
+            <mat-card-header>
+                <mat-icon>poll</mat-icon>
+            </mat-card-header>
+            <mat-card-content>
+                <h4>PARTIDOS</h4>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="custom-card" (click)="navigateToSorteo()">
+            <mat-card-header>
+                <mat-icon>shuffle</mat-icon>
+            </mat-card-header>
+            <mat-card-content>
+                <h4>SORTEO</h4>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
-
-
-
-
 

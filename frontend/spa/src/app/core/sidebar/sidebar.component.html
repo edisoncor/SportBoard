@@ -40,30 +40,13 @@
                         </a>
                     </mat-list-item>
 
-                    <!-- Calendario con panel de expansión -->
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-icon mat-list-icon>calendar_today</mat-icon>
-                            <span>Calendario</span>
-                        </mat-expansion-panel-header>
-                        <mat-action-list>
-                            <mat-list-item>
-                                <a mat-line [routerLink]="['/calendario']">
-                                    Calendario
-                                </a>
-                            </mat-list-item>
-                            <mat-list-item>
-                                <a mat-line [routerLink]="['/calendario/sorteo']">
-                                    Sorteo
-                                </a>
-                            </mat-list-item>
-                            <mat-list-item>
-                                <a mat-line [routerLink]="['/calendario/matchtable']">
-                                    Partidos
-                                </a>
-                            </mat-list-item>
-                        </mat-action-list>
-                    </mat-expansion-panel>
+                     <mat-list-item>
+                        <a mat-line [routerLink]="['calendario']">
+                            <mat-icon mat-list-icon>emoji_events</mat-icon>
+                            Calendario
+                        </a>
+                    </mat-list-item>
+
 
                     <mat-list-item>
                         <a mat-line [routerLink]="['tiempo-real']">

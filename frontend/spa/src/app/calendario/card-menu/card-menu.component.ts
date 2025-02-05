@@ -1,31 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {Router} from '@angular/router';
-import { MatchtableComponent } from '../matchtable/matchtable.component';
-import {SorteoComponent} from '../sorteo/sorteo.component';
+import { MatCardModule } from '@angular/material/card'; // Importa MatCardModule
+import { Router } from '@angular/router';
+import { CalendarService } from '../../services/calendar/calendar.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-card-menu',
-  standalone: true,
-    imports: [
-        MatIconModule,
-
-
-    ],
+  standalone: true,  // Utiliza esta propiedad para no usar un módulo adicional
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatCardModule // Importa MatCardModule para usar tarjetas Material
+  ],
   templateUrl: './card-menu.component.html',
-  styleUrl: './card-menu.component.scss'
+  styleUrls: ['./card-menu.component.scss'] // Asegúrate de que el nombre sea correcto
 })
-export class CardMenuComponent {
-constructor(private router: Router) { }
+export class CardMenuComponent implements OnInit {
 
-  navigateToCalendar() {
-    this.router.navigate(['/calendario/calendar']);
-  }
+    prueba: string = '';
+    models: any[] = [];
+    constructor(private calendarService: CalendarService, private router: Router) {
+    }
 
-  navigateToMatchtable() {
-    this.router.navigate(['/calendario/matchtable']);
-  }
-  navigateToSorteo() {
-    this.router.navigate(['/calendario/sorteo']);
-  }
+    ngOnInit(): void {
+        this.getHelloMessage();
+    }
+
+    getHelloMessage(): void {
+        this.calendarService.getHello().subscribe(
+            (response: string) => {
+                this.prueba = response;  // Si la respuesta es "Hola", la asignamos al campo
+            },
+            (error) => {
+                this.prueba = 'Error al obtener el mensaje';  // Si hay error, mostramos un mensaje de error
+                console.error('Error al obtener el mensaje', error);
+            }
+        );
+        this.models = [
+
+    ];
+    }
+
+    navigateToCalendar() {
+        this.router.navigate(['/calendario/calendar']);
+    }
+
+    navigateToMatchtable() {
+        this.router.navigate(['/calendario/matchtable']);
+    }
+
+    navigateToSorteo() {
+        this.router.navigate(['/calendario/sorteo']);
+    }
+
 
 }

@@ -4,6 +4,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarioRoutingModule } from './calendario-routing.module';
 import { MatchtableComponent } from './matchtable/matchtable.component';
 import {SorteoComponent} from './sorteo/sorteo.component';
+import {CardMenuComponent} from './card-menu/card-menu.component';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import {SorteoComponent} from './sorteo/sorteo.component';
   imports: [
     CommonModule,
     CalendarioRoutingModule,
+      CardMenuComponent,
     CalendarComponent,
     MatchtableComponent,
     SorteoComponent

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CardMenuComponent } from './card-menu.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CardMenuComponent', () => {
   let component: CardMenuComponent;
@@ -8,7 +9,8 @@ describe('CardMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardMenuComponent]
+      declarations: [CardMenuComponent],
+      imports: [MatCardModule, MatIconModule] // Importar MatCard y MatIcon para evitar errores
     })
     .compileComponents();
 
