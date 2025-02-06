@@ -8,7 +8,7 @@ import {CardMenuComponent} from './card-menu/card-menu.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'calendar',
+    redirectTo: 'card-menu',
     pathMatch: 'full'
   },
     {
@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'matchtable',
     component: MatchtableComponent
-  }
+  },
+  {
+    path: 'card-menu',
+    component: CardMenuComponent
+  },
 ];
 
 @NgModule({

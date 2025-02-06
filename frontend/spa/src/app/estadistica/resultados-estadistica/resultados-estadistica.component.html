@@ -1,16 +1,28 @@
-<div class="results">
-    <div *ngFor="let match of results" class="result-card">
-        <div class="team">
-            <img [src]="match.homeTeamLogo" alt="{{ match.homeTeam }} logo" class="team-logo">
-            <span>{{ match.homeTeam }}</span>
-        </div>
-        <div class="match-info">
-            <span>{{ match.date }}</span>
-            <span>{{ match.score }}</span>
-        </div>
-        <div class="team">
-            <img [src]="match.awayTeamLogo" alt="{{ match.awayTeam }} logo" class="team-logo">
-            <span>{{ match.awayTeam }}</span>
-        </div>
+<div *ngIf="isLoading">
+    <p>Cargando los partidos...</p>
+  </div>
+  
+  <div *ngIf="errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
+  
+  <div *ngIf="results.length === 0 && !isLoading">
+    <p>No hay partidos disponibles.</p>
+  </div>
+  
+  <div class="results" *ngIf="results.length > 0">
+    <div *ngFor="let result of results" class="result-card">
+      <div class="team">
+        <img [src]="result.homeTeamLogo" alt="{{ result.homeTeam }} logo" class="team-logo">
+        <span>{{ result.homeTeam }}</span>
+      </div>
+      <div class="match-info">
+        <span>{{ result.date }}</span>
+        <span>{{ result.score }}</span>
+      </div>
+      <div class="team">
+        <img [src]="result.awayTeamLogo" alt="{{ result.awayTeam }} logo" class="team-logo">
+        <span>{{ result.awayTeam }}</span>
+      </div>
     </div>
-</div>
+  </div>

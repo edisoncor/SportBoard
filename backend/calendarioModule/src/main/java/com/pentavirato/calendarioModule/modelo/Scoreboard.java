@@ -1,11 +1,18 @@
 package com.pentavirato.calendarioModule.modelo;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "scoreboards")
 public class Scoreboard {
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer homeScore;
     private Integer guestScore;
     private Boolean isFinished;
-    private Team winner = null;
+    @ManyToOne
+    private Team winner;
 
     public Scoreboard() {
     }
@@ -16,11 +23,11 @@ public class Scoreboard {
         this.isFinished = isFinished;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,9 +1,21 @@
-<!-- modulo_estadisticas/src/app/encabezado-competencia.component.html -->
+<div class="competition-header-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
 
-<div class="competition-header">
-  <img [src]="header.logo" alt="{{ header.name }} logo" class="competition-logo">
-  <div class="competition-info">
-    <h1>{{ header.name }}</h1>
-    <h2>{{ header.season }}</h2>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && competition" class="competition-header">
+    <img [src]="competition.logo" 
+         [alt]="competition.name + ' logo'" 
+         class="competition-logo"
+         (error)="competition.logo = 'https://via.placeholder.com/100'">
+    <div class="competition-info">
+      <h1>{{ competition.name }}</h1>
+      <h2>{{ competition.season }}</h2>
+    </div>
   </div>
 </div>
+

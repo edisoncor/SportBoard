@@ -59,92 +59,86 @@
     }
   }
 
-  .tabla-calendario {
-      width: 100%;
-      border-collapse: collapse;
+    .tabla-calendario {
+        width: 100%;
+        border-collapse: collapse;
 
-      th {
-          background-color: #eee;
-          padding: 10px;
-          text-align: center;
-          font-weight: bold;
-          color: #333;
-      }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
 
-      td {
-          border: 1px solid #ddd;
-          padding: 8px;
-          height: 100px;
-          position: relative;
-          text-align: left;
+        .celda-dia {
+            position: relative;
+            cursor: pointer;
+            height: 80px;
+            vertical-align: top;
 
-          &:hover {
-              background-color: #f5f5f5;
-              cursor: pointer;
-          }
+            &:hover {
+                background-color: #f5f5f5;
+            }
 
-          .partido {
-              background-color: #f4f8ff; /* Fondo suave para los partidos */
-              border: 1px solid #d1e0f0; /* Bordes más claros */
-              border-radius: 8px; /* Bordes redondeados */
-              padding: 8px 10px;
-              margin-top: 10px;
-              font-size: 13px;
-              display: flex;
-              flex-direction: column; /* Alinea los detalles del partido verticalmente */
-              gap: 5px; /* Espaciado entre elementos */
-              transition: transform 0.2s ease, box-shadow 0.2s ease;
+            &.tiene-partido {
+                background-color: #e8f4ff;
+            }
+        }
 
-              &:hover {
-                  transform: scale(1.05);
-                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-              }
+        .indicador-partidos {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+    }
 
-              .equipo {
-                  display: flex;
-                  justify-content: space-between; /* Nombre del equipo y marcador a extremos opuestos */
-                  font-size: 14px;
+    .modal-partidos {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-                  .nombre {
-                      font-weight: bold;
-                      color: #2c3e50; /* Color oscuro */
-                  }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
 
-                  .marcador {
-                      font-weight: bold;
-                      color: #e74c3c; /* Marcador en rojo */
-                  }
+        .partido-detalle {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-                  &.ganador .nombre {
-                      color: #27ae60; /* Verde para el equipo ganador */
-                  }
+        .partido-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-                  &.perdedor .nombre {
-                      color: #c0392b; /* Rojo para el equipo perdedor */
-                  }
-              }
-
-              .acciones {
-                  display: flex;
-                  justify-content: flex-end; /* Botones alineados a la derecha */
-                  gap: 10px;
-
-                  .edit-match-btn,
-                  .delete-match-btn {
-                      background: none;
-                      border: none;
-                      font-size: 12px;
-                      color: #2980b9; /* Azul para los botones */
-                      cursor: pointer;
-
-                      &:hover {
-                          text-decoration: underline;
-                      }
-                  }
-              }
-          }
-      }
-  }
+        .partido-acciones {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    }
 
   .filters {
     margin-top: 20px;
@@ -219,4 +213,194 @@
       }
     }
   }
+}
+/* Estilo general para el formulario de creación de partidos */
+.formulario-crear-partido {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 500px;
+    margin: 30px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+.formulario-crear-partido h3 {
+    text-align: center;
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los campos del formulario */
+.formulario-crear-partido div {
+    margin-bottom: 15px;
+}
+
+/* Estilo para las etiquetas */
+.formulario-crear-partido label {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Estilo para los campos de entrada (input) */
+.formulario-crear-partido input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilo para los botones en el formulario */
+.formulario-crear-partido button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 48%; /* Para hacer que los botones se alineen */
+}
+
+/* Estilo para el botón de cancelar */
+.cancelar-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 48%;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para los botones */
+.formulario-crear-partido button:hover,
+.cancelar-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Deshabilitar el botón de guardar si los campos no están completos */
+.formulario-crear-partido button:disabled,
+.cancelar-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Añadir espacio entre los botones */
+.formulario-crear-partido .botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Añade espacio entre los botones */
+    margin-top: 20px;
+}
+
+/* Estilos para los inputs numéricos (marcadores) */
+.formulario-crear-partido input[type="number"] {
+    width: 60px;
+    text-align: center;
+}
+
+/* Fondo del formulario cuando está deshabilitado */
+.formulario-crear-partido.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+        margin: 0;
+    }
+
+    .close-button {
+        border: none;
+        background: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 8px;
+    }
+}
+
+.partido-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.partido-detalle {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.marcador {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+
+    .separador {
+        margin: 0 5px;
+    }
+}
+
+.partido-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &.btn-editar {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        &.btn-eliminar {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+    }
 }

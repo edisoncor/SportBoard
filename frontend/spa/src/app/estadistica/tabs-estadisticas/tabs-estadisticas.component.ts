@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-tabs-estadisticas',
-    templateUrl: './tabs-estadisticas.component.html',
-    styleUrls: ['./tabs-estadisticas.component.scss'],
-    standalone: false
+  selector: 'app-tabs-estadisticas',
+  templateUrl: './tabs-estadisticas.component.html',
+  styleUrls: ['./tabs-estadisticas.component.scss'],
+  standalone: false
 })
 export class TabsEstadisticasComponent {
   activeTab: string = '';

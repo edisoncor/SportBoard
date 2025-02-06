@@ -1,169 +1,384 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TeamService } from '../../services/calendar/team.service';
+import {SharedModule} from '../../shared/shared.module';
+import {FormsModule} from '@angular/forms';
+
+interface Partido {
+    fecha: Date;
+    equipoLocal: string;
+    marcadorLocal: number;
+    equipoVisitante: string;
+    marcadorVisitante: number;
+    equipoSeleccionado?: string;
+}
+
+interface Equipo {
+    id: number;
+    nombre: string;
+}
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+    selector: 'app-calendar',
+    standalone: true,
+    imports: [CommonModule, SharedModule, FormsModule],
+    templateUrl: './calendar.component.html',
+    styleUrl: './calendar.component.scss'
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
+    mostrarFormulario: boolean = false;
     fechaActual: Date = new Date();
-  nombreMesActual: string = '';
-  anioActual: number = 0;
-  diasCalendario: any[] = [];
-  constructor(private router: Router) {}
-  // Datos de ejemplo de partidos
-  private partidos = [
-    { fecha: new Date(2024, 9, 3), equipoLocal: 'Barcelona SC', marcadorLocal: 5, equipoVisitante: 'Emelec', marcadorVisitante: 0 },
-    { fecha: new Date(2024, 9, 5), equipoLocal: 'Libertad FC', marcadorLocal: 2, equipoVisitante: 'Guayaquil City', marcadorVisitante: 0 }
-  ];
+    nombreMesActual: string = '';
+    anioActual: number = 0;
+    diasCalendario: any[] = [];
+    calendarios: string[] = [];
+    partidosData: Partido[] = [];
+    equipos: string[] = [];
+    equiposFiltrados: string[] = [];  // Equipos filtrados
+    equipoSeleccionado: string = '';  // Almacena el equipo seleccionado para el filtro
+    fechaPartido: Date = new Date(); // Fecha y hora del partido
+    equipoLocalSeleccionado: string = '';  // Equipo local seleccionado
+    equipoVisitanteSeleccionado: string = ''; // Equipo visitante seleccionado
+    marcadorLocal: number = 0; // Marcador del equipo local
+    marcadorVisitante: number = 0; // Marcador del equipo visitante
+    diaSeleccionado: any = null;
 
-  ngOnInit() {
-    this.generarCalendario();
-  }
-
-  generarCalendario() {
-    const primerDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), 1);
-    const ultimoDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth() + 1, 0);
-
-    this.nombreMesActual = primerDiaDelMes.toLocaleString('default', { month: 'long' });
-    this.anioActual = primerDiaDelMes.getFullYear();
-
-    const diaSemanaInicio = primerDiaDelMes.getDay();
-    const semanas: any[] = [];
-    let semanaActual: any[] = [];
-
-    // Agregar celdas vacías antes del primer día del mes
-    for (let i = 0; i < diaSemanaInicio; i++) {
-      semanaActual.push({ fecha: '', esmesMesActual: false, partidos: [] });
+    constructor(
+        private router: Router,
+        private teamService: TeamService
+    ) {
     }
 
-    // Agregar días del mes
-    for (let dia = 1; dia <= ultimoDiaDelMes.getDate(); dia++) {
-      const diaActual = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), dia);
-      const partidosDia = this.partidos.filter(partido =>
-        partido.fecha.getFullYear() === diaActual.getFullYear() &&
-        partido.fecha.getMonth() === diaActual.getMonth() &&
-        partido.fecha.getDate() === diaActual.getDate()
-      );
+    ngOnInit(): void {
+        this.cargarCalendarios();
+        this.generarCalendario();
+        this.teamService.getEquipos().subscribe({
+            next: (data) => {
+                console.log('Equipos recibidos:', data);
+                this.equipos = data;  // Asignar la lista de equipos a la propiedad 'equipos'
+                this.equiposFiltrados = data;
+                this.asignarEnfrentamientosAleatorios();  // Asignar enfrentamientos aleatorios
+            },
+            error: (error) => {
+                console.error('Error al obtener equipos:', error);
+            }
+        });
+    }
+    asignarEnfrentamientosAleatorios() {
+        const equiposDisponibles = [...this.equipos]; // Copiar la lista de equipos para evitar modificarla directamente
+        const partidos: Partido[] = [];
 
-      semanaActual.push({
-        fecha: dia,
-        esmesMesActual: true,
-        partidos: partidosDia
-      });
+        while (equiposDisponibles.length >= 2) {
+            // Tomar dos equipos aleatorios para el enfrentamiento
+            const equipoLocal = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
+            const equipoVisitante = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
 
-      if (semanaActual.length === 7) {
-        semanas.push(semanaActual);
-        semanaActual = [];
-      }
+            // Crear un partido con fecha aleatoria (en este caso, del mes actual)
+            const fechaAleatoria = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), Math.floor(Math.random() * 30) + 1);
+            const partido: Partido = {
+                fecha: fechaAleatoria,
+                equipoLocal,
+                marcadorLocal: 0,
+                equipoVisitante,
+                marcadorVisitante: 0
+            };
+
+            partidos.push(partido);  // Agregar partido al array
+        }
+
+        // Asignar los partidos generados al calendario
+        this.partidosData = partidos;
+        console.log('Partidos asignados aleatoriamente:', this.partidosData);
+        this.generarCalendario();  // Regenerar el calendario con los partidos asignados
+    }
+    mostrarPartidosDelDia(dia: any) {
+        this.diaSeleccionado = dia;
+        const partidosDelDia = this.partidosData.filter(partido => {
+            const partidoFecha = new Date(partido.fecha);
+            return partidoFecha.getDate() === dia && partidoFecha.getMonth() === this.fechaActual.getMonth() && partidoFecha.getFullYear() === this.fechaActual.getFullYear();
+        });
+
+        // Aquí puedes mostrar los partidos del día (en caso de que haya más de uno, pero solo debe haber uno por día)
+        if (partidosDelDia.length > 0) {
+            const partido = partidosDelDia[0];
+            console.log(`Partido del ${dia}: ${partido.equipoLocal} vs ${partido.equipoVisitante}`);
+            // Puedes agregar más lógica aquí para mostrar el enfrentamiento en un modal o algo similar
+        }
     }
 
-    // Agregar celdas vacías después del último día del mes
-    if (semanaActual.length > 0) {
-      while (semanaActual.length < 7) {
-        semanaActual.push({ fecha: '', esmesMesActual: false, partidos: [] });
-      }
-      semanas.push(semanaActual);
+
+
+    cerrarModalPartidos() {
+        this.diaSeleccionado = null;
+    }
+    private cargarCalendarios() {
+        this.teamService.getAllCalendars().subscribe({
+            next: (calendarios) => {
+                console.log('Calendarios raw:', calendarios); // Para debug
+
+                // Convertir los calendarios a objetos Partido
+                this.partidosData = calendarios.map(calendario => {
+                    const partidoData = typeof calendario === 'string' ?
+                        JSON.parse(calendario) : calendario;
+
+                    // Asegurarnos que la fecha sea un objeto Date
+                    const fecha = new Date(partidoData.fecha);
+                    console.log('Fecha procesada:', fecha); // Para debug
+
+                    return {
+                        ...partidoData,
+                        fecha: fecha
+                    };
+                });
+
+                console.log('PartidosData procesado:', this.partidosData); // Para debug
+                this.generarCalendario(); // Regenerar el calendario con los nuevos datos
+            },
+            error: (error) => {
+                console.error('Error al cargar calendarios:', error);
+            }
+        });
+    }
+    filtrarEquiposLocal(event: any) {
+        const equipoSeleccionado = event.target.value;
+        this.equipoLocalSeleccionado = equipoSeleccionado;
+
+        // Actualizar equipos disponibles para visitante
+        if (equipoSeleccionado) {
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo !== equipoSeleccionado);
+        } else {
+            this.equiposFiltrados = [...this.equipos];
+        }
     }
 
-    this.diasCalendario = semanas;
-  }
+    filtrarEquiposVisitante(event: any) {
+        this.equipoVisitanteSeleccionado = event.target.value;
+    }
 
-  cambiarMes(incremento: number) {
-    this.fechaActual = new Date(
-      this.fechaActual.getFullYear(),
-      this.fechaActual.getMonth() + incremento,
-      1
-    );
-    this.generarCalendario();
-  }
-  cambiarVista(event: Event): void {
-  const seleccion = (event.target as HTMLSelectElement).value;
-  console.log(`Vista cambiada a: ${seleccion}`);
-  // Aquí puedes agregar lógica específica para manejar las vistas.
-  switch (seleccion) {
-    case 'mes':
-      console.log('Vista mensual seleccionada');
-      break;
-    case 'semana':
-      console.log('Vista semanal seleccionada');
-      break;
-    case 'dia':
-      console.log('Vista diaria seleccionada');
-      break;
-    default:
-      console.log('Vista desconocida seleccionada');
-      break;
-  }
-}
+    // Actualizar los equipos disponibles en cada campo según la selección
+    actualizarEquiposDisponibles() {
+        // Si se selecciona un equipo en el local, eliminar ese equipo de los disponibles para el visitante
+        if (this.equipoLocalSeleccionado) {
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo !== this.equipoLocalSeleccionado);
+        } else {
+            this.equiposFiltrados = [...this.equipos]; // Restaurar todos los equipos si no se selecciona un local
+        }
 
-  // Métodos adicionales para manejar las nuevas funcionalidades
-  crearPartido() {
-    console.log('Crear partido: mostrar formulario o redirigir a otra vista');
-  }
+        // Si se selecciona un equipo en el visitante, eliminar ese equipo de los disponibles para el local
+        if (this.equipoVisitanteSeleccionado) {
+            this.equiposFiltrados = this.equiposFiltrados.filter(equipo => equipo !== this.equipoVisitanteSeleccionado);
+        }
+    }
+
+    crearPartido() {
+        if (!this.equipoLocalSeleccionado || !this.equipoVisitanteSeleccionado || !this.fechaPartido) {
+            console.error("Debe seleccionar ambos equipos y la fecha.");
+            return;
+        }
+
+        // Sumamos un día a la fecha seleccionada
+        const fechaPartidoDate = new Date(this.fechaPartido);
+        fechaPartidoDate.setDate(fechaPartidoDate.getDate() + 1);  // Sumar un día
+
+        if (isNaN(fechaPartidoDate.getTime())) {
+            console.error("La fecha seleccionada no es válida.");
+            return;
+        }
+
+        const partido: Partido = {
+            fecha: fechaPartidoDate,  // Utilizamos la fecha con un día agregado
+            equipoLocal: this.equipoLocalSeleccionado,
+            marcadorLocal: this.marcadorLocal,
+            equipoVisitante: this.equipoVisitanteSeleccionado,
+            marcadorVisitante: this.marcadorVisitante,
+            equipoSeleccionado: this.equipoLocalSeleccionado || this.equipoVisitanteSeleccionado
+        };
+
+        this.partidosData.push(partido);
+
+        // Formatear la fecha antes de enviarla como string al backend
+        const partidoString = JSON.stringify({
+            ...partido,
+            fecha: this.formatearFecha(partido.fecha)  // Formatea la fecha antes de enviarla
+        });
+
+        this.teamService.createCalendar(partidoString).subscribe({
+            next: (calendario) => {
+                console.log('Calendario creado:', calendario);
+                this.cargarCalendarios();
+            },
+            error: (error) => {
+                console.error('Error al crear calendario:', error);
+            }
+        });
+
+        this.mostrarFormulario = false;
+    }
 
 
-  navigateToGroups() {
-    console.log('Navegar a la página de grupos');
-    this.router.navigate(['/calendario/sorteo']);
-  }
 
-  gestionarPartidos() {
-    console.log('Gestionar partidos: mostrar la vista de gestión');
-    this.router.navigate(['/calendario/matchtable']);
-  }
-  equipos = [
-  { id: 1, nombre: 'Barcelona SC' },
-  { id: 2, nombre: 'Emelec' },
-  { id: 3, nombre: 'Guayaquil City' }
-];
+    generarCalendario() {
+        const primerDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), 1);
+        const ultimoDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth() + 1, 0);
 
-categorias = [
-  { id: 1, nombre: 'Primera' },
-  { id: 2, nombre: 'Segunda' }
-];
+        this.nombreMesActual = primerDiaDelMes.toLocaleString('default', {month: 'long'});
+        this.anioActual = primerDiaDelMes.getFullYear();
 
-torneos = [
-  { id: 1, nombre: 'Torneo Apertura' },
-  { id: 2, nombre: 'Torneo Clausura' }
-];
+        const diaSemanaInicio = primerDiaDelMes.getDay();
+        const semanas: any[] = [];
+        let semanaActual: any[] = [];
 
-temporadas = [
-  { id: 1, nombre: '2023/2024' },
-  { id: 2, nombre: '2024/2025' }
-];
-filtrarEquipo(event: Event) {
-  const idEquipo = (event.target as HTMLSelectElement).value;
-  console.log('Filtrar por equipo con ID:', idEquipo);
-  // Aquí la lógica para filtrar partidos por equipo
-}
+        // Agregar celdas vacías antes del primer día del mes
+        for (let i = 0; i < diaSemanaInicio; i++) {
+            semanaActual.push({fecha: '', esmesMesActual: false, partidos: []});
+        }
 
-filtrarCategoria(event: Event) {
-  const idCategoria = (event.target as HTMLSelectElement).value;
-  console.log('Filtrar por categoría con ID:', idCategoria);
-}
+        // Agregar días del mes
+        for (let dia = 1; dia <= ultimoDiaDelMes.getDate(); dia++) {
+            const diaActual = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), dia);
 
-filtrarTorneo(event: Event) {
-  const idTorneo = (event.target as HTMLSelectElement).value;
-  console.log('Filtrar por torneo con ID:', idTorneo);
-}
+            // Filtrar partidos para este día
+            const partidosDia = this.partidosData.filter(partido => {
+                const partidoFecha = new Date(partido.fecha);
+                return partidoFecha.getDate() === diaActual.getDate() &&
+                    partidoFecha.getMonth() === diaActual.getMonth() &&
+                    partidoFecha.getFullYear() === diaActual.getFullYear();
+            });
 
-filtrarTemporada(event: Event) {
-  const idTemporada = (event.target as HTMLSelectElement).value;
-  console.log('Filtrar por temporada con ID:', idTemporada);
-}
-editarPartido(partido: any) {
-  console.log('Editar partido:', partido);
-  // Lógica para editar el partido
-}
 
-eliminarPartido(partido: any) {
-  console.log('Eliminar partido:', partido);
-  // Lógica para eliminar el partido
-  this.partidos = this.partidos.filter(p => p !== partido);
-  this.generarCalendario(); // Actualizar el calendario
-}
+
+            semanaActual.push({
+                fecha: dia,
+                esmesMesActual: true,
+                partidos: partidosDia
+            });
+
+            if (semanaActual.length === 7) {
+                semanas.push(semanaActual);
+                semanaActual = [];
+            }
+        }
+
+        // Agregar celdas vacías después del último día del mes
+        if (semanaActual.length > 0) {
+            while (semanaActual.length < 7) {
+                semanaActual.push({fecha: '', esmesMesActual: false, partidos: []});
+            }
+            semanas.push(semanaActual);
+        }
+
+        this.diasCalendario = semanas;
+        console.log('Calendario generado:', this.diasCalendario); // Para debug
+    }
+
+    formatearFecha(fecha: any): string {
+        // Si 'fecha' es un string, conviértelo a Date
+        const fechaDate = new Date(fecha);  // Convertimos a Date si es necesario
+
+        // Verifica que la conversión fue exitosa
+        if (isNaN(fechaDate.getTime())) {
+            console.error("La fecha es inválida:", fecha);
+            return "";
+        }
+
+        const year = fechaDate.getFullYear();
+        const month = ('0' + (fechaDate.getMonth() + 1)).slice(-2);  // Mes con dos dígitos
+        const day = ('0' + fechaDate.getDate()).slice(-2);  // Día con dos dígitos
+        return `${year}-${month}-${day}`;
+    }
+
+    eliminarPartido(id: number) {
+        this.teamService.deleteCalendar(id).subscribe({
+            next: () => {
+                console.log('Calendario eliminado con éxito');
+                this.cargarCalendarios(); // Recargar la lista de calendarios
+            },
+            error: (error) => {
+                console.error('Error al eliminar calendario:', error);
+            }
+        });
+    }
+
+    // Mantener los métodos existentes
+    cambiarMes(incremento: number) {
+        this.fechaActual = new Date(
+            this.fechaActual.getFullYear(),
+            this.fechaActual.getMonth() + incremento,
+            1
+        );
+        this.generarCalendario();
+    }
+
+    cambiarVista(event: Event) {
+        const seleccion = (event.target as HTMLSelectElement).value;
+        console.log(`Vista cambiada a: ${seleccion}`);
+        switch (seleccion) {
+            case 'mes':
+                console.log('Vista mensual seleccionada');
+                break;
+            case 'semana':
+                console.log('Vista semanal seleccionada');
+                break;
+            case 'dia':
+                console.log('Vista diaria seleccionada');
+                break;
+            default:
+                console.log('Vista desconocida seleccionada');
+                break;
+        }
+    }
+
+
+
+    categorias = [
+        {id: 1, nombre: 'Primera'},
+        {id: 2, nombre: 'Segunda'}
+    ];
+
+    torneos = [
+        {id: 1, nombre: 'Torneo Apertura'},
+        {id: 2, nombre: 'Torneo Clausura'}
+    ];
+
+    temporadas = [
+        {id: 1, nombre: '2023/2024'},
+        {id: 2, nombre: '2024/2025'}
+    ];
+
+    filtrarEquipos(event: Event): void {
+        const idEquipo = (event.target as HTMLSelectElement).value;
+        console.log('Filtrar equipos por:', idEquipo);
+        this.equipoSeleccionado = idEquipo;
+
+        // Filtramos los equipos según la selección
+        if (idEquipo) {
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo === idEquipo);
+        } else {
+            // Si no hay filtro, mostramos todos los equipos
+            this.equiposFiltrados = this.equipos;
+        }
+    }
+
+
+    filtrarCategoria(event: Event) {
+        const idCategoria = (event.target as HTMLSelectElement).value;
+        console.log('Filtrar por categoría con ID:', idCategoria);
+    }
+
+    filtrarTorneo(event: Event) {
+        const idTorneo = (event.target as HTMLSelectElement).value;
+        console.log('Filtrar por torneo con ID:', idTorneo);
+    }
+
+    filtrarTemporada(event: Event) {
+        const idTemporada = (event.target as HTMLSelectElement).value;
+        console.log('Filtrar por temporada con ID:', idTemporada);
+    }
+
+    editarPartido(partido: any) {
+        console.log('Editar partido:', partido);
+        // Lógica para editar el partido
+    }
+
+
 }

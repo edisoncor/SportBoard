@@ -1,0 +1,21 @@
+#? Imagen Node en el docker
+FROM node:18
+
+#?Directorio donde se va a trabajar 
+WORKDIR /usr/src/app
+
+#! Copia dependecias importantes 
+COPY package*.json ./
+
+#! Instala las dependencias
+RUN npm install
+
+# Copia todo lo demas del codigo
+COPY . .
+
+#! (importante)Expone el puerto configurado en el env para la comunicacion
+EXPOSE 3000
+
+#? Comandos defecto pa iniciar el sv
+CMD ["npm", "run", "dev"]
+

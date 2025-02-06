@@ -1,6 +1,18 @@
-<div class="teams">
+<div *ngIf="isLoading">
+  <p>Cargando los equipos...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="teams.length === 0 && !isLoading">
+  <p>No hay equipos disponibles.</p>
+</div>
+
+<div class="teams" *ngIf="teams.length > 0">
   <div *ngFor="let team of teams" class="team-card">
-    <img [src]="team.logo" alt="{{ team.name }} logo">
-    <span>{{ team.name }}</span>
+    <img [src]="team.logo" alt="{{ team.team }} logo">
+    <span>{{ team.team }}</span>
   </div>
 </div>

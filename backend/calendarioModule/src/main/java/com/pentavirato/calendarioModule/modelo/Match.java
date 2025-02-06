@@ -1,18 +1,28 @@
 package com.pentavirato.calendarioModule.modelo;
 
+import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
+@Entity
+@Table(name = "matches")
 public class Match {
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Date date;
     private Time startTime;
+    @ManyToOne
     private Team homeTeam;
+    @ManyToOne
     private Team guestTeam;
     private Integer duration;
     private Time finishTime;
+    @OneToOne
     private Scoreboard scoreboard;
+    @ManyToOne
     private PlayingField count;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Match() {
@@ -26,6 +36,14 @@ public class Match {
         this.duration = duration;
         this.count = count;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDate() {

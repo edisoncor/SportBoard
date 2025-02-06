@@ -1,16 +1,28 @@
-<div class="matches">
-    <div *ngFor="let match of matches" class="match-card">
-      <div class="team">
-        <img [src]="match.homeTeamLogo" alt="{{ match.homeTeam }} logo" class="team-logo">
-        <span>{{ match.homeTeam }}</span>
-      </div>
-      <div class="match-info">
-        <span>{{ match.date }}</span>
-        <span>{{ match.time }}</span>
-      </div>
-      <div class="team">
-        <img [src]="match.awayTeamLogo" alt="{{ match.awayTeam }} logo" class="team-logo">
-        <span>{{ match.awayTeam }}</span>
-      </div>
+<div *ngIf="isLoading">
+  <p>Cargando los próximos partidos...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="matches.length === 0 && !isLoading">
+  <p>No hay próximos partidos disponibles.</p>
+</div>
+
+<div class="matches" *ngIf="matches.length > 0">
+  <div *ngFor="let match of matches" class="match-card">
+    <div class="team">
+      <img [src]="match.homeTeamLogo" alt="{{ match.homeTeam }} logo" class="team-logo">
+      <span>{{ match.homeTeam }}</span>
+    </div>
+    <div class="match-info">
+      <span>{{ match.date }}</span>
+      <span>{{ match.time }}</span>
+    </div>
+    <div class="team">
+      <img [src]="match.awayTeamLogo" alt="{{ match.awayTeam }} logo" class="team-logo">
+      <span>{{ match.awayTeam }}</span>
     </div>
   </div>
+</div>

@@ -8,7 +8,15 @@
   </mat-toolbar>
 </div>
 
-<table mat-table [dataSource]="filteredStats" class="mat-elevation-z8 custom-table">
+<div *ngIf="isLoading" class="loading-spinner">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<table mat-table [dataSource]="filteredStats" class="mat-elevation-z8 custom-table" *ngIf="!isLoading && !errorMessage">
   <ng-container matColumnDef="position">
     <th mat-header-cell *matHeaderCellDef> Posición </th>
     <td mat-cell *matCellDef="let player; let i = index"> {{ i + 1 }} </td>
@@ -22,7 +30,7 @@
   <ng-container matColumnDef="team">
     <th mat-header-cell *matHeaderCellDef> Equipo </th>
     <td mat-cell *matCellDef="let player">
-      <img [src]="player.teamLogo" alt="{{ player.team }}" class="team-logo">
+      <img [src]="player.teamLogo" [alt]="player.team" class="team-logo" (error)="player.teamLogo = 'https://via.placeholder.com/30'">
       {{ player.team }}
     </td>
   </ng-container>

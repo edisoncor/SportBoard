@@ -1,3 +1,22 @@
+.competition-header-container {
+  width: 100%;
+  min-height: 160px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+
+.error-message {
+  color: #f44336;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}
+
 .competition-header {
   display: flex;
   align-items: center;
@@ -11,21 +30,34 @@
   width: 100px;
   height: auto;
   margin-right: 20px;
+  object-fit: contain;
 }
 
 .competition-info {
   display: flex;
   flex-direction: column;
+
+  h1 {
+    font-size: 2em;
+    margin: 0;
+    color: #343a40;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #6c757d;
+  }
 }
 
-.competition-info h1 {
-  font-size: 2em;
-  margin: 0;
-  color: #343a40;
+// Añade estos estilos al archivo existente
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.competition-info h2 {
-  font-size: 1.2em;
-  margin: 0;
-  color: #6c757d;
+.mat-spinner {
+  margin: 0 auto;
 }

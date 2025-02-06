@@ -1,92 +1,102 @@
 <div class="team-stats">
-    <mat-toolbar>
-      <mat-chip (click)="filterStats('all')" [ngClass]="{'selected-chip': currentStats.includes('all')}">Todo</mat-chip>
-      <mat-chip (click)="filterStats('goalsFor')" [ngClass]="{'selected-chip': currentStats.includes('goalsFor')}">Goles a Favor</mat-chip>
-      <mat-chip (click)="filterStats('goalsAgainst')" [ngClass]="{'selected-chip': currentStats.includes('goalsAgainst')}">Goles en Contra</mat-chip>
-      <mat-chip (click)="filterStats('goalDifference')" [ngClass]="{'selected-chip': currentStats.includes('goalDifference')}">Diferencia de Goles</mat-chip>
-      <mat-chip (click)="filterStats('points')" [ngClass]="{'selected-chip': currentStats.includes('points')}">Puntos</mat-chip>
-      <mat-chip (click)="filterStats('possession')" [ngClass]="{'selected-chip': currentStats.includes('possession')}">Posesión</mat-chip>
-      <mat-chip (click)="filterStats('shotsOnTarget')" [ngClass]="{'selected-chip': currentStats.includes('shotsOnTarget')}">Tiros a Puerta</mat-chip>
-      <mat-chip (click)="filterStats('passesCompleted')" [ngClass]="{'selected-chip': currentStats.includes('passesCompleted')}">Pases Completados</mat-chip>
-      <mat-chip (click)="filterStats('yellowCards')" [ngClass]="{'selected-chip': currentStats.includes('yellowCards')}">Tarjetas Amarillas</mat-chip>
-      <mat-chip (click)="filterStats('redCards')" [ngClass]="{'selected-chip': currentStats.includes('redCards')}">Tarjetas Rojas</mat-chip>
-    </mat-toolbar>
-  
-    <table mat-table [dataSource]="filteredStats" class="mat-elevation-z8 custom-table">
-      <ng-container matColumnDef="team">
-        <th mat-header-cell *matHeaderCellDef> Equipo </th>
-        <td mat-cell *matCellDef="let team">
-          <img [src]="team.logo" alt="{{ team.team }} logo" class="team-logo">
-          {{ team.team }}
-        </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="played">
-        <th mat-header-cell *matHeaderCellDef> Jugados </th>
-        <td mat-cell *matCellDef="let team"> {{ team.played }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="won">
-        <th mat-header-cell *matHeaderCellDef> Ganados </th>
-        <td mat-cell *matCellDef="let team"> {{ team.won }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="drawn">
-        <th mat-header-cell *matHeaderCellDef> Empatados </th>
-        <td mat-cell *matCellDef="let team"> {{ team.drawn }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="lost">
-        <th mat-header-cell *matHeaderCellDef> Perdidos </th>
-        <td mat-cell *matCellDef="let team"> {{ team.lost }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="goalsFor">
-        <th mat-header-cell *matHeaderCellDef> Goles a Favor </th>
-        <td mat-cell *matCellDef="let team"> {{ team.goalsFor }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="goalsAgainst">
-        <th mat-header-cell *matHeaderCellDef> Goles en Contra </th>
-        <td mat-cell *matCellDef="let team"> {{ team.goalsAgainst }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="goalDifference">
-        <th mat-header-cell *matHeaderCellDef> Diferencia de Goles </th>
-        <td mat-cell *matCellDef="let team"> {{ team.goalDifference }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef> Puntos </th>
-        <td mat-cell *matCellDef="let team"> {{ team.points }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="possession">
-        <th mat-header-cell *matHeaderCellDef> Posesión </th>
-        <td mat-cell *matCellDef="let team"> {{ team.possession }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="shotsOnTarget">
-        <th mat-header-cell *matHeaderCellDef> Tiros a Puerta </th>
-        <td mat-cell *matCellDef="let team"> {{ team.shotsOnTarget }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="passesCompleted">
-        <th mat-header-cell *matHeaderCellDef> Pases Completados </th>
-        <td mat-cell *matCellDef="let team"> {{ team.passesCompleted }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="yellowCards">
-        <th mat-header-cell *matHeaderCellDef> Tarjetas Amarillas </th>
-        <td mat-cell *matCellDef="let team"> {{ team.yellowCards }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="redCards">
-        <th mat-header-cell *matHeaderCellDef> Tarjetas Rojas </th>
-        <td mat-cell *matCellDef="let team"> {{ team.redCards }} </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  <mat-toolbar>
+    <mat-chip (click)="filterStats('all')" [ngClass]="{'selected-chip': currentStats.includes('all')}">Todo</mat-chip>
+    <mat-chip (click)="filterStats('goalsFor')" [ngClass]="{'selected-chip': currentStats.includes('goalsFor')}">Goles a Favor</mat-chip>
+    <mat-chip (click)="filterStats('goalsAgainst')" [ngClass]="{'selected-chip': currentStats.includes('goalsAgainst')}">Goles en Contra</mat-chip>
+    <mat-chip (click)="filterStats('goalDifference')" [ngClass]="{'selected-chip': currentStats.includes('goalDifference')}">Diferencia de Goles</mat-chip>
+    <mat-chip (click)="filterStats('points')" [ngClass]="{'selected-chip': currentStats.includes('points')}">Puntos</mat-chip>
+    <mat-chip (click)="filterStats('possession')" [ngClass]="{'selected-chip': currentStats.includes('possession')}">Posesión</mat-chip>
+    <mat-chip (click)="filterStats('shotsOnTarget')" [ngClass]="{'selected-chip': currentStats.includes('shotsOnTarget')}">Tiros a Puerta</mat-chip>
+    <mat-chip (click)="filterStats('passesCompleted')" [ngClass]="{'selected-chip': currentStats.includes('passesCompleted')}">Pases Completados</mat-chip>
+    <mat-chip (click)="filterStats('yellowCards')" [ngClass]="{'selected-chip': currentStats.includes('yellowCards')}">Tarjetas Amarillas</mat-chip>
+    <mat-chip (click)="filterStats('redCards')" [ngClass]="{'selected-chip': currentStats.includes('redCards')}">Tarjetas Rojas</mat-chip>
+  </mat-toolbar>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
   </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <table mat-table [dataSource]="filteredStats" class="mat-elevation-z8 custom-table" *ngIf="!isLoading && !errorMessage">
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef> Equipo </th>
+      <td mat-cell *matCellDef="let team">
+        <img [src]="team.logo" [alt]="team.team + ' logo'" class="team-logo" 
+             (error)="team.logo = 'https://via.placeholder.com/30'">
+        {{ team.team }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="played">
+      <th mat-header-cell *matHeaderCellDef> Jugados </th>
+      <td mat-cell *matCellDef="let team"> {{ team.played }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="won">
+      <th mat-header-cell *matHeaderCellDef> Ganados </th>
+      <td mat-cell *matCellDef="let team"> {{ team.won }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="drawn">
+      <th mat-header-cell *matHeaderCellDef> Empatados </th>
+      <td mat-cell *matCellDef="let team"> {{ team.drawn }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lost">
+      <th mat-header-cell *matHeaderCellDef> Perdidos </th>
+      <td mat-cell *matCellDef="let team"> {{ team.lost }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="goalsFor">
+      <th mat-header-cell *matHeaderCellDef> Goles a Favor </th>
+      <td mat-cell *matCellDef="let team"> {{ team.goalsFor }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="goalsAgainst">
+      <th mat-header-cell *matHeaderCellDef> Goles en Contra </th>
+      <td mat-cell *matCellDef="let team"> {{ team.goalsAgainst }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="goalDifference">
+      <th mat-header-cell *matHeaderCellDef> Diferencia de Goles </th>
+      <td mat-cell *matCellDef="let team"> {{ team.goalDifference }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef> Puntos </th>
+      <td mat-cell *matCellDef="let team"> {{ team.points }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="possession">
+      <th mat-header-cell *matHeaderCellDef> Posesión </th>
+      <td mat-cell *matCellDef="let team"> {{ team.possession }}% </td>
+    </ng-container>
+
+    <ng-container matColumnDef="shotsOnTarget">
+      <th mat-header-cell *matHeaderCellDef> Tiros a Puerta </th>
+      <td mat-cell *matCellDef="let team"> {{ team.shotsOnTarget }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="passesCompleted">
+      <th mat-header-cell *matHeaderCellDef> Pases Completados </th>
+      <td mat-cell *matCellDef="let team"> {{ team.passesCompleted }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="yellowCards">
+      <th mat-header-cell *matHeaderCellDef> Tarjetas Amarillas </th>
+      <td mat-cell *matCellDef="let team"> {{ team.yellowCards }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="redCards">
+      <th mat-header-cell *matHeaderCellDef> Tarjetas Rojas </th>
+      <td mat-cell *matCellDef="let team"> {{ team.redCards }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+

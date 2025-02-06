@@ -1,31 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {Router} from '@angular/router';
-import { MatchtableComponent } from '../matchtable/matchtable.component';
-import {SorteoComponent} from '../sorteo/sorteo.component';
+import { MatCardModule } from '@angular/material/card'; // Importa MatCardModule
+import { Router } from '@angular/router';
+import { CalendarService } from '../../services/calendar/calendar.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-card-menu',
-  standalone: true,
-    imports: [
-        MatIconModule,
-
-
-    ],
+  standalone: true,  // Utiliza esta propiedad para no usar un módulo adicional
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatCardModule // Importa MatCardModule para usar tarjetas Material
+  ],
   templateUrl: './card-menu.component.html',
-  styleUrl: './card-menu.component.scss'
+  styleUrls: ['./card-menu.component.scss'] // Asegúrate de que el nombre sea correcto
 })
-export class CardMenuComponent {
-constructor(private router: Router) { }
+export class CardMenuComponent implements OnInit {
 
-  navigateToCalendar() {
-    this.router.navigate(['/calendario/calendar']);
-  }
+    models: any[] = [];
+    helloMessage: string = '';
+    constructor(private calendarService: CalendarService, private router: Router) {
+    }
+    ngOnInit(): void {
+        this.calendarService.getHello().subscribe((data) => {
+            console.log('Respuesta:', data);
+            this.helloMessage = data;
+        });
 
-  navigateToMatchtable() {
-    this.router.navigate(['/calendario/matchtable']);
-  }
-  navigateToSorteo() {
-    this.router.navigate(['/calendario/sorteo']);
-  }
+    }
+    navigateToCalendar() {
+        this.router.navigate(['/calendario/calendar']);
+    }
+
+    navigateToMatchtable() {
+        this.router.navigate(['/calendario/matchtable']);
+    }
+
+    navigateToSorteo() {
+        this.router.navigate(['/calendario/sorteo']);
+    }
+
 
 }

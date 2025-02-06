@@ -1,0 +1,52 @@
+services:
+  ms5-calendar:
+    container_name: ms5-calendar
+    build:
+      context: ../../../
+      dockerfile: docker/backend/ms5-calendar/Dockerfile
+    ports:
+      - "9000:9000"
+    networks:
+      - sportboard-network
+
+  ms5-calendar-database:
+    image: postgres:13
+    container_name: ms5-calendar-database
+    command: -p 6969
+    environment:
+      POSTGRES_USER: calendar
+      POSTGRES_DB: calendar    # Cambiado de kong a calendar
+      POSTGRES_PASSWORD: admin
+      POSTGRES_ROLE: calendar
+    networks:
+      - sportboard-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U calendar -p 6969"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "7000:6969"
+
+  calendar-migrations:
+    image: kong:3.5
+    container_name: calendar-migrations
+    depends_on:
+      kong-database:
+        condition: service_healthy
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+    command: kong migrations bootstrap
+    networks:
+      - sportboard-network
+
+
+networks:
+  sportboard-network:
+    external: true
+
+volumes:
+  kong-db-data:

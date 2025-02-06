@@ -1,0 +1,57 @@
+services:
+  ms4-estadisticas:
+    build:
+      context: ../../../backend/Estadisticas
+      dockerfile: ../../docker/backend/ms4-estadisticas/Dockerfile
+    container_name: ms4-estadisticas
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://admin:password@mongodb-estadisticas:27017/sportboard?authSource=admin
+      PORT: 3000
+    depends_on:
+      mongodb-estadisticas:
+        condition: service_healthy
+      kong:
+        condition: service_started
+    volumes:
+      - ../../../backend/Estadisticas:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - sportboard-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  mongodb-estadisticas:
+    image: mongo:latest
+    container_name: mongodb-estadisticas
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: sportboard
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_estadisticas_data:/data/db
+    networks:
+      - sportboard-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  
+volumes:
+  mongodb_estadisticas_data:
+
+networks:
+  sportboard-network:
+    external: true

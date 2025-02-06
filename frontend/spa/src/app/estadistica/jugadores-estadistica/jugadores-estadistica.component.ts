@@ -1,19 +1,57 @@
-import { Component } from '@angular/core';
-import { mockPlayerStats } from '../data';
+import { Component, OnInit } from '@angular/core';
+import { EstadisticasService } from '../../services/estadisticas/estadistica.service';
 
 type PlayerStat = 'goals' | 'assists' | 'yellowCards' | 'redCards';
 
+interface PlayerStats {
+  id: number;
+  name: string;
+  team: string;
+  teamLogo: string;
+  goals: number;
+  assists: number;
+  yellowCards: number;
+  redCards: number;
+}
+
 @Component({
-    selector: 'app-jugadores-estadistica',
-    templateUrl: './jugadores-estadistica.component.html',
-    styleUrls: ['./jugadores-estadistica.component.scss'],
-    standalone: false
+  selector: 'app-jugadores-estadistica',
+  templateUrl: './jugadores-estadistica.component.html',
+  standalone: false,
+  styleUrls: ['./jugadores-estadistica.component.scss']
 })
-export class JugadoresEstadisticaComponent {
-  playerStats = mockPlayerStats;
-  filteredStats = mockPlayerStats;
+export class JugadoresEstadisticaComponent implements OnInit {
+  playerStats: PlayerStats[] = [];
+  filteredStats: PlayerStats[] = [];
   currentStats: string[] = ['all'];
   displayedColumns: string[] = ['position', 'name', 'team', 'goals', 'assists', 'yellowCards', 'redCards'];
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
+
+  constructor(private estadisticasService: EstadisticasService) {}
+
+  ngOnInit(): void {
+    this.loadPlayerStats();
+  }
+
+  loadPlayerStats(): void {
+    this.estadisticasService.getPlayers().subscribe({
+      next: (response: any) => {
+        if (response && response.success && Array.isArray(response.data)) {
+          this.playerStats = response.data;
+          this.filteredStats = this.playerStats;
+        } else {
+          this.errorMessage = 'Formato de respuesta inesperado';
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al obtener las estadísticas de jugadores:', error);
+        this.errorMessage = 'Error al cargar las estadísticas de jugadores. Intente nuevamente más tarde.';
+        this.isLoading = false;
+      }
+    });
+  }
 
   filterStats(stat: string) {
     if (stat === 'all') {

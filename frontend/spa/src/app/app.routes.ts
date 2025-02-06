@@ -29,10 +29,7 @@ export const routes: Routes = [
     },
     {
         path: 'estadisticas',
-        loadChildren: () =>
-            import('./estadistica/estadistica.module').then(
-                (m) => m.EstadisticaModule
-            ),
+        loadChildren: () => import('./estadistica/estadistica.module').then(m => m.EstadisticaModule)
     },
     {
         path: 'catalogos',

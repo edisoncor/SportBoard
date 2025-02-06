@@ -1,0 +1,37 @@
+version: "3.8"
+name: SportBoard-container
+
+services:
+
+    postgres-usermanagement:
+        image: postgres:13
+        container_name: postgres-usermanagement
+        restart: always
+        environment:
+            POSTGRES_USER: 'postgres'
+            POSTGRES_DB: 'user_manage'
+            POSTGRES_PASSWORD: '11012000'
+        ports:
+            - "5434:5432"
+        networks:
+            - sportboard-network
+
+    ms1-usermanagement:
+        build:
+            context: ../../../
+            dockerfile: docker/backend/ms1-usermanagement/Dockerfile
+        container_name: ms1-usermanagement
+        restart: always
+        environment:
+            - DJANGO_SETTINGS_MODULE=users.settings
+            - DATABASE_URL=postgres://postgres:11012000@postgres-usermanagement:5432/user_manage
+        ports:
+            - "8004:8004"
+        depends_on:
+            - postgres-usermanagement
+        networks:
+            - sportboard-network
+
+networks:
+    sportboard-network:
+        external: true

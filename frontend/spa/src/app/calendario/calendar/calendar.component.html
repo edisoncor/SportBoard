@@ -1,97 +1,166 @@
 <div class="contenedor-calendario">
-  <!-- Encabezado del calendario -->
-  <div class="encabezado-calendario">
-    <button class="boton-navegacion" (click)="cambiarMes(-1)">&lt;</button>
-    <h2 class="titulo-calendario">{{ nombreMesActual | titlecase }} {{ anioActual }}</h2>
-    <button class="boton-navegacion" (click)="cambiarMes(1)">&gt;</button>
-  </div>
-
-  <!-- Controles adicionales -->
-  <div class="calendar-controls">
-    <!-- Botón para crear un nuevo partido -->
-    <button class="create-match-btn" (click)="crearPartido()">Crear Partido</button>
-
-    <!-- Botón para ver grupos -->
-    <button class="view-groups-btn" (click)="navigateToGroups()">Ver Grupos</button>
-
-    <!-- Selector de vista del calendario -->
-    <select class="view-selector" aria-label="Cambiar vista del calendario" (change)="cambiarVista($event)">
-      <option value="mes">Mes</option>
-      <option value="semana">Semana</option>
-      <option value="dia">Día</option>
-    </select>
-
-    <!-- Botón para gestionar partidos -->
-    <button class="manage-matches-btn" (click)="gestionarPartidos()">Gestionar partidos</button>
-  </div>
-
-  <!-- Tabla del calendario -->
-  <table class="tabla-calendario">
-    <thead>
-      <tr>
-        <th>Lunes</th>
-        <th>Martes</th>
-        <th>Miércoles</th>
-        <th>Jueves</th>
-        <th>Viernes</th>
-        <th>Sábado</th>
-        <th>Domingo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let semana of diasCalendario">
-        <td *ngFor="let dia of semana"
-            [ngClass]="{
-              'celda-dia': true,
-              'mes-actual': dia.esMesActual,
-              'tiene-partido': dia.partidos.length > 0
-            }">
-          {{ dia.fecha }}
-
-          <!-- Lista de partidos -->
-          <div *ngFor="let partido of dia.partidos" class="partido">
-            <span class="equipo equipo-local">{{ partido.equipoLocal }}</span>
-            <span class="marcador">{{ partido.marcadorLocal }}</span>
-            <span class="equipo equipo-visitante">{{ partido.equipoVisitante }}</span>
-            <span class="marcador">{{ partido.marcadorVisitante }}</span>
-            <button class="edit-match-btn" (click)="editarPartido(partido)">✎</button>
-            <button class="delete-match-btn" (click)="eliminarPartido(partido)">🗑️</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Sección de filtros -->
-  <div class="filters">
-    <h3>Filtros</h3>
-
-    <div class="filter-group">
-      <label for="torneo">Torneo</label>
-      <select id="torneo" (change)="filtrarTorneo($event)">
-        <option *ngFor="let torneo of torneos" [value]="torneo.id">{{ torneo.nombre }}</option>
-      </select>
+    <!-- Encabezado del calendario -->
+    <div class="encabezado-calendario">
+        <button class="boton-navegacion" (click)="cambiarMes(-1)">&lt;</button>
+        <h2 class="titulo-calendario">{{ nombreMesActual | titlecase }} {{ anioActual }}</h2>
+        <button class="boton-navegacion" (click)="cambiarMes(1)">&gt;</button>
     </div>
 
-    <div class="filter-group">
-      <label for="temporada">Temporada</label>
-      <select id="temporada" (change)="filtrarTemporada($event)">
-        <option *ngFor="let temporada of temporadas" [value]="temporada.id">{{ temporada.nombre }}</option>
-      </select>
+    <!-- Controles adicionales -->
+    <div class="calendar-controls">
+        <!-- Botón para crear un nuevo partido -->
+        <button class="create-match-btn" (click)="mostrarFormulario = !mostrarFormulario">Crear Partido</button>
+
+        <!-- Selector de vista del calendario -->
+        <select class="view-selector" aria-label="Cambiar vista del calendario" (change)="cambiarVista($event)">
+            <option value="mes">Mes</option>
+            <option value="semana">Semana</option>
+            <option value="dia">Día</option>
+        </select>
     </div>
 
-    <div class="filter-group">
-      <label for="categoria">Categoría</label>
-      <select id="categoria" (change)="filtrarCategoria($event)">
-        <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
-      </select>
+    <!-- Formulario para crear partido (se muestra solo cuando mostrarFormulario es true) -->
+    <div *ngIf="mostrarFormulario" class="formulario-crear-partido">
+        <h3>Crear Partido</h3>
+        <form (ngSubmit)="crearPartido()">
+            <div class="filter-group">
+                <label for="equipoLocal">Equipo Local</label>
+                <select
+                    id="equipoLocal"
+                    name="equipoLocal"
+                    [(ngModel)]="equipoLocalSeleccionado"
+                    (change)="filtrarEquiposLocal($event)">
+                    <option value="">Seleccionar equipo</option>
+                    <option *ngFor="let equipo of equipos" [value]="equipo">
+                        {{equipo}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="equipoVisitante">Equipo Visitante</label>
+                <select
+                    id="equipoVisitante"
+                    name="equipoVisitante"
+                    [(ngModel)]="equipoVisitanteSeleccionado"
+                    (change)="filtrarEquiposVisitante($event)">
+                    <option value="">Seleccionar equipo</option>
+                    <option *ngFor="let equipo of equiposFiltrados" [value]="equipo">
+                        {{equipo}}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Resto del formulario -->
+            <div>
+                <label for="fechaPartido">Fecha:</label>
+                <input type="date" id="fechaPartido" [(ngModel)]="fechaPartido" name="fechaPartido" required>
+            </div>
+            <div>
+                <label for="marcadorLocal">Marcador Local:</label>
+                <input type="number" id="marcadorLocal" [(ngModel)]="marcadorLocal" name="marcadorLocal">
+            </div>
+            <div>
+                <label for="marcadorVisitante">Marcador Visitante:</label>
+                <input type="number" id="marcadorVisitante" [(ngModel)]="marcadorVisitante" name="marcadorVisitante">
+            </div>
+            <button type="submit">Guardar Partido</button>
+            <button type="button" (click)="mostrarFormulario = false" class="cancelar-btn">Cancelar</button>
+        </form>
+    </div>
+    <!-- Tabla del calendario -->
+    <table class="tabla-calendario">
+        <thead>
+        <tr>
+            <th>Domingo</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miércoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sábado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let semana of diasCalendario">
+            <td *ngFor="let dia of semana"
+                [ngClass]="{
+        'celda-dia': true,
+        'mes-actual': dia.esmesMesActual,
+        'tiene-partido': dia.partidos?.length > 0
+    }"
+                (click)="mostrarPartidosDelDia(dia)">
+                {{ dia.fecha }}
+                <div *ngIf="dia.partidos?.length > 0" class="indicador-partidos">
+                    {{ dia.partidos.length }}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal para mostrar partidos del día -->
+    <div *ngIf="diaSeleccionado && diaSeleccionado.partidos?.length > 0" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Partidos del día {{diaSeleccionado.fecha}}</h3>
+                <button class="close-button" (click)="cerrarModalPartidos()">×</button>
+            </div>
+            <div class="modal-body">
+                <div *ngFor="let partido of diaSeleccionado.partidos" class="partido-item">
+                    <div class="partido-detalle">
+                        <div class="equipo-local">{{partido.equipoLocal}}</div>
+                        <div class="marcador">
+                            <span>{{partido.marcadorLocal}}</span>
+                            <span class="separador">-</span>
+                            <span>{{partido.marcadorVisitante}}</span>
+                        </div>
+                        <div class="equipo-visitante">{{partido.equipoVisitante}}</div>
+                    </div>
+                    <div class="partido-acciones">
+                        <button class="btn-editar" (click)="editarPartido(partido)">Editar</button>
+                        <button class="btn-eliminar" (click)="eliminarPartido(partido.id)">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="filter-group">
-      <label for="equipo">Equipo</label>
-      <select id="equipo" (change)="filtrarEquipo($event)">
-        <option *ngFor="let equipo of equipos" [value]="equipo.id">{{ equipo.nombre }}</option>
-      </select>
+
+    <!-- Sección de filtros -->
+    <div class="filters">
+        <h3>Filtros</h3>
+        <div class="filter-group">
+            <label for="torneo">Torneo</label>
+            <select id="torneo" (change)="filtrarTorneo($event)">
+                <option value="">Seleccionar torneo</option>
+                <option *ngFor="let torneo of torneos" [value]="torneo.id">{{ torneo.nombre }}</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="temporada">Temporada</label>
+            <select id="temporada" (change)="filtrarTemporada($event)">
+                <option value="">Seleccionar temporada</option>
+                <option *ngFor="let temporada of temporadas" [value]="temporada.id">{{ temporada.nombre }}</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" (change)="filtrarCategoria($event)">
+                <option value="">Seleccionar categoría</option>
+                <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="equipo">Equipo</label>
+            <select id="equipo" (change)="filtrarEquipos($event)">
+                <option value="">Seleccionar equipo</option>
+                <option *ngFor="let equipo of equipos" [value]="equipo">{{ equipo }}</option>
+            </select>
+        </div>
+
     </div>
-  </div>
 </div>
