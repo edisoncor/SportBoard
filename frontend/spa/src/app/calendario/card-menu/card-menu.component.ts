@@ -28,19 +28,16 @@ export class CardMenuComponent implements OnInit {
         this.getHelloMessage();
     }
 
-    getHelloMessage(): void {
-        this.calendarService.getHello().subscribe(
-            (response: string) => {
-                this.prueba = response;  // Si la respuesta es "Hola", la asignamos al campo
+    getHelloMessage() {
+        this.calendarService.getHello().subscribe({
+            next: (response) => {
+                console.log('Respuesta:', response);
+                this.prueba = response;
             },
-            (error) => {
-                this.prueba = 'Error al obtener el mensaje';  // Si hay error, mostramos un mensaje de error
-                console.error('Error al obtener el mensaje', error);
+            error: (error) => {
+                console.error('Error detallado:', error);
             }
-        );
-        this.models = [
-
-    ];
+        });
     }
 
     navigateToCalendar() {

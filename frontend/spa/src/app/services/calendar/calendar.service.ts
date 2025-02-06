@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,15 +7,19 @@ import { Observable } from 'rxjs';
 })
 export class CalendarService {
 
-    private baseUrl = 'http://localhost:9000/api/calendar';  // URL de tu backend
+    private baseUrl = 'http://localhost:9000/api/calendar';
 
     constructor(private httpClient: HttpClient) { }
 
 
 
-    // Método para obtener un saludo (prueba)
-    getHello(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/hola`);
+    getHello(): Observable<string> {
+        return this.httpClient.get(this.baseUrl + '/hola', {
+            responseType: 'text',
+            headers: new HttpHeaders({
+                'Accept': 'text/plain'
+            })
+        });
     }
 
     // Método para obtener Abel (prueba)

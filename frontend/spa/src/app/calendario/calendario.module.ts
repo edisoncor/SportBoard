@@ -5,16 +5,17 @@ import { CalendarioRoutingModule } from './calendario-routing.module';
 import { MatchtableComponent } from './matchtable/matchtable.component';
 import {SorteoComponent} from './sorteo/sorteo.component';
 import {CardMenuComponent} from './card-menu/card-menu.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     CalendarioRoutingModule,
-      CardMenuComponent,
+    CardMenuComponent,
     CalendarComponent,
     MatchtableComponent,
+    HttpClientModule,
     SorteoComponent
   ],
   exports: []
