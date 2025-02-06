@@ -16,7 +16,7 @@ public class MatchOrganization {
     @Enumerated(EnumType.STRING)
     private Method method;
     @ManyToOne
-    private LeaderBoard positionTable;
+    private Leaderboard positionTable;
     @ManyToOne
     private Competition competition;
     @ManyToMany
@@ -59,11 +59,11 @@ public class MatchOrganization {
         this.method = method;
     }
 
-    public LeaderBoard getPositionTable() {
+    public Leaderboard getPositionTable() {
         return positionTable;
     }
 
-    public void setPositionTable(LeaderBoard positionTable) {
+    public void setPositionTable(Leaderboard positionTable) {
         this.positionTable = positionTable;
     }
 

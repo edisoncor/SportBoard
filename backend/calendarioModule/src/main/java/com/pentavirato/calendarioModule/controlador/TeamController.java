@@ -5,6 +5,8 @@ import com.pentavirato.calendarioModule.repositorios.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -48,5 +50,11 @@ public class TeamController {
         }
         teamRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/equipos")
+
+    public List<String> getEquipos() {
+        return Arrays.asList("Milan", "Inter", "Juventus", "Roma", "Napoli", "Lazio", "Fiorentina", "Atalanta", "Torino", "Sampdoria", "Genoa", "Bologna", "Udinese", "Cagliari", "Sassuolo", "Parma", "Verona", "Spezia", "Benevento", "Crotone");
     }
 }
