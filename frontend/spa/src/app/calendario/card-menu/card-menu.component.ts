@@ -19,27 +19,17 @@ import { CommonModule } from '@angular/common';
 })
 export class CardMenuComponent implements OnInit {
 
-    prueba: string = '';
     models: any[] = [];
+    helloMessage: string = '';
     constructor(private calendarService: CalendarService, private router: Router) {
     }
-
     ngOnInit(): void {
-        this.getHelloMessage();
-    }
-
-    getHelloMessage() {
-        this.calendarService.getHello().subscribe({
-            next: (response) => {
-                console.log('Respuesta:', response);
-                this.prueba = response;
-            },
-            error: (error) => {
-                console.error('Error detallado:', error);
-            }
+        this.calendarService.getHello().subscribe((data) => {
+            console.log('Respuesta:', data);
+            this.helloMessage = data;
         });
-    }
 
+    }
     navigateToCalendar() {
         this.router.navigate(['/calendario/calendar']);
     }
