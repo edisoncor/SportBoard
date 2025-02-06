@@ -10,7 +10,7 @@ import java.util.List;
 public class MatchOrganization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private Date date;
     private String phase;
     @Enumerated(EnumType.STRING)
@@ -27,11 +27,11 @@ public class MatchOrganization {
     public MatchOrganization() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

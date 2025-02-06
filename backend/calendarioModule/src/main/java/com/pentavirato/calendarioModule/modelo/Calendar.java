@@ -9,7 +9,7 @@ import java.util.List;
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @ManyToOne
     private Competition competition;
     @OneToMany
@@ -18,11 +18,11 @@ public class Calendar {
     public Calendar() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -7,24 +7,24 @@ import java.util.List;
 
 @Entity
 @Table(name = "leaderboards")
-public class LeaderBoard {
+public class Leaderboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @ManyToOne
     private Competition competition;
     private Date lastUpdate;
     @OneToMany
     private List<Match> resultList = new ArrayList<>();
 
-    public LeaderBoard() {
+    public Leaderboard() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

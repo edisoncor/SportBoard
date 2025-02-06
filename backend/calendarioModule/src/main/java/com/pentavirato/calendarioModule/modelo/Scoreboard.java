@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Scoreboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Integer homeScore;
     private Integer guestScore;
     private Boolean isFinished;
@@ -23,11 +23,11 @@ public class Scoreboard {
         this.isFinished = isFinished;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
