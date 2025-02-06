@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>calendar – Documentación del Proyecto SportBoard</title>
+<title>Documentación de Microservicio: Calendario – SportBoard</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-fd053a38988e21bb3d3b0b617a2084cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,7 +68,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles/styless.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Documentación del Proyecto SportBoard</span>
+    <span class="navbar-title">SportBoard</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -93,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../introduccion.qmd"> 
+    <a class="nav-link" href="../../introduction.html"> 
 <span class="menu-text">Introducción</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -102,16 +102,28 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-arquitectura">    
         <li>
-    <a class="dropdown-item" href="../../arquitectura/overview.qmd">
+    <a class="dropdown-item" href="../../architecture/overview.html">
  <span class="dropdown-text">Visión General</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../arquitectura/c4model.qmd">
+    <a class="dropdown-item" href="../../architecture/c4model.html">
  <span class="dropdown-text">C4 Model</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../arquitectura/context.qmd">
+    <a class="dropdown-item" href="../../architecture/diagrams/context.html">
  <span class="dropdown-text">Contexto</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/containers.html">
+ <span class="dropdown-text">Contenedores</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/components.html">
+ <span class="dropdown-text">Componentes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/code.html">
+ <span class="dropdown-text">Código</span></a>
   </li>  
     </ul>
   </li>
@@ -121,15 +133,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-frontend">    
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/spa.qmd">
+    <a class="dropdown-item" href="../../components/frontend/spa.html">
  <span class="dropdown-text">SPA (Angular)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/app_nativa.qmd">
+    <a class="dropdown-item" href="../../components/frontend/app_native.html">
  <span class="dropdown-text">App Móvil Nativa</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/app_hibrida.qmd">
+    <a class="dropdown-item" href="../../components/frontend/app_hybrid.html">
  <span class="dropdown-text">App Móvil Híbrida</span></a>
   </li>  
     </ul>
@@ -140,19 +152,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-backend">    
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/bff.qmd">
+    <a class="dropdown-item" href="../../components/backend/bff.html">
  <span class="dropdown-text">BFF (NestJS)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/api_gateway.qmd">
+    <a class="dropdown-item" href="../../components/backend/api_gateway.html">
  <span class="dropdown-text">API Gateway</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/circuit_breaker.qmd">
+    <a class="dropdown-item" href="../../components/backend/circuit_breaker.html">
  <span class="dropdown-text">Circuit Breaker</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/service_registry.qmd">
+    <a class="dropdown-item" href="../../components/backend/service_registry.html">
  <span class="dropdown-text">Service Registry</span></a>
   </li>  
     </ul>
@@ -163,27 +175,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-microservicios">    
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/usuarios.qmd">
+    <a class="dropdown-item" href="../../components/microservices/users.html">
  <span class="dropdown-text">Usuarios</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/competencias.qmd">
+    <a class="dropdown-item" href="../../components/microservices/competencies.html">
  <span class="dropdown-text">Competencias</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/real_time.qmd">
+    <a class="dropdown-item" href="../../components/microservices/real_time.html">
  <span class="dropdown-text">Tiempo Real</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/statistics.qmd">
+    <a class="dropdown-item" href="../../components/microservices/statistics.html">
  <span class="dropdown-text">Estadísticas</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/calendar.qmd">
+    <a class="dropdown-item" href="../../components/microservices/calendar.html">
  <span class="dropdown-text">Calendario</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/catalogs.qmd">
+    <a class="dropdown-item" href="../../components/microservices/catalogs.html">
  <span class="dropdown-text">Catálogos</span></a>
   </li>  
     </ul>
@@ -194,15 +206,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-infraestructura">    
         <li>
-    <a class="dropdown-item" href="../../infraestructura/databases.qmd">
+    <a class="dropdown-item" href="../../infrastructure/databases.html">
  <span class="dropdown-text">Bases de Datos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../infraestructura/deployment.qmd">
+    <a class="dropdown-item" href="../../infrastructure/deployment.html">
  <span class="dropdown-text">Despliegue</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../infraestructura/message_broker.qmd">
+    <a class="dropdown-item" href="../../infrastructure/message_broker.html">
  <span class="dropdown-text">Message Broker</span></a>
   </li>  
     </ul>
@@ -223,8 +235,8 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../futuras_expansiones.qmd"> 
-<span class="menu-text">Futuras Expansiones</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Documentación Técnica</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -237,17 +249,201 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#descripción-del-microservicio" id="toc-descripción-del-microservicio" class="nav-link active" data-scroll-target="#descripción-del-microservicio"><span class="header-section-number">1</span> Descripción del Microservicio</a>
+  <ul class="collapse">
+  <li><a href="#funcionalidades" id="toc-funcionalidades" class="nav-link" data-scroll-target="#funcionalidades"><span class="header-section-number">1.1</span> Funcionalidades</a></li>
+  </ul></li>
+  <li><a href="#endpoints" id="toc-endpoints" class="nav-link" data-scroll-target="#endpoints"><span class="header-section-number">2</span> Endpoints</a>
+  <ul class="collapse">
+  <li><a href="#descripción" id="toc-descripción" class="nav-link" data-scroll-target="#descripción"><span class="header-section-number">2.1</span> Descripción</a></li>
+  <li><a href="#endpoints-1" id="toc-endpoints-1" class="nav-link" data-scroll-target="#endpoints-1"><span class="header-section-number">2.2</span> Endpoints</a></li>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo"><span class="header-section-number">2.3</span> Ejemplo</a></li>
+  </ul></li>
+  <li><a href="#integración-de-kong-api-gateway-con-el-microservicio-calendar" id="toc-integración-de-kong-api-gateway-con-el-microservicio-calendar" class="nav-link" data-scroll-target="#integración-de-kong-api-gateway-con-el-microservicio-calendar"><span class="header-section-number">3</span> Integración de Kong API Gateway con el Microservicio Calendar</a>
+  <ul class="collapse">
+  <li><a href="#descripción-1" id="toc-descripción-1" class="nav-link" data-scroll-target="#descripción-1"><span class="header-section-number">3.1</span> Descripción</a></li>
+  <li><a href="#arquitectura" id="toc-arquitectura" class="nav-link" data-scroll-target="#arquitectura"><span class="header-section-number">3.2</span> Arquitectura</a></li>
+  <li><a href="#docker-compose" id="toc-docker-compose" class="nav-link" data-scroll-target="#docker-compose"><span class="header-section-number">3.3</span> Docker-Compose</a></li>
+  <li><a href="#docker-file" id="toc-docker-file" class="nav-link" data-scroll-target="#docker-file"><span class="header-section-number">3.4</span> Docker-File</a></li>
+  </ul></li>
+  <li><a href="#modelo-c4" id="toc-modelo-c4" class="nav-link" data-scroll-target="#modelo-c4"><span class="header-section-number">4</span> Modelo C4</a>
+  <ul class="collapse">
+  <li><a href="#descripción-2" id="toc-descripción-2" class="nav-link" data-scroll-target="#descripción-2"><span class="header-section-number">4.1</span> Descripción</a>
+  <ul class="collapse">
+  <li><a href="#nivel-1" id="toc-nivel-1" class="nav-link" data-scroll-target="#nivel-1"><span class="header-section-number">4.1.1</span> Nivel 1</a></li>
+  <li><a href="#nivel-2" id="toc-nivel-2" class="nav-link" data-scroll-target="#nivel-2"><span class="header-section-number">4.1.2</span> Nivel 2</a></li>
+  <li><a href="#nivel-3" id="toc-nivel-3" class="nav-link" data-scroll-target="#nivel-3"><span class="header-section-number">4.1.3</span> Nivel 3</a></li>
+  <li><a href="#nivel-4" id="toc-nivel-4" class="nav-link" data-scroll-target="#nivel-4"><span class="header-section-number">4.1.4</span> Nivel 4</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Documentación de Microservicio: Calendario</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="descripción-del-microservicio" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Descripción del Microservicio</h1>
+<p>El microservicio <strong>Calendario</strong> es responsable de gestionar los eventos y calendarios deportivos. Proporciona funcionalidades para agregar, editar, y consultar eventos relacionados con las actividades deportivas del sistema.</p>
+<section id="funcionalidades" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="funcionalidades"><span class="header-section-number">1.1</span> Funcionalidades</h2>
+<ul>
+<li><strong>Gestión de eventos:</strong> Permite crear, editar y eliminar eventos deportivos.</li>
+<li><strong>Consulta de eventos:</strong> Los usuarios pueden consultar eventos por fecha y categoría.</li>
+<li><strong>Notificaciones:</strong> Envía notificaciones a los usuarios sobre próximos eventos.</li>
+<li><strong>Integración con otros microservicios:</strong> El microservicio Calendario interactúa con otros servicios como <code>Usuarios</code> y <code>Estadísticas</code> para obtener información sobre usuarios y estadísticas de eventos.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="endpoints" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Endpoints</h1>
+<section id="descripción" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="descripción"><span class="header-section-number">2.1</span> Descripción</h2>
+<p>Un endpoint consiste en una dirección específica dentro de una API, la cual permite acceder a un recurso o la ejecución de una acción en un servidor. En otras palabras, es un punto de contacto entre el cliente y el servidor</p>
+</section>
+<section id="endpoints-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="endpoints-1"><span class="header-section-number">2.2</span> Endpoints</h2>
+<p>Los Endpoints utilizados en el proyecto estan relacionados a una API REST para el modulo de Calendario. A continuación, se presenta los endpoints que permiten realizar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre eventos o registros en el calendario.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 22%">
+<col style="width: 62%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Método HTTP</strong></th>
+<th><strong>Endpoint</strong></th>
+<th><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/calendario</code></td>
+<td>Obtiene todos los eventos del calendario.</td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/calendario/{id}</code></td>
+<td>Obtiene un evento específico según su ID.</td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/calendario</code></td>
+<td>Crea un nuevo evento en el calendario.</td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/calendario/{id}</code></td>
+<td>Actualiza un evento existente según su ID.</td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/calendario/{id}</code></td>
+<td>Elimina un evento del calendario según su ID.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ejemplo" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="ejemplo"><span class="header-section-number">2.3</span> Ejemplo</h2>
+<p>En el código presente, se define un controlador REST mediante Spring Boot el cual maneja solicitudes HTTP dirigidas a <code>/api/calendar</code>. A continuación, se expone un ejemplo de endpoint <code>GET /api/calendar/hola</code>, el cual responde con el texto que se define: “Hola” <img src="Files/Endpoint.png" class="img-fluid" alt="Diagrama de Contexto"></p>
+</section>
+</section>
+<section id="integración-de-kong-api-gateway-con-el-microservicio-calendar" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Integración de Kong API Gateway con el Microservicio Calendar</h1>
+<section id="descripción-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="descripción-1"><span class="header-section-number">3.1</span> Descripción</h2>
+<p>Kong es un API Gateway de código abierto que actúa como intermediario para gestionar, enrutando y protegiendo las APIs del sistema. Su integración en este proyecto facilita la gestión de microservicios, como el módulo de Calendario, permitiendo enrutamiento, autenticación, monitoreo y control de acceso centralizado.</p>
+<p>En su versión gratuita (Community), Kong no incluye una interfaz gráfica, por lo que se ha utilizado <strong>Konga</strong> como alternativa para gestionar las API y configurar los microservicios de manera eficiente.</p>
+</section>
+<section id="arquitectura" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="arquitectura"><span class="header-section-number">3.2</span> Arquitectura</h2>
+<p>Se ha utilizado <strong>Docker</strong> y <strong>Docker-Compose</strong> para la implementación de Kong y sus servicios asociados. La configuración de Kong incluye:</p>
+<ol type="1">
+<li><strong>Kong Database (MySQL)</strong>: Esta base de datos almacena la configuración y datos relacionados con los microservicios gestionados por Kong.</li>
+<li><strong>Kong Migration</strong>: Realiza las migraciones necesarias en la base de datos para inicializarla con los esquemas adecuados.</li>
+<li><strong>Kong Gateway</strong>: Actúa como el API Gateway central para enrutar las solicitudes a los microservicios. Se configura con conexión a la base de datos MySQL y otros parámetros relacionados.</li>
+<li><strong>Konga</strong>: Es una interfaz gráfica para la administración de Kong, permitiendo gestionar las API y microservicios de manera fácil.</li>
+</ol>
+</section>
+<section id="docker-compose" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="docker-compose"><span class="header-section-number">3.3</span> Docker-Compose</h2>
+<p>A continuación, se presenta el archivo <code>docker-compose.yml</code> que se utiliza para levantar los servicios de Kong, Konga y la base de datos MySQL.</p>
+<p>```yaml version: ‘3’ services: kong-db: image: mysql:8.0 container_name: kong-db volumes: - db-data-kong-mysql:/var/lib/mysql networks: - kong-net ports: - “3306:3306” environment: MYSQL_ROOT_PASSWORD: pis5 MYSQL_DATABASE: Sportboard_Calendario MYSQL_USER: kong MYSQL_PASSWORD: pis5</p>
+<p>kong-migration: image: kong depends_on: - kong-db container_name: kong-migration networks: - kong-net restart: on-failure environment: - KONG_DATABASE=mysql - KONG_PG_HOST=kong-db - KONG_PG_USER=kong - KONG_PG_PASSWORD=pis5 - KONG_PG_DATABASE=Sportboard_Calendario command: kong migrations bootstrap</p>
+<p>kong: image: kong container_name: kong environment: - LC_CTYPE=en_US.UTF-8 - LC_ALL=en_US.UTF-8 - KONG_DATABASE=mysql - KONG_PG_HOST=kong-db - KONG_PG_USER=kong - KONG_PG_PASSWORD=pis5 - KONG_PG_DATABASE=Sportboard_Calendario - KONG_CASSANDRA_CONTACT_POINTS=kong-db - KONG_PROXY_ACCESS_LOG=/dev/stdout - KONG_ADMIN_ACCESS_LOG=/dev/stdout - KONG_PROXY_ERROR_LOG=/dev/stderr - KONG_ADMIN_ERROR_LOG=/dev/stderr - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl restart: on-failure ports: - 8000:8000 - 8443:8443 - 8001:8001 - 8444:8444 links: - kong-db:kong-db networks: - kong-net depends_on: - kong-migration</p>
+<p>konga: image: pantsel/konga ports: - 1337:1337 links: - kong:kong container_name: konga networks: - kong-net environment: - NODE_ENV=production - DB_ADAPTER=mysql - DB_HOST=kong-db - DB_USER=kong - DB_PASSWORD=pis5 - DB_DATABASE=Sportboard_Calendario</p>
+<p>volumes: db-data-kong-mysql:</p>
+<p>networks: kong-net: external: false</p>
+</section>
+<section id="docker-file" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="docker-file"><span class="header-section-number">3.4</span> Docker-File</h2>
+<p>A continuación, se presenta el archivo <code>DockerFIle</code> que se utiliza para construir la imagen del microservicio Calendario. Este archivo esta diseñado para utilizar Java 17 y ejecutar una aplicación Spring Boot</p>
+<ol type="1">
+<li><p><strong>Usa una imagen base de Java:</strong> FROM openjdk:17-jdk-slim</p></li>
+<li><p><strong>Establece el directorio de trabajo:</strong> WORKDIR /app</p></li>
+<li><p><strong>Copia el JAR generado al contenedor:</strong> COPY target/calendarioModule-0.0.1-SNAPSHOT.jar app.jar</p></li>
+<li><p><strong>Expone el puerto que usa Spring Boot:</strong> EXPOSE 9000</p></li>
+<li><p><strong>Comando para ejecutar la aplicación:</strong> ENTRYPOINT [“java”, “-jar”, “app.jar”]</p></li>
+</ol>
+</section>
+</section>
+<section id="modelo-c4" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Modelo C4</h1>
+<section id="descripción-2" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="descripción-2"><span class="header-section-number">4.1</span> Descripción</h2>
+<p>El Modelo C4 es una metodología para visualizar la arquitectura de software a diferentes niveles de detalle. Cada nivel proporciona una visión diferente de la arquitectura, ayudando a los equipos de desarrollo, operaciones y otros stakeholders a comprender cómo está estructurado y funciona el sistema.</p>
+<p>A continuación, se explicará acerca de los 4 niveles del modelo C4:</p>
+<section id="nivel-1" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="nivel-1"><span class="header-section-number">4.1.1</span> Nivel 1</h3>
+<p>El diagrama de Contexto es el nivel más alto y proporciona una visión global del sistema en su entorno. Este diagrama se centra en el sistema como un todo y muestra cómo interactúa con usuarios externos, sistemas o servicios. No profundiza en los detalles internos, sino que establece el alcance y las interacciones externas.</p>
+<p>A continuación, se muestra la visión general del sistema y las interacciones con actores externos: <img src="Files/Capa1.png" class="img-fluid" alt="Diagrama de Contexto"></p>
+</section>
+<section id="nivel-2" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="nivel-2"><span class="header-section-number">4.1.2</span> Nivel 2</h3>
+<p>El diagrama de Contenedores descompone el sistema en contenedores, que representan aplicaciones o servicios ejecutables. Cada contenedor es un proceso que se ejecuta y tiene una funcionalidad propia (por ejemplo, una base de datos, un servicio web o una aplicación móvil).</p>
+<p>A continuación, se desglosa el sistema en aplicaciones o servicios que interactúan entre sí: <img src="Files/Capa2.png" class="img-fluid" alt="Diagrama de Contexto"></p>
+</section>
+<section id="nivel-3" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="nivel-3"><span class="header-section-number">4.1.3</span> Nivel 3</h3>
+<p>El diagrama de Componentes descompone los contenedores en sus partes más pequeñas y muestra los componentes principales dentro de cada contenedor. Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).</p>
+<p>A continuación, se muestra cómo esta estructurado un contenedor, desglosando sus principales componentes: <img src="Files/Capa3.png" class="img-fluid" alt="Diagrama de Contexto"></p>
+</section>
+<section id="nivel-4" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="nivel-4"><span class="header-section-number">4.1.4</span> Nivel 4</h3>
+<p>El diagrama de Código es el nivel más bajo de detalle y muestra cómo está implementado un componente a nivel de clases, métodos y relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.</p>
+
+
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
