@@ -17,7 +17,7 @@ export class FormatService {
     }
 
     getFormat(id: number): Observable<Format> {
-        return this.http.get<Format>(`${this.apiUrl}/${id}`);
+        return this.http.get<Format>(`${this.apiUrl}${id}/`);
     }
 
     createFormat(format: Format): Observable<Format> {
@@ -25,11 +25,11 @@ export class FormatService {
     }
 
     updateFormat(id: number, format: Format): Observable<Format> {
-        return this.http.put<Format>(`${this.apiUrl}/${id}`, format);
+        return this.http.put<Format>(`${this.apiUrl}${id}/`, format);
     }
 
     deleteFormat(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 
 }

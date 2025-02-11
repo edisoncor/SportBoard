@@ -15,9 +15,24 @@ import { CompetenceService } from '../services/competencies/competence.service';
 import { TitleCasePipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HomeCompetenciesComponent } from './home-competencies/home-competencies.component';
-import { CompetenceDialogFormComponent } from './competence-dialog-form/competence-dialog-form.component';
 import { AdminCompetenciasComponent } from './admin-competencias/admin-competencias.component';
-import { MatTableDataSource } from '@angular/material/table';
+import { AdminDisciplinasComponent } from './admin-disciplinas/admin-disciplinas.component';
+import { DisciplineService } from '../services/competencies/discipline.service';
+import { AdminRuleCompetenceComponent } from './admin-rule-competence/admin-rule-competence.component';
+import { RuleCompetenceService } from '../services/competencies/rule-competence.service';
+import { RuleDisciplineService } from '../services/competencies/rule-discipline.service';
+import { AdminFormatsComponent } from './admin-formats/admin-formats.component';
+import { FormatService } from '../services/competencies/format.service';
+import { AdminEquiposComponent } from './admin-equipos/admin-equipos.component';
+import { TeamService } from '../services/competencies/team.service';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { UserService } from '../services/competencies/user.service';
+import { AdminSquadComponent } from './admin-squad/admin-squad.component';
+import { SquadService } from '../services/competencies/squad.service';
+import { AdminRegistrosComponent } from './admin-registros/admin-registros.component';
+import { RegistrationService } from '../services/competencies/registration.service';
+import { AdminEdicionCompetenciaComponent } from './admin-edicion-competencia/admin-edicion-competencia.component';
+import { CompetenceEditionService } from '../services/competencies/competence-edition.service';
 
 @NgModule({
   imports: [
@@ -36,9 +51,27 @@ import { MatTableDataSource } from '@angular/material/table';
     MatCardModule,
     DragDropModule,
     HomeCompetenciesComponent,
-    CompetenceDialogFormComponent,
-    AdminCompetenciasComponent
+    AdminCompetenciasComponent,
+    AdminDisciplinasComponent,
+    AdminRuleCompetenceComponent,
+    AdminFormatsComponent,
+    AdminEquiposComponent,
+    AdminUsersComponent,
+    AdminSquadComponent,
+    AdminRegistrosComponent,
+    AdminEdicionCompetenciaComponent,
   ],
-  providers: [CompetenceService, TitleCasePipe],
+  providers: [
+    CompetenceService,
+    DisciplineService,
+    RuleCompetenceService,
+    RuleDisciplineService,
+    FormatService,
+    TeamService,
+    UserService,
+    SquadService,
+    RegistrationService,
+    CompetenceEditionService,
+    TitleCasePipe], 
 })
 export class CompetenciasModule { }

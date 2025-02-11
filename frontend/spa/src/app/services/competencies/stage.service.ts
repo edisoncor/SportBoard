@@ -5,30 +5,30 @@ import { environment } from '../../../environments/environment';
 import { Stage } from '../../models/competencies/stage.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class StageService {
-    private apiUrl = environment.services.competencies.endpoints.stages;
+  private apiUrl = environment.services.competencies.endpoints.stages;
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    getStages(): Observable<Stage[]> {
-        return this.http.get<Stage[]>(this.apiUrl);
-    }
+  getStages(): Observable<Stage[]> {
+    return this.http.get<Stage[]>(this.apiUrl);
+  }
 
-    getStage(id: number): Observable<Stage> {
-        return this.http.get<Stage>(`${this.apiUrl}/${id}`);
-    }
+  getStage(id: number): Observable<Stage> {
+    return this.http.get<Stage>(`${this.apiUrl}${id}/`);
+  }
 
-    createStage(stage: Stage): Observable<Stage> {
-        return this.http.post<Stage>(this.apiUrl, stage);
-    }
+  createStage(stage: Stage): Observable<Stage> {
+    return this.http.post<Stage>(this.apiUrl, stage);
+  }
 
-    updateStage(id: number, stage: Stage): Observable<Stage> {
-        return this.http.put<Stage>(`${this.apiUrl}/${id}`, stage);
-    }
+  updateStage(id: number, stage: Stage): Observable<Stage> {
+    return this.http.put<Stage>(`${this.apiUrl}/${id}`, stage);
+  }
 
-    deleteStage(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
+  deleteStage(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

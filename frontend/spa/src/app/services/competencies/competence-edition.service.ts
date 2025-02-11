@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CompetitionEdition } from '../../models/competencies/competence-edition.model';
+import { CompetitionEditionPayload } from '../../models/competencies/edition-payload.model';
 
 @Injectable({
     providedIn: 'root'
@@ -17,18 +18,18 @@ export class CompetenceEditionService {
     }
 
     getCompetenceEdition(id: number): Observable<CompetitionEdition> {
-        return this.http.get<CompetitionEdition>(`${this.apiUrl}/${id}`);
+        return this.http.get<CompetitionEdition>(`${this.apiUrl}${id}/`);
     }
 
-    createCompetenceEdition(competenceEdition: CompetitionEdition): Observable<CompetitionEdition> {
-        return this.http.post<CompetitionEdition>(this.apiUrl, competenceEdition);
+    createCompetenceEdition(editionData: CompetitionEditionPayload): Observable<CompetitionEdition> {
+        return this.http.post<CompetitionEdition>(this.apiUrl, editionData);
     }
 
-    updateCompetenceEdition(id: number, competenceEdition: CompetitionEdition): Observable<CompetitionEdition> {
-        return this.http.put<CompetitionEdition>(`${this.apiUrl}/${id}`, competenceEdition);
+    updateCompetenceEdition(id: number, editionData: CompetitionEditionPayload): Observable<CompetitionEdition> {
+        return this.http.put<CompetitionEdition>(`${this.apiUrl}${id}/`, editionData);
     }
 
     deleteCompetenceEdition(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 }

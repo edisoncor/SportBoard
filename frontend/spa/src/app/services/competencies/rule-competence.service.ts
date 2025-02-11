@@ -17,7 +17,7 @@ export class RuleCompetenceService {
     }
 
     getRuleCompetence(id: number): Observable<RuleCompetition> {
-        return this.http.get<RuleCompetition>(`${this.apiUrl}/${id}`);
+        return this.http.get<RuleCompetition>(`${this.apiUrl}${id}/`);
     }
 
     createRuleCompetence(ruleCompetence: RuleCompetition): Observable<RuleCompetition> {
@@ -25,10 +25,10 @@ export class RuleCompetenceService {
     }
 
     updateRuleCompetence(id: number, ruleCompetence: RuleCompetition): Observable<RuleCompetition> {
-        return this.http.put<RuleCompetition>(`${this.apiUrl}/${id}`, ruleCompetence);
+        return this.http.put<RuleCompetition>(`${this.apiUrl}${id}/`, ruleCompetence);
     }
 
     deleteRuleCompetence(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 }

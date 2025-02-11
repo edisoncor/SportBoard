@@ -8,32 +8,44 @@ class User(models.Model):
         ('Coach', 'Coach'),
         ('Player', 'Player'),
     ]
-
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(unique=True)
+    
+    firstname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+    birth_date = models.DateField()
+    nationality = models.CharField(max_length=255)
+    gender = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
-        return f"{self.username} ({self.role})"
+        return f"{self.firstname} {self.lastname} ({self.role})"
 
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    country = models.ForeignKey('Country', on_delete=models.CASCADE)
+    country = models.CharField(max_length=255)
     logo = models.ImageField(upload_to="logos/")
-    squads = models.ManyToManyField('Squad', related_name='teams')
+    squads = models.ManyToManyField('Squad', related_name='teams', blank=True)
+
+    def add_squad(self, squad):
+        self.squads.add(squad)
+        self.save()
+    
+    def remove_squad(self, squad):
+        self.squads.remove(squad)
+        self.save()
 
     def __str__(self):
         return self.name
 
 
 class Squad(models.Model):
-    season = models.ForeignKey('Planning', on_delete=models.CASCADE)
+    season = models.ForeignKey('Planning', on_delete=models.CASCADE, blank=True, null=True)
     team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='squads_list')
     players = models.ManyToManyField(User, through='PlayerAssignment', related_name='squad_players')
     coaches = models.ManyToManyField(User, through='CoachAssignment', related_name='squad_coaches')
-    registrations = models.ManyToManyField('Registration', related_name='squads')
+    registrations = models.ManyToManyField('Registration', related_name='squads', blank=True)
 
     def add_player(self, player):
         self.players.add(player)
@@ -123,7 +135,13 @@ class Locality(models.Model):
 class Registration(models.Model):
     squad = models.ForeignKey(Squad, on_delete=models.CASCADE)
     serie = models.CharField(max_length=255)
-    competencie = models.ForeignKey('CompetitionEdition', on_delete=models.CASCADE)
+    competencie = models.ForeignKey(
+        'CompetitionEdition', 
+        on_delete=models.CASCADE, 
+        blank=True, 
+        null=True,
+        related_name='registrations'
+    )
 
     def __str__(self):
         return f"{self.squad.team.name} - {self.serie}"
@@ -162,22 +180,22 @@ class Rule(models.Model):
 
 class Discipline(models.Model):
     name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="disciplines/")
     surface = models.CharField(max_length=255)
     federation = models.CharField(max_length=255)
-    rule_list = models.ManyToManyField('RuleDiscipline', related_name='disciplines')
+    description = models.TextField()
 
     def __str__(self):
         return self.name
 
 class RuleCompetition(Rule):
-    competence = models.ForeignKey('Competence', on_delete=models.CASCADE)
+    competence = models.ForeignKey('Competence', on_delete=models.CASCADE, related_name='rules')
 
     def __str__(self):
-        return self.rule_description
-
+        return f"{self.competence.name} - {self.rule_description}"
 
 class RuleDiscipline(Rule):
-    discipline = models.ForeignKey('Discipline', on_delete=models.CASCADE, related_name='rule_discipline_set')
+    discipline = models.ForeignKey('Discipline', on_delete=models.CASCADE, related_name='rules')
 
     def __str__(self):
         return f"{self.discipline.name} - {self.rule_description}"
@@ -186,9 +204,9 @@ class RuleDiscipline(Rule):
 class CompetitionEdition(models.Model):
     competence_admin = models.ForeignKey(User, on_delete=models.CASCADE)
     planning = models.ForeignKey('Planning', on_delete=models.CASCADE)
-    inscription_list = models.ManyToManyField('Registration')
-    subdivision_list = models.ManyToManyField('self', symmetrical=False, related_name='subdivisions')
-    stage_list = models.ManyToManyField('Stage', through='StageCompetition', related_name='competitions')
+    inscription_list = models.ManyToManyField('Registration', related_name='competitions', blank=True)
+    subdivision_list = models.ManyToManyField('self', symmetrical=False, related_name='subdivisions', blank=True) #Esto es para subdivisiones, esta por ver si se puede hacer
+    stage_list = models.ManyToManyField('Stage', related_name='competition_editions', blank=True)
     competence = models.ForeignKey('Competence', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -206,12 +224,6 @@ class Stage(models.Model):
         self.time.end_date = new_date
         self.time.save()
 
-
-class StageCompetition(models.Model):
-    competition = models.ForeignKey(CompetitionEdition, on_delete=models.CASCADE)
-    stage = models.ForeignKey(Stage, on_delete=models.CASCADE)
-
-
 class Competence(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -219,14 +231,7 @@ class Competence(models.Model):
     competence_format = models.ForeignKey('Format', on_delete=models.CASCADE, blank=True, null=True)
     rule_discipline_list = models.ManyToManyField('RuleDiscipline', related_name='competences', blank=True)
     rule_list = models.ManyToManyField('RuleCompetition', related_name='competences', blank=True)
-    
-    def __str__(self):
-        return self.name + " - " + self.description
-
-
-class Country(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
+    discipline = models.ForeignKey('Discipline', on_delete=models.CASCADE, related_name='competences')
     
     def __str__(self):
         return self.name + " - " + self.description

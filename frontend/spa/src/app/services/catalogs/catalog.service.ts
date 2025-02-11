@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Catalog } from '../../models/catalogs/catalog.model';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -38,5 +39,31 @@ export class CatalogService {
 
     updateCatalogWithGroup(id: number, catalog: any): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/${id}`, catalog);
+    }
+
+    
+
+    getCountries(): Observable<Catalog[]> {
+        return this.getCatalogs().pipe(
+            map((catalogs: Catalog[]) => 
+                catalogs.filter((catalog: Catalog) => catalog.groupCode === 'PAIS')
+            )
+        );
+    }
+
+    getGenders(): Observable<Catalog[]> {
+        return this.getCatalogs().pipe(
+            map((catalogs: Catalog[]) => 
+                catalogs.filter((catalog: Catalog) => catalog.groupCode === 'TIPO_SEXO')
+            )
+        );
+    }
+
+    getNationalities(): Observable<Catalog[]> {
+        return this.getCatalogs().pipe(
+            map((catalogs: Catalog[]) => 
+                catalogs.filter((catalog: Catalog) => catalog.groupCode === 'NACIONALIDAD')
+            )
+        );
     }
 }

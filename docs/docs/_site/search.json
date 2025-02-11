@@ -1,33 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Documentación técnica de SportBoard",
-    "section": "",
-    "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
-  },
-  {
-    "objectID": "index.html#quarto",
-    "href": "index.html#quarto",
-    "title": "Documentación técnica de SportBoard",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "index.html#dquarto",
-    "href": "index.html#dquarto",
-    "title": "Documentación técnica de SportBoard",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "index.html#documentación-técnica",
-    "href": "index.html#documentación-técnica",
-    "title": "Documentación técnica de SportBoard",
-    "section": "",
-    "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
-  },
-  {
     "objectID": "introduction.html",
     "href": "introduction.html",
     "title": "Introducción a SportBoard",
@@ -40,6 +12,55 @@
     "title": "Introducción a SportBoard",
     "section": "",
     "text": "SportBoard es una plataforma innovadora diseñada para gestionar y visualizar datos deportivos en tiempo real. Esta documentación técnica proporciona una visión detallada de los componentes y la arquitectura del sistema, así como guías para el desarrollo y la implementación.\n\n\n\nProveer una interfaz intuitiva para la gestión de datos deportivos.\nFacilitar la integración con diversas fuentes de datos en tiempo real.\nOfrecer herramientas avanzadas de análisis y visualización.\n\n\n\n\nEsta documentación está dirigida a desarrolladores, arquitectos de software y otros profesionales técnicos interesados en comprender y contribuir al desarrollo de SportBoard.\n\n\n\nLa documentación está organizada en las siguientes secciones:\n\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html",
+    "href": "components/frontend/app_hybrid.html",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "",
+    "text": "Este es el proyecto móvil de SportBoard, una aplicación Flutter diseñada para gestionar eventos deportivos."
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#descripción-del-proyecto",
+    "href": "components/frontend/app_hybrid.html#descripción-del-proyecto",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "",
+    "text": "Este es el proyecto móvil de SportBoard, una aplicación Flutter diseñada para gestionar eventos deportivos."
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#instalación",
+    "href": "components/frontend/app_hybrid.html#instalación",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "2 Instalación",
+    "text": "2 Instalación\nPara instalar las dependencias del proyecto, ejecute:\nflutter pub get"
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#ejecución",
+    "href": "components/frontend/app_hybrid.html#ejecución",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "3 Ejecución",
+    "text": "3 Ejecución\nPara ejecutar la aplicación en un emulador o dispositivo físico, use:\nflutter run"
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#estructura-del-proyecto",
+    "href": "components/frontend/app_hybrid.html#estructura-del-proyecto",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "4 Estructura del Proyecto",
+    "text": "4 Estructura del Proyecto\n\nlib/: Contiene el código fuente de la aplicación.\nassets/: Contiene los recursos estáticos como imágenes y fuentes.\ntest/: Contiene las pruebas unitarias del proyecto."
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#contribución",
+    "href": "components/frontend/app_hybrid.html#contribución",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "5 Contribución",
+    "text": "5 Contribución\nPara contribuir al proyecto, por favor siga estos pasos:\n\nHaga un fork del repositorio.\nCree una nueva rama (git checkout -b feature/nueva-funcionalidad).\nRealice sus cambios y haga commit (git commit -am 'Agrega nueva funcionalidad').\nHaga push a la rama (git push origin feature/nueva-funcionalidad).\nCree un nuevo Pull Request."
+  },
+  {
+    "objectID": "components/frontend/app_hybrid.html#autor",
+    "href": "components/frontend/app_hybrid.html#autor",
+    "title": "Documentación del Proyecto Móvil",
+    "section": "6 Autor",
+    "text": "6 Autor\nEdisonCor"
   },
   {
     "objectID": "components/frontend/spa.html",
@@ -105,52 +126,73 @@
     "text": "Para obtener más ayuda sobre Angular CLI usa ng help o visita la página Angular CLI Overview and Command Reference."
   },
   {
-    "objectID": "components/frontend/app_hybrid.html",
-    "href": "components/frontend/app_hybrid.html",
-    "title": "Documentación del Proyecto Móvil",
+    "objectID": "components/microservices/competencies.html",
+    "href": "components/microservices/competencies.html",
+    "title": "1 Microservicio de Competencias",
     "section": "",
-    "text": "Este es el proyecto móvil de SportBoard, una aplicación Flutter diseñada para gestionar eventos deportivos."
+    "text": "El microservicio de Competencias es responsable de gestionar todos los aspectos relacionados con la organización y administración de competencias deportivas en la plataforma SportBoard. Este microservicio permite la creación, configuración y seguimiento de eventos competitivos en diferentes disciplinas deportivas.\n\n\n\nEl microservicio proporciona las siguientes capacidades principales:\n\n\n\nCreación y configuración de competencias deportivas\nDefinición de formatos de competencia\nAdministración de ediciones de competencia\nConfiguración de etapas y subdivisiones\n\n\n\n\n\nRegistro y gestión de disciplinas deportivas\nConfiguración de reglas específicas por disciplina\nAsignación de superficies y federaciones\n\n\n\n\n\nRegistro de equipos participantes\nGestión de plantillas (squads)\nAsignación de jugadores y entrenadores\nControl de inscripciones\n\n\n\n\n\nAdministración de perfiles de usuarios\nControl de roles y permisos\nRegistro de participantes\nGestión de datos personales\n\n\n\n\n\nConfiguración de reglas generales de competencia\nDefinición de reglas específicas por disciplina\nControl de cumplimiento normativo\n\n\n\n\n\nProceso de inscripción de equipos\nGestión de registros de participantes\nControl de cupos y categorías\nValidación de requisitos\n\nEl microservicio está diseñado para ser flexible y escalable, permitiendo la configuración de diferentes tipos de competencias deportivas según las necesidades específicas de cada disciplina y formato de competición.\n\n\n\n\n\n\n\nGET /api/users/: Lista todos los usuarios.\nPOST /api/users/: Crea un nuevo usuario.\nGET /api/users/{id}/: Obtiene los detalles de un usuario específico.\nPUT /api/users/{id}/: Actualiza un usuario existente.\nDELETE /api/users/{id}/: Elimina un usuario.\n\n\n\n\n\nGET /api/competences/: Lista todas las competencias.\nPOST /api/competences/: Crea una nueva competencia.\nGET /api/competences/{id}/: Obtiene los detalles de una competencia específica.\nPUT /api/competences/{id}/: Actualiza una competencia existente.\nPATCH /api/competences/{id}/: Actualiza parcialmente una competencia.\nDELETE /api/competences/{id}/: Elimina una competencia.\n\n\n\n\n\nGET /api/teams/: Lista todos los equipos.\nPOST /api/teams/: Crea un nuevo equipo.\nGET /api/teams/{id}/: Obtiene los detalles de un equipo específico.\nPUT /api/teams/{id}/: Actualiza un equipo existente.\nDELETE /api/teams/{id}/: Elimina un equipo.\nGET /api/squads/: Lista todas las plantillas.\nPOST /api/squads/: Crea una nueva plantilla.\nGET /api/squads/{id}/: Obtiene los detalles de una plantilla específica.\nPUT /api/squads/{id}/: Actualiza una plantilla existente.\nDELETE /api/squads/{id}/: Elimina una plantilla.\n\n\n\n\n\nGET /api/player-assignments/: Lista todas las asignaciones de jugadores.\nPOST /api/player-assignments/: Crea una nueva asignación de jugador.\nGET /api/coach-assignments/: Lista todas las asignaciones de entrenadores.\nPOST /api/coach-assignments/: Crea una nueva asignación de entrenador.\n\n\n\n\n\nGET /api/matches/: Lista todos los partidos.\nPOST /api/matches/: Crea un nuevo partido.\nGET /api/plannings/: Lista todas las planificaciones.\nPOST /api/plannings/: Crea una nueva planificación.\n\n\n\n\n\nGET /api/registrations/: Lista todos los registros.\nPOST /api/registrations/: Crea un nuevo registro.\nGET /api/registrations/{id}/: Obtiene los detalles de un registro específico.\nPUT /api/registrations/{id}/: Actualiza un registro existente.\nDELETE /api/registrations/{id}/: Elimina un registro.\n\n\n\n\n\nGET /api/rule-competences/: Lista todas las reglas de competencia.\nPOST /api/rule-competences/: Crea una nueva regla de competencia.\nGET /api/rule-disciplines/: Lista todas las reglas de disciplina.\nPOST /api/rule-disciplines/: Crea una nueva regla de disciplina.\n\n\n\n\n\nGET /api/disciplines/: Lista todas las disciplinas.\nPOST /api/disciplines/: Crea una nueva disciplina.\nGET /api/disciplines/{id}/: Obtiene los detalles de una disciplina específica.\nPUT /api/disciplines/{id}/: Actualiza una disciplina existente.\nDELETE /api/disciplines/{id}/: Elimina una disciplina.\n\n\n\n\n\nGET /api/competence-editions/: Lista todas las ediciones de competencia.\nPOST /api/competence-editions/: Crea una nueva edición de competencia.\nGET /api/competence-editions/{id}/: Obtiene los detalles de una edición específica.\nPUT /api/competence-editions/{id}/: Actualiza una edición existente.\nDELETE /api/competence-editions/{id}/: Elimina una edición.\n\n\n\n\n\nGET /api/stages/: Lista todas las etapas.\nPOST /api/stages/: Crea una nueva etapa.\nGET /api/stages/{id}/: Obtiene los detalles de una etapa específica.\nPUT /api/stages/{id}/: Actualiza una etapa existente.\nDELETE /api/stages/{id}/: Elimina una etapa.\n\n\n\n\n\nGET /api/localities/: Lista todas las localidades.\nPOST /api/localities/: Crea una nueva localidad.\nGET /api/localities/{id}/: Obtiene los detalles de una localidad específica.\nPUT /api/localities/{id}/: Actualiza una localidad existente.\nDELETE /api/localities/{id}/: Elimina una localidad.\n\n\n\n\n\nGET /api/formats/: Lista todos los formatos.\nPOST /api/formats/: Crea un nuevo formato.\nGET /api/formats/{id}/: Obtiene los detalles de un formato específico.\nPUT /api/formats/{id}/: Actualiza un formato existente.\nDELETE /api/formats/{id}/: Elimina un formato.\n\n\n\n\n\n\n\nPOST /api/competences/\nContent-Type: multipart/form-data\n\n{\n    \"name\": \"Liga Nacional\",\n    \"description\": \"Torneo nacional de fútbol\",\n    \"discipline\": 1,\n    \"competence_format\": 2,\n    \"logo\": [archivo binario],\n    \"rule_discipline_list\": [1, 2],\n    \"rule_list\": [1, 2]\n}\n\n\n\nPOST /api/teams/\nContent-Type: multipart/form-data\n\n{\n    \"name\": \"Real Madrid\",\n    \"country\": \"España\",\n    \"logo\": [archivo binario]\n}\n\n\n\nPOST /api/competence-editions/\nContent-Type: application/json\n\n{\n    \"competence\": 1,\n    \"competence_admin\": 5,\n    \"planning\": {\n        \"start_date\": \"2024-01-01T00:00:00Z\",\n        \"end_date\": \"2024-12-31T23:59:59Z\"\n    },\n    \"stage_list\": [\n        {\n            \"time\": {\n                \"start_date\": \"2024-01-01T00:00:00Z\",\n                \"end_date\": \"2024-06-30T23:59:59Z\"\n            }\n        }\n    ],\n    \"inscription_list\": []\n}\n\n\n\nPOST /api/squads/\nContent-Type: application/json\n\n{\n    \"team\": 1,\n    \"players\": [1, 2, 3],\n    \"coaches\": [4],\n    \"season\": null\n}\n\n\n\nPOST /api/rule-competences/\nContent-Type: application/json\n\n{\n    \"numeration\": 1,\n    \"rule_description\": \"Máximo 5 sustituciones por partido\",\n    \"actor\": \"Equipo\",\n    \"action\": \"Sustitución\",\n    \"type_rule\": \"Juego\",\n    \"competence\": 1\n}\n\n\n\nPOST /api/rule-disciplines/\nContent-Type: application/json\n\n{\n    \"numeration\": 1,\n    \"rule_description\": \"Máximo 5 sustituciones por partido\",\n    \"actor\": \"Equipo\",\n    \"action\": \"Sustitución\",\n    \"type_rule\": \"Juego\",\n    \"discipline\": 1\n}\n\n\n\nPOST /api/users/\nContent-Type: application/json\n\n{\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"role\": \"Player\",\n    \"birth_date\": \"1990-01-01\",\n    \"nationality\": \"España\",\n    \"gender\": \"Masculino\"\n}\n\n\n\n\n\n\n# Use a base Python image\nFROM python:3.13\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the requirements file to the container\nCOPY backend/competencies/requirements.txt /app/requirements.txt\n\n# Install the dependencies\nRUN pip install --no-cache-dir -r /app/requirements.txt\n\n# Copy the rest of the application code to the container\nCOPY backend/competencies/ /app\n\n# Collect static files\nRUN python manage.py collectstatic --noinput\n\n# Expose the port the application will run on\nEXPOSE 8003\n\n# Define the default command to run the application\nCMD [\"gunicorn\", \"--bind\", \"0.0.0.0:8003\", \"competencies.wsgi:application\"]\nExplicación del Dockerfile: - Usa Python 3.13 como base para garantizar compatibilidad - Establece /app como directorio de trabajo - Instala dependencias de manera optimizada (–no-cache-dir) - Recolecta archivos estáticos de Django automáticamente - Configura Gunicorn como servidor WSGI profesional - Expone el puerto 8003 para comunicaciones\n\n\n\nversion: \"3.8\"\nname: SportBoard-container\n\nservices:\n    postgres-competencies:\n        image: postgres:13\n        container_name: postgres-competencies\n        restart: always\n        environment:\n            POSTGRES_USER: competencies_user\n            POSTGRES_DB: competencies_db\n            POSTGRES_PASSWORD: competencies_password\n        ports:\n            - \"5433:5432\"\n        networks:\n            - sportboard-network\n\n    ms2-competencies:\n        build:\n            context: ../../../\n            dockerfile: docker/backend/ms2-competencies/Dockerfile\n        container_name: ms2-competencies\n        restart: always\n        environment:\n            - DJANGO_SETTINGS_MODULE=competencies.settings\n            - DATABASE_URL=postgres://competencies_user:competencies_password@postgres-competencies:5432/competencies_db\n        ports:\n            - \"8003:8003\"\n        depends_on:\n            - postgres-competencies\n        networks:\n            - sportboard-network\n\nnetworks:\n    sportboard-network:\n        external: true\nExplicación del Docker Compose: 1. Servicio PostgreSQL: - Base de datos dedicada para competencias - Puerto 5433 para evitar conflictos - Datos persistentes mediante volúmenes - Monitoreo de salud cada 10 segundos\n\nServicio Competencias:\n\nConstruido desde el Dockerfile local\nVariables de entorno para configuración\nVolúmenes para archivos estáticos y media\nMonitoreo de salud del API\nIntegración con red SportBoard\n\n\n\n\n\nservices:\n  - name: ms2-competencies\n    url: http://ms2-competencies:8003\n    routes:\n      - name: ms2-competencies-route\n        paths:\n          - /api\n        strip_path: false\n\n  - name: static-files\n    url: http://ms2-competencies:8003\n    routes:\n      - paths:\n          - /static/\n        strip_path: false\n\n  - name: media-files\n    url: http://ms2-competencies:8003\n    routes:\n      - paths:\n          - /media\n        strip_path: false\nExplicación del Gateway: 1. Rutas API: - Endpoint principal en /api - Mantiene estructura de URLs original - Redirige al servicio en puerto 8003\n\nArchivos Estáticos:\n\nSirve archivos estáticos desde /static/\nSirve archivos media desde /media\nPreserva rutas originales\n\n\n\n\n\nCORS_ALLOWED_ORIGINS = [\n    \"http://localhost:4200\",\n    \"http://127.0.0.1:4200\",\n    \"http://localhost:8000\",\n    \"http://172.23.64.1:8000\",\n]\nCORS_ALLOW_ALL_ORIGINS = True\n\nCORS_ALLOW_HEADERS = [\n    'content-type',\n    'authorization',\n]\n\nCORS_ALLOW_METHODS = [\n    'GET',\n    'POST',\n    'PUT',\n    'PATCH',\n    'DELETE',\n    'OPTIONS',\n]\nExplicación de CORS: 1. Seguridad: - Control de orígenes permitidos - Configuración de headers permitidos - Métodos HTTP habilitados\n\nDesarrollo:\n\nPermite acceso desde frontend Angular\nFacilita pruebas locales\nConfigurable para producción\n\n\n\n\n\n\n\n\n# Construir imagen\ndocker-compose build ms2-competencies\n\nDespliegue:\n\n# Iniciar servicios\ndocker-compose up -d postgres-competencies\ndocker-compose up -d ms2-competencies\n\nVerificación:\n\n# Revisar estado\ndocker-compose ps\ndocker-compose logs -f ms2-competencies\n\n\n\n\nSeguridad:\n\nContenedores aislados\nCredenciales por variables de entorno\nControl de acceso CORS\n\nPersistencia:\n\nVolúmenes Docker\nBackup automatizado\nGestión de archivos\n\nNetworking:\n\nRed dedicada\nProxy inverso\nPuertos específicos\n\n\n\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 1\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 2\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 3\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 4"
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#descripción-del-proyecto",
-    "href": "components/frontend/app_hybrid.html#descripción-del-proyecto",
-    "title": "Documentación del Proyecto Móvil",
+    "objectID": "components/microservices/competencies.html#descripción-general",
+    "href": "components/microservices/competencies.html#descripción-general",
+    "title": "1 Microservicio de Competencias",
     "section": "",
-    "text": "Este es el proyecto móvil de SportBoard, una aplicación Flutter diseñada para gestionar eventos deportivos."
+    "text": "El microservicio de Competencias es responsable de gestionar todos los aspectos relacionados con la organización y administración de competencias deportivas en la plataforma SportBoard. Este microservicio permite la creación, configuración y seguimiento de eventos competitivos en diferentes disciplinas deportivas."
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#instalación",
-    "href": "components/frontend/app_hybrid.html#instalación",
-    "title": "Documentación del Proyecto Móvil",
-    "section": "2 Instalación",
-    "text": "2 Instalación\nPara instalar las dependencias del proyecto, ejecute:\nflutter pub get"
+    "objectID": "components/microservices/competencies.html#funcionalidad-principal",
+    "href": "components/microservices/competencies.html#funcionalidad-principal",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "El microservicio proporciona las siguientes capacidades principales:\n\n\n\nCreación y configuración de competencias deportivas\nDefinición de formatos de competencia\nAdministración de ediciones de competencia\nConfiguración de etapas y subdivisiones\n\n\n\n\n\nRegistro y gestión de disciplinas deportivas\nConfiguración de reglas específicas por disciplina\nAsignación de superficies y federaciones\n\n\n\n\n\nRegistro de equipos participantes\nGestión de plantillas (squads)\nAsignación de jugadores y entrenadores\nControl de inscripciones\n\n\n\n\n\nAdministración de perfiles de usuarios\nControl de roles y permisos\nRegistro de participantes\nGestión de datos personales\n\n\n\n\n\nConfiguración de reglas generales de competencia\nDefinición de reglas específicas por disciplina\nControl de cumplimiento normativo\n\n\n\n\n\nProceso de inscripción de equipos\nGestión de registros de participantes\nControl de cupos y categorías\nValidación de requisitos\n\nEl microservicio está diseñado para ser flexible y escalable, permitiendo la configuración de diferentes tipos de competencias deportivas según las necesidades específicas de cada disciplina y formato de competición."
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#ejecución",
-    "href": "components/frontend/app_hybrid.html#ejecución",
-    "title": "Documentación del Proyecto Móvil",
-    "section": "3 Ejecución",
-    "text": "3 Ejecución\nPara ejecutar la aplicación en un emulador o dispositivo físico, use:\nflutter run"
+    "objectID": "components/microservices/competencies.html#endpoints-del-microservicio-de-competencias",
+    "href": "components/microservices/competencies.html#endpoints-del-microservicio-de-competencias",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "GET /api/users/: Lista todos los usuarios.\nPOST /api/users/: Crea un nuevo usuario.\nGET /api/users/{id}/: Obtiene los detalles de un usuario específico.\nPUT /api/users/{id}/: Actualiza un usuario existente.\nDELETE /api/users/{id}/: Elimina un usuario.\n\n\n\n\n\nGET /api/competences/: Lista todas las competencias.\nPOST /api/competences/: Crea una nueva competencia.\nGET /api/competences/{id}/: Obtiene los detalles de una competencia específica.\nPUT /api/competences/{id}/: Actualiza una competencia existente.\nPATCH /api/competences/{id}/: Actualiza parcialmente una competencia.\nDELETE /api/competences/{id}/: Elimina una competencia.\n\n\n\n\n\nGET /api/teams/: Lista todos los equipos.\nPOST /api/teams/: Crea un nuevo equipo.\nGET /api/teams/{id}/: Obtiene los detalles de un equipo específico.\nPUT /api/teams/{id}/: Actualiza un equipo existente.\nDELETE /api/teams/{id}/: Elimina un equipo.\nGET /api/squads/: Lista todas las plantillas.\nPOST /api/squads/: Crea una nueva plantilla.\nGET /api/squads/{id}/: Obtiene los detalles de una plantilla específica.\nPUT /api/squads/{id}/: Actualiza una plantilla existente.\nDELETE /api/squads/{id}/: Elimina una plantilla.\n\n\n\n\n\nGET /api/player-assignments/: Lista todas las asignaciones de jugadores.\nPOST /api/player-assignments/: Crea una nueva asignación de jugador.\nGET /api/coach-assignments/: Lista todas las asignaciones de entrenadores.\nPOST /api/coach-assignments/: Crea una nueva asignación de entrenador.\n\n\n\n\n\nGET /api/matches/: Lista todos los partidos.\nPOST /api/matches/: Crea un nuevo partido.\nGET /api/plannings/: Lista todas las planificaciones.\nPOST /api/plannings/: Crea una nueva planificación.\n\n\n\n\n\nGET /api/registrations/: Lista todos los registros.\nPOST /api/registrations/: Crea un nuevo registro.\nGET /api/registrations/{id}/: Obtiene los detalles de un registro específico.\nPUT /api/registrations/{id}/: Actualiza un registro existente.\nDELETE /api/registrations/{id}/: Elimina un registro.\n\n\n\n\n\nGET /api/rule-competences/: Lista todas las reglas de competencia.\nPOST /api/rule-competences/: Crea una nueva regla de competencia.\nGET /api/rule-disciplines/: Lista todas las reglas de disciplina.\nPOST /api/rule-disciplines/: Crea una nueva regla de disciplina.\n\n\n\n\n\nGET /api/disciplines/: Lista todas las disciplinas.\nPOST /api/disciplines/: Crea una nueva disciplina.\nGET /api/disciplines/{id}/: Obtiene los detalles de una disciplina específica.\nPUT /api/disciplines/{id}/: Actualiza una disciplina existente.\nDELETE /api/disciplines/{id}/: Elimina una disciplina.\n\n\n\n\n\nGET /api/competence-editions/: Lista todas las ediciones de competencia.\nPOST /api/competence-editions/: Crea una nueva edición de competencia.\nGET /api/competence-editions/{id}/: Obtiene los detalles de una edición específica.\nPUT /api/competence-editions/{id}/: Actualiza una edición existente.\nDELETE /api/competence-editions/{id}/: Elimina una edición.\n\n\n\n\n\nGET /api/stages/: Lista todas las etapas.\nPOST /api/stages/: Crea una nueva etapa.\nGET /api/stages/{id}/: Obtiene los detalles de una etapa específica.\nPUT /api/stages/{id}/: Actualiza una etapa existente.\nDELETE /api/stages/{id}/: Elimina una etapa.\n\n\n\n\n\nGET /api/localities/: Lista todas las localidades.\nPOST /api/localities/: Crea una nueva localidad.\nGET /api/localities/{id}/: Obtiene los detalles de una localidad específica.\nPUT /api/localities/{id}/: Actualiza una localidad existente.\nDELETE /api/localities/{id}/: Elimina una localidad.\n\n\n\n\n\nGET /api/formats/: Lista todos los formatos.\nPOST /api/formats/: Crea un nuevo formato.\nGET /api/formats/{id}/: Obtiene los detalles de un formato específico.\nPUT /api/formats/{id}/: Actualiza un formato existente.\nDELETE /api/formats/{id}/: Elimina un formato."
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#estructura-del-proyecto",
-    "href": "components/frontend/app_hybrid.html#estructura-del-proyecto",
-    "title": "Documentación del Proyecto Móvil",
-    "section": "4 Estructura del Proyecto",
-    "text": "4 Estructura del Proyecto\n\nlib/: Contiene el código fuente de la aplicación.\nassets/: Contiene los recursos estáticos como imágenes y fuentes.\ntest/: Contiene las pruebas unitarias del proyecto."
+    "objectID": "components/microservices/competencies.html#ejemplos-de-uso",
+    "href": "components/microservices/competencies.html#ejemplos-de-uso",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "POST /api/competences/\nContent-Type: multipart/form-data\n\n{\n    \"name\": \"Liga Nacional\",\n    \"description\": \"Torneo nacional de fútbol\",\n    \"discipline\": 1,\n    \"competence_format\": 2,\n    \"logo\": [archivo binario],\n    \"rule_discipline_list\": [1, 2],\n    \"rule_list\": [1, 2]\n}\n\n\n\nPOST /api/teams/\nContent-Type: multipart/form-data\n\n{\n    \"name\": \"Real Madrid\",\n    \"country\": \"España\",\n    \"logo\": [archivo binario]\n}\n\n\n\nPOST /api/competence-editions/\nContent-Type: application/json\n\n{\n    \"competence\": 1,\n    \"competence_admin\": 5,\n    \"planning\": {\n        \"start_date\": \"2024-01-01T00:00:00Z\",\n        \"end_date\": \"2024-12-31T23:59:59Z\"\n    },\n    \"stage_list\": [\n        {\n            \"time\": {\n                \"start_date\": \"2024-01-01T00:00:00Z\",\n                \"end_date\": \"2024-06-30T23:59:59Z\"\n            }\n        }\n    ],\n    \"inscription_list\": []\n}\n\n\n\nPOST /api/squads/\nContent-Type: application/json\n\n{\n    \"team\": 1,\n    \"players\": [1, 2, 3],\n    \"coaches\": [4],\n    \"season\": null\n}\n\n\n\nPOST /api/rule-competences/\nContent-Type: application/json\n\n{\n    \"numeration\": 1,\n    \"rule_description\": \"Máximo 5 sustituciones por partido\",\n    \"actor\": \"Equipo\",\n    \"action\": \"Sustitución\",\n    \"type_rule\": \"Juego\",\n    \"competence\": 1\n}\n\n\n\nPOST /api/rule-disciplines/\nContent-Type: application/json\n\n{\n    \"numeration\": 1,\n    \"rule_description\": \"Máximo 5 sustituciones por partido\",\n    \"actor\": \"Equipo\",\n    \"action\": \"Sustitución\",\n    \"type_rule\": \"Juego\",\n    \"discipline\": 1\n}\n\n\n\nPOST /api/users/\nContent-Type: application/json\n\n{\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"role\": \"Player\",\n    \"birth_date\": \"1990-01-01\",\n    \"nationality\": \"España\",\n    \"gender\": \"Masculino\"\n}"
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#contribución",
-    "href": "components/frontend/app_hybrid.html#contribución",
-    "title": "Documentación del Proyecto Móvil",
-    "section": "5 Contribución",
-    "text": "5 Contribución\nPara contribuir al proyecto, por favor siga estos pasos:\n\nHaga un fork del repositorio.\nCree una nueva rama (git checkout -b feature/nueva-funcionalidad).\nRealice sus cambios y haga commit (git commit -am 'Agrega nueva funcionalidad').\nHaga push a la rama (git push origin feature/nueva-funcionalidad).\nCree un nuevo Pull Request."
+    "objectID": "components/microservices/competencies.html#configuraciones-relevantes-del-contenedor-y-del-api-gateway",
+    "href": "components/microservices/competencies.html#configuraciones-relevantes-del-contenedor-y-del-api-gateway",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "# Use a base Python image\nFROM python:3.13\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the requirements file to the container\nCOPY backend/competencies/requirements.txt /app/requirements.txt\n\n# Install the dependencies\nRUN pip install --no-cache-dir -r /app/requirements.txt\n\n# Copy the rest of the application code to the container\nCOPY backend/competencies/ /app\n\n# Collect static files\nRUN python manage.py collectstatic --noinput\n\n# Expose the port the application will run on\nEXPOSE 8003\n\n# Define the default command to run the application\nCMD [\"gunicorn\", \"--bind\", \"0.0.0.0:8003\", \"competencies.wsgi:application\"]\nExplicación del Dockerfile: - Usa Python 3.13 como base para garantizar compatibilidad - Establece /app como directorio de trabajo - Instala dependencias de manera optimizada (–no-cache-dir) - Recolecta archivos estáticos de Django automáticamente - Configura Gunicorn como servidor WSGI profesional - Expone el puerto 8003 para comunicaciones\n\n\n\nversion: \"3.8\"\nname: SportBoard-container\n\nservices:\n    postgres-competencies:\n        image: postgres:13\n        container_name: postgres-competencies\n        restart: always\n        environment:\n            POSTGRES_USER: competencies_user\n            POSTGRES_DB: competencies_db\n            POSTGRES_PASSWORD: competencies_password\n        ports:\n            - \"5433:5432\"\n        networks:\n            - sportboard-network\n\n    ms2-competencies:\n        build:\n            context: ../../../\n            dockerfile: docker/backend/ms2-competencies/Dockerfile\n        container_name: ms2-competencies\n        restart: always\n        environment:\n            - DJANGO_SETTINGS_MODULE=competencies.settings\n            - DATABASE_URL=postgres://competencies_user:competencies_password@postgres-competencies:5432/competencies_db\n        ports:\n            - \"8003:8003\"\n        depends_on:\n            - postgres-competencies\n        networks:\n            - sportboard-network\n\nnetworks:\n    sportboard-network:\n        external: true\nExplicación del Docker Compose: 1. Servicio PostgreSQL: - Base de datos dedicada para competencias - Puerto 5433 para evitar conflictos - Datos persistentes mediante volúmenes - Monitoreo de salud cada 10 segundos\n\nServicio Competencias:\n\nConstruido desde el Dockerfile local\nVariables de entorno para configuración\nVolúmenes para archivos estáticos y media\nMonitoreo de salud del API\nIntegración con red SportBoard\n\n\n\n\n\nservices:\n  - name: ms2-competencies\n    url: http://ms2-competencies:8003\n    routes:\n      - name: ms2-competencies-route\n        paths:\n          - /api\n        strip_path: false\n\n  - name: static-files\n    url: http://ms2-competencies:8003\n    routes:\n      - paths:\n          - /static/\n        strip_path: false\n\n  - name: media-files\n    url: http://ms2-competencies:8003\n    routes:\n      - paths:\n          - /media\n        strip_path: false\nExplicación del Gateway: 1. Rutas API: - Endpoint principal en /api - Mantiene estructura de URLs original - Redirige al servicio en puerto 8003\n\nArchivos Estáticos:\n\nSirve archivos estáticos desde /static/\nSirve archivos media desde /media\nPreserva rutas originales\n\n\n\n\n\nCORS_ALLOWED_ORIGINS = [\n    \"http://localhost:4200\",\n    \"http://127.0.0.1:4200\",\n    \"http://localhost:8000\",\n    \"http://172.23.64.1:8000\",\n]\nCORS_ALLOW_ALL_ORIGINS = True\n\nCORS_ALLOW_HEADERS = [\n    'content-type',\n    'authorization',\n]\n\nCORS_ALLOW_METHODS = [\n    'GET',\n    'POST',\n    'PUT',\n    'PATCH',\n    'DELETE',\n    'OPTIONS',\n]\nExplicación de CORS: 1. Seguridad: - Control de orígenes permitidos - Configuración de headers permitidos - Métodos HTTP habilitados\n\nDesarrollo:\n\nPermite acceso desde frontend Angular\nFacilita pruebas locales\nConfigurable para producción"
   },
   {
-    "objectID": "components/frontend/app_hybrid.html#autor",
-    "href": "components/frontend/app_hybrid.html#autor",
-    "title": "Documentación del Proyecto Móvil",
-    "section": "6 Autor",
-    "text": "6 Autor\nEdisonCor"
+    "objectID": "components/microservices/competencies.html#guía-de-despliegue",
+    "href": "components/microservices/competencies.html#guía-de-despliegue",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "# Construir imagen\ndocker-compose build ms2-competencies\n\nDespliegue:\n\n# Iniciar servicios\ndocker-compose up -d postgres-competencies\ndocker-compose up -d ms2-competencies\n\nVerificación:\n\n# Revisar estado\ndocker-compose ps\ndocker-compose logs -f ms2-competencies\n\n\n\n\nSeguridad:\n\nContenedores aislados\nCredenciales por variables de entorno\nControl de acceso CORS\n\nPersistencia:\n\nVolúmenes Docker\nBackup automatizado\nGestión de archivos\n\nNetworking:\n\nRed dedicada\nProxy inverso\nPuertos específicos"
+  },
+  {
+    "objectID": "components/microservices/competencies.html#diagrama-c4",
+    "href": "components/microservices/competencies.html#diagrama-c4",
+    "title": "1 Microservicio de Competencias",
+    "section": "",
+    "text": "Diagrama C4 Nivel 1\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 2\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 3\n\n\n\n\n\n\n\n\nDiagrama C4 Nivel 4"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Documentación técnica de SportBoard",
+    "section": "",
+    "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
+  },
+  {
+    "objectID": "index.html#documentación-técnica",
+    "href": "index.html#documentación-técnica",
+    "title": "Documentación técnica de SportBoard",
+    "section": "",
+    "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
   }
 ]

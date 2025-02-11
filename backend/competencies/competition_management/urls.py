@@ -19,8 +19,6 @@ router.register(r'competence-editions', CompetenceEditionViewSet)
 router.register(r'stages', StageViewSet)
 router.register(r'teams', TeamViewSet)
 router.register(r'localities', LocalityViewSet)
-router.register(r'stage-competitions', StageCompetitionViewSet)
-router.register(r'countries', CountryViewSet)
 router.register(r'formats', FormatViewSet)
 
 urlpatterns = router.urls

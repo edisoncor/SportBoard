@@ -17,18 +17,18 @@ export class SquadService {
     }
 
     getSquad(id: number): Observable<Squad> {
-        return this.http.get<Squad>(`${this.apiUrl}/${id}`);
+        return this.http.get<Squad>(`${this.apiUrl}${id}/`);
     }
 
-    createSquad(squad: Squad): Observable<Squad> {
-        return this.http.post<Squad>(this.apiUrl, squad);
+    createSquad(squadData: any): Observable<Squad> {
+        return this.http.post<Squad>(this.apiUrl, squadData);
     }
 
-    updateSquad(id: number, squad: Squad): Observable<Squad> {
-        return this.http.put<Squad>(`${this.apiUrl}/${id}`, squad);
+    updateSquad(id: number, squadData: any): Observable<Squad> {
+        return this.http.put<Squad>(`${this.apiUrl}${id}/`, squadData);
     }
 
     deleteSquad(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 }

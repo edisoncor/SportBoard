@@ -28,6 +28,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FindPipe } from './pipes/find.pipe';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         ReactiveFormsModule,
         RouterModule,
         ScrollingModule,
+        FindPipe // Importar el pipe standalone en lugar de declararlo
     ],
     exports: [
         BreadcrumbComponent,
@@ -94,6 +96,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         ReactiveFormsModule,
         RouterModule,
         ScrollingModule,
+        FindPipe // Exportar el pipe standalone
     ],
 })
 export class SharedModule { }

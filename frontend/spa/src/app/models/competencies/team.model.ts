@@ -1,9 +1,9 @@
 import { Squad } from './squad.model';
-import { Country } from './country.model';
 
 export interface Team {
+    id: number;
     name: string;
-    country: Country;
+    country: string;
     logo: string;
-    squads: Squad[];
+    squads?: Squad[];
 }

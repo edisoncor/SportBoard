@@ -1,0 +1,99 @@
+@use '@angular/material' as mat;
+
+// Variables de color consistentes con otros componentes
+$primary-color: #bbfa63;
+$secondary-color: #6f9645;
+$text-color: #202229;
+$background-color: #f9f9f9;
+$border-color: #e0e0e0;
+$hover-color: #f8f9fa;
+$medium-gray: #898989;
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap; // Permitir que los elementos se envuelvan
+    width: 100%; // Asegurar que use todo el ancho disponible
+    min-height: 5px; // Altura mínima para consistencia
+    overflow: visible; // Eliminar el scroll
+
+    .breadcrumb-item {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        color: $medium-gray;
+        font-size: 0.9rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        max-width: none; // Eliminar límite de ancho
+        white-space: normal; // Permitir salto de línea si es necesario
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            margin: 0 4px;
+            color: $medium-gray;
+            flex-shrink: 0; // Evitar que el icono se encoja
+        }
+
+        &:hover:not(.active) {
+            color: $secondary-color;
+
+            mat-icon {
+                color: $secondary-color;
+            }
+        }
+
+        &.active {
+            color: $text-color;
+            font-weight: 500;
+            background-color: rgba($primary-color, 0.2);
+            pointer-events: none;
+        }
+    }
+
+    // Eliminar estilos de scrollbar ya que no son necesarios
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// Animación de entrada
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+:host {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
+// Ajustar responsive para mejor manejo en móviles
+@media (max-width: 600px) {
+    .breadcrumb {
+        gap: 4px;
+        padding: 4px;
+
+        .breadcrumb-item {
+            font-size: 0.85rem;
+            padding: 4px 6px;
+
+            mat-icon {
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+                margin: 0 2px;
+            }
+        }
+    }
+}

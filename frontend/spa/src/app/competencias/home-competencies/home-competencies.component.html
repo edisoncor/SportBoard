@@ -9,7 +9,9 @@
     </div>
   </div>
   <div class="masonry">
-    <mat-card *ngFor="let model of models">
+    <mat-card *ngFor="let model of models" 
+              (click)="navigateTo(model.route)" 
+              [style.cursor]="model.route ? 'pointer' : 'default'">
       <div class="card-content-wrapper">
         <mat-icon class="card-icon">{{ model.icon }}</mat-icon>
         <div class="card-text">

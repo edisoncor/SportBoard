@@ -1,0 +1,202 @@
+<div class="admin-users">
+  <app-breadcrumb-competencias [currentRoute]="currentRoute"></app-breadcrumb-competencias>
+
+  <h1>Gestión de Usuarios</h1>
+
+  <!-- Barra superior con búsqueda y acciones -->
+  <div class="top-actions">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar usuario</mat-label>
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)"
+        placeholder="Buscar por nombre, apellido o email">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button (click)="create()" color="primary">
+        <mat-icon>person_add</mat-icon>
+        Nuevo Usuario
+      </button>
+      <button mat-raised-button (click)="delete()" [disabled]="!selectedUser" color="warn">
+        <mat-icon>person_remove</mat-icon>
+        Eliminar
+      </button>
+      <button mat-raised-button (click)="refresh()" matTooltip="Refrescar tabla" color="basic">
+        <mat-icon>refresh</mat-icon>
+        Refrescar
+      </button>
+    </div>
+  </div>
+
+  <!-- Layout principal dividido en tabla y formulario -->
+  <div class="split-layout">
+    <!-- Sección de la tabla -->
+    <div class="table-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+              <!-- Columnas de la tabla -->
+              <ng-container matColumnDef="firstname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let user"> {{user.firstname}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="lastname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+                <td mat-cell *matCellDef="let user"> {{user.lastname}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+                <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nationality">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nacionalidad </th>
+                <td mat-cell *matCellDef="let user"> {{user.nationality}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Género </th>
+                <td mat-cell *matCellDef="let user"> {{user.gender}} </td>
+              </ng-container>
+
+              <!-- Definición de filas -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelect(row)"
+                [class.selected]="row === selectedUser">
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Sección del formulario -->
+    <div class="form-container-fixed" [class.delete-mode]="isDeleteMode">
+      <aside class="form-section">
+        <div class="form-container">
+          <form [formGroup]="form">
+            <!-- Campo Nombre -->
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="firstname" placeholder="Ingrese el nombre">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched">
+                {{ getErrorMessage('firstname') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Apellido -->
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido</mat-label>
+              <input matInput formControlName="lastname" placeholder="Ingrese el apellido">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched">
+                {{ getErrorMessage('lastname') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Email -->
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="Ingrese el email" type="email">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                {{ getErrorMessage('email') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Fecha de Nacimiento -->
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de Nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birth_date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-icon matPrefix>calendar_today</mat-icon>
+              <mat-error *ngIf="form.get('birth_date')?.invalid && form.get('birth_date')?.touched">
+                {{ getErrorMessage('birth_date') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Nacionalidad -->
+            <mat-form-field appearance="outline">
+              <mat-label>Nacionalidad</mat-label>
+              <mat-select formControlName="nationality">
+                <mat-option *ngFor="let nationality of nationalities" [value]="nationality.code">
+                  {{nationality.name}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>public</mat-icon>
+              <mat-error *ngIf="form.get('nationality')?.invalid && form.get('nationality')?.touched">
+                {{ getErrorMessage('nationality') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Género -->
+            <mat-form-field appearance="outline">
+              <mat-label>Género</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option *ngFor="let gender of genders" [value]="gender.code">
+                  {{gender.name}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>wc</mat-icon>
+              <mat-error *ngIf="form.get('gender')?.invalid && form.get('gender')?.touched">
+                {{ getErrorMessage('gender') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo Rol -->
+            <mat-form-field appearance="outline">
+              <mat-label>Rol</mat-label>
+              <mat-select formControlName="role">
+                <mat-option value="Coach">Coach</mat-option>
+                <mat-option value="Player">Player</mat-option>
+              </mat-select>
+              <mat-icon matPrefix>admin_panel_settings</mat-icon>
+              <mat-error *ngIf="form.get('role')?.invalid && form.get('role')?.touched">
+                {{ getErrorMessage('role') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <!-- Mensaje de advertencia para eliminación -->
+            <div *ngIf="isDeleteMode" class="delete-warning">
+              <p>¿Está seguro de que desea eliminar este usuario?</p>
+            </div>
+
+            <!-- Botones de acción -->
+            <mat-dialog-actions align="end">
+              <button mat-button (click)="onCancel()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+              </button>
+              <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!isDeleteMode"
+                [disabled]="form.invalid">
+                <mat-icon>check_circle</mat-icon>
+                {{ selectedUser ? 'Actualizar' : 'Crear' }}
+              </button>
+              <button mat-raised-button color="warn" (click)="confirmDelete()" *ngIf="isDeleteMode">
+                <mat-icon>warning</mat-icon>
+                Confirmar Eliminación
+              </button>
+            </mat-dialog-actions>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Overlay de carga -->
+    <div class="loading-overlay" *ngIf="isLoading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  </div>
+</div>

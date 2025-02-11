@@ -1,0 +1,973 @@
+@use '@angular/material' as mat;
+@use 'sass:color';
+
+// Variables para colores y tamaños
+$primary-color: #bbfa63;
+$secondary-color: #6f9645;
+$text-color: #202229;
+$background-color: #f9f9f9;
+$border-color: #e0e0e0;
+$hover-color: #f8f9fa;
+$danger-color: #54545c;
+$warning-color: #ff0000;
+
+// Agregar las variables faltantes si no existen
+$dark-green: #547c34;
+$olive-green: #5e6c4d;
+$medium-gray: #898989;
+$dark-gray: #54545c;
+$darker-gray: #464943;
+$light-gray: #f3f3f3;
+
+// Agregar los mixins
+@mixin card-shadow {
+  box-shadow: 0 4px 20px rgba($darker-gray, 0.1);
+  border-radius: 12px;
+  background-color: white;
+}
+
+@mixin flexible-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-transform {
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.admin-disciplinas {
+  font-family: 'Space Grotesk', sans-serif;
+  color: $text-color;
+  height: 100vh;
+  padding: 16px 24px;
+  background-color: $background-color;
+  overflow: hidden; // Evita el scroll de la página principal
+  display: flex;
+  flex-direction: column;
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  h1 {
+    text-align: left;
+    color: $text-color; // Título
+    margin-bottom: 10px; // Reducido de 32px a 24px
+    font-size: 2rem;
+    font-weight: 600;
+    padding-left: 16px;
+    border-left: 4px solid $primary-color;
+  }
+
+  .search-container {
+    margin-bottom: 16px;
+    
+    .search-field {
+      width: 300px;
+      
+      ::ng-deep .mat-form-field-wrapper {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 16px;
+
+    .search-field {
+      width: 300px;
+      margin: 0;
+      
+      ::ng-deep .mat-form-field-wrapper {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    .search-field {
+      width: 300px;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    button {
+      color: $text-color; // Texto del botón
+      background-color: $primary-color; // Fondo del botón
+      border: none;
+      border-bottom: 4px solid $secondary-color;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+
+      &:disabled {
+        background-color: #f3f3f3;
+        color: #898989;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      &.mat-fab-extended {
+        height: 48px;
+      }
+
+      &[color="primary"] {
+        background-color: $primary-color;
+        color: $text-color;
+        border-bottom-color: $secondary-color;
+
+        &:hover {
+          background-color: $secondary-color;
+          color: #f3f3f3;
+        }
+      }
+
+      &[color="warn"] {
+        background-color: $danger-color;
+        color: #f3f3f3;
+        border-bottom-color: color.scale($danger-color, $lightness: -10%);
+
+        &:hover {
+          background-color: color.scale($danger-color, $lightness: -10%);
+        }
+
+        &:disabled {
+          background-color: #898989;
+          color: $danger-color;
+          border-bottom-color: color.scale($danger-color, $lightness: -10%);
+          opacity: 0.7;
+          cursor: not-allowed;
+
+          mat-icon {
+            opacity: 0.5;
+          }
+        }
+      }
+
+      &[color="basic"] {
+        background-color: #f3f3f3;
+        color: $text-color;
+        border-bottom-color: #898989;
+
+        &:hover {
+          background-color: #e0e0e0;
+          color: $text-color;
+        }
+
+        mat-icon {
+          transition: transform 0.3s ease;
+        }
+
+        &:hover mat-icon {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    button:hover {
+      background-color: $secondary-color;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+
+  .split-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 24px;
+    height: calc(100vh - 180px); // Ajustado para dar más espacio
+
+    .table-section,
+    .form-container-fixed {
+      height: calc(100vh - 380px); // Reducido para evitar cortes
+      margin-top: 0;
+      overflow-y: auto;
+      align-self: start; // Asegura alineación superior
+      position: relative;
+      top: 0;
+    }
+
+    .form-container-fixed {
+      height: calc(100vh - 380px);
+      
+      .form-section {
+        padding: 16px;
+        height: 100%;
+
+        .form-container {
+          height: 100%;
+
+          form {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            // Ajustar tamaños de elementos del formulario
+            mat-form-field {
+              &:nth-child(2) { // El textarea de descripción
+                textarea {
+                  max-height: 80px; // Reducir altura del textarea
+                }
+              }
+            }
+
+            // Contenedor de imagen con altura máxima
+            .image-preview-container {
+              margin: 8px 0;
+              padding: 12px;
+              
+              img {
+                width: 120px;  // Reducido de 150px
+                height: 120px; // Reducido de 150px
+              }
+            }
+
+            // Reducir el espacio del área de drop
+            .file-drop-area {
+              min-height: 150px; // Reducido de 200px
+              margin: 8px 0;
+            }
+
+            // Ajustar espaciado general
+            & > *:not(:last-child) {
+              margin-bottom: 12px; // Reducido de 16px
+            }
+
+            // Los botones al final siempre
+            mat-dialog-actions {
+              margin-top: auto;
+              padding-top: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Para asegurar que el padding y márgenes sean consistentes
+  .table-section {
+    width: 100%; // Cambiado de 62% a 100%
+    margin-right: 0; // Eliminado el margen
+    padding-right: 48px;  // Aumentado el padding derecho
+    overflow-y: auto;
+    padding-right: 24px;
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff; // Fondo blanco para contraste
+    border-right: 1px solid $border-color; // Línea divisoria
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    height: calc(100vh - 300px); // Ajustado para considerar el header y paddings
+    margin-top: 20px; // Añadido margen superior igual al del formulario
+
+    @include card-shadow;
+
+    mat-card {
+      height: 100%; // Cambiado para usar todo el espacio disponible
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      margin: 0;
+
+      mat-card-content {
+        height: 100%;
+        overflow-y: auto; // Hacer que el contenido sea desplazable
+        padding: 0; // Quitamos el padding para mejor control
+
+        .table-container {
+          height: 100%;
+          overflow: auto;
+          position: relative; // Para el sticky header
+          max-height: calc(100% - 16px); // Ajuste para evitar overflow
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+
+            thead {
+              position: sticky;
+              top: 0;
+              z-index: 2;
+              background-color: #f5f5f5;
+              text-align: center;
+            }
+
+            th {
+              background: $light-gray;
+              color: $text-color;
+              position: sticky;
+              top: 0;
+              z-index: 2;
+              border-bottom: 2px solid $medium-gray;
+              padding: 8px 16px; // Reducimos el padding del header
+              font-size: 0.95rem; // Ajustamos el tamaño de la fuente del header
+              font-weight: 600;
+              white-space: nowrap;
+              text-align: center !important;
+              vertical-align: middle;
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 2px;
+                background-color: $medium-gray;
+              }
+            }
+
+            td {
+              background: white; // Para asegurar que las celdas tengan fondo
+              padding: 12px 16px; // Reducimos el padding vertical de las celdas
+              font-size: 0.9rem; // Reducimos ligeramente el tamaño de la fuente
+              line-height: 1.2; // Reducimos el espaciado entre líneas
+              border-bottom: 1px solid #eee;
+              transition: background-color 0.3s ease;
+              text-align: center;
+              vertical-align: middle;
+              color: $text-color;
+            }
+
+            tr {
+              &:hover td {
+                background-color: rgba($primary-color, 0.1);
+              }
+
+              &.selected {
+                background-color: rgba($olive-green, 0.2) !important;
+                td {
+                  color: $dark-green;
+                }
+              }
+
+              &:hover {
+                background-color: #f3f3f3;
+                td {
+                  color: $text-color;
+                }
+              }
+            }
+          }
+
+          // Personalización del scrollbar
+          &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px; // Para scroll horizontal
+          }
+
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: $primary-color;
+            border-radius: 3px;
+
+            &:hover {
+              background: $secondary-color;
+            }
+          }
+        }
+      }
+
+      table {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        height: 100%;
+
+        th {
+          background-color: #f5f5f5;
+          font-weight: 600;
+          padding: 16px;
+          white-space: nowrap;
+        }
+
+        td {
+          padding: 12px 16px;
+        }
+
+        tr:hover {
+          background-color: $hover-color;
+        }
+
+        img {
+          display: block;
+          margin: 0 auto;
+          border-radius: 8px;
+          object-fit: cover;
+        }
+      }
+
+      tr:hover {
+        background-color: #f3f3f3;
+      }
+    }
+
+    .form-container-fixed {
+      position: relative;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+      .form-section {
+        padding: 24px;
+        height: 100%;
+        box-sizing: border-box;
+
+        .form-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+
+          form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            
+            // Ajusta el espaciado del contenido del formulario
+            & > *:not(:last-child) {
+              margin-bottom: 16px;
+            }
+
+            // Asegura que las acciones estén al final
+            mat-dialog-actions {
+              margin-top: auto;
+              padding-top: 16px;
+            }
+          }
+        }
+      }
+
+      &.delete-mode {
+        border: 2px dashed $dark-gray;
+        background-color: rgba($dark-gray, 0.05);
+        transition: all 0.3s ease;
+
+        .form-section {
+          opacity: 0.8;
+        }
+
+        mat-form-field.mat-form-field-disabled {
+          .mat-form-field-outline {
+            background-color: #f3f3f3;
+          }
+          
+          input, textarea {
+            color: $danger-color;
+          }
+          
+          .mat-form-field-label {
+            color: #898989;
+          }
+        }
+
+        .delete-warning {
+          background-color: rgba($dark-gray, 0.1);
+          color: $dark-gray;
+          padding: 16px;
+          border-radius: 8px;
+          margin: 16px 0;
+          border-left: 4px solid $dark-gray;
+          font-weight: 500;
+          
+          p {
+            margin: 0;
+            color: $dark-gray;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &::before {
+              content: '⚠️';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Actualizar el estilo del modo eliminación
+  .form-container-fixed.delete-mode {
+    border: 2px dashed $dark-gray;
+    background-color: rgba($dark-gray, 0.05);
+    transition: all 0.3s ease;
+
+    .form-section {
+      opacity: 0.7;
+      
+      // Remover pointer-events: none y aplicarlo solo a los campos del formulario
+      .mat-form-field {
+        pointer-events: none;
+      }
+      
+      // Permitir interacción con los botones y el scrollbar
+      mat-dialog-actions {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    // Estilo para el mensaje de advertencia
+    .delete-warning {
+      background-color: rgba($dark-gray, 0.1);
+      color: $dark-gray;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      border-left: 4px solid $dark-gray;
+      font-weight: 500;
+      pointer-events: all; // Asegurar que el mensaje sea visible e interactuable
+      
+      p {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &::before {
+          content: '⚠️';
+        }
+      }
+    }
+
+    // Asegurar que los botones sean interactuables
+    mat-dialog-actions {
+      button {
+        pointer-events: all;
+      }
+    }
+  }
+
+  th,
+  td {
+    color: $text-color;
+    border-bottom: 1px solid #898989;
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .file-drop-area {
+    border: 2px dashed $primary-color;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px 0;
+    position: relative;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: #fcfcfc;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      border-color: $secondary-color;
+      background-color: $hover-color;
+    }
+
+    .upload-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+  }
+
+  .image-preview-container {
+    margin: 16px 0;
+    padding: 16px;
+    background-color: $hover-color;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid $border-color;
+    
+    img {
+      width: 150px; // Aumentado de 100px
+      height: 150px; // Aumentado de 100px
+      object-fit: cover;
+      border-radius: 12px; // Aumentado para mejor aspecto
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // Mejorada la sombra
+      transition: transform 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.08); // Aumentado el efecto hover
+      }
+    }
+
+    .preview-actions {
+      flex: 1;
+      min-width: 0; // Importante para que el texto se corte correctamente
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 16px; // Añadido padding para separar de la imagen
+
+      .file-name {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%; // Asegura que no se desborde
+        display: block; // Necesario para text-overflow
+      }
+
+      button {
+        align-self: flex-start;
+        background-color: $secondary-color;
+        color: #f3f3f3;
+
+        &:hover {
+          background-color: #4d623a;
+          color: $primary-color;
+        }
+
+        mat-icon {
+          font-size: 18px;
+          margin-right: 4px;
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid #eee;
+
+    button {
+      min-width: 120px;
+      padding: 8px 24px;
+
+      &[color="primary"] {
+        background-color: $primary-color;
+        color: $text-color;
+
+        &:hover {
+          background-color: $secondary-color;
+          color: #f3f3f3;
+        }
+      }
+
+      &[color="warn"] {
+        background-color: #ff4d4f;
+        color: white;
+        border-bottom: 3px solid #cc0000;
+  
+        &:hover {
+          background-color: #cc0000;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(204, 0, 0, 0.2);
+        }
+      }
+
+      // Botón cancelar
+      &:not([color]) {
+        background-color: #f3f3f3;
+        color: $danger-color;
+
+        &:hover {
+          background-color: #898989;
+          color: #f3f3f3;
+        }
+      }
+    }
+  }
+
+  // Estilo para el mensaje de eliminación
+  .delete-warning {
+    background-color: $danger-color;
+    color: #f3f3f3;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    border-left: 4px solid color.scale($danger-color, $lightness: -10%);
+  }
+
+  .mat-card-header,
+  mat-card-header {
+    display: none;
+  }
+}
+
+:host {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+
+  @include mat.form-field-overrides((
+    outlined-focus-outline-color: $primary-color,
+    outlined-focus-label-text-color: #000000,
+    outlined-caret-color: $primary-color,
+    outlined-input-text-color: $text-color,
+    outlined-hover-outline-color: $secondary-color,
+    outlined-error-focus-outline-color: $warning-color,
+  ));
+}
+
+.split-layout {
+  & {
+    display: flex;
+    height: calc(100vh - 150px); // Reducir el alto total
+  }
+
+  .table-section {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff; // Fondo blanco para contraste
+    border-right: 1px solid $border-color; // Línea divisoria
+
+    mat-card {
+      height: 100%; // Altura completa de la tarjeta
+      display: flex;
+      flex-direction: column;
+
+      mat-card-content {
+        flex: 1;
+        overflow-y: auto; // Hacer que el contenido sea desplazable
+      }
+    }
+  }
+
+  .form-section {
+    flex: 1;
+    padding: 20px;
+    background-color: $background-color; // Fondo gris claro para contraste
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; // Permitir desplazamiento solo en la sección del formulario
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+.file-drop-area {
+  & {
+    border: 2px dashed $primary-color;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px 0;
+    position: relative;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: #fcfcfc;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    border-color: $secondary-color;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  p {
+    color: $text-color;
+  }
+
+  .upload-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+  }
+}
+
+.cancel-icon,
+.save-icon {
+  color: $text-color !important;
+}
+
+// Estilos para los botones primarios
+button.mat-raised-button.mat-primary {
+  background-color: $primary-color;
+  color: $text-color;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: #ffffff;
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Media queries para responsividad
+@media (max-width: 1200px) {
+  .admin-disciplinas .split-layout {
+    grid-template-columns: 1fr 1fr;
+    
+    .table-section,
+    .form-container-fixed {
+      height: calc(100vh - 360px);
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .admin-disciplinas .split-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .form-container-fixed {
+      height: auto;
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #eee;
+  justify-content: flex-end;
+  gap: 16px;
+  display: flex;
+  width: 100%;
+
+  button {
+    min-width: 120px;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &[color="primary"] {
+      background-color: $primary-color;
+      color: $text-color;
+      border-bottom: 3px solid $secondary-color;
+
+      &:hover {
+        background-color: $secondary-color;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      &:disabled {
+        background-color: #e0e0e0;
+        color: #898989;
+        border-bottom-color: #898989;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    &[color="warn"] {
+      background-color: #ff4d4f;
+      color: white;
+      border-bottom: 3px solid #cc0000;
+
+      &:hover {
+        background-color: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(204, 0, 0, 0.2);
+      }
+    }
+
+    &:not([color]) {
+      background-color: #f5f5f5;
+      color: $text-color;
+      border-bottom: 3px solid #d9d9d9;
+
+      &:hover {
+        background-color: #e0e0e0;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+  }
+}

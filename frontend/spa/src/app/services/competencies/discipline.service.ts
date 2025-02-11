@@ -20,15 +20,15 @@ export class DisciplineService {
         return this.http.get<Discipline>(`${this.apiUrl}/${id}`);
     }
 
-    createDiscipline(discipline: Discipline): Observable<Discipline> {
+    createDiscipline(discipline: FormData): Observable<Discipline> {
         return this.http.post<Discipline>(this.apiUrl, discipline);
     }
 
-    updateDiscipline(id: number, discipline: Discipline): Observable<Discipline> {
-        return this.http.put<Discipline>(`${this.apiUrl}/${id}`, discipline);
+    updateDiscipline(id: number, discipline: FormData): Observable<Discipline> {
+        return this.http.put<Discipline>(`${this.apiUrl}${id}/`, discipline);
     }
 
     deleteDiscipline(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 }

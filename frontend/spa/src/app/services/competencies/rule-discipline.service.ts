@@ -17,7 +17,7 @@ export class RuleDisciplineService {
     }
 
     getRuleDiscipline(id: number): Observable<RuleDiscipline> {
-        return this.http.get<RuleDiscipline>(`${this.apiUrl}/${id}`);
+        return this.http.get<RuleDiscipline>(`${this.apiUrl}${id}/`);
     }
 
     createRuleDiscipline(ruleDiscipline: RuleDiscipline): Observable<RuleDiscipline> {
@@ -25,10 +25,10 @@ export class RuleDisciplineService {
     }
 
     updateRuleDiscipline(id: number, ruleDiscipline: RuleDiscipline): Observable<RuleDiscipline> {
-        return this.http.put<RuleDiscipline>(`${this.apiUrl}/${id}`, ruleDiscipline);
+        return this.http.put<RuleDiscipline>(`${this.apiUrl}${id}/`, ruleDiscipline);
     }
 
     deleteRuleDiscipline(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 }

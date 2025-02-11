@@ -1,0 +1,163 @@
+<div class="admin-equipos">
+  <app-breadcrumb-competencias [currentRoute]="currentRoute"></app-breadcrumb-competencias>
+  <h1>Gestión de Equipos</h1>
+  
+  <div class="top-actions">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar equipo</mat-label>
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)" placeholder="Buscar por nombre">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button (click)="create()" color="primary">
+        <mat-icon>add_circle</mat-icon>
+        Nuevo Equipo
+      </button>
+      <button mat-raised-button 
+              (click)="delete()" 
+              [disabled]="!selectedTeam" 
+              color="warn">
+        <mat-icon>delete_outline</mat-icon>
+        Eliminar
+      </button>
+      <button mat-raised-button (click)="refresh()" matTooltip="Refrescar tabla" color="basic">
+        <mat-icon>refresh</mat-icon>
+        Refrescar
+      </button>
+    </div>
+  </div>
+
+  <div class="split-layout">
+    <div class="table-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+              <ng-container matColumnDef="logo" sticky>
+                <th mat-header-cell *matHeaderCellDef> Logo </th>
+                <td mat-cell *matCellDef="let team">
+                  <img [src]="team?.logo" alt="{{ team?.name }} logo" width="50" height="50">
+                </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let team"> {{ team?.name }} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> País </th>
+                <td mat-cell *matCellDef="let team"> {{ team?.country }} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                  (click)="onSelect(row)" 
+                  [class.selected]="row === selectedTeam">
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="form-container-fixed" [class.delete-mode]="isDeleteMode">
+      <aside class="form-section">
+        <div class="form-container">
+          <form [formGroup]="form">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre del Equipo</mat-label>
+              <input matInput formControlName="name" placeholder="Ingrese el nombre">
+              <mat-icon matPrefix>sports_soccer</mat-icon>
+              <mat-error *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+                {{ getErrorMessage('name') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="country" placeholder="Seleccione el país">
+                <mat-option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>flag</mat-icon>
+              <mat-error *ngIf="form.get('country')?.invalid && form.get('country')?.touched">
+                {{ getErrorMessage('country') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <div *ngIf="!isDeleteMode">
+              <div class="file-drop-area" 
+                   (dragover)="onDragOver($event)" 
+                   (drop)="onFileDrop($event)"
+                   (click)="fileInput.click()" 
+                   *ngIf="!fileName || isEditMode">
+                <input type="file" 
+                       (change)="onFileChange($event)" 
+                       hidden 
+                       #fileInput 
+                       accept="image/*">
+                <img src="assets/img/cloud_upload_150dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" 
+                     alt="Upload Icon"
+                     class="upload-icon">
+                <p>Arrastra y suelta el logo aquí o haz clic para seleccionar</p>
+              </div>
+              
+              <div *ngIf="fileName && !isEditMode" class="image-preview-container">
+                <img [src]="filePreview" alt="Vista previa del logo">
+                <div class="preview-actions">
+                  <span class="file-name">{{ fileName }}</span>
+                  <button mat-button (click)="enableEditMode()">
+                    <mat-icon>edit</mat-icon>
+                    Modificar logo
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div *ngIf="isDeleteMode && filePreview" class="image-preview-container">
+              <img [src]="filePreview" alt="Vista previa del logo">
+              <div class="preview-actions">
+                <span class="file-name">{{ fileName }}</span>
+              </div>
+            </div>
+
+            <div *ngIf="isDeleteMode" class="delete-warning">
+              <p>¿Está seguro de que desea eliminar este equipo?</p>
+            </div>
+
+            <mat-dialog-actions align="end">
+              <button mat-button (click)="onCancel()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+              </button>
+              <button mat-raised-button 
+                      color="primary" 
+                      (click)="onSubmit()" 
+                      *ngIf="!isDeleteMode" 
+                      [disabled]="form.invalid">
+                <mat-icon>check_circle</mat-icon>
+                {{ selectedTeam ? 'Actualizar' : 'Crear' }}
+              </button>
+              <button mat-raised-button 
+                      color="warn" 
+                      (click)="confirmDelete()" 
+                      *ngIf="isDeleteMode">
+                <mat-icon>warning</mat-icon>
+                Confirmar Eliminación
+              </button>
+            </mat-dialog-actions>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <div class="loading-overlay" *ngIf="isLoading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  </div>
+</div>

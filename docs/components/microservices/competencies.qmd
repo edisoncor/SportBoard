@@ -1,0 +1,473 @@
+# Microservicio de Competencias
+
+## Descripción General
+
+El microservicio de Competencias es responsable de gestionar todos los aspectos relacionados con la organización y administración de competencias deportivas en la plataforma SportBoard. Este microservicio permite la creación, configuración y seguimiento de eventos competitivos en diferentes disciplinas deportivas.
+
+## Funcionalidad Principal
+
+El microservicio proporciona las siguientes capacidades principales:
+
+### Gestión de Competencias
+- Creación y configuración de competencias deportivas
+- Definición de formatos de competencia
+- Administración de ediciones de competencia
+- Configuración de etapas y subdivisiones
+
+### Administración de Disciplinas
+- Registro y gestión de disciplinas deportivas
+- Configuración de reglas específicas por disciplina
+- Asignación de superficies y federaciones
+
+### Gestión de Equipos y Plantillas
+- Registro de equipos participantes
+- Gestión de plantillas (squads) 
+- Asignación de jugadores y entrenadores
+- Control de inscripciones
+
+### Gestión de Usuarios
+- Administración de perfiles de usuarios
+- Control de roles y permisos
+- Registro de participantes
+- Gestión de datos personales
+
+### Reglas y Normativas
+- Configuración de reglas generales de competencia
+- Definición de reglas específicas por disciplina
+- Control de cumplimiento normativo
+
+### Inscripciones y Registros
+- Proceso de inscripción de equipos
+- Gestión de registros de participantes
+- Control de cupos y categorías
+- Validación de requisitos
+
+El microservicio está diseñado para ser flexible y escalable, permitiendo la configuración de diferentes tipos de competencias deportivas según las necesidades específicas de cada disciplina y formato de competición.
+
+
+## Endpoints del Microservicio de Competencias
+
+### Gestión de Usuarios
+- **GET /api/users/**: Lista todos los usuarios.
+- **POST /api/users/**: Crea un nuevo usuario.
+- **GET /api/users/{id}/**: Obtiene los detalles de un usuario específico.
+- **PUT /api/users/{id}/**: Actualiza un usuario existente.
+- **DELETE /api/users/{id}/**: Elimina un usuario.
+
+### Gestión de Competencias
+- **GET /api/competences/**: Lista todas las competencias.
+- **POST /api/competences/**: Crea una nueva competencia.
+- **GET /api/competences/{id}/**: Obtiene los detalles de una competencia específica.
+- **PUT /api/competences/{id}/**: Actualiza una competencia existente.
+- **PATCH /api/competences/{id}/**: Actualiza parcialmente una competencia.
+- **DELETE /api/competences/{id}/**: Elimina una competencia.
+
+### Gestión de Equipos y Plantillas
+- **GET /api/teams/**: Lista todos los equipos.
+- **POST /api/teams/**: Crea un nuevo equipo.
+- **GET /api/teams/{id}/**: Obtiene los detalles de un equipo específico.
+- **PUT /api/teams/{id}/**: Actualiza un equipo existente.
+- **DELETE /api/teams/{id}/**: Elimina un equipo.
+
+- **GET /api/squads/**: Lista todas las plantillas.
+- **POST /api/squads/**: Crea una nueva plantilla.
+- **GET /api/squads/{id}/**: Obtiene los detalles de una plantilla específica.
+- **PUT /api/squads/{id}/**: Actualiza una plantilla existente.
+- **DELETE /api/squads/{id}/**: Elimina una plantilla.
+
+### Gestión de Asignaciones
+- **GET /api/player-assignments/**: Lista todas las asignaciones de jugadores.
+- **POST /api/player-assignments/**: Crea una nueva asignación de jugador.
+- **GET /api/coach-assignments/**: Lista todas las asignaciones de entrenadores.
+- **POST /api/coach-assignments/**: Crea una nueva asignación de entrenador.
+
+### Gestión de Partidos y Planificación
+- **GET /api/matches/**: Lista todos los partidos.
+- **POST /api/matches/**: Crea un nuevo partido.
+- **GET /api/plannings/**: Lista todas las planificaciones.
+- **POST /api/plannings/**: Crea una nueva planificación.
+
+### Gestión de Registros
+- **GET /api/registrations/**: Lista todos los registros.
+- **POST /api/registrations/**: Crea un nuevo registro.
+- **GET /api/registrations/{id}/**: Obtiene los detalles de un registro específico.
+- **PUT /api/registrations/{id}/**: Actualiza un registro existente.
+- **DELETE /api/registrations/{id}/**: Elimina un registro.
+
+### Gestión de Reglas
+- **GET /api/rule-competences/**: Lista todas las reglas de competencia.
+- **POST /api/rule-competences/**: Crea una nueva regla de competencia.
+- **GET /api/rule-disciplines/**: Lista todas las reglas de disciplina.
+- **POST /api/rule-disciplines/**: Crea una nueva regla de disciplina.
+
+### Gestión de Disciplinas
+- **GET /api/disciplines/**: Lista todas las disciplinas.
+- **POST /api/disciplines/**: Crea una nueva disciplina.
+- **GET /api/disciplines/{id}/**: Obtiene los detalles de una disciplina específica.
+- **PUT /api/disciplines/{id}/**: Actualiza una disciplina existente.
+- **DELETE /api/disciplines/{id}/**: Elimina una disciplina.
+
+### Gestión de Ediciones de Competencia
+- **GET /api/competence-editions/**: Lista todas las ediciones de competencia.
+- **POST /api/competence-editions/**: Crea una nueva edición de competencia.
+- **GET /api/competence-editions/{id}/**: Obtiene los detalles de una edición específica.
+- **PUT /api/competence-editions/{id}/**: Actualiza una edición existente.
+- **DELETE /api/competence-editions/{id}/**: Elimina una edición.
+
+### Gestión de Etapas
+- **GET /api/stages/**: Lista todas las etapas.
+- **POST /api/stages/**: Crea una nueva etapa.
+- **GET /api/stages/{id}/**: Obtiene los detalles de una etapa específica.
+- **PUT /api/stages/{id}/**: Actualiza una etapa existente.
+- **DELETE /api/stages/{id}/**: Elimina una etapa.
+
+### Gestión de Localidades
+- **GET /api/localities/**: Lista todas las localidades.
+- **POST /api/localities/**: Crea una nueva localidad.
+- **GET /api/localities/{id}/**: Obtiene los detalles de una localidad específica.
+- **PUT /api/localities/{id}/**: Actualiza una localidad existente.
+- **DELETE /api/localities/{id}/**: Elimina una localidad.
+
+### Gestión de Formatos
+- **GET /api/formats/**: Lista todos los formatos.
+- **POST /api/formats/**: Crea un nuevo formato.
+- **GET /api/formats/{id}/**: Obtiene los detalles de un formato específico.
+- **PUT /api/formats/{id}/**: Actualiza un formato existente.
+- **DELETE /api/formats/{id}/**: Elimina un formato.
+
+## Ejemplos de Uso
+
+### Crear una Nueva Competencia
+```http
+POST /api/competences/
+Content-Type: multipart/form-data
+
+{
+    "name": "Liga Nacional",
+    "description": "Torneo nacional de fútbol",
+    "discipline": 1,
+    "competence_format": 2,
+    "logo": [archivo binario],
+    "rule_discipline_list": [1, 2],
+    "rule_list": [1, 2]
+}
+```
+
+### Registrar un Equipo
+```http
+POST /api/teams/
+Content-Type: multipart/form-data
+
+{
+    "name": "Real Madrid",
+    "country": "España",
+    "logo": [archivo binario]
+}
+```
+
+### Crear una Nueva Edición de Competencia
+```http
+POST /api/competence-editions/
+Content-Type: application/json
+
+{
+    "competence": 1,
+    "competence_admin": 5,
+    "planning": {
+        "start_date": "2024-01-01T00:00:00Z",
+        "end_date": "2024-12-31T23:59:59Z"
+    },
+    "stage_list": [
+        {
+            "time": {
+                "start_date": "2024-01-01T00:00:00Z",
+                "end_date": "2024-06-30T23:59:59Z"
+            }
+        }
+    ],
+    "inscription_list": []
+}
+```
+
+### Crear una Nueva Plantilla
+```http
+POST /api/squads/
+Content-Type: application/json
+
+{
+    "team": 1,
+    "players": [1, 2, 3],
+    "coaches": [4],
+    "season": null
+}
+```
+
+### Crear una Nueva Regla de Competencia
+```http
+POST /api/rule-competences/
+Content-Type: application/json
+
+{
+    "numeration": 1,
+    "rule_description": "Máximo 5 sustituciones por partido",
+    "actor": "Equipo",
+    "action": "Sustitución",
+    "type_rule": "Juego",
+    "competence": 1
+}
+```
+
+### Crear una Nueva Regla de Disciplina
+```http
+POST /api/rule-disciplines/
+Content-Type: application/json
+
+{
+    "numeration": 1,
+    "rule_description": "Máximo 5 sustituciones por partido",
+    "actor": "Equipo",
+    "action": "Sustitución",
+    "type_rule": "Juego",
+    "discipline": 1
+}
+```
+
+### Crear un Nuevo Usuario
+```http
+POST /api/users/
+Content-Type: application/json
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john.doe@example.com",
+    "role": "Player",
+    "birth_date": "1990-01-01",
+    "nationality": "España",
+    "gender": "Masculino"
+}
+```
+
+## Configuraciones relevantes del contenedor y del API Gateway
+
+### Dockerfile
+
+```dockerfile
+# Use a base Python image
+FROM python:3.13
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file to the container
+COPY backend/competencies/requirements.txt /app/requirements.txt
+
+# Install the dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy the rest of the application code to the container
+COPY backend/competencies/ /app
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Expose the port the application will run on
+EXPOSE 8003
+
+# Define the default command to run the application
+CMD ["gunicorn", "--bind", "0.0.0.0:8003", "competencies.wsgi:application"]
+```
+
+**Explicación del Dockerfile:**
+- Usa Python 3.13 como base para garantizar compatibilidad
+- Establece `/app` como directorio de trabajo
+- Instala dependencias de manera optimizada (--no-cache-dir)
+- Recolecta archivos estáticos de Django automáticamente
+- Configura Gunicorn como servidor WSGI profesional
+- Expone el puerto 8003 para comunicaciones
+
+### Docker Compose Override
+
+```yaml
+version: "3.8"
+name: SportBoard-container
+
+services:
+    postgres-competencies:
+        image: postgres:13
+        container_name: postgres-competencies
+        restart: always
+        environment:
+            POSTGRES_USER: competencies_user
+            POSTGRES_DB: competencies_db
+            POSTGRES_PASSWORD: competencies_password
+        ports:
+            - "5433:5432"
+        networks:
+            - sportboard-network
+
+    ms2-competencies:
+        build:
+            context: ../../../
+            dockerfile: docker/backend/ms2-competencies/Dockerfile
+        container_name: ms2-competencies
+        restart: always
+        environment:
+            - DJANGO_SETTINGS_MODULE=competencies.settings
+            - DATABASE_URL=postgres://competencies_user:competencies_password@postgres-competencies:5432/competencies_db
+        ports:
+            - "8003:8003"
+        depends_on:
+            - postgres-competencies
+        networks:
+            - sportboard-network
+
+networks:
+    sportboard-network:
+        external: true
+```
+
+**Explicación del Docker Compose:**
+1. **Servicio PostgreSQL:**
+   - Base de datos dedicada para competencias
+   - Puerto 5433 para evitar conflictos
+   - Datos persistentes mediante volúmenes
+   - Monitoreo de salud cada 10 segundos
+
+2. **Servicio Competencias:**
+   - Construido desde el Dockerfile local
+   - Variables de entorno para configuración
+   - Volúmenes para archivos estáticos y media
+   - Monitoreo de salud del API
+   - Integración con red SportBoard
+
+### API Gateway (Kong)
+
+```yaml
+services:
+  - name: ms2-competencies
+    url: http://ms2-competencies:8003
+    routes:
+      - name: ms2-competencies-route
+        paths:
+          - /api
+        strip_path: false
+
+  - name: static-files
+    url: http://ms2-competencies:8003
+    routes:
+      - paths:
+          - /static/
+        strip_path: false
+
+  - name: media-files
+    url: http://ms2-competencies:8003
+    routes:
+      - paths:
+          - /media
+        strip_path: false
+```
+
+**Explicación del Gateway:**
+1. **Rutas API:**
+   - Endpoint principal en `/api`
+   - Mantiene estructura de URLs original
+   - Redirige al servicio en puerto 8003
+
+2. **Archivos Estáticos:**
+   - Sirve archivos estáticos desde `/static/`
+   - Sirve archivos media desde `/media`
+   - Preserva rutas originales
+
+### Configuración CORS
+
+```python
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+    "http://localhost:8000",
+    "http://172.23.64.1:8000",
+]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+```
+
+**Explicación de CORS:**
+1. **Seguridad:**
+   - Control de orígenes permitidos
+   - Configuración de headers permitidos
+   - Métodos HTTP habilitados
+
+2. **Desarrollo:**
+   - Permite acceso desde frontend Angular
+   - Facilita pruebas locales
+   - Configurable para producción
+
+## Guía de Despliegue
+
+### Preparación
+```bash
+# Construir imagen
+docker-compose build ms2-competencies
+```
+
+2. **Despliegue:**
+```bash
+# Iniciar servicios
+docker-compose up -d postgres-competencies
+docker-compose up -d ms2-competencies
+```
+
+3. **Verificación:**
+```bash
+# Revisar estado
+docker-compose ps
+docker-compose logs -f ms2-competencies
+```
+
+### Características del Despliegue
+
+1. **Seguridad:**
+   - Contenedores aislados
+   - Credenciales por variables de entorno
+   - Control de acceso CORS
+
+2. **Persistencia:**
+   - Volúmenes Docker
+   - Backup automatizado
+   - Gestión de archivos
+
+3. **Networking:**
+   - Red dedicada
+   - Proxy inverso
+   - Puertos específicos
+
+
+## Diagrama C4
+
+### Nivel 1
+![Diagrama C4 Nivel 1](./image/nivel1.png){fig-align="center" width="80%"}
+
+### Nivel 2
+![Diagrama C4 Nivel 2](./image/nivel2.png){fig-align="center" width="80%"}
+
+### Nivel 3
+![Diagrama C4 Nivel 3](./image/nivel3.png){fig-align="center" width="80%"}
+
+### Nivel 4
+![Diagrama C4 Nivel 4](./image/nivel4.png){fig-align="center" width="80%"}
+
+

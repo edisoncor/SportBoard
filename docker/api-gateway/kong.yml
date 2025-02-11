@@ -67,6 +67,15 @@ services:
         methods:
           - GET
           - OPTIONS
+    plugins:
+      - name: jwt
+        config:
+          claims_to_verify:
+            - exp
+          secret_is_base64: false
+          run_on_preflight: true
+          header_names:
+            - authorization
 
   - name: groups-service
     url: http://catalogs:5241/api/groups
@@ -113,8 +122,10 @@ services:
     routes:
       - name: media-files-route
         paths:
-          - /media/
+          - /media
         strip_path: false
+        preserve_host: false
+
         
   - name: ms1-usermanagement
     url: http://ms1-usermanagement:8004
@@ -136,11 +147,14 @@ plugins:
     config:
       origins:
         - http://localhost:4200
+        - http://localhost:65293
       methods:
         - GET
         - POST
         - PUT
         - DELETE
+        - PATCH
+        - HEAD
         - OPTIONS
       headers:
         - Accept
@@ -154,12 +168,3 @@ plugins:
       max_age: 3600
       preflight_continue: false
 
-  - name: jwt
-    config:
-      claims_to_verify:
-        - exp
-      secret_is_base64: false
-      run_on_preflight: true
-      header_names:
-        - authorization
-  

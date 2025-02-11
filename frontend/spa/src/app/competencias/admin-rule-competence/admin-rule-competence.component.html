@@ -1,0 +1,159 @@
+<div class="admin-rules-competence">
+  <app-breadcrumb-competencias [currentRoute]="currentRoute"></app-breadcrumb-competencias>
+  <h1>Gestión de Reglas de Competencia</h1>
+
+  <div class="top-actions">
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar regla</mat-label>
+        <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)" placeholder="Buscar por descripción">
+        <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-raised-button (click)="create()" color="primary" [disabled]="!selectedCompetence">
+          <mat-icon>add_circle</mat-icon>
+          Nueva Regla
+        </button>
+        <button mat-raised-button (click)="delete()" [disabled]="!selectedRule" color="warn">
+          <mat-icon>delete_outline</mat-icon>
+          Eliminar
+        </button>
+        <button mat-raised-button (click)="refresh()" matTooltip="Refrescar tabla" color="basic">
+          <mat-icon>refresh</mat-icon>
+          Refrescar
+        </button>
+    </div>
+  </div>
+
+  <div class="split-layout">
+    <div class="table-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+              <ng-container matColumnDef="numeration">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Número </th>
+                <td mat-cell *matCellDef="let rule"> {{rule.numeration}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="rule_description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+                <td mat-cell *matCellDef="let rule"> {{rule.rule_description}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Actor </th>
+                <td mat-cell *matCellDef="let rule"> {{rule.actor}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Acción </th>
+                <td mat-cell *matCellDef="let rule"> {{rule.action}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="type_rule">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                <td mat-cell *matCellDef="let rule"> {{rule.type_rule}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                  (click)="onSelect(row)"
+                  [class.selected]="row === selectedRule"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="form-container-fixed" [class.delete-mode]="isDeleteMode">
+      <aside class="form-section">
+        <div class="form-container">
+          <form [formGroup]="form">
+            <mat-form-field appearance="outline" class="competence-select">
+                <mat-label>Seleccione una Competencia</mat-label>
+                <mat-select formControlName="competence" (selectionChange)="onCompetenceChange($event)">
+                  <mat-option *ngFor="let competence of competences" [value]="competence.id">
+                    {{competence.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('competence')?.invalid && form.get('competence')?.touched">
+                  {{ getErrorMessage('competence') }}
+                </mat-error>
+              </mat-form-field>
+              
+            <mat-form-field appearance="outline">
+              <mat-label>Número de Regla</mat-label>
+              <input matInput formControlName="numeration" type="number">
+              <mat-icon matPrefix>format_list_numbered</mat-icon>
+              <mat-error *ngIf="form.get('numeration')?.invalid && form.get('numeration')?.touched">
+                {{ getErrorMessage('numeration') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Descripción</mat-label>
+              <textarea matInput formControlName="rule_description" 
+                      placeholder="Describa la regla"
+                      rows="4"></textarea>
+              <mat-icon matPrefix>description</mat-icon>
+              <mat-error *ngIf="form.get('rule_description')?.invalid && form.get('rule_description')?.touched">
+                {{ getErrorMessage('rule_description') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Actor</mat-label>
+              <input matInput formControlName="actor">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="form.get('actor')?.invalid && form.get('actor')?.touched">
+                {{ getErrorMessage('actor') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Acción</mat-label>
+              <input matInput formControlName="action">
+              <mat-icon matPrefix>play_arrow</mat-icon>
+              <mat-error *ngIf="form.get('action')?.invalid && form.get('action')?.touched">
+                {{ getErrorMessage('action') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de Regla</mat-label>
+              <input matInput formControlName="type_rule">
+              <mat-icon matPrefix>category</mat-icon>
+              <mat-error *ngIf="form.get('type_rule')?.invalid && form.get('type_rule')?.touched">
+                {{ getErrorMessage('type_rule') }}
+              </mat-error>
+            </mat-form-field>
+
+            <div *ngIf="isDeleteMode" class="delete-warning">
+              <p>¿Está seguro de que desea eliminar esta regla?</p>
+            </div>
+
+            <mat-dialog-actions align="end">
+              <button mat-button (click)="onCancel()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+              </button>
+              <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!isDeleteMode" [disabled]="form.invalid">
+                <mat-icon>check_circle</mat-icon>
+                {{ selectedRule ? 'Actualizar' : 'Crear' }}
+              </button>
+              <button mat-raised-button color="warn" (click)="confirmDelete()" *ngIf="isDeleteMode">
+                <mat-icon>warning</mat-icon>
+                Confirmar Eliminación
+              </button>
+            </mat-dialog-actions>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</div>
