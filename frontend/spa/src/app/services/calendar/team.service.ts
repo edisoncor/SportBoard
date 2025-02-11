@@ -21,6 +21,15 @@ export class TeamService {
     getAllCalendars(): Observable<string[]> {
         return this.httpClient.get<string[]>(this.getAllUrl);
     }
+    getAllTeams(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.equiposUrl);  // Usar equiposUrl en lugar de getAllUrl
+    }
+
+    deleteTeam(id: number): Observable<void> {
+        const url = this.equiposUrl.replace('{id}', id.toString());  // Asegurar que la URL es para equipos
+        return this.httpClient.delete<void>(url);
+    }
+
 
     // Obtener un calendario por su ID
     getCalendarById(id: number): Observable<string> {
@@ -38,11 +47,6 @@ export class TeamService {
     }
 
 
-    // Eliminar un calendario
-    deleteCalendar(id: number): Observable<void> {
-        const url = this.deleteUrl.replace('{id}', id.toString());
-        return this.httpClient.delete<void>(url);
-    }
     getEquipos(): Observable<string[]> {
         return this.httpClient.get<string[]>(this.equiposUrl, {
             headers: new HttpHeaders({

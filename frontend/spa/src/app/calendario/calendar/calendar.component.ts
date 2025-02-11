@@ -6,6 +6,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {FormsModule} from '@angular/forms';
 
 interface Partido {
+    id: number;
     fecha: Date;
     equipoLocal: string;
     marcadorLocal: number;
@@ -42,7 +43,7 @@ export class CalendarComponent implements OnInit {
     marcadorLocal: number = 0; // Marcador del equipo local
     marcadorVisitante: number = 0; // Marcador del equipo visitante
     diaSeleccionado: any = null;
-
+    equiposData: string[] = [];
     constructor(
         private router: Router,
         private teamService: TeamService
@@ -67,6 +68,7 @@ export class CalendarComponent implements OnInit {
     asignarEnfrentamientosAleatorios() {
         const equiposDisponibles = [...this.equipos]; // Copiar la lista de equipos para evitar modificarla directamente
         const partidos: Partido[] = [];
+        let idPartido = 1; // Inicializamos el ID para los partidos
 
         while (equiposDisponibles.length >= 2) {
             // Tomar dos equipos aleatorios para el enfrentamiento
@@ -76,6 +78,7 @@ export class CalendarComponent implements OnInit {
             // Crear un partido con fecha aleatoria (en este caso, del mes actual)
             const fechaAleatoria = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), Math.floor(Math.random() * 30) + 1);
             const partido: Partido = {
+                id: idPartido++, // Asignar un ID único incremental
                 fecha: fechaAleatoria,
                 equipoLocal,
                 marcadorLocal: 0,
@@ -91,6 +94,7 @@ export class CalendarComponent implements OnInit {
         console.log('Partidos asignados aleatoriamente:', this.partidosData);
         this.generarCalendario();  // Regenerar el calendario con los partidos asignados
     }
+
     mostrarPartidosDelDia(dia: any) {
         this.diaSeleccionado = dia;
         const partidosDelDia = this.partidosData.filter(partido => {
@@ -186,6 +190,7 @@ export class CalendarComponent implements OnInit {
         }
 
         const partido: Partido = {
+            id: this.partidosData.length + 1,  // ID único incremental
             fecha: fechaPartidoDate,  // Utilizamos la fecha con un día agregado
             equipoLocal: this.equipoLocalSeleccionado,
             marcadorLocal: this.marcadorLocal,
@@ -288,13 +293,45 @@ export class CalendarComponent implements OnInit {
     }
 
     eliminarPartido(id: number) {
-        this.teamService.deleteCalendar(id).subscribe({
-            next: () => {
-                console.log('Calendario eliminado con éxito');
-                this.cargarCalendarios(); // Recargar la lista de calendarios
+        // Llamamos a getEquipos para obtener los equipos y luego decidimos qué partido eliminar
+        this.teamService.getEquipos().subscribe({
+            next: (equipos) => {
+                console.log('Equipos obtenidos:', equipos);
+                // Encontramos el partido con el ID proporcionado
+                const partidoAEliminar = this.partidosData.find(partido => partido.id === id);
+
+                if (partidoAEliminar) {
+                    console.log('Partido a eliminar:', partidoAEliminar);
+                    // Filtrar los partidos que no coinciden con el ID
+                    this.partidosData = this.partidosData.filter(partido => partido.id !== id);
+                    console.log('Partidos después de la eliminación:', this.partidosData);
+                    this.generarCalendario(); // Actualizamos el calendario con los partidos restantes
+                } else {
+                    console.error('No se encontró el partido con el ID proporcionado');
+                }
             },
             error: (error) => {
-                console.error('Error al eliminar calendario:', error);
+                console.error('Error al obtener equipos:', error);
+            }
+        });
+    }
+
+    eliminarDeCalendario(partido: any) {
+        // Aquí puedes eliminar el partido del calendario de acuerdo a tu lógica
+        // Esto puede incluir filtrar la lista de partidos en tu componente o hacer otra acción
+        console.log('Eliminando partido del calendario:', partido);
+        // Lógica para actualizar el calendario
+        this.cargarCalendarios(); // Recarga el calendario
+    }
+
+    private cargarEquipos() {
+        this.teamService.getAllTeams().subscribe({
+            next: (equipos) => {
+                this.equiposData = equipos;
+                console.log('Equipos cargados:', this.equiposData);
+            },
+            error: (error) => {
+                console.error('Error al cargar equipos:', error);
             }
         });
     }
@@ -375,10 +412,29 @@ export class CalendarComponent implements OnInit {
         console.log('Filtrar por temporada con ID:', idTemporada);
     }
 
+    mostrarFormularioEdicion = false;
+    partidoAEditar: any;
+
     editarPartido(partido: any) {
-        console.log('Editar partido:', partido);
-        // Lógica para editar el partido
+        this.partidoAEditar = partido;
+        this.equipoLocalSeleccionado = partido.equipoLocal;
+        this.equipoVisitanteSeleccionado = partido.equipoVisitante;
+        this.fechaPartido = partido.fecha;
+        this.marcadorLocal = partido.marcadorLocal;
+        this.marcadorVisitante = partido.marcadorVisitante;
+        this.mostrarFormularioEdicion = true;
     }
+
+    guardarEdicion() {
+        // Guardar los cambios del partido editado
+        this.mostrarFormularioEdicion = false;
+    }
+
+    cancelarEdicion() {
+        this.mostrarFormularioEdicion = false;
+    }
+
+
 
 
 }
