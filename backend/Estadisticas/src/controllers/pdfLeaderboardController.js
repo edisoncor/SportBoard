@@ -2,15 +2,15 @@ const PDFDocument = require('pdfkit');
 const { getDb } = require('../models/db');
 const path = require('path');
 
-const generatePlayersPDF = async (req, res) => {
+const generateLeaderboardPDF = async (req, res) => {
   try {
     const db = getDb();
-    const players = await db.collection('player').find().toArray();
+    const leaderboard = await db.collection('leaderboard').find().toArray();
 
-    if (players.length === 0) {
+    if (leaderboard.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'No se encontraron jugadores en la base de datos',
+        message: 'No se encontraron datos de la tabla de posiciones en la base de datos',
       });
     }
 
@@ -27,15 +27,15 @@ const generatePlayersPDF = async (req, res) => {
       const pdfBuffer = Buffer.concat(buffers);
       const pdfBase64 = pdfBuffer.toString('base64');
       await db.collection('PDFs').insertOne({
-        name: `players_${Date.now()}.pdf`,
+        name: `leaderboard_${Date.now()}.pdf`,
         content: pdfBase64,
         createdAt: new Date(),
-        type: 'players',
+        type: 'leaderboard',
       });
 
       res.status(201).json({
         success: true,
-        message: 'PDF de jugadores generado y almacenado exitosamente en la base de datos',
+        message: 'PDF de la tabla de posiciones generado y almacenado exitosamente en la base de datos',
       });
     });
 
@@ -100,7 +100,7 @@ const generatePlayersPDF = async (req, res) => {
 
       doc.font('Helvetica')
          .fontSize(14)
-         .text('Reporte de Jugadores', margin + logoSize + 20, margin + 60);
+         .text('Tabla de Posiciones', margin + logoSize + 20, margin + 60);
 
       doc.moveDown(3);
     };
@@ -172,60 +172,22 @@ const generatePlayersPDF = async (req, res) => {
       });
     };
 
-    // Función para dibujar gráfico de tarjetas
-    const drawCardChart = (data, startX, startY, width, height, title) => {
-      const margin = { top: 40, right: 20, bottom: 100, left: 40 };
-      const chartWidth = width - margin.left - margin.right;
-      const chartHeight = height - margin.top - margin.bottom;
-      const barWidth = (chartWidth / data.length) * 0.35;
-
-      doc.font('Helvetica-Bold')
-         .fontSize(16)
-         .text(title, startX, startY, { align: 'center', width });
-
-      const maxValue = Math.max(...data.map(d => Math.max(d.yellowCards, d.redCards)));
-
-      data.forEach((d, i) => {
-        const yellowHeight = (d.yellowCards / maxValue) * chartHeight;
-        const redHeight = (d.redCards / maxValue) * chartHeight;
-        const x = startX + margin.left + (i * (chartWidth / data.length)) + ((chartWidth / data.length - barWidth * 2) / 2);
-        const yellowY = startY + margin.top + chartHeight - yellowHeight;
-        const redY = startY + margin.top + chartHeight - redHeight;
-
-        // Barra amarilla
-        doc.rect(x, yellowY, barWidth, yellowHeight)
-           .fill(colors.gold);
-
-        // Barra roja
-        doc.rect(x + barWidth, redY, barWidth, redHeight)
-           .fill(colors.red);
-
-        // Etiquetas de valores
-        doc.font('Helvetica-Bold')
-           .fontSize(10)
-           .fillColor('#000000')
-           .text(d.yellowCards.toString(), x, yellowY - 15, { width: barWidth, align: 'center' })
-           .text(d.redCards.toString(), x + barWidth, redY - 15, { width: barWidth, align: 'center' });
-
-        // Nombre del jugador
-        doc.font('Helvetica')
-           .fontSize(8)
-           .text(d.label, x - 10, startY + height - margin.bottom + 10, { 
-             width: barWidth * 2 + 20, 
-             align: 'center' 
-           });
-      });
-
-      // Leyenda
-      doc.rect(startX + width - 100, startY + 20, 15, 15).fill(colors.gold);
-      doc.rect(startX + width - 100, startY + 40, 15, 15).fill(colors.red);
-      doc.font('Helvetica')
-         .fontSize(10)
-         .text('Tarjetas Amarillas', startX + width - 80, startY + 23)
-         .text('Tarjetas Rojas', startX + width - 80, startY + 43);
+    // Función para calcular estadísticas adicionales
+    const calculateAdditionalStats = (team) => {
+      const goalsFor = team.won * 2 + team.drawn; // Estimación simple
+      const goalsAgainst = team.lost * 2 + team.drawn; // Estimación simple
+      const goalDifference = goalsFor - goalsAgainst;
+      const winPercentage = (team.won / team.played) * 100;
+      
+      return {
+        goalsFor,
+        goalsAgainst,
+        goalDifference,
+        winPercentage: winPercentage.toFixed(2)
+      };
     };
 
-    // Primera página - Tabla de Jugadores
+    // Primera página - Tabla de Posiciones
     doc.addPage();
     drawFrame();
     drawHeader();
@@ -234,26 +196,34 @@ const generatePlayersPDF = async (req, res) => {
     const tableTop = 180;
     const contentWidth = doc.page.width - (margin * 2) - 40;
     const columns = {
-      nombre: { x: margin + 30, width: contentWidth * 0.25 },
-      equipo: { x: margin + 30 + (contentWidth * 0.25), width: contentWidth * 0.2 },
-      posicion: { x: margin + 30 + (contentWidth * 0.45), width: contentWidth * 0.15 },
-      goles: { x: margin + 30 + (contentWidth * 0.6), width: contentWidth * 0.1 },
-      asistencias: { x: margin + 30 + (contentWidth * 0.7), width: contentWidth * 0.15 },
-      tarjetasAmarillas: { x: margin + 30 + (contentWidth * 0.85), width: contentWidth * 0.075 },
-      tarjetasRojas: { x: margin + 30 + (contentWidth * 0.925), width: contentWidth * 0.075 }
+      posicion: { x: margin + 30, width: contentWidth * 0.05 },
+      equipo: { x: margin + 30 + (contentWidth * 0.05), width: contentWidth * 0.25 },
+      pj: { x: margin + 30 + (contentWidth * 0.3), width: contentWidth * 0.07 },
+      pg: { x: margin + 30 + (contentWidth * 0.37), width: contentWidth * 0.07 },
+      pe: { x: margin + 30 + (contentWidth * 0.44), width: contentWidth * 0.07 },
+      pp: { x: margin + 30 + (contentWidth * 0.51), width: contentWidth * 0.07 },
+      gf: { x: margin + 30 + (contentWidth * 0.58), width: contentWidth * 0.07 },
+      gc: { x: margin + 30 + (contentWidth * 0.65), width: contentWidth * 0.07 },
+      dg: { x: margin + 30 + (contentWidth * 0.72), width: contentWidth * 0.07 },
+      puntos: { x: margin + 30 + (contentWidth * 0.79), width: contentWidth * 0.07 },
+      forma: { x: margin + 30 + (contentWidth * 0.86), width: contentWidth * 0.14 }
     };
 
     // Encabezados de la tabla
     doc.font('Helvetica-Bold').fontSize(10);
     Object.entries(columns).forEach(([key, value]) => {
       const header = {
-        nombre: 'Nombre',
+        posicion: 'Pos',
         equipo: 'Equipo',
-        posicion: 'Posición',
-        goles: 'Goles',
-        asistencias: 'Asistencias',
-        tarjetasAmarillas: 'T.A.',
-        tarjetasRojas: 'T.R.'
+        pj: 'PJ',
+        pg: 'PG',
+        pe: 'PE',
+        pp: 'PP',
+        gf: 'GF',
+        gc: 'GC',
+        dg: 'DG',
+        puntos: 'Pts',
+        forma: 'Forma'
       }[key];
       
       doc.text(header, value.x, tableTop, {
@@ -271,14 +241,20 @@ const generatePlayersPDF = async (req, res) => {
     let currentY = tableTop + 30;
     doc.font('Helvetica').fontSize(9);
 
-    players.forEach((player) => {
-      doc.text(player.name || 'N/A', columns.nombre.x, currentY)
-         .text(player.team || 'N/A', columns.equipo.x, currentY)
-         .text(player.position || 'N/A', columns.posicion.x, currentY)
-         .text((player.goals || 0).toString(), columns.goles.x, currentY)
-         .text((player.assists || 0).toString(), columns.asistencias.x, currentY)
-         .text((player.yellowCards || 0).toString(), columns.tarjetasAmarillas.x, currentY)
-         .text((player.redCards || 0).toString(), columns.tarjetasRojas.x, currentY);
+    leaderboard.forEach((team, index) => {
+      const additionalStats = calculateAdditionalStats(team);
+      
+      doc.text((index + 1).toString(), columns.posicion.x, currentY)
+         .text(team.team || 'N/A', columns.equipo.x, currentY)
+         .text((team.played || 0).toString(), columns.pj.x, currentY)
+         .text((team.won || 0).toString(), columns.pg.x, currentY)
+         .text((team.drawn || 0).toString(), columns.pe.x, currentY)
+         .text((team.lost || 0).toString(), columns.pp.x, currentY)
+         .text(additionalStats.goalsFor.toString(), columns.gf.x, currentY)
+         .text(additionalStats.goalsAgainst.toString(), columns.gc.x, currentY)
+         .text(additionalStats.goalDifference.toString(), columns.dg.x, currentY)
+         .text((team.points || 0).toString(), columns.puntos.x, currentY)
+         .text(team.lastMatches.join(' '), columns.forma.x, currentY);
 
       currentY += 20;
 
@@ -291,61 +267,48 @@ const generatePlayersPDF = async (req, res) => {
     });
     drawFooter(1);
 
-    // Segunda página - Gráfico de Goles
+    // Segunda página - Gráfico de Puntos
     doc.addPage();
     drawFrame();
-    const goalsData = players
-      .filter(player => player.goals !== undefined)
-      .sort((a, b) => (b.goals || 0) - (a.goals || 0))
+    const pointsData = leaderboard
+      .sort((a, b) => (b.points || 0) - (a.points || 0))
       .slice(0, 10)
-      .map(player => ({
-        label: player.name || 'N/A',
-        value: player.goals || 0
+      .map(team => ({
+        label: team.team || 'N/A',
+        value: team.points || 0
       }));
-    drawBarChart(goalsData, margin + 30, margin + 100, 500, 400, 'Top 10 Goleadores');
+    drawBarChart(pointsData, margin + 30, margin + 100, 500, 400, 'Top 10 Equipos por Puntos');
     drawFooter(2);
 
-    // Tercera página - Gráfico de Asistencias
+    // Tercera página - Gráfico de Porcentaje de Victorias
     doc.addPage();
     drawFrame();
-    const assistsData = players
-      .filter(player => player.assists !== undefined)
-      .sort((a, b) => (b.assists || 0) - (a.assists || 0))
+    const winPercentageData = leaderboard
+      .map(team => ({
+        team: team.team,
+        winPercentage: ((team.won / team.played) * 100).toFixed(2)
+      }))
+      .sort((a, b) => b.winPercentage - a.winPercentage)
       .slice(0, 10)
-      .map(player => ({
-        label: player.name || 'N/A',
-        value: player.assists || 0
+      .map(team => ({
+        label: team.team || 'N/A',
+        value: parseFloat(team.winPercentage)
       }));
-    drawBarChart(assistsData, margin + 30, margin + 100, 500, 400, 'Top 10 Asistentes');
+    drawBarChart(winPercentageData, margin + 30, margin + 100, 500, 400, 'Top 10 Equipos por Porcentaje de Victorias');
     drawFooter(3);
-
-    // Cuarta página - Gráfico de Tarjetas
-    doc.addPage();
-    drawFrame();
-    const cardsData = players
-      .filter(player => player.yellowCards !== undefined || player.redCards !== undefined)
-      .sort((a, b) => ((b.yellowCards || 0) + (b.redCards || 0)) - ((a.yellowCards || 0) + (a.redCards || 0)))
-      .slice(0, 10)
-      .map(player => ({
-        label: player.name || 'N/A',
-        yellowCards: player.yellowCards || 0,
-        redCards: player.redCards || 0
-      }));
-    drawCardChart(cardsData, margin + 30, margin + 100, 500, 400, 'Top 10 Jugadores con más Tarjetas');
-    drawFooter(4);
 
     doc.end();
   } catch (error) {
-    console.error('Error al generar el PDF de jugadores:', error);
+    console.error('Error al generar el PDF de la tabla de posiciones:', error);
     res.status(500).json({
       success: false,
-      message: 'Error al generar el PDF de jugadores',
+      message: 'Error al generar el PDF de la tabla de posiciones',
       error: error.message,
     });
   }
 };
 
-const getPlayersPDF = async (req, res) => {
+const getLeaderboardPDF = async (req, res) => {
   try {
     const db = getDb();
     const pdf = await db.collection('PDFs').findOne({ name: req.params.name });
@@ -364,7 +327,6 @@ const getPlayersPDF = async (req, res) => {
     res.send(pdfBuffer);
   } catch (error) {
     console.error('Error al obtener el PDF:', error);
-    
     res.status(500).json({
       success: false,
       message: 'Error al obtener el PDF',
@@ -374,6 +336,6 @@ const getPlayersPDF = async (req, res) => {
 };
 
 module.exports = {
-  generatePlayersPDF,
-  getPlayersPDF,
+  generateLeaderboardPDF,
+  getLeaderboardPDF,
 };
