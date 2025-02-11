@@ -1,11 +1,5 @@
 const { getDb } = require('../models/db');
 
-const TestEndPoint = async (req,res) =>{
-  res.json({
-    message: "Hola Mundo",
-    status: "OK"
-  });
-}
 
 const getTeams = async (req, res) => {
   try {
@@ -122,5 +116,4 @@ module.exports = {
   getUpcomingMatches,
   getLeaderboard,
   getPlayers,
-  TestEndPoint,
 };

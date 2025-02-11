@@ -1,66 +1,6 @@
 name: SportBoard-container
 
 services:
-    postgres:
-        extends:
-            file: ./api-gateway/docker-compose.override.yml
-            service: postgres
-
-    kong-migrations:
-        extends:
-            file: ./api-gateway/docker-compose.override.yml
-            service: kong-migrations
-
-    kong:
-        extends:
-            file: ./api-gateway/docker-compose.override.yml
-            service: kong
-
-# Microservicio de catálogo
-    sqlserver:
-        extends:
-            file: ./backend/ms6-catalog/docker-compose.override.yml
-            service: sqlserver
-    
-    catalogs:
-        extends:
-            file: ./backend/ms6-catalog/docker-compose.override.yml
-            service: catalogs
-
-# Microservicio Tiempo Real
-    ms3-real-time:
-        extends:
-            file: ./backend/ms3-real-time/docker-compose.override.yml
-            service: ms3-real-time
-
-    mariadb-real-time:
-        extends:
-            file: ./backend/ms3-real-time/docker-compose.override.yml
-            service: mariadb-real-time
-
-# Microservicio de competencias
-    ms2-competencies:
-        extends:
-            file: ./backend/ms2-competencies/docker-compose.override.yml
-            service: ms2-competencies
-        networks:
-            - sportboard-network
-
-    postgres-competencies:
-        extends:
-            file: ./backend/ms2-competencies/docker-compose.override.yml
-            service: postgres-competencies
-
-# Microservicio de calendario
-    ms5-calendar:
-        extends:
-            file: ./backend/ms5-calendar/docker-compose.override.yml
-            service: ms5-calendar
-
-    ms5-calendar-database:
-        extends:
-            file: ./backend/ms5-calendar/docker-compose.override.yml
-            service: ms5-calendar-database
 
 # Microservicio de estadísticas
     mongodb-estadisticas:
@@ -74,25 +14,10 @@ services:
             service: ms4-estadisticas
 
 
-# Microservicio de usuarios
-    ms1-usermanagement:
-        extends:
-            file: ./backend/ms1-usermanagement/docker-compose.override.yml
-            service: ms1-usermanagement
-        networks:
-            - sportboard-network
-
-    postgres-usermanagement:
-        extends:
-            file: ./backend/ms1-usermanagement/docker-compose.override.yml
-            service: postgres-usermanagement
 networks:
     sportboard-network:
         name: sportboard-network
         driver: bridge
 
 volumes:
-    mariadb_data:
-    static_volume:
-    kong-db-data:
     mongodb_estadisticas_data:
