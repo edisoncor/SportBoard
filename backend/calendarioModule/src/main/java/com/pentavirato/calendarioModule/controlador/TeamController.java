@@ -17,7 +17,7 @@ public class TeamController {
     @Autowired
     private TeamRepository teamRepository;
 
-    @GetMapping
+    @GetMapping("/equipos")
     public List<Team> getAll() {
         return teamRepository.findAll();
     }
@@ -50,11 +50,5 @@ public class TeamController {
         }
         teamRepository.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/equipos")
-
-    public List<String> getEquipos() {
-        return Arrays.asList("Milan", "Inter", "Juventus", "Roma", "Napoli", "Lazio", "Fiorentina", "Atalanta", "Torino", "Sampdoria", "Genoa", "Bologna", "Udinese", "Cagliari", "Sassuolo", "Parma", "Verona", "Spezia", "Benevento", "Crotone");
     }
 }

@@ -2,14 +2,25 @@
     <!-- Encabezado del calendario -->
     <div class="encabezado-calendario">
         <button class="boton-navegacion" (click)="cambiarMes(-1)">&lt;</button>
-        <h2 class="titulo-calendario">{{ nombreMesActual | titlecase }} {{ anioActual }}</h2>
+        <h2 class="titulo-calendario">
+            {{ nombreMesActual | titlecase }} {{ anioActual }}
+        </h2>
         <button class="boton-navegacion" (click)="cambiarMes(1)">&gt;</button>
     </div>
 
     <!-- Controles adicionales -->
     <div class="calendar-controls">
-        <button class="create-match-btn" (click)="mostrarFormulario = !mostrarFormulario">Crear Partido</button>
-        <select class="view-selector" aria-label="Cambiar vista del calendario" (change)="cambiarVista($event)">
+        <button
+            class="create-match-btn"
+            (click)="mostrarFormulario = !mostrarFormulario"
+        >
+            Crear Partido
+        </button>
+        <select
+            class="view-selector"
+            aria-label="Cambiar vista del calendario"
+            (change)="cambiarVista($event)"
+        >
             <option value="mes">Mes</option>
             <option value="semana">Semana</option>
             <option value="dia">Día</option>
@@ -26,9 +37,12 @@
                     id="equipoLocal"
                     name="equipoLocal"
                     [(ngModel)]="equipoLocalSeleccionado"
-                    (change)="filtrarEquiposLocal($event)">
+                    (change)="filtrarEquiposLocal($event)"
+                >
                     <option value="">Seleccionar equipo</option>
-                    <option *ngFor="let equipo of equipos" [value]="equipo">{{equipo}}</option>
+                    <option *ngFor="let equipo of equipos" [ngValue]="equipo">
+                        {{ equipo.name }}
+                    </option>
                 </select>
             </div>
 
@@ -38,57 +52,90 @@
                     id="equipoVisitante"
                     name="equipoVisitante"
                     [(ngModel)]="equipoVisitanteSeleccionado"
-                    (change)="filtrarEquiposVisitante($event)">
+                    (change)="filtrarEquiposVisitante($event)"
+                >
                     <option value="">Seleccionar equipo</option>
-                    <option *ngFor="let equipo of equiposFiltrados" [value]="equipo">{{equipo}}</option>
+                    <option
+                        *ngFor="let equipo of equiposFiltrados"
+                        [ngValue]="equipo"
+                    >
+                        {{ equipo.name }}
+                    </option>
                 </select>
             </div>
 
             <div>
                 <label for="fechaPartido">Fecha:</label>
-                <input type="date" id="fechaPartido" [(ngModel)]="fechaPartido" name="fechaPartido" required>
+                <input
+                    type="date"
+                    id="fechaPartido"
+                    [(ngModel)]="fechaPartido"
+                    name="fechaPartido"
+                    required
+                />
             </div>
             <div>
                 <label for="marcadorLocal">Marcador Local:</label>
-                <input type="number" id="marcadorLocal" [(ngModel)]="marcadorLocal" name="marcadorLocal">
+                <input
+                    type="number"
+                    id="marcadorLocal"
+                    [(ngModel)]="marcadorLocal"
+                    name="marcadorLocal"
+                />
             </div>
             <div>
                 <label for="marcadorVisitante">Marcador Visitante:</label>
-                <input type="number" id="marcadorVisitante" [(ngModel)]="marcadorVisitante" name="marcadorVisitante">
+                <input
+                    type="number"
+                    id="marcadorVisitante"
+                    [(ngModel)]="marcadorVisitante"
+                    name="marcadorVisitante"
+                />
             </div>
             <button type="submit">Guardar Partido</button>
-            <button type="button" (click)="mostrarFormulario = false" class="cancelar-btn">Cancelar</button>
+            <button
+                type="button"
+                (click)="mostrarFormulario = false"
+                class="cancelar-btn"
+            >
+                Cancelar
+            </button>
         </form>
     </div>
 
     <!-- Tabla del calendario -->
     <table class="tabla-calendario">
         <thead>
-        <tr>
-            <th>Domingo</th>
-            <th>Lunes</th>
-            <th>Martes</th>
-            <th>Miércoles</th>
-            <th>Jueves</th>
-            <th>Viernes</th>
-            <th>Sábado</th>
-        </tr>
+            <tr>
+                <th>Domingo</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+            </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let semana of diasCalendario">
-            <td *ngFor="let dia of semana"
-                [ngClass]="{
-                    'celda-dia': true,
-                    'mes-actual': dia.esmesMesActual,
-                    'tiene-partido': dia.partidos?.length > 0
-                }"
-                (click)="mostrarPartidosDelDia(dia)">
-                {{ dia.fecha }}
-                <div *ngIf="dia.partidos?.length > 0" class="indicador-partidos">
-                    {{ dia.partidos.length }}
-                </div>
-            </td>
-        </tr>
+            <tr *ngFor="let semana of diasCalendario">
+                <td
+                    *ngFor="let dia of semana"
+                    [ngClass]="{
+                        'celda-dia': true,
+                        'mes-actual': dia.esmesMesActual,
+                        'tiene-partido': dia.partidos?.length > 0
+                    }"
+                    (click)="mostrarPartidosDelDia(dia)"
+                >
+                    {{ dia.fecha }}
+                    <div
+                        *ngIf="dia.partidos?.length > 0"
+                        class="indicador-partidos"
+                    >
+                        {{ dia.partidos.length }}
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -101,8 +148,11 @@
                 <select
                     id="equipoLocal"
                     name="equipoLocal"
-                    [(ngModel)]="equipoLocalSeleccionado">
-                    <option *ngFor="let equipo of equipos" [value]="equipo">{{equipo}}</option>
+                    [(ngModel)]="equipoLocalSeleccionado"
+                >
+                    <option *ngFor="let equipo of equipos" [value]="equipo">
+                        {{ equipo }}
+                    </option>
                 </select>
             </div>
 
@@ -111,64 +161,112 @@
                 <select
                     id="equipoVisitante"
                     name="equipoVisitante"
-                    [(ngModel)]="equipoVisitanteSeleccionado">
-                    <option *ngFor="let equipo of equipos" [value]="equipo">{{equipo}}</option>
+                    [(ngModel)]="equipoVisitanteSeleccionado"
+                >
+                    <option *ngFor="let equipo of equipos" [value]="equipo">
+                        {{ equipo }}
+                    </option>
                 </select>
             </div>
 
             <div>
                 <label for="fechaPartido">Fecha:</label>
-                <input type="date" id="fechaPartido" [(ngModel)]="fechaPartido" name="fechaPartido" required>
+                <input
+                    type="date"
+                    id="fechaPartido"
+                    [(ngModel)]="fechaPartido"
+                    name="fechaPartido"
+                    required
+                />
             </div>
             <div>
                 <label for="marcadorLocal">Marcador Local:</label>
-                <input type="number" id="marcadorLocal" [(ngModel)]="marcadorLocal" name="marcadorLocal">
+                <input
+                    type="number"
+                    id="marcadorLocal"
+                    [(ngModel)]="marcadorLocal"
+                    name="marcadorLocal"
+                />
             </div>
             <div>
                 <label for="marcadorVisitante">Marcador Visitante:</label>
-                <input type="number" id="marcadorVisitante" [(ngModel)]="marcadorVisitante" name="marcadorVisitante">
+                <input
+                    type="number"
+                    id="marcadorVisitante"
+                    [(ngModel)]="marcadorVisitante"
+                    name="marcadorVisitante"
+                />
             </div>
             <button type="submit">Guardar Cambios</button>
-            <button type="button" (click)="cancelarEdicion()" class="cancelar-btn">Cancelar</button>
+            <button
+                type="button"
+                (click)="cancelarEdicion()"
+                class="cancelar-btn"
+            >
+                Cancelar
+            </button>
         </form>
     </div>
 
     <!-- Modal para mostrar partidos del día (ahora solo muestra detalles sin editar) -->
-    <div *ngIf="diaSeleccionado && diaSeleccionado.partidos?.length > 0" class="modal-overlay">
+    <div
+        *ngIf="diaSeleccionado && diaSeleccionado.partidos?.length > 0"
+        class="modal-overlay"
+    >
         <div class="modal-container">
             <div class="modal-header">
-                <h3>Partidos del día {{diaSeleccionado.fecha}}</h3>
-                <button class="close-button" (click)="cerrarModalPartidos()">×</button>
+                <h3>Partidos del día {{ diaSeleccionado.fecha }}</h3>
+                <button class="close-button" (click)="cerrarModalPartidos()">
+                    ×
+                </button>
             </div>
             <div class="modal-body">
-                <div *ngFor="let partido of diaSeleccionado.partidos" class="partido-item">
+                <div
+                    *ngFor="let partido of diaSeleccionado.partidos"
+                    class="partido-item"
+                >
                     <div class="partido-detalle">
-                        <div class="equipo-local">{{partido.equipoLocal}}</div>
-                        <div class="marcador">
-                            <span>{{partido.marcadorLocal}}</span>
-                            <span class="separador">-</span>
-                            <span>{{partido.marcadorVisitante}}</span>
+                        <div class="equipo-local">
+                            {{ partido.equipoLocal }}
                         </div>
-                        <div class="equipo-visitante">{{partido.equipoVisitante}}</div>
+                        <div class="marcador">
+                            <span>{{ partido.marcadorLocal }}</span>
+                            <span class="separador">-</span>
+                            <span>{{ partido.marcadorVisitante }}</span>
+                        </div>
+                        <div class="equipo-visitante">
+                            {{ partido.equipoVisitante }}
+                        </div>
                     </div>
                     <div class="partido-acciones">
-                        <button class="btn-editar" (click)="editarPartido(partido)">Editar</button>
-                        <button class="btn-eliminar" (click)="eliminarPartido(partido.id)">Eliminar</button>
+                        <button
+                            class="btn-editar"
+                            (click)="editarPartido(partido)"
+                        >
+                            Editar
+                        </button>
+                        <button
+                            class="btn-eliminar"
+                            (click)="eliminarPartido(partido.id)"
+                        >
+                            Eliminar
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-<!-- Sección de filtros -->
+    <!-- Sección de filtros -->
     <div class="filters">
         <h3>Filtros</h3>
         <div class="filter-group">
             <label for="torneo">Torneo</label>
             <select id="torneo" (change)="filtrarTorneo($event)">
                 <option value="">Seleccionar torneo</option>
-                <option *ngFor="let torneo of torneos" [value]="torneo.id">{{ torneo.nombre }}</option>
+                <option *ngFor="let torneo of torneos" [value]="torneo.id">
+                    {{ torneo.nombre }}
+                </option>
             </select>
         </div>
 
@@ -176,7 +274,12 @@
             <label for="temporada">Temporada</label>
             <select id="temporada" (change)="filtrarTemporada($event)">
                 <option value="">Seleccionar temporada</option>
-                <option *ngFor="let temporada of temporadas" [value]="temporada.id">{{ temporada.nombre }}</option>
+                <option
+                    *ngFor="let temporada of temporadas"
+                    [value]="temporada.id"
+                >
+                    {{ temporada.nombre }}
+                </option>
             </select>
         </div>
 
@@ -184,7 +287,12 @@
             <label for="categoria">Categoría</label>
             <select id="categoria" (change)="filtrarCategoria($event)">
                 <option value="">Seleccionar categoría</option>
-                <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+                <option
+                    *ngFor="let categoria of categorias"
+                    [value]="categoria.id"
+                >
+                    {{ categoria.nombre }}
+                </option>
             </select>
         </div>
 
@@ -192,7 +300,9 @@
             <label for="equipo">Equipo</label>
             <select id="equipo" (change)="filtrarEquipos($event)">
                 <option value="">Seleccionar equipo</option>
-                <option *ngFor="let equipo of equipos" [value]="equipo">{{ equipo }}</option>
+                <option *ngFor="let equipo of equipos" [value]="equipo">
+                    {{ equipo }}
+                </option>
             </select>
         </div>
     </div>

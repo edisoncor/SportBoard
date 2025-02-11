@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {environmentCalendar1} from '../../../environments/environmentCalendar';
-
+import { environmentCalendar1 } from '../../../environments/environmentCalendar';
+import { Team } from '../../models/calendar/team.model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,8 +47,8 @@ export class TeamService {
     }
 
 
-    getEquipos(): Observable<string[]> {
-        return this.httpClient.get<string[]>(this.equiposUrl, {
+    getEquipos(): Observable<Team[]> {
+        return this.httpClient.get<Team[]>(this.equiposUrl, {
             headers: new HttpHeaders({
                 'Accept': 'application/json'  // Cambiar a 'application/json' en lugar de 'text/plain'
             })
