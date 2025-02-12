@@ -1,0 +1,169 @@
+<app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+<h4>Detalles del partido</h4>
+
+<div class="header">
+    <span> {{ selectedSeason?.competition }} - {{ selectedSeason?.current_phase }}</span>
+</div>
+
+<table class="match-table">
+    <tr>
+        <th>Equipo Local</th>
+        <th>  Marcador </th>
+        <th>Equipo Visitante</th>
+    </tr>
+    <tr>
+        <td>
+            <img [src]="'assets/real-time-assets/teams/' + selectedMatch.home_team?.photo" alt="{{ selectedMatch.home_team?.name }}" width="50"><br> {{ selectedMatch.home_team?.name }} 
+        </td>
+        <td>
+            <div class="score">
+                <p> {{ selectedMatch.date | date: 'yyyy/MM/dd HH:mm' }} </p>
+                <span class="score-local" *ngIf="selectedMatch.status === 'Finalizado' || selectedMatch.status === 'En juego'"> {{ selectedMatch.goals_home }} </span> 
+                - 
+                <span class="score-visitor" *ngIf="selectedMatch.status === 'Finalizado' || selectedMatch.status === 'En juego'"> {{selectedMatch.goals_away}} </span>
+                <br>
+                <span *ngIf="selectedMatch.status === 'Finalizado' || selectedMatch.status === 'Próximo'"> {{ selectedMatch.status }} </span>
+                <span *ngIf="selectedMatch.status === 'En juego'"> min' </span>
+            </div>
+        </td>
+        <td>
+            <img [src]="'assets/real-time-assets/teams/' + selectedMatch.away_team?.photo" alt="{{ selectedMatch.away_team?.name }}" width="50"><br>{{ selectedMatch.away_team?.name }}
+        </td>
+    </tr>
+</table>
+
+<br> <br>
+<!--Si el estado es próximo, no mostrar estadísticas-->
+<mat-tab-group *ngIf="selectedMatch.status !== 'Próximo'">
+    <mat-tab label="Resumen"> 
+        <mat-card>
+            <div class="events-container">
+                <div *ngFor="let event of currentMatchEvents">
+                    <div *ngIf="event.team_id === selectedMatch.home_team?.id && (event.event_type === 'Gol' || event.event_type === 'Falta' || event.event_type === 'Tarjeta Amarilla' || event.event_type === 'Tarjeta Roja' || event.event_type === 'Sustitución')">
+                        <div class="event-item home-event">
+                            <mat-icon>{{ getEventIcon(event.event_type) }}</mat-icon>
+                            <p>{{ event.minute }}' - {{ event.event_type }} - {{ event.player?.name }}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="event.team_id === selectedMatch.away_team?.id && (event.event_type === 'Gol' || event.event_type === 'Falta' || event.event_type === 'Tarjeta Amarilla' || event.event_type === 'Tarjeta Roja' || event.event_type === 'Sustitución')">
+                        <div class="event-item away-event">
+                            <p>{{ event.minute }}' - {{ event.event_type }} - {{ event.player?.name }}</p>
+                            <mat-icon>{{ getEventIcon(event.event_type) }}</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Estadisticas de Equipos">
+        <mat-card *ngIf="matchStatistic">
+            <div class="stats-table-container">
+                <table class="stats-table">
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.shots }}</td>
+                        <td> <strong> Tiros </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.shots }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.shots_to_goal }}</td>
+                        <td> <strong> Tiros a gol </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.shots_to_goal }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.possession }}%</td>
+                        <td> <strong> Posesión </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.possession }}%</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.passes }}</td>
+                        <td> <strong> Pases </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.passes }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.fouls }}</td>
+                        <td> <strong> Faltas  </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.fouls }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.yellow_cards }}</td>
+                        <td> <strong> Tarjetas Amarillas </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.yellow_cards }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.red_cards }}</td>
+                        <td> <strong> Tarjetas Rojas </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.red_cards }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.offsides }}</td>
+                        <td> <strong> Offsides </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.offsides }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ matchStatistic?.home_team_stats?.corners }}</td>
+                        <td> <strong> Corners </strong> </td>
+                        <td>{{ matchStatistic?.away_team_stats?.corners }}</td>
+                    </tr>
+                </table>
+            </div>
+        </mat-card>
+    </mat-tab>
+    
+    <mat-tab label="Estadisticas de Jugadores"> 
+        <div class="player-stats-container">
+            <mat-card class="player-stats-card">
+                <table class="player-stats-table">
+                    <tr>
+                        <th>Jugador</th>
+                        <th>Minutos Jugados</th>
+                        <th>Goles</th>
+                        <th>Asistencias</th>
+                        <th>Faltas</th>
+                        <th>Tarjetas Amarillas</th>
+                        <th>Tarjetas Rojas</th>
+                    </tr>
+                    <tr *ngFor="let stat of playersHomeTeamStatistic">
+                        <td class="player-name" (click)="loadSelectedPlayerStatistic(stat.player_id?.id)">
+                            <img [src]="'assets/real-time-assets/players/' + stat.player_id?.photo" alt="{{ stat.player_id?.name }}" width="50">
+                            <br>
+                            {{ stat.player_id?.name }}
+                        </td>
+                        <td>{{ stat.minutes_played }}</td>
+                        <td>{{ stat.goals }}</td>
+                        <td>{{ stat.assists }}</td>
+                        <td>{{ stat.fouls }}</td>
+                        <td>{{ stat.yellow_cards }}</td>
+                        <td>{{ stat.red_cards }}</td>
+                    </tr>
+                </table>
+            </mat-card>
+            <mat-card class="player-stats-card">
+                <table class="player-stats-table">
+                    <tr>
+                        <th>Jugador</th>
+                        <th>Minutos Jugados</th>
+                        <th>Goles</th>
+                        <th>Asistencias</th>
+                        <th>Faltas</th>
+                        <th>Tarjetas Amarillas</th>
+                        <th>Tarjetas Rojas</th>
+                    </tr>
+                    <tr *ngFor="let stat of playersAwayTeamStatistic">
+                        <td class="player-name" (click)="loadSelectedPlayerStatistic(stat.player_id?.id)">
+                            <img [src]="'assets/real-time-assets/players/' + stat.player_id?.photo" alt="{{ stat.player_id?.name }}" width="50">
+                            <br>
+                            {{ stat.player_id.name }}
+                        </td>
+                        <td>{{ stat.minutes_played }}</td>
+                        <td>{{ stat.goals }}</td>
+                        <td>{{ stat.assists }}</td>
+                        <td>{{ stat.fouls }}</td>
+                        <td>{{ stat.yellow_cards }}</td>
+                        <td>{{ stat.red_cards }}</td>
+                    </tr>
+                </table>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+

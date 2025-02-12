@@ -39,6 +39,7 @@ export class CatalogsComponent implements OnInit, AfterViewInit {
         'actions',
     ];
     dataSource = new MatTableDataSource<Catalog>();
+    
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;

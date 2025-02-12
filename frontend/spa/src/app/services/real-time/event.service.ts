@@ -12,8 +12,9 @@ export class EventService {
 
     constructor(private http: HttpClient) {}
 
-    getEvents(): Observable<Event[]> {
-        return this.http.get<Event[]>(this.apiUrl);
+    getEvents(match_id?:number): Observable<Event[]> {
+        //return this.http.get<Event[]>('${this.apiUrl}?match_id=${match_id}');
+        return this.http.get<Event[]>(`${this.apiUrl}?match_id=${match_id}`);
     }
 
     getEvent(id: number): Observable<Event> {

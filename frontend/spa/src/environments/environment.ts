@@ -52,9 +52,10 @@ export const environment = {
                 events: '/events',
                 matchesByDay: '/matches/by-day',
                 matchesFilter: '/matches/filter',
-                playerMatchStats: '/matches',  // Se completará la URL: /matches/{match_id}/player-stats
+                playersMatchStats: '/matches',  // Se completará la URL: /matches/{match_id}/player-stats
                 playerSeasonStats: '/player-statistics',
                 teamMatchStats: '/matches',    // Se completará la URL: /matches/{match_id}/team-stats
+                matchStats: '/matches', // Se completará la URL: /matches/{match_id}/stats
                 teamSeasonStats: '/team-statistics',
                 matchEvents: '/matches',       // Se completará la URL: /matches/{match_id}/events
                 teamClassification: '/team-statistics/classification'
@@ -107,11 +108,13 @@ environment.services.realTime.endpoints.events = `${environment.services.realTim
 environment.services.realTime.endpoints.matchesByDay = `${environment.services.realTime.base}${environment.services.realTime.endpoints.matchesByDay}`;
 environment.services.realTime.endpoints.matchesFilter = `${environment.services.realTime.base}${environment.services.realTime.endpoints.matchesFilter}`;
 // irán al player.services
-environment.services.realTime.endpoints.playerMatchStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.playerMatchStats}`;
+environment.services.realTime.endpoints.playersMatchStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.playersMatchStats}`;
 environment.services.realTime.endpoints.playerSeasonStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.playerSeasonStats}`;
 // irán al team.services
 environment.services.realTime.endpoints.teamMatchStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.teamMatchStats}`;
 environment.services.realTime.endpoints.teamSeasonStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.teamSeasonStats}`;
+// ESTADÍSTICAS AGRUPADAS DE EQUIPOS LOCAL Y VISITANTE EN EL PARTIDO
+environment.services.realTime.endpoints.matchStats = `${environment.services.realTime.base}${environment.services.realTime.endpoints.matchStats}`;
 // irá al matches.services
 environment.services.realTime.endpoints.matchEvents = `${environment.services.realTime.base}${environment.services.realTime.endpoints.matchEvents}`;
 // irá al team.services

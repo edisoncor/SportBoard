@@ -4,14 +4,14 @@ import { Team } from './team.model';
 
 export interface Event {
     id: number;
-    matchId: number;
-    teamId?: number;
-    playerId?: number;
-    relatedPlayerId?: number;
-    eventType: EventType | string;
+    match_id: number;
+    team_id?: number;
+    player_id?: number;
+    related_player_id?: number;
+    event_type: EventType | string;
     minute: number;
     // Relaciones (opcional, si vienen en la respuesta)
     team?: Team;
     player?: Player;
-    relatedPlayer?: Player;
+    related_player?: Player;
   }

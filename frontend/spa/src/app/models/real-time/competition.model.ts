@@ -5,10 +5,10 @@ export interface Competition {
     id: number;
     name: string;
     type: CompetitionType | string;
-    teamLimit: number;
+    team_limit: number;
     seasons?: Season[];
 
     // Se agrega el campo para identificar temporada actual
-    currentSeasonId: number;
-    currentSeason?: Season;
+    current_season_id: number;
+    current_season?: Season;
   }

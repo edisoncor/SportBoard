@@ -1,0 +1,185 @@
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.match-table th, 
+.match-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.match-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.score {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.score p {
+    font-size: 14px;
+    font-weight: normal;
+    color: #3e3d3d;
+}
+
+/* Botones */
+.buttons {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.buttons button {
+    padding: 8px 16px;
+    margin: 4px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #0056b3;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+.summary-table th, 
+.summary-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.summary-table th {
+    background-color: #e9e9e9;
+    font-weight: bold;
+}
+
+.summary-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.full-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.match-table-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-table {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.summary-table {
+    width: 100vw;
+}
+.summary-table {
+    width: 100%;
+    max-width: 1200px;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+.player-name {
+    :hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+.player-stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.player-stats-card {
+    width: 48%;
+}
+
+.player-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.player-stats-table th, .player-stats-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.player-stats-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.events-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.event-item mat-icon {
+    margin-right: 8px;
+    vertical-align: middle; /* Centrar el ícono verticalmente */
+}
+
+.home-event {
+    justify-content: flex-start;
+}
+
+.away-event {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center; /* Centrar el contenido */
+}
+
+.stats-table th, .stats-table td {
+    padding: 8px;
+}
+
+.stats-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.stats-table td {
+    border: 1px solid #ddd;
+}

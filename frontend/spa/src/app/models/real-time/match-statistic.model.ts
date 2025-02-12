@@ -2,9 +2,9 @@ import { TeamMatchStatistic } from './team-match-statistic.model';
 
 export interface MatchStatistic {
     id: number;
-    matchId: number;
-    homeTeamStatsId: number;
-    awayTeamStatsId: number;
-    homeTeamStats?: TeamMatchStatistic;
-    awayTeamStats?: TeamMatchStatistic;
+    match_id: number;
+    home_team_stats_id: number;
+    away_team_stats_id: number;
+    home_team_stats?: TeamMatchStatistic;
+    away_team_stats?: TeamMatchStatistic;
   }

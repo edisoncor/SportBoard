@@ -6,7 +6,7 @@ export interface Player {
     name: string;
     position: Position | string;
     photo?: string;
-    historicalTeams?: Team[];
-    currentTeamId?: number;
-    currentTeam?: Team;
+    historical_teams?: Team[];
+    current_team_id?: number;
+    current_team?: Team;
   }

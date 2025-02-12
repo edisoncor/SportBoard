@@ -7,6 +7,13 @@ from .config import Config
 db = SQLAlchemy()
 migrate = Migrate()
 
+# Para las migraciones
+# flask db init
+# flask db migrate -m "nombre de la migración"
+# flask db upgrade
+# docker-compose exec ms3-real-time flask db migrate && docker-compose exec ms3-real-time flask db upgrade
+# flask db downgrade (revertir)
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     CORS(app)  # Habilitar CORS en la aplicación
@@ -15,7 +22,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)  # Inicializa Flask-Migrate con la base de datos
 
-    from .routes import api  # Importar el Blueprint
-    app.register_blueprint(api)  # Registrar el Blueprint
+    from .routes import real_time  # Importar el Blueprint
+    app.register_blueprint(real_time)  # Registrar el Blueprint
 
     return app
