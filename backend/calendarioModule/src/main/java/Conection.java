@@ -9,7 +9,8 @@ public class Conection implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:4200") // URL de tu frontend Angular
+                .allowedOrigins("http://localhost:4200",
+                        "http://localhost:6142") // URL de tu frontend Angular
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .maxAge(3600)

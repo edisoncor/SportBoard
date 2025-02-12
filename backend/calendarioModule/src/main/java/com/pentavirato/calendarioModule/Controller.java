@@ -8,19 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:6142"})
 @RequestMapping("/api/calendar")
 public class Controller {
     private Calendar calendarService;
 
     // Permitir solicitudes de cualquier origen
-    @CrossOrigin(origins = "http://localhost:4200")  // Cambia este puerto si tu frontend usa otro
+    @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:6142"})// Cambia este puerto si tu frontend usa otro
     @GetMapping("/hola")
     public String getHello() {
         return "Hola desde el backend!";
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")  // Cambia este puerto si tu frontend usa otro
+    @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:6142"}) // Cambia este puerto si tu frontend usa otro
     @GetMapping("/abel")
     public String getAbel() {
         return "Abel";
