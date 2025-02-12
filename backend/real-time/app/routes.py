@@ -1,27 +1,29 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_from_directory
 from . import db
 from .models import *
 from datetime import datetime
+import os
 
-api = Blueprint('api', __name__, static_url_path='/static')
+real_time = Blueprint('real_time', __name__, static_url_path='/static', url_prefix='/real-time')
 
-@api.route('/static/<path:filename>')
-def static_files(filename):
-    return api.send_static_file(filename)
+#@real_time.route('/static/teams/<path:filename>')
+#def static_files(filename):
+#    return send_from_directory(os.path.join(real_time.root_path, 'static/teams'), filename)
+
 ###############################
 # Usuarios
 ###############################
-@api.route('/api/users', methods=['GET'])
+@real_time.route('/users', methods=['GET'])
 def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users])
 
-@api.route('/api/users/<int:user_id>', methods=['GET'])
+@real_time.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     user = User.query.get_or_404(user_id)
     return jsonify(user.to_dict())
 
-@api.route('/api/users', methods=['POST'])
+@real_time.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
     # Validar que se envíen los campos necesarios
@@ -38,7 +40,7 @@ def create_user():
     db.session.commit()
     return jsonify(new_user.to_dict()), 201
 
-@api.route('/api/users/<int:user_id>', methods=['PUT'])
+@real_time.route('/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     user = User.query.get_or_404(user_id)
     data = request.get_json() or {}
@@ -50,7 +52,7 @@ def update_user(user_id):
     db.session.commit()
     return jsonify(user.to_dict())
 
-@api.route('/api/users/<int:user_id>', methods=['DELETE'])
+@real_time.route('/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
@@ -60,17 +62,17 @@ def delete_user(user_id):
 ###############################
 # Equipos
 ###############################
-@api.route('/api/teams', methods=['GET'])
+@real_time.route('/teams', methods=['GET'])
 def get_teams():
     teams = Team.query.all()
     return jsonify([team.to_dict() for team in teams])
 
-@api.route('/api/teams/<int:team_id>', methods=['GET'])
+@real_time.route('/teams/<int:team_id>', methods=['GET'])
 def get_team(team_id):
     team = Team.query.get_or_404(team_id)
     return jsonify(team.to_dict())
 
-@api.route('/api/teams', methods=['POST'])
+@real_time.route('/teams', methods=['POST'])
 def create_team():
     data = request.get_json() or {}
     if 'name' not in data or 'city' not in data:
@@ -84,7 +86,7 @@ def create_team():
     db.session.commit()
     return jsonify(team.to_dict()), 201
 
-@api.route('/api/teams/<int:team_id>', methods=['PUT'])
+@real_time.route('/teams/<int:team_id>', methods=['PUT'])
 def update_team(team_id):
     team = Team.query.get_or_404(team_id)
     data = request.get_json() or {}
@@ -94,7 +96,7 @@ def update_team(team_id):
     db.session.commit()
     return jsonify(team.to_dict())
 
-@api.route('/api/teams/<int:team_id>', methods=['DELETE'])
+@real_time.route('/teams/<int:team_id>', methods=['DELETE'])
 def delete_team(team_id):
     team = Team.query.get_or_404(team_id)
     db.session.delete(team)
@@ -104,17 +106,17 @@ def delete_team(team_id):
 ###############################
 # Jugadores
 ###############################
-@api.route('/api/players', methods=['GET'])
+@real_time.route('/players', methods=['GET'])
 def get_players():
     players = Player.query.all()
     return jsonify([player.to_dict() for player in players])
 
-@api.route('/api/players/<int:player_id>', methods=['GET'])
+@real_time.route('/players/<int:player_id>', methods=['GET'])
 def get_player(player_id):
     player = Player.query.get_or_404(player_id)
     return jsonify(player.to_dict())
 
-@api.route('/api/players', methods=['POST'])
+@real_time.route('/players', methods=['POST'])
 def create_player():
     data = request.get_json() or {}
     if 'name' not in data or 'position' not in data:
@@ -129,7 +131,7 @@ def create_player():
     db.session.commit()
     return jsonify(player.to_dict()), 201
 
-@api.route('/api/players/<int:player_id>', methods=['PUT'])
+@real_time.route('/players/<int:player_id>', methods=['PUT'])
 def update_player(player_id):
     player = Player.query.get_or_404(player_id)
     data = request.get_json() or {}
@@ -140,7 +142,7 @@ def update_player(player_id):
     db.session.commit()
     return jsonify(player.to_dict())
 
-@api.route('/api/players/<int:player_id>', methods=['DELETE'])
+@real_time.route('/players/<int:player_id>', methods=['DELETE'])
 def delete_player(player_id):
     player = Player.query.get_or_404(player_id)
     db.session.delete(player)
@@ -150,17 +152,17 @@ def delete_player(player_id):
 ###############################
 # Entrenadores
 ###############################
-@api.route('/api/coaches', methods=['GET'])
+@real_time.route('/coaches', methods=['GET'])
 def get_coaches():
     coaches = Coach.query.all()
     return jsonify([coach.to_dict() for coach in coaches])
 
-@api.route('/api/coaches/<int:coach_id>', methods=['GET'])
+@real_time.route('/coaches/<int:coach_id>', methods=['GET'])
 def get_coach(coach_id):
     coach = Coach.query.get_or_404(coach_id)
     return jsonify(coach.to_dict())
 
-@api.route('/api/coaches', methods=['POST'])
+@real_time.route('/coaches', methods=['POST'])
 def create_coach():
     data = request.get_json() or {}
     if 'name' not in data or 'start_date' not in data:
@@ -178,7 +180,7 @@ def create_coach():
     db.session.commit()
     return jsonify(coach.to_dict()), 201
 
-@api.route('/api/coaches/<int:coach_id>', methods=['PUT'])
+@real_time.route('/coaches/<int:coach_id>', methods=['PUT'])
 def update_coach(coach_id):
     coach = Coach.query.get_or_404(coach_id)
     data = request.get_json() or {}
@@ -192,7 +194,7 @@ def update_coach(coach_id):
     db.session.commit()
     return jsonify(coach.to_dict())
 
-@api.route('/api/coaches/<int:coach_id>', methods=['DELETE'])
+@real_time.route('/coaches/<int:coach_id>', methods=['DELETE'])
 def delete_coach(coach_id):
     coach = Coach.query.get_or_404(coach_id)
     db.session.delete(coach)
@@ -202,17 +204,17 @@ def delete_coach(coach_id):
 ###############################
 # Temporadas
 ###############################
-@api.route('/api/seasons', methods=['GET'])
+@real_time.route('/seasons', methods=['GET'])
 def get_seasons():
     seasons = Season.query.all()
     return jsonify([season.to_dict() for season in seasons])
 
-@api.route('/api/seasons/<int:season_id>', methods=['GET'])
+@real_time.route('/seasons/<int:season_id>', methods=['GET'])
 def get_season(season_id):
     season = Season.query.get_or_404(season_id)
     return jsonify(season.to_dict())
 
-@api.route('/api/seasons', methods=['POST'])
+@real_time.route('/seasons', methods=['POST'])
 def create_season():
     data = request.get_json() or {}
     if 'start_date' not in data or 'end_date' not in data or 'competition_id' not in data:
@@ -232,7 +234,7 @@ def create_season():
     db.session.commit()
     return jsonify(season.to_dict()), 201
 
-@api.route('/api/seasons/<int:season_id>', methods=['PUT'])
+@real_time.route('/seasons/<int:season_id>', methods=['PUT'])
 def update_season(season_id):
     season = Season.query.get_or_404(season_id)
     data = request.get_json() or {}
@@ -251,7 +253,7 @@ def update_season(season_id):
     db.session.commit()
     return jsonify(season.to_dict())
 
-@api.route('/api/seasons/<int:season_id>', methods=['DELETE'])
+@real_time.route('/seasons/<int:season_id>', methods=['DELETE'])
 def delete_season(season_id):
     season = Season.query.get_or_404(season_id)
     db.session.delete(season)
@@ -261,17 +263,17 @@ def delete_season(season_id):
 ###############################
 # Competiciones
 ###############################
-@api.route('/api/competitions', methods=['GET'])
+@real_time.route('/competitions', methods=['GET'])
 def get_competitions():
     competitions = Competition.query.all()
     return jsonify([comp.to_dict() for comp in competitions])
 
-@api.route('/api/competitions/<int:competition_id>', methods=['GET'])
+@real_time.route('/competitions/<int:competition_id>', methods=['GET'])
 def get_competition(competition_id):
     competition = Competition.query.get_or_404(competition_id)
     return jsonify(competition.to_dict())
 
-@api.route('/api/competitions', methods=['POST'])
+@real_time.route('/competitions', methods=['POST'])
 def create_competition():
     data = request.get_json() or {}
     if 'name' not in data or 'type' not in data:
@@ -285,7 +287,7 @@ def create_competition():
     db.session.commit()
     return jsonify(competition.to_dict()), 201
 
-@api.route('/api/competitions/<int:competition_id>', methods=['PUT'])
+@real_time.route('/competitions/<int:competition_id>', methods=['PUT'])
 def update_competition(competition_id):
     competition = Competition.query.get_or_404(competition_id)
     data = request.get_json() or {}
@@ -295,7 +297,7 @@ def update_competition(competition_id):
     db.session.commit()
     return jsonify(competition.to_dict())
 
-@api.route('/api/competitions/<int:competition_id>', methods=['DELETE'])
+@real_time.route('/competitions/<int:competition_id>', methods=['DELETE'])
 def delete_competition(competition_id):
     competition = Competition.query.get_or_404(competition_id)
     db.session.delete(competition)
@@ -305,7 +307,7 @@ def delete_competition(competition_id):
 ###############################
 # Partidos
 ###############################
-@api.route('/api/matches', methods=['GET'])
+@real_time.route('/matches', methods=['GET'])
 def get_matches():
     # Opcional: filtrar por fecha, temporada, etc.
     fecha_str = request.args.get('fecha')
@@ -319,12 +321,12 @@ def get_matches():
     matches = query.all()
     return jsonify([m.to_dict() for m in matches])
 
-@api.route('/api/matches/<int:match_id>', methods=['GET'])
+@real_time.route('/matches/<int:match_id>', methods=['GET'])
 def get_match(match_id):
     match = Match.query.get_or_404(match_id)
     return jsonify(match.to_dict())
 
-@api.route('/api/api/matches', methods=['POST'])
+@real_time.route('/matches', methods=['POST'])
 def create_match():
     data = request.get_json() or {}
     # Se espera que se envíen home_team_id, away_team_id, season_id y date (en formato YYYY-MM-DD o YYYY-MM-DDTHH:MM:SS)
@@ -347,7 +349,7 @@ def create_match():
     inicializar_estadisticas_partido(match)
     return jsonify(match.to_dict()), 201
 
-@api.route('/api/api/matches/<int:match_id>', methods=['PUT'])
+@real_time.route('/matches/<int:match_id>', methods=['PUT'])
 def update_match(match_id):
     match = Match.query.get_or_404(match_id)
     data = request.get_json() or {}
@@ -361,7 +363,7 @@ def update_match(match_id):
     db.session.commit()
     return jsonify(match.to_dict())
 
-@api.route('/api/api/matches/<int:match_id>', methods=['DELETE'])
+@real_time.route('/matches/<int:match_id>', methods=['DELETE'])
 def delete_match(match_id):
     match = Match.query.get_or_404(match_id)
     db.session.delete(match)
@@ -371,17 +373,21 @@ def delete_match(match_id):
 ###############################
 # Eventos
 ###############################
-@api.route('/api/events', methods=['GET'])
+@real_time.route('/events', methods=['GET'])
 def get_events():
-    events = Event.query.all()
+    match_id = request.args.get('match_id', type=int)
+    if match_id:
+        events = Event.query.filter_by(match_id=match_id).order_by(Event.minute).all()
+    else:
+        events = Event.query.all()
     return jsonify([event.to_dict() for event in events])
 
-@api.route('/api/events/<int:event_id>', methods=['GET'])
+@real_time.route('/events/<int:event_id>', methods=['GET'])
 def get_event(event_id):
     event = Event.query.get_or_404(event_id)
     return jsonify(event.to_dict())
 
-@api.route('/api/events', methods=['POST'])
+@real_time.route('/events', methods=['POST'])
 def create_event():
     data = request.get_json() or {}
     if 'match_id' not in data or 'event_type' not in data or 'minute' not in data:
@@ -401,7 +407,7 @@ def create_event():
     actualizar_estadisticas_por_evento(event)
     return jsonify(event.to_dict()), 201
 
-@api.route('/api/events/<int:event_id>', methods=['PUT'])
+@real_time.route('/events/<int:event_id>', methods=['PUT'])
 def update_event(event_id):
     event = Event.query.get_or_404(event_id)
     data = request.get_json() or {}
@@ -413,7 +419,7 @@ def update_event(event_id):
     db.session.commit()
     return jsonify(event.to_dict())
 
-@api.route('/api/events/<int:event_id>', methods=['DELETE'])
+@real_time.route('/events/<int:event_id>', methods=['DELETE'])
 def delete_event(event_id):
     event = Event.query.get_or_404(event_id)
     db.session.delete(event)
@@ -423,57 +429,60 @@ def delete_event(event_id):
 ###############################
 # Estadísticas (Ejemplos)
 ###############################
-# Estadísticas del jugador en la temporada
-@api.route('/api/player-statistics', methods=['GET'])
+""" Se las comenta porque dan problemas con rutas de más abajo
+# Devuelve TODOS los objetos PlayerStatistic (estadisticas de jugadores en temporadas)
+@real_time.route('/player-statistics', methods=['GET'])
 def get_player_statistics():
     stats = PlayerStatistic.query.all()
     return jsonify([s.to_dict() for s in stats])
 
-#Obtener estadísticas de jugador en la temporada
-@api.route('/api/player-statistics/<int:stat_id>', methods=['GET'])
+#Obtener estadísticas de jugador en determinada temporada
+@real_time.route('/player-statistics/<int:stat_id>', methods=['GET'])
 def get_player_statistic(stat_id):
     stat = PlayerStatistic.query.get_or_404(stat_id)
     return jsonify(stat.to_dict())
 
-# Estadísticas del jugador en un partido
-@api.route('/api/player-match-statistics', methods=['GET'])
+# Devuelve TODOS los objetos de tipo PlayerMatchStatistic (estadísticas de jugadores en partidos)
+@real_time.route('/player-match-statistics', methods=['GET'])
 def get_player_match_statistics():
     stats = PlayerMatchStatistic.query.all()
     return jsonify([s.to_dict() for s in stats])
 
-# Estadísticas del equipo en la temporada
-@api.route('/api/team-statistics', methods=['GET'])
+# Devuelve TODOS los objetos de tipo TeamStatistic (estadísticas de equipos en temporadas)
+@real_time.route('/team-statistics', methods=['GET'])
 def get_team_statistics():
     stats = TeamStatistic.query.all()
     return jsonify([s.to_dict() for s in stats])
 
-# Estadísticas del equipo en un partido
-@api.route('/api/team-match-statistics', methods=['GET'])
+# Devuelve TODOS los objetos de tipo TeamMatchStatistic (estadísticas de equipos en partidos)
+@real_time.route('/team-match-statistics', methods=['GET'])
 def get_team_match_statistics():
     stats = TeamMatchStatistic.query.all()
     return jsonify([s.to_dict() for s in stats])
 
-# Estadísticas globales del partido (agrupando datos de ambos equipos)
-@api.route('/api/match-statistics', methods=['GET'])
+# Devuelve TODOS los objetos de tipo MatchStatistic (estadísticas de todos los partidos)
+@real_time.route('/match-statistics', methods=['GET'])
 def get_match_statistics():
     stats = MatchStatistic.query.all()
     return jsonify([s.to_dict() for s in stats])
-
+"""
 ###################################
 #ENDPOINTS PARA USUARIOS NORMALES
 # Obtener partidos de cualquier día para cada competencia
-@api.route('/matches/by-day', methods=['GET'])
+@real_time.route('/matches/by-day', methods=['GET'])
 def matches_by_day():
     """
     Devuelve, para cada competencia, la temporada actual y los partidos
     que se juegan en la fecha indicada (por defecto, hoy).
     """
     # Se obtiene la fecha desde los parámetros de la query; por defecto, hoy
-    fecha_str = request.args.get('fecha', datetime.today().strftime('%Y-%m-%d'))
+    fecha_str = request.args.get('date', datetime.today().strftime('%Y-%m-%d'))  # Cambiar a YYYY-MM-DD
+
     try:
-        day = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        day = datetime.strptime(fecha_str, '%Y-%m-%d').date()  # ✅ Usar el formato correcto
     except ValueError:
         return jsonify({'error': 'Formato de fecha inválido. Use YYYY-MM-DD.'}), 400
+
 
     # Se obtienen todas las competencias (podrías filtrarlas según tus necesidades)
     competitions = Competition.query.all()
@@ -495,21 +504,46 @@ def matches_by_day():
     return jsonify(result)
 
 # Obtener partidos de cualquier día para cada competencia, filtrados por estado partido
-@api.route('/matches/filter', methods=['GET'])
+@real_time.route('/matches/filter', methods=['GET'])
 def matches_filtered():
-    # Se requiere enviar el parámetro 'fecha'
-    fecha_str = request.args.get('fecha')
-    if not fecha_str:
-        return jsonify({'error': 'El parámetro "fecha" es obligatorio y debe tener el formato YYYY-MM-DD.'}), 400
+    # Se requiere enviar el parámetro 'date'
+    # Se obtiene la fecha desde los parámetros de la query; por defecto, hoy
+    fecha_str = request.args.get('date', datetime.today().strftime('%Y-%m-%d'))  # Cambiar a YYYY-MM-DD
 
     try:
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        day = datetime.strptime(fecha_str, '%Y-%m-%d').date()  # ✅ Usar el formato correcto
     except ValueError:
-        return jsonify({'error': 'Formato de fecha inválido, use YYYY-MM-DD.'}), 400
+        return jsonify({'error': 'Formato de fecha inválido. Use YYYY-MM-DD.'}), 400
 
     # Se pueden recibir múltiples estados separados por comas: e.g., "playing,to_be_played,finished"
     statuses = request.args.get('status')
-    query = Match.query.filter(db.func.date(Match.date) == fecha)
+
+    competitions = Competition.query.all()
+    result = []
+
+    for comp in competitions:
+        # Se asume que Competition tiene una relación o propiedad current_season.
+        current_season = comp.current_season  # O bien: comp.current_season si lo definiste en el modelo
+        if current_season:
+            # Filtrar los partidos cuyo Match.date (convertido a date) sea igual al día indicado
+            query = Match.query.filter(
+                Match.season_id == current_season.id,
+                db.func.date(Match.date) == day)
+            if statuses:
+                status_list = statuses.split(',')
+                query = query.filter(Match.status.in_(status_list))
+
+                        
+
+            matches = query.all()
+            result.append({
+                'competition': comp.to_dict(),
+                'season': current_season.to_dict(),
+                'matches': [m.to_dict() for m in matches]
+            })
+    return jsonify(result)
+
+    query = Match.query.filter(db.func.date(Match.date) == day)
     if statuses:
         status_list = statuses.split(',')
         query = query.filter(Match.status.in_(status_list))
@@ -535,35 +569,67 @@ def matches_filtered():
     return jsonify([m.to_dict() for m in matches])
 
 #Obtener estadísticas de jugadores en el partido para cada equipo
-@api.route('/matches/<int:match_id>/player-stats', methods=['GET'])
-def player_stats_by_match(match_id):
-    # Opción: filtrar por equipo si se pasa team_id como parámetro
+@real_time.route('/matches/<int:match_id>/player-stats', methods=['GET'])
+def players_stats_by_match(match_id):
     team_id = request.args.get('team_id', type=int)
-    query = PlayerMatchStatistic.query.filter_by(match_id=match_id)
-    if team_id:
-        # Se asume que a través del Player se puede obtener su team o se tenga un campo en la estadística
-        # Por ejemplo, si la estadística incluye el team_id, se filtra directamente:
-        query = query.filter_by(team_id=team_id)
-    stats = query.all()
+    if not team_id:
+        return jsonify({'error': 'Debe enviar team_id'}), 400
+
+    # Obtener los jugadores del equipo
+    players = Player.query.filter_by(current_team_id=team_id).all()
+    player_ids = [player.id for player in players]
+
+    # Obtener las estadísticas de los jugadores en el partido
+    stats = PlayerMatchStatistic.query.filter(
+        PlayerMatchStatistic.match_id == match_id,
+        PlayerMatchStatistic.player_id.in_(player_ids)
+    ).all()
+
     return jsonify([s.to_dict() for s in stats])
 
 #Obtener estadísticas de jugador en la temporada
-@api.route('/player-statistics/<int:player_id>', methods=['GET'])
+@real_time.route('/player-statistics/<int:player_id>', methods=['GET'])
 def get_player_season_stats(player_id):
-    stat = PlayerStatistic.query.filter_by(player_id=player_id).first()
+    season = request.args.get('season_id', type=int)
+
+    if season is None:
+        return jsonify({'error': 'Parámetro season_id es requerido'}), 400
+
+    # 🚨 Verificar qué se está consultando antes de hacer .first()
+    stats_query = PlayerStatistic.query.filter(
+        PlayerStatistic.player_id == player_id,
+        PlayerStatistic.season_id == season
+    )
+
+    print("🔍 Consulta SQL generada:", stats_query)  # 🚀 Agregar este log
+
+    stat = stats_query.first()  # Obtener solo un resultado
+
     if not stat:
         return jsonify({'error': 'Estadísticas no encontradas'}), 404
+
     return jsonify(stat.to_dict())
 
+
 # Obtener estadísticas de cada equipo en el partido (TeamMatchStatistic)
-@api.route('/matches/<int:match_id>/team-stats', methods=['GET'])
+@real_time.route('/matches/<int:match_id>/team-stats', methods=['GET'])
 def team_match_stats(match_id):
     # Se asume que se reciben estadísticas de ambos equipos
     stats = TeamMatchStatistic.query.filter_by(match_id=match_id).all()
     return jsonify([s.to_dict() for s in stats])
 
+# Obtener estadísticas agrupadas del partido (MatchStatistic)
+@real_time.route('/matches/<int:match_id>/stats', methods=['GET'])
+def match_stats(match_id):
+    # Como se busca la estadística de un objeto partido, solo retorna UN OBJETO
+    #stat = MatchStatistic.query.get_or_404(match_id) // Busca en la bd donde el id = match_id (no me sirve)
+    stat = MatchStatistic.query.filter_by(match_id=match_id).first()
+    return jsonify(stat.to_dict() if stat else {})
+    #stats = MatchStatistic.query.filter_by(match_id=match_id).all()
+    #return jsonify([s.to_dict() for s in stats])
+
 #Obtener estadísticas de equipo en la temporada (TeamStatistic)
-@api.route('/team-statistics', methods=['GET'])
+@real_time.route('/team-statistics', methods=['GET'])
 def get_team_season_stats():
     season_id = request.args.get('season_id', type=int)
     if not season_id:
@@ -572,26 +638,33 @@ def get_team_season_stats():
     return jsonify([s.to_dict() for s in stats])
 
 #Obtener todos los eventos asociados al partido
-@api.route('/matches/<int:match_id>/events', methods=['GET'])
+@real_time.route('/matches/<int:match_id>/events', methods=['GET'])
 def get_match_events(match_id):
     events = Event.query.filter_by(match_id=match_id).all()
     return jsonify([e.to_dict() for e in events])
 
 # (tabla de clasificación)
-@api.route('/team-statistics/classification', methods=['GET'])
+@real_time.route('/team-statistics/classification', methods=['GET'])
 def team_classification():
     season_id = request.args.get('season_id', type=int)
     if not season_id:
         return jsonify({'error': 'Debe enviar season_id'}), 400
-    stats = TeamStatistic.query.filter_by(season_id=season_id).order_by(TeamStatistic.points.desc()).all()
-    return jsonify([s.to_dict() for s in stats])
+    stats = TeamStatistic.query.filter_by(season_id=season_id).order_by(TeamStatistic.points.desc(), TeamStatistic.goal_difference.desc()).all()
+    result = []
+    for stat in stats:
+        team = Team.query.get(stat.team_id)
+        stat_dict = stat.to_dict()
+        stat_dict['team_id'] = team.to_dict()
+        result.append(stat_dict)
+    return result
+    #return jsonify([s.to_dict() for s in stats])
 
 #ENDPOINTS PARA ÁRBITROS
 
 # Anteriores
 """
 # Obtener todos los partidos
-@api.route('/api/partidos', methods=['GET'])
+@api.route('/partidos', methods=['GET'])
 def get_partidos():
     partidos = Partido.query.all()
     result = [
@@ -608,7 +681,7 @@ def get_partidos():
     #return jsonify(result), 200
 
 # Obtener todos los eventos
-@api.route('/api/eventos', methods=['GET'])
+@api.route('/eventos', methods=['GET'])
 def get_eventos():
     eventos = Evento.query.all()
     result = [
@@ -623,7 +696,7 @@ def get_eventos():
     return jsonify({"message": "Lista de eventos", "data": result}), 200
 
 # Crear un nuevo evento
-@api.route('/api/eventos', methods=['POST'])
+@api.route('/eventos', methods=['POST'])
 def create_evento():
     data = request.json
 
@@ -656,12 +729,12 @@ def create_evento():
     }), 201"""
 
 # Aquí irán los endpoints de las APIs
-"""@api.route('/api/partidos', methods=['GET'])
+"""@api.route('/partidos', methods=['GET'])
 def get_partidos():
     return jsonify({"message": "Lista de partidos", "data": []})
 
 # Endpoint de ejemplo
-@api.route('/api/partidos', methods=['POST'])
+@api.route('/partidos', methods=['POST'])
 def create_partido():
     data = request.json
     if not data:

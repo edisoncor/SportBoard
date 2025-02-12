@@ -27,6 +27,12 @@ services:
         environment:
             - FLASK_APP=/source/run.py
             - FLASK_ENV=development
+            # REVISAAAR
+            - FLASK_RUN_HOST=0.0.0.0  # Permite acceso desde fuera del contenedor
+            - FLASK_RUN_PORT=5000
+            # Talves funcione con esto:
+            #- PORT: 5000
+            # Definir las rutas que usa flask
             - DATABASE_URL=mysql+pymysql://my_user:my_password@mariadb-real-time:3306/my_database
         ports:
             - "5000:5000"
@@ -37,6 +43,10 @@ services:
             - static_volume:/app/staticfiles
         networks:
             - sportboard-network
+
+networks:
+    sportboard-network:
+        external: true
 
 volumes:
     mariadb_data:

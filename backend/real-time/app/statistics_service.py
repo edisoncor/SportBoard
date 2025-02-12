@@ -98,7 +98,7 @@ def inicializar_estadisticas_temporada(season):
             db.session.add(player_stat)
     
     db.session.commit()
-
+ 
 # Actualizar estadística de partido y temporada para jugador y equipo
 def actualizar_estadisticas_por_evento(event):
     """

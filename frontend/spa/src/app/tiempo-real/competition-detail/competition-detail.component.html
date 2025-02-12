@@ -1,0 +1,65 @@
+<app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+<h4>Detalles de competencia</h4>
+
+<div class="header">
+    <p>Tabla de resultados</p>
+</div>
+
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="#">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let stat; let i = index"> {{ i + 1 }} </td>
+        </ng-container>
+        <ng-container matColumnDef="Equipo">
+            <th mat-header-cell *matHeaderCellDef> Equipo </th>
+            <td mat-cell *matCellDef="let stat">
+                <img [src]="'assets/real-time-assets/teams/' + stat.team_id.photo" alt="{{ stat.team_id.name }}" style="width: 20px; height: 20px; margin-right: 8px;">
+                {{ stat.team_id.name }} 
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PJ">
+            <th mat-header-cell *matHeaderCellDef> PJ </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.matches_played }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="G">
+            <th mat-header-cell *matHeaderCellDef> G </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.wins }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="P">
+            <th mat-header-cell *matHeaderCellDef> P </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.losses }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="E">
+            <th mat-header-cell *matHeaderCellDef> E </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.draws }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GF">
+            <th mat-header-cell *matHeaderCellDef> GF </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.goals_scored }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GC">
+            <th mat-header-cell *matHeaderCellDef> GC </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.goals_conceded }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DG">
+            <th mat-header-cell *matHeaderCellDef> DG </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.goal_difference }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PTS">
+            <th mat-header-cell *matHeaderCellDef> PTS </th>
+            <td mat-cell *matCellDef="let stat"> {{ stat.points }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

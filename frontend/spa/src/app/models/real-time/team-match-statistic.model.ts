@@ -1,14 +1,14 @@
 export interface TeamMatchStatistic {
     id: number;
-    teamId: number;
-    matchId: number;
+    team_id: number;
+    match_id: number;
     shots: number;
-    shotsToGoal: number;
+    shots_to_goal: number;
     possession: number;
     passes: number;
     fouls: number;
-    yellowCards: number;
-    redCards: number; 
+    yellow_cards: number;
+    red_cards: number; 
     offsides: number;
     corners: number;
   }

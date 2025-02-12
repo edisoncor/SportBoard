@@ -4,7 +4,7 @@ export interface User {
     id: number;
     username: string;
     email: string;
-    passwordHash?: string; // Usualmente no se expone en el frontend
+    password_hash?: string; // Usualmente no se expone en el frontend
     role: UserRole | string;
-    createdAt: Date | string;
+    created_at: Date | string;
   }

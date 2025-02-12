@@ -16,58 +16,78 @@ services:
           - /catalog/catalogs
 
   - name: real-time-service
-    url: http://ms3-real-time:5000/api  
+    url: http://ms3-real-time:5000  
     routes:
       - name: users-route
         paths:
           - /real-time/users
+        strip_path: false
       - name: teams-route
         paths:
           - /real-time/teams
+        strip_path: false
       - name: players-route
         paths:
           - /real-time/players
+        strip_path: false
       - name: coaches-route
         paths:
           - /real-time/coaches
+        strip_path: false
       - name: seasons-route
         paths:
           - /real-time/seasons
+        strip_path: false
       - name: competitions-route
         paths:
-          - /real-time/competitions
+          - /real-time/competitions  # formato microservicio/endpoint
+        strip_path: false
       - name: matches-route
         paths:
-          - /real-time/matches # formato microservicio/endpoint
+          - /real-time/matches
+        strip_path: false
       - name: events-route
         paths:
           - /real-time/events
+        strip_path: false
       - name: matches-by-day
         paths:
           - /real-time/matches/by-day
+        strip_path: false
       - name: matches-filter
         paths:
           - /real-time/matches/filter
-      - name: player-match-stats
+        strip_path: false
+      - name: players-match-stats
         paths:
         # {} no es reconocido por Kong
         #  - /real-time/matches/{match_id}/player-stats
-        - /real-time/matches/:match_id/player-stats
+          - /real-time/matches/:match_id/players-stats
+        strip_path: false
       - name: player-season-stats
         paths:
-          - /real-time/player-statistics
+          - /real-time/player-statistics/(?<player_id>\d+) # Se utiliza para indicar q es un número entero
+        strip_path: false
       - name: team-match-stats
         paths:
           - /real-time/matches/:match_id/team-stats
+        strip_path: false
+      - name: match-stats
+        paths:
+          - /real-time/matches/:match_id/stats
+        strip_path: false
       - name: team-season-stats
         paths:
           - /real-time/team-statistics
+        strip_path: false
       - name: match-events
         paths:
           - /real-time/matches/:match_id/events
+        strip_path: false
       - name: team-classification
         paths:
           - /real-time/team-statistics/classification
+        strip_path: false
       
 
   - name: ms2-competencies
@@ -91,3 +111,36 @@ services:
         paths:
           - /media/
         strip_path: false
+
+# consumers:
+#   - username: sportboard-consumer
+#     jwt_secrets:
+#       - key: sportboard-statistics
+#         secret: "1234"
+#         algorithm: HS256
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - http://localhost:4200
+        - http://localhost:65293
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - HEAD
+        - OPTIONS
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+        - Origin
+        - X-Requested-With
+      exposed_headers:
+        - X-Auth-Token
+      credentials: true
+      max_age: 3600
+      preflight_continue: false

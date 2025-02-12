@@ -1,13 +1,13 @@
 export interface TeamStatistic {
     id: number;
-    teamId: number;
-    seasonId?: number;
-    matchesPlayed: number;
+    team_id: number;
+    season_id?: number;
+    matches_played: number;
     wins: number;
     losses: number;
     draws: number;
-    goalsScored: number;
-    goalsConceded: number;
-    goalDifference: number;
+    goals_scored: number;
+    goals_conceded: number;
+    goal_difference: number;
     points: number;
   }

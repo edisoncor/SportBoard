@@ -1,95 +1,255 @@
 <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
 <h4>Seguimiento en tiempo real</h4>
 
-<mat-card appearance="outlined" style="margin-bottom: 20px;">
-    <mat-card-content>
-        <p style="margin-top: 1px;">{{ currentDate | date: 'fullDate' }}</p>
-    </mat-card-content>
-</mat-card>
+<div class="header-container">
+    <mat-card appearance="outlined" class="date-card">
+        <mat-card-content>
+            <p>{{ selectedDate | date: 'fullDate' }}</p>
+        </mat-card-content>
+    </mat-card>
 
-<mat-sidenav-container class="example-container">
-    <mat-sidenav mode="side" opened>
-        <mat-toolbar>Competencias fijadas</mat-toolbar>
-        <mat-list>
-            <mat-list-item *ngFor="let competencia of competencias">
-                {{ competencia.nombre }}
-                <button mat-icon-button (click)="quitarCompetencia(competencia)">
-                    <mat-icon>delete</mat-icon>
-                    <a matTooltip="Quitar de la lista"></a>
-                </button>
-            </mat-list-item>
-        </mat-list>
-        <button mat-raised-button color="primary" (click)="agregarCompetencia()">
-            Agregar a la lista
+    <div class="date-selector">
+        <button mat-icon-button (click)="previousDay()">
+            <mat-icon>chevron_left</mat-icon>
         </button>
-    </mat-sidenav>
-<mat-sidenav-content>
+        <input type="date" id="date" [(ngModel)]="selectedDate" (change)="getFilteredMatches()"/>
+        <button mat-icon-button (click)="nextDay()">
+            <mat-icon>chevron_right</mat-icon>
+        </button> 
+    </div>
+</div>
 
-<mat-tab-group>
-    <mat-tab label="Todos">
-        Content 1
-    </mat-tab>
-    <mat-tab label="En directo"> Content 2 </mat-tab>
-    <mat-tab label="Finalizados"> Content 3 </mat-tab>
-    <mat-tab label="Próximos"> Content 4 </mat-tab>
-</mat-tab-group>
-<!--
-<mat-card appearance="outlined" style="margin-bottom: 20px;">
-    <mat-card-content>
-        <div style="display: flex; gap: 10px;">
-            <mat-form-field appearance="fill">
-                <mat-label>Temporada</mat-label>
-                <mat-select>
-                    <mat-option value="1">One</mat-option>
-                    <mat-option value="2">Two</mat-option>
-                    <mat-option value="3">Three</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Competencia</mat-label>
-                <mat-select>
-                    <mat-option value="1">One</mat-option>
-                    <mat-option value="2">Two</mat-option>
-                    <mat-option value="3">Three</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Categoria</mat-label>
-                <mat-select>
-                    <mat-option value="1">One</mat-option>
-                    <mat-option value="2">Two</mat-option>
-                    <mat-option value="3">Three</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-    </mat-card-content>
-</mat-card>
-<mat-card appearance="outlined" style="margin-bottom: 20px;">
-    <mat-card-content>
-        <table mat-table [dataSource]="partidos" class="mat-elevation-z8">
-            <ng-container matColumnDef="equipos">
-                <th mat-header-cell *matHeaderCellDef>Equipos</th>
-                <td mat-cell *matCellDef="let element"> {{element.equipo_local}} - {{element.equipo_visitante}} </td>
-            </ng-container>
-            <ng-container matColumnDef="fecha">
-                <th mat-header-cell *matHeaderCellDef>Fecha</th>
-                <td mat-cell *matCellDef="let element"> {{element.fecha | date: 'short'}} </td>
-            </ng-container>
-            <ng-container matColumnDef="accion">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-fab extended (click)="navigateToCronologia(element.id)">
-                        <mat-icon>visibility</mat-icon>
-                        Ver
-                    </button>
-                    <button mat-fab extended (click)="navigateToArbitro()" style="width: 140px;" *ngIf="esArbitro">
-                        <mat-icon>sync_alt</mat-icon>
-                        Actualizar
-                    </button>
-                </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-    </mat-card-content>
-</mat-card>-->
+<mat-sidenav-container class="matches-container">
+    <mat-sidenav-content class="main-content">
+        <mat-tab-group class="match-tabs" >
+            <mat-tab label="TODOS">
+                <div class="matches-list">
+                    <div *ngFor="let day of matchesByDay" class="competition-group">
+                        <div class="competition-header">
+                            <img [src]="'assets/leagues/' + day.competition.name.toLowerCase().replace(' ', '-') + '.png'" 
+                                 class="competition-icon" alt="competición">
+                            <span class="competition-name" (click)="navigateToCompetitionDetail(day.competition.current_season_id)">{{ day.competition.name }}</span>
+                            <button mat-button class="bracket-button" (click)="toggleCompetitionVisibility(day.competition.name)">
+                                {{ isCompetitionHidden(day.competition.name) ? 'Mostrar' : 'Ocultar' }}
+                            </button>
+                        </div>
+
+                        <div class="matches" *ngIf="!isCompetitionHidden(day.competition.name)">
+                            <mat-card *ngFor="let match of day.matches" class="match-card" (click)="navigateToDetailsMatch(match.id)">
+                                <div class="match-info">
+                                    <div class="match-time">
+                                        {{ match.status }}
+                                        <span *ngIf="match.status === 'En juego'; else showTime">
+                                            <!--min {{ match.current_minute }}{{"'"}}-->
+                                            min '
+                                        </span>
+                                        <ng-template #showTime>
+                                            {{ match.date | date:'shortTime' }}
+                                        </ng-template>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="team home">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.home_team?.photo" alt="local" class="team-logo">
+                                            <span>{{ match.home_team?.name }}</span>
+                                        </div>
+                                        <div class="team away">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.away_team?.photo" alt="visitante" class="team-logo">
+                                            <span>{{ match.away_team?.name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_home }}</span>
+                                        </div>
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_away }}</span>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </mat-card>
+                        </div>
+                        
+
+                        <mat-card class="no-matches" *ngIf="day.matches.length === 0">
+                            <mat-card-content>
+                                No hay partidos programados
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="EN DIRECTO">
+                <div class="matches-list">
+                    <div *ngFor="let day of playingMatches" class="competition-group">
+                        <div class="competition-header">
+                            <img [src]="'assets/leagues/' + day.competition.name.toLowerCase().replace(' ', '-') + '.png'" 
+                                 class="competition-icon" alt="competición">
+                            <span class="competition-name">{{ day.competition.name }}</span>
+                            <button mat-button class="bracket-button" (click)="toggleCompetitionVisibility(day.competition.name)">
+                                {{ isCompetitionHidden(day.competition.name) ? 'Mostrar' : 'Ocultar' }}
+                            </button>
+                        </div>
+
+                        <div class="matches" *ngIf="!isCompetitionHidden(day.competition.name)">
+                            <mat-card *ngFor="let match of day.matches" class="match-card" (click)="navigateToDetailsMatch(match.id)">
+                                <div class="match-info">
+                                    <div class="match-time">
+                                        {{ match.status }}
+                                        <span *ngIf="match.status === 'En juego'; else showTime">
+                                            <!--min {{ match.current_minute }}{{"'"}}-->
+                                            min '
+                                        </span>
+                                        <ng-template #showTime>
+                                            {{ match.date | date:'shortTime' }}
+                                        </ng-template>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="team home">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.home_team?.photo" alt="local" class="team-logo">
+                                            <span>{{ match.home_team?.name }}</span>
+                                        </div>
+                                        <div class="team away">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.away_team?.photo" alt="visitante" class="team-logo">
+                                            <span>{{ match.away_team?.name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_home }}</span>
+                                        </div>
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_away }}</span>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </mat-card>
+                        </div>
+                        
+
+                        <mat-card class="no-matches" *ngIf="day.matches.length === 0">
+                            <mat-card-content>
+                                No hay partidos en juego actualmente
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="FINALIZADOS">
+                <div class="matches-list">
+                    <div *ngFor="let day of finishedMatches" class="competition-group">
+                        <div class="competition-header">
+                            <img [src]="'assets/leagues/' + day.competition.name.toLowerCase().replace(' ', '-') + '.png'" 
+                                 class="competition-icon" alt="competición">
+                            <span class="competition-name">{{ day.competition.name }}</span>
+                            <button mat-button class="bracket-button" (click)="toggleCompetitionVisibility(day.competition.name)">
+                                {{ isCompetitionHidden(day.competition.name) ? 'Mostrar' : 'Ocultar' }}
+                            </button>
+                        </div>
+
+                        <div class="matches" *ngIf="!isCompetitionHidden(day.competition.name)">
+                            <mat-card *ngFor="let match of day.matches" class="match-card" (click)="navigateToDetailsMatch(match.id)">
+                                <div class="match-info">
+                                    <div class="match-time">
+                                        {{ match.status }}
+                                        <span *ngIf="match.status === 'En juego'; else showTime">
+                                            <!--min {{ match.current_minute }}{{"'"}}-->
+                                            min '
+                                        </span>
+                                        <ng-template #showTime>
+                                            {{ match.date | date:'shortTime' }}
+                                        </ng-template>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="team home">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.home_team?.photo" alt="local" class="team-logo">
+                                            <span>{{ match.home_team?.name }}</span>
+                                        </div>
+                                        <div class="team away">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.away_team?.photo" alt="visitante" class="team-logo">
+                                            <span>{{ match.away_team?.name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_home }}</span>
+                                        </div>
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_away }}</span>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </mat-card>
+                        </div>
+                        
+
+                        <mat-card class="no-matches" *ngIf="day.matches.length === 0">
+                            <mat-card-content>
+                                No hay partidos finalizados para esta fecha
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="PRÓXIMOS">
+                <div class="matches-list">
+                    <div *ngFor="let day of toBePlayedMatches" class="competition-group">
+                        <div class="competition-header">
+                            <img [src]="'assets/leagues/' + day.competition.name.toLowerCase().replace(' ', '-') + '.png'" 
+                                 class="competition-icon" alt="competición">
+                            <span class="competition-name">{{ day.competition.name }}</span>
+                            <button mat-button class="bracket-button" (click)="toggleCompetitionVisibility(day.competition.name)">
+                                {{ isCompetitionHidden(day.competition.name) ? 'Mostrar' : 'Ocultar' }}
+                            </button>
+                        </div>
+
+                        <div class="matches" *ngIf="!isCompetitionHidden(day.competition.name)">
+                            <mat-card *ngFor="let match of day.matches" class="match-card" (click)="navigateToDetailsMatch(match.id)">
+                                <div class="match-info">
+                                    <div class="match-time">
+                                        {{ match.status }}
+                                        <span *ngIf="match.status === 'En juego'; else showTime">
+                                            <!--min {{ match.current_minute }}{{"'"}}-->
+                                            min '
+                                        </span>
+                                        <ng-template #showTime>
+                                            {{ match.date | date:'shortTime' }}
+                                        </ng-template>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="team home">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.home_team?.photo" alt="local" class="team-logo">
+                                            <span>{{ match.home_team?.name }}</span>
+                                        </div>
+                                        <div class="team away">
+                                            <img [src]="'assets/real-time-assets/teams/' + match.away_team?.photo" alt="visitante" class="team-logo">
+                                            <span>{{ match.away_team?.name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="teams-container">
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_home }}</span>
+                                        </div>
+                                        <div class="match-score" *ngIf="match.status === 'Finalizado' || match.status === 'En juego'">
+                                            <span>{{ match.goals_away }}</span>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </mat-card>
+                        </div>
+                        
+
+                        <mat-card class="no-matches" *ngIf="day.matches.length === 0">
+                            <mat-card-content>
+                                No hay partidos pendientes para esta fecha
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-sidenav-content>
+</mat-sidenav-container>
