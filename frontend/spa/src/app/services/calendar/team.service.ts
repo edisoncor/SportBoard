@@ -14,23 +14,15 @@ export class TeamService {
     private createUrl = environmentCalendar1.services.teams.endpoints.create;
     private updateUrl = environmentCalendar1.services.teams.endpoints.update;
     private deleteUrl = environmentCalendar1.services.teams.endpoints.delete;
-    private equiposUrl = environmentCalendar1.services.teams.endpoints.equip;
+    private teamsUrl = environmentCalendar1.services.teams.endpoints.equip;
     constructor(private httpClient: HttpClient) { }
 
-    // Obtener todos los calendarios
+    // CALENDARIOS
     getAllCalendars(): Observable<string[]> {
         return this.httpClient.get<string[]>(this.getAllUrl);
     }
-    getAllTeams(): Observable<string[]> {
-        return this.httpClient.get<string[]>(this.equiposUrl);  // Usar equiposUrl en lugar de getAllUrl
-    }
 
-    deleteTeam(id: number): Observable<void> {
-        const url = this.equiposUrl.replace('{id}', id.toString());  // Asegurar que la URL es para equipos
-        return this.httpClient.delete<void>(url);
-    }
-
-
+    
     // Obtener un calendario por su ID
     getCalendarById(id: number): Observable<string> {
         const url = this.getByIdUrl.replace('{id}', id.toString());
@@ -46,15 +38,19 @@ export class TeamService {
         });
     }
 
-
-    getEquipos(): Observable<Team[]> {
-        return this.httpClient.get<Team[]>(this.equiposUrl, {
+    // Metodos para teams
+    // Obtener teams
+    getTeams(): Observable<Team[]> {
+        return this.httpClient.get<Team[]>(this.teamsUrl, {
             headers: new HttpHeaders({
-                'Accept': 'application/json'  // Cambiar a 'application/json' en lugar de 'text/plain'
+                'Accept': 'application/json'
             })
         });
     }
 
-
-
+    // Eliminar equipo por ID
+    deleteTeam(id: number): Observable<void> {
+        const url = this.teamsUrl.replace('{id}', id.toString());
+        return this.httpClient.delete<void>(url);
+    }
 }

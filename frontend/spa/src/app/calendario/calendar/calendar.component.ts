@@ -1,31 +1,17 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TeamService } from '../../services/calendar/team.service';
-import {SharedModule} from '../../shared/shared.module';
-import {FormsModule} from '@angular/forms';
-
-interface Team {
-  id: number;
-  name: string;
-}
-
-interface Partido {
-  id: number;
-  fecha: Date;
-  equipoLocal: Team;
-  marcadorLocal: number;
-  equipoVisitante: Team;
-  marcadorVisitante: number;
-  equipoSeleccionado?: Team;
-}
+import { Team } from '../../models/calendar/team.model';
+import { Match } from '../../models/calendar/match.model';
 
 @Component({
     selector: 'app-calendar',
     standalone: true,
-    imports: [CommonModule, SharedModule, FormsModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './calendar.component.html',
-    styleUrl: './calendar.component.scss'
+    styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
     mostrarFormulario: boolean = false;
@@ -34,27 +20,27 @@ export class CalendarComponent implements OnInit {
     anioActual: number = 0;
     diasCalendario: any[] = [];
     calendarios: string[] = [];
-    partidosData: Partido[] = [];
+    partidosData: Match[] = [];
     equipos: Team[] = [];
     equiposFiltrados: Team[] = [];  // Equipos filtrados
     equipoSeleccionado: string = '';  // Almacena el equipo seleccionado para el filtro
     fechaPartido: Date = new Date(); // Fecha y hora del partido
     equipoLocalSeleccionado: Team | null = null;
     equipoVisitanteSeleccionado: Team | null = null;
-    marcadorLocal: number = 0; // Marcador del equipo local
+    homeScore: number = 0; // Marcador del equipo local
     marcadorVisitante: number = 0; // Marcador del equipo visitante
     diaSeleccionado: any = null;
-    equiposData: string[] = [];
+    equiposData: Team[] = [];
+
     constructor(
         private router: Router,
         private teamService: TeamService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.cargarCalendarios();
         this.generarCalendario();
-        this.teamService.getEquipos().subscribe({
+        this.teamService.getTeams().subscribe({
             next: (data) => {
                 console.log('Equipos recibidos:', data);
                 this.equipos = data;  // Asignar la lista de equipos a la propiedad 'equipos'
@@ -66,25 +52,45 @@ export class CalendarComponent implements OnInit {
             }
         });
     }
+
     asignarEnfrentamientosAleatorios() {
         const equiposDisponibles = [...this.equipos]; // Copiar la lista de equipos para evitar modificarla directamente
-        const partidos: Partido[] = [];
+        const partidos: Match[] = [];
         let idPartido = 1; // Inicializamos el ID para los partidos
 
         while (equiposDisponibles.length >= 2) {
             // Tomar dos equipos aleatorios para el enfrentamiento
-            const equipoLocal = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
-            const equipoVisitante = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
+            const homeTeam = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
+            const guestTeam = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
 
             // Crear un partido con fecha aleatoria (en este caso, del mes actual)
             const fechaAleatoria = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), Math.floor(Math.random() * 30) + 1);
-            const partido: Partido = {
+            const partido: Match = {
                 id: idPartido++, // Asignar un ID único incremental
-                fecha: fechaAleatoria,
-                equipoLocal,
-                marcadorLocal: 0,
-                equipoVisitante,
-                marcadorVisitante: 0
+                date: fechaAleatoria,
+                homeTeam: homeTeam,
+                guestTeam: guestTeam,
+                startTime: '',
+                duration: 0,
+                finishTime: '',
+                scoreboard: {
+                    id: 0,
+                    homeScore: 0,
+                    guestScore: 0,
+                    isFinished: false,
+                    winner: null
+                },
+                playingField: {
+                    id: 0,
+                    name: '',
+                    address: {
+                        id: 0,
+                        principalStreet: '',
+                        secondaryStreet: '',
+                        reference: ''
+                    }
+                },
+                status: 'PENDING'
             };
 
             partidos.push(partido);  // Agregar partido al array
@@ -99,7 +105,7 @@ export class CalendarComponent implements OnInit {
     mostrarPartidosDelDia(dia: any) {
         this.diaSeleccionado = dia;
         const partidosDelDia = this.partidosData.filter(partido => {
-            const partidoFecha = new Date(partido.fecha);
+            const partidoFecha = new Date(partido.date);
             return partidoFecha.getDate() === dia && 
                    partidoFecha.getMonth() === this.fechaActual.getMonth() && 
                    partidoFecha.getFullYear() === this.fechaActual.getFullYear();
@@ -107,35 +113,38 @@ export class CalendarComponent implements OnInit {
 
         if (partidosDelDia.length > 0) {
             const partido = partidosDelDia[0];
-            console.log(`Partido del ${dia}: ${partido.equipoLocal.name} vs ${partido.equipoVisitante.name}`);
+            console.log(`Partido del ${dia}: ${partido.homeTeam.name} vs ${partido.guestTeam.name}`);
         }
     }
-
-
 
     cerrarModalPartidos() {
         this.diaSeleccionado = null;
     }
+
     private cargarCalendarios() {
         this.teamService.getAllCalendars().subscribe({
             next: (calendarios) => {
                 console.log('Calendarios raw:', calendarios);
 
                 this.partidosData = calendarios.map(calendario => {
-                    const partidoData = typeof calendario === 'string' ?
-                        JSON.parse(calendario) : calendario;
+                    const partidoData = typeof calendario === 'string' ? JSON.parse(calendario) : calendario;
 
-                    const fecha = new Date(partidoData.fecha);
+                    const fecha = new Date(partidoData.date);
                     console.log('Fecha procesada:', fecha);
 
                     return {
                         id: partidoData.id,
-                        fecha: fecha,
-                        equipoLocal: partidoData.equipoLocal,
-                        marcadorLocal: partidoData.marcadorLocal,
-                        equipoVisitante: partidoData.equipoVisitante,
-                        marcadorVisitante: partidoData.marcadorVisitante,
-                        equipoSeleccionado: partidoData.equipoSeleccionado
+                        date: fecha,
+                        homeTeam: partidoData.homeTeam,
+                        homeScore: partidoData.homeScore,
+                        guestTeam: partidoData.guestTeam,
+                        guestScore: partidoData.guestScore,
+                        startTime: partidoData.startTime,
+                        duration: partidoData.duration,
+                        finishTime: partidoData.finishTime,
+                        scoreboard: partidoData.scoreboard,
+                        playingField: partidoData.playingField,
+                        status: partidoData.status
                     };
                 });
 
@@ -147,34 +156,33 @@ export class CalendarComponent implements OnInit {
             }
         });
     }
+
     filtrarEquiposLocal(event: any) {
         const equipoSeleccionado = event.target.value;
-        this.equipoLocalSeleccionado = equipoSeleccionado;
+        this.equipoLocalSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
 
         // Actualizar equipos disponibles para visitante
-        if (equipoSeleccionado) {
-            this.equiposFiltrados = this.equipos.filter(equipo => equipo !== equipoSeleccionado);
+        if (this.equipoLocalSeleccionado) {
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo.id !== this.equipoLocalSeleccionado!.id);
         } else {
             this.equiposFiltrados = [...this.equipos];
         }
     }
 
     filtrarEquiposVisitante(event: any) {
-        this.equipoVisitanteSeleccionado = event.target.value;
+        const equipoSeleccionado = event.target.value;
+        this.equipoVisitanteSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
     }
 
-    // Actualizar los equipos disponibles en cada campo según la selección
     actualizarEquiposDisponibles() {
-        // Si se selecciona un equipo en el local, eliminar ese equipo de los disponibles para el visitante
         if (this.equipoLocalSeleccionado) {
-            this.equiposFiltrados = this.equipos.filter(equipo => equipo !== this.equipoLocalSeleccionado);
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo.id !== this.equipoLocalSeleccionado!.id);
         } else {
-            this.equiposFiltrados = [...this.equipos]; // Restaurar todos los equipos si no se selecciona un local
+            this.equiposFiltrados = [...this.equipos];
         }
 
-        // Si se selecciona un equipo en el visitante, eliminar ese equipo de los disponibles para el local
         if (this.equipoVisitanteSeleccionado) {
-            this.equiposFiltrados = this.equiposFiltrados.filter(equipo => equipo !== this.equipoVisitanteSeleccionado);
+            this.equiposFiltrados = this.equiposFiltrados.filter(equipo => equipo.id !== this.equipoVisitanteSeleccionado!.id);
         }
     }
 
@@ -184,31 +192,47 @@ export class CalendarComponent implements OnInit {
             return;
         }
 
-        // Sumamos un día a la fecha seleccionada
         const fechaPartidoDate = new Date(this.fechaPartido);
-        fechaPartidoDate.setDate(fechaPartidoDate.getDate() + 1);  // Sumar un día
+        fechaPartidoDate.setDate(fechaPartidoDate.getDate() + 1);
 
         if (isNaN(fechaPartidoDate.getTime())) {
             console.error("La fecha seleccionada no es válida.");
             return;
         }
 
-        const partido: Partido = {
-            id: this.partidosData.length + 1,  // ID único incremental
-            fecha: fechaPartidoDate,  // Utilizamos la fecha con un día agregado
-            equipoLocal: this.equipoLocalSeleccionado,
-            marcadorLocal: this.marcadorLocal,
-            equipoVisitante: this.equipoVisitanteSeleccionado,
-            marcadorVisitante: this.marcadorVisitante,
-            equipoSeleccionado: this.equipoLocalSeleccionado || this.equipoVisitanteSeleccionado
+        const partido: Match = {
+            id: this.partidosData.length + 1,
+            date: fechaPartidoDate,
+            homeTeam: this.equipoLocalSeleccionado,
+            guestTeam: this.equipoVisitanteSeleccionado,
+            startTime: '',
+            duration: 0,
+            finishTime: '',
+            scoreboard: {
+                id: 0,
+                homeScore: this.homeScore,
+                guestScore: this.marcadorVisitante,
+                isFinished: false,
+                winner: null
+            },
+            playingField: {
+                id: 0,
+                name: '',
+                address: {
+                    id: 0,
+                    principalStreet: '',
+                    secondaryStreet: '',
+                    reference: ''
+                }
+            },
+            status: 'PENDING'
         };
 
         this.partidosData.push(partido);
 
-        // Formatear la fecha antes de enviarla como string al backend
         const partidoString = JSON.stringify({
             ...partido,
-            fecha: this.formatearFecha(partido.fecha)  // Formatea la fecha antes de enviarla
+            date: this.formatearFecha(partido.date)
         });
 
         this.teamService.createCalendar(partidoString).subscribe({
@@ -224,37 +248,30 @@ export class CalendarComponent implements OnInit {
         this.mostrarFormulario = false;
     }
 
-
-
     generarCalendario() {
         const primerDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), 1);
         const ultimoDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth() + 1, 0);
 
-        this.nombreMesActual = primerDiaDelMes.toLocaleString('default', {month: 'long'});
+        this.nombreMesActual = primerDiaDelMes.toLocaleString('default', { month: 'long' });
         this.anioActual = primerDiaDelMes.getFullYear();
 
         const diaSemanaInicio = primerDiaDelMes.getDay();
         const semanas: any[] = [];
         let semanaActual: any[] = [];
 
-        // Agregar celdas vacías antes del primer día del mes
         for (let i = 0; i < diaSemanaInicio; i++) {
-            semanaActual.push({fecha: '', esmesMesActual: false, partidos: []});
+            semanaActual.push({ fecha: '', esmesMesActual: false, partidos: [] });
         }
 
-        // Agregar días del mes
         for (let dia = 1; dia <= ultimoDiaDelMes.getDate(); dia++) {
             const diaActual = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), dia);
 
-            // Filtrar partidos para este día
             const partidosDia = this.partidosData.filter(partido => {
-                const partidoFecha = new Date(partido.fecha);
+                const partidoFecha = new Date(partido.date);
                 return partidoFecha.getDate() === diaActual.getDate() &&
                     partidoFecha.getMonth() === diaActual.getMonth() &&
                     partidoFecha.getFullYear() === diaActual.getFullYear();
             });
-
-
 
             semanaActual.push({
                 fecha: dia,
@@ -268,48 +285,42 @@ export class CalendarComponent implements OnInit {
             }
         }
 
-        // Agregar celdas vacías después del último día del mes
         if (semanaActual.length > 0) {
             while (semanaActual.length < 7) {
-                semanaActual.push({fecha: '', esmesMesActual: false, partidos: []});
+                semanaActual.push({ fecha: '', esmesMesActual: false, partidos: [] });
             }
             semanas.push(semanaActual);
         }
 
         this.diasCalendario = semanas;
-        console.log('Calendario generado:', this.diasCalendario); // Para debug
+        console.log('Calendario generado:', this.diasCalendario);
     }
 
     formatearFecha(fecha: any): string {
-        // Si 'fecha' es un string, conviértelo a Date
-        const fechaDate = new Date(fecha);  // Convertimos a Date si es necesario
+        const fechaDate = new Date(fecha);
 
-        // Verifica que la conversión fue exitosa
         if (isNaN(fechaDate.getTime())) {
             console.error("La fecha es inválida:", fecha);
             return "";
         }
 
         const year = fechaDate.getFullYear();
-        const month = ('0' + (fechaDate.getMonth() + 1)).slice(-2);  // Mes con dos dígitos
-        const day = ('0' + fechaDate.getDate()).slice(-2);  // Día con dos dígitos
+        const month = ('0' + (fechaDate.getMonth() + 1)).slice(-2);
+        const day = ('0' + fechaDate.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     }
 
     eliminarPartido(id: number) {
-        // Llamamos a getEquipos para obtener los equipos y luego decidimos qué partido eliminar
-        this.teamService.getEquipos().subscribe({
+        this.teamService.getTeams().subscribe({
             next: (equipos) => {
                 console.log('Equipos obtenidos:', equipos);
-                // Encontramos el partido con el ID proporcionado
                 const partidoAEliminar = this.partidosData.find(partido => partido.id === id);
 
                 if (partidoAEliminar) {
                     console.log('Partido a eliminar:', partidoAEliminar);
-                    // Filtrar los partidos que no coinciden con el ID
                     this.partidosData = this.partidosData.filter(partido => partido.id !== id);
                     console.log('Partidos después de la eliminación:', this.partidosData);
-                    this.generarCalendario(); // Actualizamos el calendario con los partidos restantes
+                    this.generarCalendario();
                 } else {
                     console.error('No se encontró el partido con el ID proporcionado');
                 }
@@ -321,15 +332,12 @@ export class CalendarComponent implements OnInit {
     }
 
     eliminarDeCalendario(partido: any) {
-        // Aquí puedes eliminar el partido del calendario de acuerdo a tu lógica
-        // Esto puede incluir filtrar la lista de partidos en tu componente o hacer otra acción
         console.log('Eliminando partido del calendario:', partido);
-        // Lógica para actualizar el calendario
-        this.cargarCalendarios(); // Recarga el calendario
+        this.cargarCalendarios();
     }
 
     private cargarEquipos() {
-        this.teamService.getAllTeams().subscribe({
+        this.teamService.getTeams().subscribe({
             next: (equipos) => {
                 this.equiposData = equipos;
                 console.log('Equipos cargados:', this.equiposData);
@@ -340,7 +348,6 @@ export class CalendarComponent implements OnInit {
         });
     }
 
-    // Mantener los métodos existentes
     cambiarMes(incremento: number) {
         this.fechaActual = new Date(
             this.fechaActual.getFullYear(),
@@ -369,21 +376,19 @@ export class CalendarComponent implements OnInit {
         }
     }
 
-
-
     categorias = [
-        {id: 1, nombre: 'Primera'},
-        {id: 2, nombre: 'Segunda'}
+        { id: 1, nombre: 'Primera' },
+        { id: 2, nombre: 'Segunda' }
     ];
 
     torneos = [
-        {id: 1, nombre: 'Torneo Apertura'},
-        {id: 2, nombre: 'Torneo Clausura'}
+        { id: 1, nombre: 'Torneo Apertura' },
+        { id: 2, nombre: 'Torneo Clausura' }
     ];
 
     temporadas = [
-        {id: 1, nombre: '2023/2024'},
-        {id: 2, nombre: '2024/2025'}
+        { id: 1, nombre: '2023/2024' },
+        { id: 2, nombre: '2024/2025' }
     ];
 
     filtrarEquipos(event: Event): void {
@@ -391,15 +396,12 @@ export class CalendarComponent implements OnInit {
         console.log('Filtrar equipos por:', idEquipo);
         this.equipoSeleccionado = idEquipo;
 
-        // Filtramos los equipos según la selección
         if (idEquipo) {
             this.equiposFiltrados = this.equipos.filter(equipo => equipo.id === parseInt(idEquipo, 10));
         } else {
-            // Si no hay filtro, mostramos todos los equipos
             this.equiposFiltrados = this.equipos;
         }
     }
-
 
     filtrarCategoria(event: Event) {
         const idCategoria = (event.target as HTMLSelectElement).value;
@@ -421,24 +423,19 @@ export class CalendarComponent implements OnInit {
 
     editarPartido(partido: any) {
         this.partidoAEditar = partido;
-        this.equipoLocalSeleccionado = partido.equipoLocal;
-        this.equipoVisitanteSeleccionado = partido.equipoVisitante;
-        this.fechaPartido = partido.fecha;
-        this.marcadorLocal = partido.marcadorLocal;
-        this.marcadorVisitante = partido.marcadorVisitante;
+        this.equipoLocalSeleccionado = partido.homeTeam;
+        this.equipoVisitanteSeleccionado = partido.guestTeam;
+        this.fechaPartido = partido.date;
+        this.homeScore = partido.homeScore;
+        this.marcadorVisitante = partido.guestScore;
         this.mostrarFormularioEdicion = true;
     }
 
     guardarEdicion() {
-        // Guardar los cambios del partido editado
         this.mostrarFormularioEdicion = false;
     }
 
     cancelarEdicion() {
         this.mostrarFormularioEdicion = false;
     }
-
-
-
-
 }
