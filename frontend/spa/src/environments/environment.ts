@@ -37,6 +37,25 @@ export const environment = {
                 formats: '/formats',
             },
         },
+        statistics: {
+            base: "/api/estadisticas",
+            endpoints: {
+              teams: "/teams",
+              matches: "/matches",
+              competition: "/competition",
+              upcomingMatches: "/upcomingMatches",
+              leaderboards: "/leaderboards",
+              players: "/players",
+              generateTeamsPDF: "/generate-teams-pdf",
+              generateMatchesPDF: "/generate-matches-pdf",
+              generatePlayersPDF: "/generate-players-pdf",
+              generateLeaderboardPDF: "/generate-leaderboard-pdf",
+              downloadTeamsPDF: "/download-teams-pdf",
+              downloadMatchesPDF: "/download-matches-pdf",
+              downloadPlayersPDF: "/download-players-pdf",
+              downloadLeaderboardPDF: "/download-leaderboard-pdf",
+            },
+          },
     },
 };
 
@@ -67,3 +86,20 @@ environment.services.competencies.endpoints.stages = `${environment.services.com
 environment.services.competencies.endpoints.teams = `${environment.services.competencies.base}/teams/`;
 environment.services.competencies.endpoints.localities = `${environment.services.competencies.base}/localities/`;
 environment.services.competencies.endpoints.formats = `${environment.services.competencies.base}/formats/`;
+
+// ms4-statistics
+environment.services.statistics.base = `${environment.apiUrl}${environment.services.statistics.base}`
+environment.services.statistics.endpoints.teams = `${environment.services.statistics.base}${environment.services.statistics.endpoints.teams}`
+environment.services.statistics.endpoints.matches = `${environment.services.statistics.base}${environment.services.statistics.endpoints.matches}`
+environment.services.statistics.endpoints.competition = `${environment.services.statistics.base}${environment.services.statistics.endpoints.competition}`
+environment.services.statistics.endpoints.upcomingMatches = `${environment.services.statistics.base}${environment.services.statistics.endpoints.upcomingMatches}`
+environment.services.statistics.endpoints.leaderboards = `${environment.services.statistics.base}${environment.services.statistics.endpoints.leaderboards}`
+environment.services.statistics.endpoints.players = `${environment.services.statistics.base}${environment.services.statistics.endpoints.players}`
+environment.services.statistics.endpoints.generateTeamsPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generateTeamsPDF}`
+environment.services.statistics.endpoints.generateMatchesPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generateMatchesPDF}`
+environment.services.statistics.endpoints.generatePlayersPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generatePlayersPDF}`
+environment.services.statistics.endpoints.generateLeaderboardPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generateLeaderboardPDF}`
+environment.services.statistics.endpoints.downloadTeamsPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadTeamsPDF}`
+environment.services.statistics.endpoints.downloadMatchesPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadMatchesPDF}`
+environment.services.statistics.endpoints.downloadPlayersPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadPlayersPDF}`
+environment.services.statistics.endpoints.downloadLeaderboardPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadLeaderboardPDF}`
