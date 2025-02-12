@@ -10,54 +10,29 @@ import { Calendar } from '../../models/calendar/calendar.model';
     providedIn: 'root'
 })
 export class TeamService {
-
-    private getAllUrl = environmentCalendar1.services.teams.endpoints.getAll;
-    private getByIdUrl = environmentCalendar1.services.teams.endpoints.getById;
-    private createUrl = environmentCalendar1.services.teams.endpoints.create;
-    private updateUrl = environmentCalendar1.services.teams.endpoints.update;
-    private deleteUrl = environmentCalendar1.services.teams.endpoints.delete;
-    private teamsUrl = environmentCalendar1.services.teams.endpoints.equip;
     private equiposUrl = 'http://localhost:9000/api/teams';
-    private getAllCalendarsUrl = 'http://localhost:9000/api/calendars';
-    private createCalendarUrl = 'http://localhost:9000/api/calendars';
+    private getAllUrl = 'http://localhost:9000/api/calendars';
+    private createUrl = 'http://localhost:9000/api/calendars';
 
     constructor(private httpClient: HttpClient) { }
 
-    // CALENDARIOS
-    getAllCalendars(): Observable<Calendar[]> {
-        return this.httpClient.get<Calendar[]>(this.getAllCalendarsUrl);
-    }
-
-    // Obtener un calendario por su ID
-    getCalendarById(id: number): Observable<string> {
-        const url = this.getByIdUrl.replace('{id}', id.toString());
-        return this.httpClient.get<string>(url);
-    }
-
-    // Crear un nuevo calendario
-    createCalendar(calendar: Calendar): Observable<Calendar> {
-        return this.httpClient.post<Calendar>(this.createCalendarUrl, calendar);
-    }
-
-    // Metodos para teams
-    // Obtener teams
     getTeams(): Observable<Team[]> {
         return this.httpClient.get<Team[]>(this.equiposUrl);
     }
 
-    // Eliminar equipo por ID
-    deleteTeam(id: number): Observable<void> {
-        const url = this.teamsUrl.replace('{id}', id.toString());
-        return this.httpClient.delete<void>(url);
+    getAllCalendars(): Observable<Calendar[]> {
+        return this.httpClient.get<Calendar[]>(this.getAllUrl);
     }
 
-    // Crear un nuevo partido
+    createCalendar(calendar: Calendar): Observable<Calendar> {
+        return this.httpClient.post<Calendar>(this.createUrl, calendar);
+    }
+
     createMatch(match: Match): Observable<Match> {
-        return this.httpClient.post<Match>(`${this.createCalendarUrl}/matches`, match);
+        return this.httpClient.post<Match>(`${this.createUrl}/matches`, match);
     }
 
-    // Obtener partidos
     getMatches(): Observable<Match[]> {
-        return this.httpClient.get<Match[]>(`${this.getAllCalendarsUrl}/matches`);
+        return this.httpClient.get<Match[]>(`${this.getAllUrl}/matches`);
     }
 }

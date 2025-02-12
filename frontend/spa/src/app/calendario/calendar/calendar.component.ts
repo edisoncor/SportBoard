@@ -229,12 +229,7 @@ export class CalendarComponent implements OnInit {
 
         this.partidosData.push(partido);
 
-        const partidoString = JSON.stringify({
-            ...partido,
-            date: this.formatearFecha(partido.date)
-        });
-
-        this.teamService.createCalendar(partidoString).subscribe({
+        this.teamService.createMatch(partido).subscribe({
             next: (calendario) => {
                 console.log('Calendario creado:', calendario);
                 this.cargarCalendarios();
