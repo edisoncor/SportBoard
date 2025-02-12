@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class EstadisticasService {
-  private baseUrl = 'http://localhost:8005/api/estadisticas';
-  private token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzcG9ydGJvYXJkLXN0YXRpc3RpY3MiLCJleHAiOjE3Mzg1NDU0MjgsImlhdCI6MTczODQ1OTAyOH0.NplzUFP_oHcen64a3k39lfM4aU1TJ24BJHNfoXWIrQs';
+  private baseUrl = 'http://localhost:8000/api/estadisticas';
+  private token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzcG9ydGJvYXJkLXN0YXRpc3RpY3MiLCJleHAiOjE3Mzk0MTY4NTQsImlhdCI6MTczOTMzMDQ1NH0.hd57Nl3_BujtaVum2cHJzkhTej31MYhFtyeg-xBbXo8';
 
   constructor(private http: HttpClient) {}
 

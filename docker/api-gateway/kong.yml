@@ -47,15 +47,54 @@ services:
         methods:
           - GET
           - OPTIONS
-      - name: generate-pdf-route
+      - name: generate-teams-pdf-route
         paths:
           - /api/estadisticas/generate-teams-pdf
         strip_path: false
         methods:
           - POST
-      - name: download-pdf-route
+      - name: download-teams-pdf-route
         paths:
-          - /api/estadisticas/download-pdf
+          - /api/estadisticas/download-teams-pdf
+        strip_path: false
+        methods:
+          - GET
+          - OPTIONS
+      - name: generate-matches-pdf-route
+        paths:
+          - /api/estadisticas/generate-matches-pdf
+        strip_path: false
+        methods:
+          - POST
+      - name: download-matches-pdf-route
+        paths:
+          - /api/estadisticas/download-matches-pdf
+        strip_path: false
+        methods:
+          - GET
+          - OPTIONS
+      - name: generate-players-pdf-route
+        paths:
+          - /api/estadisticas/generate-players-pdf
+        strip_path: false
+        methods:
+          - POST
+      - name: download-players-pdf-route
+        paths:
+          - /api/estadisticas/download-players-pdf
+        strip_path: false
+        methods:
+          - GET
+          - OPTIONS
+      - name: generate-leaderboard-pdf-route
+        paths:
+          - /api/estadisticas/generate-leaderboard-pdf
+        strip_path: false
+        methods:
+          - POST
+      - name: download-leaderboard-pdf-route
+        paths:
+          - /api/estadisticas/download-leaderboard-pdf
         strip_path: false
         methods:
           - GET
