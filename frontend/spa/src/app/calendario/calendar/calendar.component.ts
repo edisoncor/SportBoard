@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TeamService } from '../../services/calendar/team.service';
 import { Team } from '../../models/calendar/team.model';
 import { Match } from '../../models/calendar/match.model';
+import { Calendar } from '../../models/calendar/calendar.model';
 
 @Component({
     selector: 'app-calendar',
@@ -19,7 +20,7 @@ export class CalendarComponent implements OnInit {
     nombreMesActual: string = '';
     anioActual: number = 0;
     diasCalendario: any[] = [];
-    calendarios: string[] = [];
+    calendarios: Calendar[] = [];
     partidosData: Match[] = [];
     equipos: Team[] = [];
     equiposFiltrados: Team[] = [];  // Equipos filtrados
@@ -136,9 +137,7 @@ export class CalendarComponent implements OnInit {
                         id: partidoData.id,
                         date: fecha,
                         homeTeam: partidoData.homeTeam,
-                        homeScore: partidoData.homeScore,
                         guestTeam: partidoData.guestTeam,
-                        guestScore: partidoData.guestScore,
                         startTime: partidoData.startTime,
                         duration: partidoData.duration,
                         finishTime: partidoData.finishTime,
@@ -426,8 +425,8 @@ export class CalendarComponent implements OnInit {
         this.equipoLocalSeleccionado = partido.homeTeam;
         this.equipoVisitanteSeleccionado = partido.guestTeam;
         this.fechaPartido = partido.date;
-        this.homeScore = partido.homeScore;
-        this.marcadorVisitante = partido.guestScore;
+        this.homeScore = partido.scoreboard.homeScore;
+        this.marcadorVisitante = partido.scoreboard.guestScore;
         this.mostrarFormularioEdicion = true;
     }
 
