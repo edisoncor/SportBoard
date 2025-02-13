@@ -1,67 +1,99 @@
-<h1>Resultados del Sorteo - Fase de Grupos</h1>
-
-<!-- Botón para sortear -->
+<!-- Botones para sortear y predecir -->
 <div class="buttons">
-  <button mat-raised-button color="accent" class="draw" (click)="sortear()">
-    Sortear
-  </button>
+    <button mat-raised-button color="accent" class="draw" (click)="sortear()" [disabled]="sorted">
+        Sortear
+    </button>
+    <button mat-raised-button color="warn" class="predict" (click)="predecir()" [disabled]="champion !== null || !sorted">
+        Predicción
+    </button>
 </div>
 
 <!-- Tabla inicial de equipos -->
 <table class="teams-table" *ngIf="!sorted">
-  <thead>
+    <thead>
     <tr>
-      <th>Grupo</th>
-      <th>Equipos</th>
+        <th>Grupo</th>
+        <th>Equipos</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <tr *ngFor="let group of groups | keyvalue">
-      <td>Grupo {{ group.key }}</td>
-      <td>
-        <ul>
-          <li *ngFor="let team of group.value">{{ team }}</li>
-        </ul>
-      </td>
+        <td>Grupo {{ group.key }}</td>
+        <td>
+            <ul>
+                <li *ngFor="let team of group.value">{{ team }}</li>
+            </ul>
+        </td>
     </tr>
-  </tbody>
+    </tbody>
 </table>
 
 <!-- Bombos y enfrentamientos -->
 <div class="container" *ngIf="sorted">
-  <div
-    class="bombo"
-    *ngFor="let group of sortedGroups | keyvalue"
-    (click)="selectGroup(group.key)"
-  >
-    <h2>Grupo {{ group.key }}</h2>
-    <ul>
-      <li *ngFor="let team of group.value">{{ team }}</li>
-    </ul>
-  </div>
+    <div class="bombos-container">
+        <div class="bombo" *ngFor="let group of sortedGroups | keyvalue" (click)="selectGroup(group.key)">
+            <h2>Grupo {{ group.key }}</h2>
+            <ul>
+                <li *ngFor="let team of group.value">{{ team }}</li>
+            </ul>
+        </div>
+    </div>
 
-  <div class="matches" *ngIf="selectedGroup">
-    <h2>Enfrentamientos del Grupo {{ selectedGroup }}</h2>
-    <table class="matches-table">
-      <thead>
-        <tr>
-          <th>Equipo Local</th>
-          <th>Equipo Visitante</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let match of matches">
-          <td>{{ match.home }}</td>
-          <td>{{ match.away }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="matches" *ngIf="selectedGroup">
+        <h2>Enfrentamientos del Grupo {{ selectedGroup }}</h2>
+        <table class="matches-table">
+            <thead>
+            <tr>
+                <th>Equipo Local</th>
+                <th>Equipo Visitante</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let match of matches">
+                <td>{{ match.home }}</td>
+                <td>{{ match.away }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Fases eliminatorias: Mostrar solo cuando se haga clic en "Predicción" -->
+    <div *ngIf="showStages && currentStage.length > 0">
+        <h2>Fases del Torneo</h2>
+        <table class="stages-table">
+            <thead>
+            <tr>
+                <th>Ronda</th>
+                <th>Equipos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let stage of currentStage; let round = index">
+                <td>Rondas</td>
+                <td>
+                    <ul>
+                        <li *ngFor="let team of stage">{{ team }}</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mostrar Campeón -->
+    <div *ngIf="champion" class="campeon">
+        <h2>🏆 Campeón: {{ champion }}</h2>
+    </div>
 </div>
 
 <!-- Botón para cancelar -->
 <div class="buttons" *ngIf="sorted">
-  <button mat-raised-button color="primary" class="cancel" (click)="reset()">
-    Cancelar
-  </button>
+    <button mat-raised-button color="primary" class="cancel" (click)="reset()">
+        Cancelar
+    </button>
+</div>
+<div class="buttons" *ngIf="sorted">
+    <button mat-raised-button color="primary" class="cancel" (click)="volver()">
+        Volver
+    </button>
 </div>

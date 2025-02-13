@@ -7,7 +7,7 @@ import { CoreModule } from '../../core/core.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { Location } from '@angular/common'; // Importar Location para navegar hacia atrás
 interface Partido {
   id: number;
   escudo1: string;
@@ -30,6 +30,7 @@ interface Partido {
   styleUrl: './matchtable.component.scss',
 })
 export class MatchtableComponent implements AfterViewInit {
+    constructor(private location: Location) {}
     @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   partidos: Partido[] = [
     {
@@ -317,7 +318,7 @@ export class MatchtableComponent implements AfterViewInit {
     'hora',
     'enVivo',
   ];
-  
+
   dataSource = new MatTableDataSource<Partido>(this.getPartidosFiltrados());
 
   public tabSeleccionada: string = 'pasados';
@@ -353,4 +354,7 @@ export class MatchtableComponent implements AfterViewInit {
       return false;
     });
   }
+    volver() {
+        this.location.back(); // Esto te lleva a la vista anterior
+    }
 }

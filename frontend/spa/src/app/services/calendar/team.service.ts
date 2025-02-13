@@ -22,7 +22,7 @@ export class TeamService {
         return this.httpClient.get<string[]>(this.getAllUrl);
     }
 
-    
+
     // Obtener un calendario por su ID
     getCalendarById(id: number): Observable<string> {
         const url = this.getByIdUrl.replace('{id}', id.toString());
@@ -53,4 +53,5 @@ export class TeamService {
         const url = this.teamsUrl.replace('{id}', id.toString());
         return this.httpClient.delete<void>(url);
     }
+
 }

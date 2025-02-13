@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TeamService } from '../../services/calendar/team.service';
 import { Team } from '../../models/calendar/team.model';
 import { Match } from '../../models/calendar/match.model';
-
+import { Location } from '@angular/common'; // Importar Location para navegar hacia atrás
 @Component({
     selector: 'app-calendar',
     standalone: true,
@@ -34,7 +34,8 @@ export class CalendarComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private teamService: TeamService
+        private teamService: TeamService,
+        private location: Location
     ) { }
 
     ngOnInit(): void {
@@ -106,8 +107,8 @@ export class CalendarComponent implements OnInit {
         this.diaSeleccionado = dia;
         const partidosDelDia = this.partidosData.filter(partido => {
             const partidoFecha = new Date(partido.date);
-            return partidoFecha.getDate() === dia && 
-                   partidoFecha.getMonth() === this.fechaActual.getMonth() && 
+            return partidoFecha.getDate() === dia &&
+                   partidoFecha.getMonth() === this.fechaActual.getMonth() &&
                    partidoFecha.getFullYear() === this.fechaActual.getFullYear();
         });
 
@@ -437,5 +438,8 @@ export class CalendarComponent implements OnInit {
 
     cancelarEdicion() {
         this.mostrarFormularioEdicion = false;
+    }
+    volver() {
+        this.location.back(); // Esto te lleva a la vista anterior
     }
 }

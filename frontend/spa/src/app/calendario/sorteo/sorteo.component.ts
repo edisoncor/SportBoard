@@ -1,73 +1,176 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { TeamService } from '../../services/calendar/team.service';
+import { Team } from '../../models/calendar/team.model';
+import { Location } from '@angular/common'; // Importar Location para navegar hacia atrás
 @Component({
-  selector: 'app-sorteo',
-  standalone: true,
-  templateUrl: './sorteo.component.html',
-  styleUrls: ['./sorteo.component.scss'],
-  imports: [CommonModule],
-
+    selector: 'app-sorteo',
+    standalone: true,
+    templateUrl: './sorteo.component.html',
+    styleUrls: ['./sorteo.component.scss'],
+    imports: [CommonModule],
 })
-export class SorteoComponent {
-  // Grupos iniciales con equipos predefinidos
-  groups: { [key: string]: string[] } = {
-    A: ['Real Madrid', 'Juventus', 'PSV', 'Young Boys'],
-    B: ['Manchester City', 'Milan', 'Celtic', 'Monaco'],
-    C: ['FC Barcelona', 'Aston Villa', 'Lille', 'Girona'],
-    D: ['Bayern Munich', 'Arsenal', 'Estrella Roja', 'Bolonia'],
-  };
+export class SorteoComponent implements OnInit {
+    groups: { [key: string]: string[] } = {};
+    sortedGroups: { [key: string]: string[] } = {};
+    sorted: boolean = false;
+    selectedGroup: string | null = null;
+    currentStage: string[][] = []; // Fase actual de la competencia
+    champion: string | null = null; // Campeón final
+    showStages: boolean = false;  // Controlar la visibilidad de las fases
+    roundNumber: number = 1; // Número de la ronda actual
 
-  sortedGroups: { [key: string]: string[] } = {}; // Grupos tras el sorteo
-  sorted: boolean = false; // Estado del sorteo
-  selectedGroup: string | null = null; // Grupo seleccionado para mostrar enfrentamientos
+    constructor(private teamService: TeamService,private location: Location) {}
 
-  // Método para sortear equipos
-  sortear() {
-    const allTeams = Object.values(this.groups).flat(); // Combina todos los equipos
-    const shuffledTeams = this.shuffle(allTeams); // Baraja los equipos
-    const groupKeys = Object.keys(this.groups); // Obtiene las claves de los grupos
+    ngOnInit() {
+        this.cargarEquipos();
+    }
 
-    // Distribuye equipos aleatoriamente entre los grupos
-    this.sortedGroups = groupKeys.reduce((acc, key) => {
-      acc[key] = [];
-      return acc;
-    }, {} as { [key: string]: string[] });
+    cargarEquipos() {
+        this.teamService.getTeams().subscribe((teams: Team[]) => {
+            this.groups = this.organizarPorGrupos(teams);
+        });
+    }
 
-    shuffledTeams.forEach((team, index) => {
-      const groupKey = groupKeys[index % groupKeys.length];
-      this.sortedGroups[groupKey].push(team);
-    });
+    organizarPorGrupos(teams: Team[]): { [key: string]: string[] } {
+        const shuffledTeams = this.shuffle(teams.map(team => team.name));
+        const groupNames = ['A', 'B', 'C', 'D'];
+        const groups: { [key: string]: string[] } = {};
 
-    this.sorted = true; // Cambia el estado a sorteado
-  }
+        groupNames.forEach(group => (groups[group] = []));
+        shuffledTeams.forEach((team, index) => {
+            const groupIndex = Math.floor(index / 4);
+            if (groupIndex < groupNames.length) {
+                groups[groupNames[groupIndex]].push(team);
+            }
+        });
 
-  // Genera enfrentamientos para el grupo seleccionado
-  get matches() {
-    if (!this.selectedGroup) return [];
-    const teams = this.sortedGroups[this.selectedGroup];
-    if (teams.length < 4) return []; // Asegura que haya suficientes equipos para enfrentamientos
+        return groups;
+    }
 
-    return [
-      { home: teams[0], away: teams[1] },
-      { home: teams[2], away: teams[3] },
-    ];
-  }
+    sortear() {
+        const allTeams = Object.values(this.groups).flat();
+        const shuffledTeams = this.shuffle(allTeams);
+        const groupKeys = Object.keys(this.groups);
 
-  // Selecciona o deselecciona un grupo
-  selectGroup(groupKey: string) {
-    this.selectedGroup = this.selectedGroup === groupKey ? null : groupKey;
-  }
+        this.sortedGroups = groupKeys.reduce((acc, key) => {
+            acc[key] = [];
+            return acc;
+        }, {} as { [key: string]: string[] });
 
-  // Resetea el sorteo y vuelve a la tabla inicial
-  reset() {
-    this.sorted = false;
-    this.selectedGroup = null;
-    this.sortedGroups = {};
-  }
+        shuffledTeams.forEach((team, index) => {
+            const groupKey = groupKeys[index % groupKeys.length];
+            this.sortedGroups[groupKey].push(team);
+        });
 
-  // Función para barajar los equipos
-  private shuffle(array: string[]): string[] {
-    return array.sort(() => Math.random() - 0.5);
-  }
+        this.sorted = true;
+
+        // Inicializar fase de eliminación con los equipos sorteados
+        this.currentStage = [shuffledTeams];
+        this.champion = null;
+        this.roundNumber = 1; // Reiniciar el número de ronda al hacer sorteo
+    }
+
+    predecir() {
+        if (this.champion) return; // Si ya hay campeón, no continuar
+
+        // Mostrar las fases del torneo cuando se haga la predicción
+        this.showStages = true;
+
+        // Si no hay rondas previas, se inicia la primera ronda
+        if (this.currentStage.length === 0) {
+            // Iniciar la ronda 1 con todos los equipos
+            const allTeams = Object.values(this.groups).flat();
+            this.currentStage = [allTeams]; // Agregar los equipos a la primera ronda
+            this.roundNumber = 1; // Establecer la ronda inicial
+        }
+
+        // Si ya existe una ronda (y no es la final), predecimos la siguiente
+        else if (this.currentStage.length === 1) {
+            const previousStage = this.currentStage[0];
+            if (previousStage.length < 2) return;
+
+            const nextStage: string[] = [];
+
+            for (let i = 0; i < previousStage.length; i += 2) {
+                if (i + 1 < previousStage.length) {
+                    const winner = this.predecirGanador(previousStage[i], previousStage[i + 1]);
+                    nextStage.push(winner);
+                } else {
+                    nextStage.push(previousStage[i]); // Equipo que pasa sin jugar
+                }
+            }
+
+            // Reemplazamos la ronda actual con la nueva (segunda ronda)
+            this.currentStage = [nextStage];
+            this.roundNumber = 2; // Actualizamos el número de ronda
+
+            // Si solo queda un equipo, es el campeón
+            if (nextStage.length === 1) {
+                this.champion = nextStage[0];
+            }
+        }
+
+        // Si hay más rondas, se siguen prediciendo
+        else {
+            const previousStage = this.currentStage[this.currentStage.length - 1];
+            if (previousStage.length < 2) return;
+
+            const nextStage: string[] = [];
+
+            for (let i = 0; i < previousStage.length; i += 2) {
+                if (i + 1 < previousStage.length) {
+                    const winner = this.predecirGanador(previousStage[i], previousStage[i + 1]);
+                    nextStage.push(winner);
+                } else {
+                    nextStage.push(previousStage[i]); // Equipo que pasa sin jugar
+                }
+            }
+
+            // Reemplazamos la ronda anterior con la nueva (tercera ronda)
+            this.currentStage.push(nextStage);
+            this.roundNumber++; // Incrementamos el número de ronda
+
+            // Si solo queda un equipo, es el campeón
+            if (nextStage.length === 1) {
+                this.champion = nextStage[0];
+            }
+        }
+    }
+
+    predecirGanador(team1: string, team2: string): string {
+        return Math.random() > 0.5 ? team1 : team2;
+    }
+
+    reset() {
+        this.sorted = false;
+        this.selectedGroup = null;
+        this.sortedGroups = {};
+        this.currentStage = [];
+        this.champion = null;
+        this.showStages = false;  // Ocultar fases cuando se resetea
+        this.roundNumber = 1; // Reiniciar el número de ronda
+    }
+
+    private shuffle(array: string[]): string[] {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    selectGroup(groupKey: string) {
+        this.selectedGroup = this.selectedGroup === groupKey ? null : groupKey;
+    }
+
+    get matches() {
+        if (!this.selectedGroup) return [];
+        const teams = this.sortedGroups[this.selectedGroup];
+        if (teams.length < 4) return [];
+
+        return [
+            { home: teams[0], away: teams[1] },
+            { home: teams[2], away: teams[3] },
+        ];
+    }
+    volver() {
+        this.location.back(); // Esto te lleva a la vista anterior
+    }
 }
