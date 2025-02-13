@@ -10,7 +10,7 @@ import { Calendar } from '../../models/calendar/calendar.model';
     providedIn: 'root'
 })
 export class TeamService {
-    private equiposUrl = 'http://localhost:9000/api/teams';
+    private equiposUrl = 'http://localhost:9000/api/teams/equipos';
     private getAllUrl = 'http://localhost:9000/api/calendars';
     private createUrl = 'http://localhost:9000/api/calendars';
 

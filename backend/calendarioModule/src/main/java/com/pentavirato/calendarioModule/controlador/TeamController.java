@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:6142"})
 @RequestMapping("/api/teams")
 public class TeamController {
 
