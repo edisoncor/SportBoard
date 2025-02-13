@@ -194,5 +194,61 @@
     "title": "Documentación técnica de SportBoard",
     "section": "",
     "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
+  },
+  {
+    "objectID": "components/microservices/statistics.html",
+    "href": "components/microservices/statistics.html",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "El módulo de estadísticas es un componente clave de SportBoard que se encarga de calcular, analizar y visualizar datos deportivos. Proporciona funcionalidades avanzadas para el seguimiento del rendimiento de jugadores, equipos y competencias.\n\n\n\n\n\nPromedios de métricas deportivas (puntos, goles, asistencias, tarjetas, posesión)\nEstadísticas individuales por jugador\nEstadísticas colectivas por equipo\nCálculo de porcentajes de rendimiento y eficiencia\nComparación de desempeño entre jugadores y equipos\n\n\n\n\n\nReportes detallados por jugador, equipo y competencia\nReportes de tendencias y comparativas\nExportación en múltiples formatos (PDF, Excel, CSV)\nGeneración automática de reportes periódicos\nPersonalización de reportes según necesidades del usuario\n\n\n\n\n\nSeguimiento de patrones de rendimiento\nAnálisis histórico de datos deportivos\nPredicciones y proyecciones basadas en datos\nVisualización de tendencias mediante gráficos interactivos\n\n\n\n\n\n\n\n\n\nCalcula el promedio de una métrica específica.\nParámetros: - metric: Métrica a calcular (puntos, goles, posesión, etc.) - player_id (opcional): ID del jugador - team_id (opcional): ID del equipo\nRespuesta:\n{\n    \"average\": 25.5,\n    \"metric\": \"puntos\",\n    \"period\": \"temporada_2023\"\n}\n\n\n\nGenera un reporte estadístico personalizado.\nCuerpo de la Petición:\n{\n    \"type\": \"player\",\n    \"id\": 123,\n    \"metrics\": [\"puntos\", \"asistencias\"],\n    \"period\": \"2023-01-01/2023-12-31\"\n}\nEjemplo de Respuesta:\n{\n    \"report_id\": 789,\n    \"status\": \"generado\",\n    \"download_url\": \"http://localhost:8000/reports/789.pdf\"\n}\n\n\n\n\n\n\n\nimport requests\n\nresponse = requests.get(\n    'http://localhost:8000/api/statistics/average',\n    params={\n        'metric': 'puntos',\n        'player_id': 123\n    }\n)\nprint(response.json())\n\n\n\nimport requests\n\ndata = {\n    'type': 'team',\n    'id': 456,\n    'metrics': ['goles', 'posesion'],\n    'period': '2023-01'\n}\n\nresponse = requests.post(\n    'http://localhost:8000/api/statistics/report',\n    json=data\n)\nprint(response.json())\n\n\n\n\n\n\nSTATISTICS_DB_HOST=localhost\nSTATISTICS_DB_PORT=5432\nSTATISTICS_API_KEY=your_api_key\n\n\n\nFROM python:3.9\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nCMD [\"python\", \"main.py\"]\n\n\n\n\n\nMódulo de Competencias: Obtención de datos de partidos y torneos.\nMódulo de Usuarios: Autenticación y autorización de usuarios.\nMódulo de Tiempo Real: Generación de estadísticas en vivo durante los eventos deportivos.\n\n\n\n\n\nImplementación de caché para consultas frecuentes.\nOptimización de consultas a la base de datos.\nManejo eficiente de memoria para grandes volúmenes de datos.\nEscalabilidad mediante procesamiento distribuido si es necesario.\n\n\n\n\n\nAutenticación mediante API Keys o JWT.\nControl de acceso basado en roles (jugadores, entrenadores, analistas, administradores).\nCifrado de datos sensibles en la base de datos."
+  },
+  {
+    "objectID": "components/microservices/statistics.html#funcionalidades-principales",
+    "href": "components/microservices/statistics.html#funcionalidades-principales",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "Promedios de métricas deportivas (puntos, goles, asistencias, tarjetas, posesión)\nEstadísticas individuales por jugador\nEstadísticas colectivas por equipo\nCálculo de porcentajes de rendimiento y eficiencia\nComparación de desempeño entre jugadores y equipos\n\n\n\n\n\nReportes detallados por jugador, equipo y competencia\nReportes de tendencias y comparativas\nExportación en múltiples formatos (PDF, Excel, CSV)\nGeneración automática de reportes periódicos\nPersonalización de reportes según necesidades del usuario\n\n\n\n\n\nSeguimiento de patrones de rendimiento\nAnálisis histórico de datos deportivos\nPredicciones y proyecciones basadas en datos\nVisualización de tendencias mediante gráficos interactivos"
+  },
+  {
+    "objectID": "components/microservices/statistics.html#api-del-módulo",
+    "href": "components/microservices/statistics.html#api-del-módulo",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "Calcula el promedio de una métrica específica.\nParámetros: - metric: Métrica a calcular (puntos, goles, posesión, etc.) - player_id (opcional): ID del jugador - team_id (opcional): ID del equipo\nRespuesta:\n{\n    \"average\": 25.5,\n    \"metric\": \"puntos\",\n    \"period\": \"temporada_2023\"\n}\n\n\n\nGenera un reporte estadístico personalizado.\nCuerpo de la Petición:\n{\n    \"type\": \"player\",\n    \"id\": 123,\n    \"metrics\": [\"puntos\", \"asistencias\"],\n    \"period\": \"2023-01-01/2023-12-31\"\n}\nEjemplo de Respuesta:\n{\n    \"report_id\": 789,\n    \"status\": \"generado\",\n    \"download_url\": \"http://localhost:8000/reports/789.pdf\"\n}"
+  },
+  {
+    "objectID": "components/microservices/statistics.html#ejemplos-de-uso",
+    "href": "components/microservices/statistics.html#ejemplos-de-uso",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "import requests\n\nresponse = requests.get(\n    'http://localhost:8000/api/statistics/average',\n    params={\n        'metric': 'puntos',\n        'player_id': 123\n    }\n)\nprint(response.json())\n\n\n\nimport requests\n\ndata = {\n    'type': 'team',\n    'id': 456,\n    'metrics': ['goles', 'posesion'],\n    'period': '2023-01'\n}\n\nresponse = requests.post(\n    'http://localhost:8000/api/statistics/report',\n    json=data\n)\nprint(response.json())"
+  },
+  {
+    "objectID": "components/microservices/statistics.html#configuración-del-módulo",
+    "href": "components/microservices/statistics.html#configuración-del-módulo",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "STATISTICS_DB_HOST=localhost\nSTATISTICS_DB_PORT=5432\nSTATISTICS_API_KEY=your_api_key\n\n\n\nFROM python:3.9\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nCMD [\"python\", \"main.py\"]"
+  },
+  {
+    "objectID": "components/microservices/statistics.html#integración-con-otros-módulos",
+    "href": "components/microservices/statistics.html#integración-con-otros-módulos",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "Módulo de Competencias: Obtención de datos de partidos y torneos.\nMódulo de Usuarios: Autenticación y autorización de usuarios.\nMódulo de Tiempo Real: Generación de estadísticas en vivo durante los eventos deportivos."
+  },
+  {
+    "objectID": "components/microservices/statistics.html#consideraciones-de-rendimiento",
+    "href": "components/microservices/statistics.html#consideraciones-de-rendimiento",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "Implementación de caché para consultas frecuentes.\nOptimización de consultas a la base de datos.\nManejo eficiente de memoria para grandes volúmenes de datos.\nEscalabilidad mediante procesamiento distribuido si es necesario."
+  },
+  {
+    "objectID": "components/microservices/statistics.html#seguridad-y-control-de-acceso",
+    "href": "components/microservices/statistics.html#seguridad-y-control-de-acceso",
+    "title": "Documentación del Módulo de Estadísticas",
+    "section": "",
+    "text": "Autenticación mediante API Keys o JWT.\nControl de acceso basado en roles (jugadores, entrenadores, analistas, administradores).\nCifrado de datos sensibles en la base de datos."
   }
 ]
