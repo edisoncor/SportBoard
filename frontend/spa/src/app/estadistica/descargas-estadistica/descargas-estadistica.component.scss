@@ -1,0 +1,56 @@
+.downloads-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  p {
+    margin-bottom: 24px;
+    color: #666;
+  }
+}
+
+.download-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+
+  mat-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    mat-card-header {
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    mat-card-title {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    mat-card-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+}
+

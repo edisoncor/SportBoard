@@ -34,4 +34,12 @@
       </ng-container>
     </ng-template>
   </mat-tab>
+  <mat-tab label="Descargas">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === 'descargas'">
+        <app-descargas-estadistica></app-descargas-estadistica>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
+

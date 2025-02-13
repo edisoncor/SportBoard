@@ -1,0 +1,19 @@
+:host {
+    display: block;
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-tab-group {
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-tab-label {
+    min-width: 120px;
+    padding: 0 24px;
+    
+    &.mat-tab-label-active {
+      opacity: 1;
+    }
+  }
+  
+  

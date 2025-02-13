@@ -6,6 +6,7 @@ import { JugadoresEstadisticaComponent } from './jugadores-estadistica/jugadores
 import { EquiposEstadisticaComponent } from './equipos-estadistica/equipos-estadistica.component';
 import { CompetenciaEstadisticaComponent } from './competencia-estadistica/competencia-estadistica.component';
 import { CompetenciaInfoComponent } from './competencia-info/competencia-info.component';
+import { DescargasEstadisticaComponent } from "./descargas-estadistica/descargas-estadistica.component"
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'tabla-posiciones', component: TablaPosicionesComponent },
       { path: 'jugadores-estadisticas', component: JugadoresEstadisticaComponent },
       { path: 'equipos-estadisticas', component: EquiposEstadisticaComponent },
+      { path: "descargas", component: DescargasEstadisticaComponent },
     ]
   }
 ];

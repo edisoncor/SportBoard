@@ -1,0 +1,43 @@
+<div class="downloads-container">
+  <h2>Descargar Estadísticas</h2>
+  <p>Seleccione el tipo de estadísticas que desea descargar en formato PDF:</p>
+  
+  <div class="download-options">
+    <mat-card (click)="generateAndDownloadPDF('teams')">
+      <mat-card-header>
+        <mat-card-title>Equipos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-icon>groups</mat-icon>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card (click)="generateAndDownloadPDF('matches')">
+      <mat-card-header>
+        <mat-card-title>Partidos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-icon>sports_soccer</mat-icon>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card (click)="generateAndDownloadPDF('players')">
+      <mat-card-header>
+        <mat-card-title>Jugadores</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-icon>person</mat-icon>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card (click)="generateAndDownloadPDF('leaderboard')">
+      <mat-card-header>
+        <mat-card-title>Tabla de Posiciones</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-icon>leaderboard</mat-icon>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
