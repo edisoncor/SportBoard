@@ -7,6 +7,7 @@ import { Team } from '../../models/calendar/team.model';
 import { Match } from '../../models/calendar/match.model';
 import { Location } from '@angular/common'; // Importar Location para navegar hacia atrás
 import { Calendar } from '../../models/calendar/calendar.model';
+import {SharedModule} from '../../shared/shared.module';
 
 @Component({
     selector: 'app-calendar',
@@ -49,6 +50,7 @@ export class CalendarComponent implements OnInit {
                 this.equipos = data;  // Asignar la lista de equipos a la propiedad 'equipos'
                 this.equiposFiltrados = data;
                 this.asignarEnfrentamientosAleatorios();  // Asignar enfrentamientos aleatorios
+                this.generarCalendario();
             },
             error: (error) => {
                 console.error('Error al obtener equipos:', error);
@@ -57,25 +59,41 @@ export class CalendarComponent implements OnInit {
     }
 
     asignarEnfrentamientosAleatorios() {
-        const equiposDisponibles = [...this.equipos]; // Copiar la lista de equipos para evitar modificarla directamente
+        const equiposDisponibles = [...this.equipos]; // Copia para evitar modificar el original
         const partidos: Match[] = [];
-        let idPartido = 1; // Inicializamos el ID para los partidos
+        let idPartido = 1;
+
+        const fechaBase = new Date(); // Tomamos la fecha actual como referencia
+        let diasOffset = 0; // Para organizar partidos sin que se repitan en el mismo día
 
         while (equiposDisponibles.length >= 2) {
-            // Tomar dos equipos aleatorios para el enfrentamiento
+            // Selecciona dos equipos aleatorios
             const homeTeam = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
             const guestTeam = equiposDisponibles.splice(Math.floor(Math.random() * equiposDisponibles.length), 1)[0];
 
-            // Crear un partido con fecha aleatoria (en este caso, del mes actual)
-            const fechaAleatoria = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), Math.floor(Math.random() * 30) + 1);
+            // Generar una fecha de partido ordenada (días consecutivos)
+            const fechaPartido = new Date(fechaBase);
+            fechaPartido.setDate(fechaBase.getDate() + diasOffset);
+            diasOffset += 2; // Espaciamos los partidos cada 2 días
+
+            // Asignar hora de inicio aleatoria entre 14:00 y 20:00
+            const horaInicio = Math.floor(Math.random() * 7) + 14; // Entre 14 y 20 horas
+            const minutosInicio = Math.random() < 0.5 ? 0 : 30; // Minutos en 00 o 30
+            const startTime = `${horaInicio.toString().padStart(2, '0')}:${minutosInicio.toString().padStart(2, '0')}`;
+
+            // Duración estándar de 90 minutos
+            const duration = 90;
+            const finishTime = `${(horaInicio + Math.floor(duration / 60)).toString().padStart(2, '0')}:${(minutosInicio + (duration % 60)).toString().padStart(2, '0')}`;
+
+            // Crear el partido
             const partido: Match = {
-                id: idPartido++, // Asignar un ID único incremental
-                date: fechaAleatoria,
-                homeTeam: homeTeam,
-                guestTeam: guestTeam,
-                startTime: '',
-                duration: 0,
-                finishTime: '',
+                id: idPartido++,
+                date: fechaPartido,
+                homeTeam: homeTeam,  // El equipo local
+                guestTeam: guestTeam,  // El equipo visitante
+                startTime: startTime,
+                duration: duration,
+                finishTime: finishTime,
                 scoreboard: {
                     id: 0,
                     homeScore: 0,
@@ -85,33 +103,36 @@ export class CalendarComponent implements OnInit {
                 },
                 playingField: {
                     id: 0,
-                    name: '',
+                    name: `Estadio ${idPartido}`, // Nombre ficticio para el campo de juego
                     address: {
                         id: 0,
-                        principalStreet: '',
-                        secondaryStreet: '',
-                        reference: ''
+                        principalStreet: 'Calle Principal',
+                        secondaryStreet: 'Calle Secundaria',
+                        reference: 'Frente al parque'
                     }
                 },
                 status: 'PENDING'
             };
 
-            partidos.push(partido);  // Agregar partido al array
+            partidos.push(partido);
         }
 
-        // Asignar los partidos generados al calendario
+        // Asignamos los partidos al calendario
         this.partidosData = partidos;
-        console.log('Partidos asignados aleatoriamente:', this.partidosData);
-        this.generarCalendario();  // Regenerar el calendario con los partidos asignados
+        console.log('Partidos generados:', this.partidosData);
+
+        // Actualizamos la vista del calendario
+        this.generarCalendario();
     }
+
 
     mostrarPartidosDelDia(dia: any) {
         this.diaSeleccionado = dia;
         const partidosDelDia = this.partidosData.filter(partido => {
             const partidoFecha = new Date(partido.date);
             return partidoFecha.getDate() === dia &&
-                   partidoFecha.getMonth() === this.fechaActual.getMonth() &&
-                   partidoFecha.getFullYear() === this.fechaActual.getFullYear();
+                partidoFecha.getMonth() === this.fechaActual.getMonth() &&
+                partidoFecha.getFullYear() === this.fechaActual.getFullYear();
         });
 
         if (partidosDelDia.length > 0) {
@@ -119,6 +140,24 @@ export class CalendarComponent implements OnInit {
             console.log(`Partido del ${dia}: ${partido.homeTeam.name} vs ${partido.guestTeam.name}`);
         }
     }
+
+    filtrarEquiposLocal(event: any) {
+        const equipoSeleccionado = event.target.value;
+        this.equipoLocalSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
+
+        // Actualizar equipos disponibles para visitante
+        if (this.equipoLocalSeleccionado) {
+            this.equiposFiltrados = this.equipos.filter(equipo => equipo.id !== this.equipoLocalSeleccionado!.id);
+        } else {
+            this.equiposFiltrados = [...this.equipos];
+        }
+    }
+
+    filtrarEquiposVisitante(event: any) {
+        const equipoSeleccionado = event.target.value;
+        this.equipoVisitanteSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
+    }
+
 
     cerrarModalPartidos() {
         this.diaSeleccionado = null;
@@ -158,23 +197,6 @@ export class CalendarComponent implements OnInit {
         });
     }
 
-    filtrarEquiposLocal(event: any) {
-        const equipoSeleccionado = event.target.value;
-        this.equipoLocalSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
-
-        // Actualizar equipos disponibles para visitante
-        if (this.equipoLocalSeleccionado) {
-            this.equiposFiltrados = this.equipos.filter(equipo => equipo.id !== this.equipoLocalSeleccionado!.id);
-        } else {
-            this.equiposFiltrados = [...this.equipos];
-        }
-    }
-
-    filtrarEquiposVisitante(event: any) {
-        const equipoSeleccionado = event.target.value;
-        this.equipoVisitanteSeleccionado = this.equipos.find(equipo => equipo.id === parseInt(equipoSeleccionado, 10)) || null;
-    }
-
     actualizarEquiposDisponibles() {
         if (this.equipoLocalSeleccionado) {
             this.equiposFiltrados = this.equipos.filter(equipo => equipo.id !== this.equipoLocalSeleccionado!.id);
@@ -188,27 +210,30 @@ export class CalendarComponent implements OnInit {
     }
 
     crearPartido() {
-        if (!this.equipoLocalSeleccionado || !this.equipoVisitanteSeleccionado || !this.fechaPartido) {
+        // Verificar que ambos equipos y la fecha sean válidos
+        if (!this.equipoLocalSeleccionado?.name || !this.equipoVisitanteSeleccionado?.name || !this.fechaPartido) {
             console.error("Debe seleccionar ambos equipos y la fecha.");
             return;
         }
 
+        // Convertir la fecha seleccionada a un objeto Date
         const fechaPartidoDate = new Date(this.fechaPartido);
-        fechaPartidoDate.setDate(fechaPartidoDate.getDate() + 1);
 
+        // Validar que la fecha seleccionada sea válida
         if (isNaN(fechaPartidoDate.getTime())) {
             console.error("La fecha seleccionada no es válida.");
             return;
         }
 
+        // Crear el objeto partido con la información proporcionada
         const partido: Match = {
             id: this.partidosData.length + 1,
-            date: fechaPartidoDate,
+            date: fechaPartidoDate,  // Usamos la fecha proporcionada directamente
             homeTeam: this.equipoLocalSeleccionado,
             guestTeam: this.equipoVisitanteSeleccionado,
-            startTime: '',
-            duration: 0,
-            finishTime: '',
+            startTime: '',  // Aquí puedes completar con un valor adecuado
+            duration: 90,  // Duración estándar
+            finishTime: '', // Similar a startTime, ajusta si es necesario
             scoreboard: {
                 id: 0,
                 homeScore: this.homeScore,
@@ -218,31 +243,39 @@ export class CalendarComponent implements OnInit {
             },
             playingField: {
                 id: 0,
-                name: '',
+                name: 'Estadio Ejemplo',
                 address: {
                     id: 0,
-                    principalStreet: '',
-                    secondaryStreet: '',
-                    reference: ''
+                    principalStreet: 'Calle Ejemplo',
+                    secondaryStreet: 'Calle Secundaria',
+                    reference: 'Frente al parque'
                 }
             },
             status: 'PENDING'
         };
 
-        this.partidosData.push(partido);
+        // Verificar que diaSeleccionado tiene los partidos y agregar el nuevo
+        const diaPartido = this.diaSeleccionado;
+        if (!diaPartido.partidos) {
+            diaPartido.partidos = [];  // Inicializar la lista de partidos si no existe
+        }
+        diaPartido.partidos.push(partido);
 
+        // Actualizar el calendario con el nuevo partido
         this.teamService.createMatch(partido).subscribe({
             next: (calendario) => {
-                console.log('Calendario creado:', calendario);
-                this.cargarCalendarios();
+                console.log('Calendario actualizado:', calendario);
+                this.cargarCalendarios();  // Recargar el calendario para reflejar el cambio
             },
             error: (error) => {
-                console.error('Error al crear calendario:', error);
+                console.error('Error al crear el partido en el calendario:', error);
             }
         });
 
+        // Cerrar el formulario después de guardar
         this.mostrarFormulario = false;
     }
+
 
     generarCalendario() {
         const primerDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), 1);
@@ -418,14 +451,22 @@ export class CalendarComponent implements OnInit {
     partidoAEditar: any;
 
     editarPartido(partido: any) {
+        // Asignamos el partido que se está editando
         this.partidoAEditar = partido;
-        this.equipoLocalSeleccionado = partido.homeTeam;
-        this.equipoVisitanteSeleccionado = partido.guestTeam;
+
+        // Asignamos los equipos seleccionados del partido a las variables locales
+        this.equipoLocalSeleccionado = partido.homeTeam;  // Aquí usamos todo el objeto equipo, no solo el nombre
+        this.equipoVisitanteSeleccionado = partido.guestTeam;  // Lo mismo para el equipo visitante
+
+        // Asignamos los detalles del partido (fecha y marcador)
         this.fechaPartido = partido.date;
         this.homeScore = partido.scoreboard.homeScore;
         this.marcadorVisitante = partido.scoreboard.guestScore;
+
+        // Indicamos que el formulario de edición debe mostrarse
         this.mostrarFormularioEdicion = true;
     }
+
 
     guardarEdicion() {
         this.mostrarFormularioEdicion = false;

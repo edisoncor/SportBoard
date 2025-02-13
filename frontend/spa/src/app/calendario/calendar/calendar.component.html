@@ -18,7 +18,7 @@
         </button>
         <button
             class="create-match-btn"
-            (click)=volver()
+            (click)="volver()"
         >
             Volver
         </button>
@@ -37,17 +37,16 @@
     <!-- Formulario para crear partido -->
     <div *ngIf="mostrarFormulario" class="formulario-crear-partido">
         <h3>Crear Partido</h3>
-        <form (ngSubmit)="crearPartido()">
+        <form>
             <div class="filter-group">
                 <label for="equipoLocal">Equipo Local</label>
                 <select
                     id="equipoLocal"
                     name="equipoLocal"
-                    [(ngModel)]="equipoLocalSeleccionado"
                     (change)="filtrarEquiposLocal($event)"
                 >
                     <option value="">Seleccionar equipo</option>
-                    <option *ngFor="let equipo of equipos" [ngValue]="equipo">
+                    <option *ngFor="let equipo of equipos">
                         {{ equipo.name }}
                     </option>
                 </select>
@@ -58,13 +57,11 @@
                 <select
                     id="equipoVisitante"
                     name="equipoVisitante"
-                    [(ngModel)]="equipoVisitanteSeleccionado"
                     (change)="filtrarEquiposVisitante($event)"
                 >
                     <option value="">Seleccionar equipo</option>
                     <option
                         *ngFor="let equipo of equiposFiltrados"
-                        [ngValue]="equipo"
                     >
                         {{ equipo.name }}
                     </option>
@@ -76,7 +73,6 @@
                 <input
                     type="date"
                     id="fechaPartido"
-                    [(ngModel)]="fechaPartido"
                     name="fechaPartido"
                     required
                 />
@@ -86,7 +82,6 @@
                 <input
                     type="number"
                     id="homeScore"
-                    [(ngModel)]="homeScore"
                     name="homeScore"
                 />
             </div>
@@ -95,11 +90,11 @@
                 <input
                     type="number"
                     id="marcadorVisitante"
-                    [(ngModel)]="marcadorVisitante"
                     name="marcadorVisitante"
                 />
             </div>
-            <button type="submit">Guardar Partido</button>
+            <button type="button" (click)="crearPartido()">Guardar Partido</button>
+
             <button
                 type="button"
                 (click)="mostrarFormulario = false"
@@ -113,105 +108,80 @@
     <!-- Tabla del calendario -->
     <table class="tabla-calendario">
         <thead>
-            <tr>
-                <th>Domingo</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-            </tr>
+        <tr>
+            <th>Domingo</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miércoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sábado</th>
+        </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let semana of diasCalendario">
-                <td
-                    *ngFor="let dia of semana"
-                    [ngClass]="{
+        <tr *ngFor="let semana of diasCalendario">
+            <td
+                *ngFor="let dia of semana"
+                [ngClass]="{
                         'celda-dia': true,
                         'mes-actual': dia.esmesMesActual,
                         'tiene-partido': dia.partidos?.length > 0
                     }"
-                    (click)="mostrarPartidosDelDia(dia)"
+                (click)="mostrarPartidosDelDia(dia)"
+            >
+                {{ dia.fecha }}
+                <div
+                    *ngIf="dia.partidos?.length > 0"
+                    class="indicador-partidos"
                 >
-                    {{ dia.fecha }}
-                    <div
-                        *ngIf="dia.partidos?.length > 0"
-                        class="indicador-partidos"
-                    >
-                        {{ dia.partidos.length }}
-                    </div>
-                </td>
-            </tr>
+                    {{ dia.partidos.length }}
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 
     <!-- Formulario de edición, solo se muestra cuando el partido está siendo editado -->
     <div *ngIf="mostrarFormularioEdicion" class="formulario-crear-partido">
         <h3>Editar Partido</h3>
-        <form (ngSubmit)="guardarEdicion()">
+        <form>
             <div class="filter-group">
+                <!-- Equipo Local -->
                 <label for="equipoLocal">Equipo Local</label>
                 <select
                     id="equipoLocal"
-                    name="equipoLocal"
-                    [(ngModel)]="equipoLocalSeleccionado"
-                >
-                    <option *ngFor="let equipo of equipos" [value]="equipo">
-                        {{ equipo }}
+                    name="equipoLocal">
+                    <option *ngFor="let equipo of equipos" [ngValue]="equipo">
+                        {{ equipo.name }} <!-- Mostrar el nombre del equipo -->
                     </option>
                 </select>
-            </div>
 
-            <div class="filter-group">
+                <!-- Equipo Visitante -->
                 <label for="equipoVisitante">Equipo Visitante</label>
                 <select
                     id="equipoVisitante"
-                    name="equipoVisitante"
-                    [(ngModel)]="equipoVisitanteSeleccionado"
-                >
-                    <option *ngFor="let equipo of equipos" [value]="equipo">
-                        {{ equipo }}
+                    name="equipoVisitante">
+                    <option *ngFor="let equipo of equipos" [ngValue]="equipo">
+                        {{ equipo.name }} <!-- Mostrar el nombre del equipo -->
                     </option>
                 </select>
+
             </div>
 
             <div>
                 <label for="fechaPartido">Fecha:</label>
-                <input
-                    type="date"
-                    id="fechaPartido"
-                    [(ngModel)]="fechaPartido"
-                    name="fechaPartido"
-                    required
-                />
+                <input type="date" id="fechaPartido" name="fechaPartido" required>
             </div>
             <div>
-                <label for="homeScore">Marcador Local:</label>
-                <input
-                    type="number"
-                    id="homeScore"
-                    [(ngModel)]="homeScore"
-                    name="homeScore"
-                />
+                <label for="marcadorLocal">Marcador Local:</label>
+                <input type="number" id="marcadorLocal" name="marcadorLocal">
             </div>
             <div>
                 <label for="marcadorVisitante">Marcador Visitante:</label>
-                <input
-                    type="number"
-                    id="marcadorVisitante"
-                    [(ngModel)]="marcadorVisitante"
-                    name="marcadorVisitante"
-                />
+                <input type="number" id="marcadorVisitante" name="marcadorVisitante">
             </div>
             <button type="submit">Guardar Cambios</button>
-            <button
-                type="button"
-                (click)="cancelarEdicion()"
-                class="cancelar-btn"
-            >
-                Cancelar
-            </button>
+            <button type="button" (click)="cancelarEdicion()" class="cancelar-btn">Cancelar</button>
         </form>
     </div>
 
@@ -228,21 +198,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div
-                    *ngFor="let partido of diaSeleccionado.partidos"
-                    class="partido-item"
-                >
+                <div *ngFor="let partido of diaSeleccionado.partidos" class="partido-item">
                     <div class="partido-detalle">
                         <div class="equipo-local">
-                            {{ partido.equipoLocal }}
+                            {{ partido.homeTeam.name }}  <!-- Acceder al nombre del equipo local -->
                         </div>
                         <div class="marcador">
-                            <span>{{ partido.homeScore }}</span>
+                            <span>{{ partido.scoreboard.homeScore }}</span>
                             <span class="separador">-</span>
-                            <span>{{ partido.marcadorVisitante }}</span>
+                            <span>{{ partido.scoreboard.guestScore }}</span>
                         </div>
                         <div class="equipo-visitante">
-                            {{ partido.equipoVisitante }}
+                            {{ partido.guestTeam.name }}  <!-- Acceder al nombre del equipo visitante -->
                         </div>
                     </div>
                     <div class="partido-acciones">
@@ -308,11 +275,9 @@
             <select id="equipo" (change)="filtrarEquipos($event)">
                 <option value="">Seleccionar equipo</option>
                 <option *ngFor="let equipo of equipos" [value]="equipo">
-                    {{ equipo }}
+                    {{ equipo.name }}
                 </option>
             </select>
         </div>
     </div>
 </div>
-
-
