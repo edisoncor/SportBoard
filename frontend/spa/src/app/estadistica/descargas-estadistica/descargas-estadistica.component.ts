@@ -1,5 +1,10 @@
-import { Component } from "@angular/core"
-import { EstadisticasService } from "../../services/estadisticas/estadistica.service"
+import { Component } from "@angular/core";
+import { EstadisticasService } from "../../services/estadisticas/estadistica.service";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
+import { catchError, finalize, switchMap } from "rxjs/operators";
+import { of } from "rxjs";
 
 @Component({
   selector: "app-descargas-estadistica",
@@ -8,44 +13,90 @@ import { EstadisticasService } from "../../services/estadisticas/estadistica.ser
   standalone: false,
 })
 export class DescargasEstadisticaComponent {
-  constructor(private estadisticasService: EstadisticasService) {}
+  isLoading = false;
 
-  generateAndDownloadPDF(type: string) {
-    const data = {} // Aquí puedes agregar datos específicos si es necesario
-    let observable
+  constructor(
+    private estadisticasService: EstadisticasService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
 
-    switch (type) {
-      case "teams":
-        observable = this.estadisticasService.generateTeamsPDF(data)
-        break
-      case "matches":
-        observable = this.estadisticasService.generateMatchesPDF(data)
-        break
-      case "players":
-        observable = this.estadisticasService.generatePlayersPDF(data)
-        break
-      case "leaderboard":
-        observable = this.estadisticasService.generateLeaderboardPDF(data)
-        break
-      default:
-        console.error("Tipo de PDF no reconocido")
-        return
-    }
+  openConfirmDialog(type: string): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: "400px",
+      data: { type },
+    });
 
-    observable.subscribe({
-      next: (blob: Blob) => {
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement("a")
-        link.href = url
-        link.download = `${type}_statistics.pdf`
-        link.click()
-        window.URL.revokeObjectURL(url)
-      },
-      error: (error) => {
-        console.error("Error al generar el PDF:", error)
-        // Aquí puedes agregar una notificación de error para el usuario
-      },
-    })
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.generateAndDownloadPDF(type);
+      }
+    });
   }
-}
 
+  private generateAndDownloadPDF(type: string) {
+    this.isLoading = true;
+    this.estadisticasService.generateAndDownloadPDF(type)
+      .pipe(
+        catchError(error => {
+          console.error("Error al generar y descargar el PDF:", error);
+          this.showErrorMessage(error.message || "Ocurrió un error al generar el PDF. Por favor, intente nuevamente.");
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response?.content && response?.filename) {
+            this.downloadPDF(response.content, response.filename);
+          } else if (response) {
+            this.showErrorMessage("El PDF se generó pero no se pudo descargar. Por favor, intente nuevamente.");
+          } else {
+            this.showErrorMessage("Error al procesar el PDF");
+          }
+        },
+        error: (error) => {
+          console.error("Error en la descarga:", error);
+          this.showErrorMessage(error.message || "Error al descargar el PDF. Por favor, intente nuevamente.");
+        }
+      });
+  }
+
+  private downloadPDF(blob: Blob, filename: string) {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+    }, 100);
+
+    console.log("PDF descargado como:", filename);
+    this.showSuccessMessage("PDF descargado exitosamente");
+  }
+
+  private showErrorMessage(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+
+  private showSuccessMessage(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+
+
+}

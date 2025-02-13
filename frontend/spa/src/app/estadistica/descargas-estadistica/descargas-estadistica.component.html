@@ -1,9 +1,9 @@
 <div class="downloads-container">
   <h2>Descargar Estadísticas</h2>
-  <p>Seleccione el tipo de estadísticas que desea descargar en formato PDF:</p>
+  <p>Seleccione el tipo de estadísticas que desea descargar en formato PDF. Se generará un documento con todos los datos actuales.</p>
   
   <div class="download-options">
-    <mat-card (click)="generateAndDownloadPDF('teams')">
+    <mat-card (click)="openConfirmDialog('teams')" [class.disabled]="isLoading">
       <mat-card-header>
         <mat-card-title>Equipos</mat-card-title>
       </mat-card-header>
@@ -12,7 +12,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card (click)="generateAndDownloadPDF('matches')">
+    <mat-card (click)="openConfirmDialog('matches')" [class.disabled]="isLoading">
       <mat-card-header>
         <mat-card-title>Partidos</mat-card-title>
       </mat-card-header>
@@ -21,7 +21,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card (click)="generateAndDownloadPDF('players')">
+    <mat-card (click)="openConfirmDialog('players')" [class.disabled]="isLoading">
       <mat-card-header>
         <mat-card-title>Jugadores</mat-card-title>
       </mat-card-header>
@@ -30,7 +30,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card (click)="generateAndDownloadPDF('leaderboard')">
+    <mat-card (click)="openConfirmDialog('leaderboard')" [class.disabled]="isLoading">
       <mat-card-header>
         <mat-card-title>Tabla de Posiciones</mat-card-title>
       </mat-card-header>
@@ -39,5 +39,9 @@
       </mat-card-content>
     </mat-card>
   </div>
-</div>
 
+  <div *ngIf="isLoading" class="loading-overlay">
+    <mat-spinner></mat-spinner>
+    <p>Generando PDF, por favor espere...</p>
+  </div>
+</div>

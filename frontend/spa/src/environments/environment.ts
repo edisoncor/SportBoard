@@ -50,10 +50,7 @@ export const environment = {
               generateMatchesPDF: "/generate-matches-pdf",
               generatePlayersPDF: "/generate-players-pdf",
               generateLeaderboardPDF: "/generate-leaderboard-pdf",
-              downloadTeamsPDF: "/download-teams-pdf",
-              downloadMatchesPDF: "/download-matches-pdf",
-              downloadPlayersPDF: "/download-players-pdf",
-              downloadLeaderboardPDF: "/download-leaderboard-pdf",
+              getRecentPDFs: "/get-recent-pdfs",
             },
           },
     },
@@ -99,7 +96,4 @@ environment.services.statistics.endpoints.generateTeamsPDF = `${environment.serv
 environment.services.statistics.endpoints.generateMatchesPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generateMatchesPDF}`
 environment.services.statistics.endpoints.generatePlayersPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generatePlayersPDF}`
 environment.services.statistics.endpoints.generateLeaderboardPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.generateLeaderboardPDF}`
-environment.services.statistics.endpoints.downloadTeamsPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadTeamsPDF}`
-environment.services.statistics.endpoints.downloadMatchesPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadMatchesPDF}`
-environment.services.statistics.endpoints.downloadPlayersPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadPlayersPDF}`
-environment.services.statistics.endpoints.downloadLeaderboardPDF = `${environment.services.statistics.base}${environment.services.statistics.endpoints.downloadLeaderboardPDF}`
+environment.services.statistics.endpoints.getRecentPDFs = `${environment.services.statistics.base}${environment.services.statistics.endpoints.getRecentPDFs}`

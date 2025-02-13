@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const dataController = require("../controllers/datacontroller");
-const { generateTeamsPDF, getTeamsPDF } = require("../controllers/pdfTeamsController");
-const { generateMatchesPDF, getMatchesPDF } = require("../controllers/pdfMatchesController");
-const { generatePlayersPDF, getPlayersPDF } = require("../controllers/pdfPlayersController");
-const { generateLeaderboardPDF, getLeaderboardPDF } = require("../controllers/pdfLeaderboardController");
+const { getRecentPDFs } = require("../controllers/pdfdownloadController");
+const { generateTeamsPDF } = require("../controllers/pdfTeamsController");
+const { generateMatchesPDF } = require("../controllers/pdfMatchesController");
+const { generatePlayersPDF } = require("../controllers/pdfPlayersController");
+const { generateLeaderboardPDF } = require("../controllers/pdfLeaderboardController");
 
 
 router.get("/teams", dataController.getTeams);
@@ -14,20 +15,13 @@ router.get("/upcomingMatches", dataController.getUpcomingMatches);
 router.get("/leaderboards", dataController.getLeaderboard);
 router.get("/players", dataController.getPlayers);
 
-// Rutas para PDF de equipos
+// Rutas para generar PDFs
 router.post("/generate-teams-pdf", generateTeamsPDF);
-router.get("/download-teams-pdf/:name", getTeamsPDF);
-
-// Rutas para PDF de partidos
 router.post("/generate-matches-pdf", generateMatchesPDF);
-router.get("/download-matches-pdf/:name", getMatchesPDF);
-
-// Rutas para PDF de jugadores
 router.post("/generate-players-pdf", generatePlayersPDF);
-router.get("/download-players-pdf/:name", getPlayersPDF);
-
-// Rutas para PDF de tabla de posiciones
 router.post("/generate-leaderboard-pdf", generateLeaderboardPDF);
-router.get("/download-leaderboard-pdf/:name", getLeaderboardPDF);
+
+// Nueva ruta para obtener PDFs recientes
+router.get("/get-recent-pdfs/:type", getRecentPDFs);
 
 module.exports = router;

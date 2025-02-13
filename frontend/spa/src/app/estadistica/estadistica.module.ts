@@ -9,6 +9,7 @@ import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatTableModule } from "@angular/material/table"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { MatCardModule } from "@angular/material/card"
+import { MatButtonModule } from "@angular/material/button"
 import { HttpClientModule } from "@angular/common/http"
 
 // Componentes
@@ -23,6 +24,8 @@ import { TablaPosicionesComponent } from "./tabla-posiciones/tabla-posiciones.co
 import { JugadoresEstadisticaComponent } from "./jugadores-estadistica/jugadores-estadistica.component"
 import { CompetenciaInfoComponent } from "./competencia-info/competencia-info.component"
 import { DescargasEstadisticaComponent } from "./descargas-estadistica/descargas-estadistica.component"
+import { ConfirmDialogComponent } from "./descargas-estadistica/confirm-dialog/confirm-dialog.component"
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { EstadisticasService } from "../services/estadisticas/estadistica.service"
 
@@ -39,7 +42,7 @@ import { EstadisticasService } from "../services/estadisticas/estadistica.servic
     ResultadosEstadisticaComponent,
     TablaPosicionesComponent,
     DescargasEstadisticaComponent,
-    
+    ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +56,8 @@ import { EstadisticasService } from "../services/estadisticas/estadistica.servic
     MatTableModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatButtonModule,
+    MatSnackBarModule,
   ],
   providers: [EstadisticasService],
 })
