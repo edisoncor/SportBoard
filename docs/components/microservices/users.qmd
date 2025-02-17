@@ -1,0 +1,137 @@
+---
+title: "Documentación de Microservicio de Gestión de Usuarios"
+author: "Angamarca Brayan, Pablo Lopez, Leonardo Peralta"
+date: "2025-01-12"
+format:
+  html:
+    code-fold: true
+    toc: true
+---
+
+## Descripción de microservicio
+
+El microservicio de gestión de usuarios forma parte del proyecto SportBoard. Se encarga de la administración de usuarios registrados en el sistema, incluyendo su creación, actualización, eliminación y visualización.
+
+Esta implementacion se ha realizado usando Django web framework y emplea una base de datos de postgres para almacenar los datos que se registran.
+
+## Funcionalidades
+
+- **Registro de usuarios:** Permite la creación de cuentas de usuarios con rol de `USER`para poder iniciar sesión en el sistema.
+- **Inicio de Sesión:** Para acceder al entorno y demas funcionalidades del sistema, se ingresa el nombre de usuario y clave previamente registradas.
+- **Actualización de datos de usuario:** Para modificar la informacion del usuario y añadir datos secundarios como `Nombre`, `Apellido`, `Nacionalidad`, `Fecha de nacimiento`, etc.
+- **Actualización de datos de perfil de usuario:** Para modificar, actualizar la informacion del perfil de un usuario como `bio`, `avatar`.
+- **Registro de nacionalidad: ** Permite al `ADMIN` ingresar nuevas nacionalidades para ser escogidas por los demas usuarios.
+- **Registro de Perfiles:** Para registrar los datos de un perfil de un usuario
+- **Visualización de usuarios registrados: ** Permite obtener el listado completo de los usuarios que se encuentran registrados en el sistema.
+- **Registro de Jugadores:** Para el registro de los participantes en una competencia
+---
+
+## Endpoints
+
+Para realizar las operaciones CRUD de la gestion de usuarios y nacionalidades, y jugadores se emplean los siguientes endpoints
+
+| **Operacion** | **Endpoint**               | **Detalle**                                                             |
+|-----------------|--------------------------|-------------------------------------------------------------------------|
+| `POST`          | `/api/users/`            | Registra los datos de un usuario.                                       |
+| `GET`           | `/api/users/`            | Obtiene una lista de todos  los usuarios registrados                    |
+| `PUT`           | `/api/users/{id}/`       | Para la modificacion de un usuario registrado por medio del id          |
+| `POST`          | `/api/profiles/`         | Registra los datos para el perfil de un usuario                         |
+| `GET`           | `/api/profile/`          | Obtiene la lista de todos los perfiles de usuario registrados           |
+| `PUT`           | `/api/profiles/{id}/`    | Para la modificacion del  perfil de un usuario por medio del id         |
+| `POST`          | `/api/users/login/`      | Para el inicio de sesion  de un usuario                                 |
+| `POST`          | `/api/nacionalities/`    | Para el registro de nacionalidades                                      |
+| `GET`           | `/api/nacionalities/`    | Obtiene una lista de toda la nacionalidades registradas                 |
+| `POST`          | `/api/players/`          | Para el registro de jugadores                                           |
+| `GET`           | `/api/players/`          | Obtiene el resgistro de todos los jugadores registrados                 |
+| `PUT`           | `/api/players/{id}/`     | Para la modificacion de un jugadors por medio del id                    |
+
+## Ejemplo
+
+se realiza una peticion GET al siguiente endpoint `/api/profiles/` como resultado se obtiene la siguiente lista de perfiles que se encuentran registrados.
+
+![Imagen de peticion GET](Files/profiles.jpeg)
+
+## Modelo C4
+Esta metodologia facilita la comprensión de la arquitectura que se emplea en el proyecto, en donde se cuenta con varias capas que brindan un nivel de detalle diferente,permitiendo asi al equipo de desarrollo entender la estructura y funcionamiento del sistema.
+
+## Capa nivel 1
+El diagrama de Contexto se ubica en el nivel más alto brindando la visión global del sistema. 
+Este diagrama esta enfocado en el sistema como un todo y mostrando la interacción con usuarios externos, sistemas o servicios. 
+No se profundiza en los detalles internos, en su lugar, establece el alcance y la interaccion externa.
+
+![Diagrama de implementación C1](Files/c1.jpeg)
+
+## Capa nivel 2
+
+El diagrama de Contenedores realiza una descomposición del sistema en contenedores, estos representan las aplicaciones o servicios ejecutables. 
+Cada contenedor es un proceso que se ejecuta y teniendo una funcionalidad propia, como pueder ser una base de datos, un servicio web o una aplicación móvil.
+
+![Diagrama de implementación C2](Files/c2.png)
+
+## Capa nivel 3
+
+El diagrama de Componentes descompone los contenedores en sus partes más pequeñas y mostrando los componentes relevantes dentro de cada contenedor. 
+Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).
+
+![Diagrama de implementación C3](Files/c3.png)
+
+## Capa nivel 4
+
+El diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. 
+Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.
+
+## Integración de Kong Gateway
+
+Kong es un API Gateway que facilita la gestion y el enrutamiento del API de sistema, se hace uso de  **Docker** para la implementación de Kong y sus servicios asociados. La configuración de Kong incluye:
+
+1. **Kong Database (Postgres)**: Esta base de datos guarda las configuraciones y demas datos relacionados al microservicio que gestiona Kong
+2. **Kong Migrations**: Efectua las migraciones en la base de datos para lograr inicializar con el esquema que se requiera.
+3. **Kong Gateway**: Es el API Gateway central para el enrutamiento de las solicitudes a los microservicios. 
+4. **Kong**: Es una interfaz gráfica para la administración de Kong, permitiendo gestionar las API y microservicios de manera fácil.
+
+En el directorio de `docker/api-gateway` se encuenta un archivo `kong.yml` en el cual se define un servicio para `ms1-usermanagement`, se incluye `static files`, `media-files`, `url`, `routers` y `paths` para configurar la redirección de los endpoints de la aplicacion de gestin de usuarios de `Django` para que sea gestionada por kong.
+
+![Implementacion de kong](Files/profiles.jpeg)
+
+## Servicio Docker
+Para levantar correctamente lo servicios de Kong Gateway se tiene el archivo de configuracion `docker-compose.override.yml` junto con demas dependencias como la base de datos
+
+```yaml
+
+  version: "3.8"
+  name: SportBoard-container
+
+  services:
+
+      postgres-usermanagement:
+          image: postgres:13
+          container_name: postgres-usermanagement
+          restart: always
+          environment:
+              POSTGRES_USER: 'postgres'
+              POSTGRES_DB: 'user_manage'
+              POSTGRES_PASSWORD: '11012000'
+          ports:
+              - "5434:5432"
+          networks:
+              - sportboard-network
+
+      ms1-usermanagement:
+          build:
+              context: ../../../
+              dockerfile: docker/backend/ms1-usermanagement/Dockerfile
+          container_name: ms1-usermanagement
+          restart: always
+          environment:
+              - DJANGO_SETTINGS_MODULE=users.settings
+              - DATABASE_URL=postgres://postgres:11012000@postgres-usermanagement:5432/user_manage
+          ports:
+              - "8004:8004"
+          depends_on:
+              - postgres-usermanagement
+          networks:
+              - sportboard-network
+      networks:
+        sportboard-network:
+            external: true
+

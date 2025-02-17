@@ -4,20 +4,14 @@ export const routes: Routes = [
     {
         path: 'usuarios',
         loadChildren: () =>
-            import('./usuario/usuario.module').then((m) => m.UsuarioModule),
+            import('./usuario/usuario.module').then(
+                (m) => m.UsuarioModule),
     },
     {
         path: 'competencias',
         loadChildren: () =>
             import('./competencias/competencias.module').then(
                 (m) => m.CompetenciasModule
-            ),
-    },
-    {
-        path: 'calendario',
-        loadChildren: () =>
-            import('./calendario/calendario.module').then(
-                (m) => m.CalendarioModule
             ),
     },
     {

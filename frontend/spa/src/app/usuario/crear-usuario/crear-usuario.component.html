@@ -1,82 +1,67 @@
 <h1 mat-dialog-title><strong>Crear Usuario</strong></h1>
 
 <mat-dialog-content>
-    <form class="user-form">
-
+    <form class="user-form" (ngSubmit)="onSubmit()">
         <mat-form-field class="user-form-full-width">
             <mat-label>Nombre de usuario</mat-label>
-            <input type="name" matInput [formControl]="nameFormControl" [errorStateMatcher]="matcher" placeholder=" ">
+            <input type="text" matInput [formControl]="nameFormControl" [errorStateMatcher]="matcher" placeholder=" ">
             <mat-icon matSuffix>person</mat-icon>
             @if (nameFormControl.hasError('required')) {
-            <mat-error>Name is <strong>required</strong></mat-error>
+            <mat-error>El nombre es <strong>requerido</strong></mat-error>
             }
-            @if (nameFormControl.hasError('')) {
-            <mat-error>Name must be at least <strong>2 characters</strong></mat-error>
+            @if (nameFormControl.hasError('minlength')) {
+            <mat-error>El nombre debe tener al menos <strong>2 caracteres</strong></mat-error>
             }
         </mat-form-field>
 
         <mat-form-field class="user-form-full-width">
             <mat-label>Correo electrónico</mat-label>
-            <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-                placeholder="Ej.  user@unl.edu.ec">
+            <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" placeholder="Ej. user@unl.edu.ec">
             <mat-icon matSuffix>drafts</mat-icon>
             @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-            <mat-error>Please enter a valid email address</mat-error>
+            <mat-error>Por favor ingresa un correo válido</mat-error>
             }
             @if (emailFormControl.hasError('required')) {
-            <mat-error>Email is <strong>required</strong></mat-error>
+            <mat-error>El correo es <strong>requerido</strong></mat-error>
             }
         </mat-form-field>
 
         <mat-form-field class="user-form-full-width">
             <mat-label>Contraseña</mat-label>
-            <input [type]="hidePassword ? 'password' : 'text'" matInput [formControl]="passwordFormControl"
-                [errorStateMatcher]="matcher" placeholder=" ">
-            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
-                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <input [type]="hidePassword ? 'password' : 'text'" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher" placeholder=" ">
+            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                 <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             @if (passwordFormControl.hasError('required')) {
-            <mat-error>Password is <strong>required</strong></mat-error>
+            <mat-error>La contraseña es <strong>requerida</strong></mat-error>
             }
         </mat-form-field>
 
         <mat-form-field class="user-form-full-width">
             <mat-label>Confirmar contraseña</mat-label>
-            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput
-                [formControl]="confirmPasswordFormControl" [errorStateMatcher]="matcher" placeholder=" ">
-            <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword"
-                [attr.aria-label]="'Hide confirmPassword'" [attr.aria-pressed]="hideConfirmPassword">
+            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput [formControl]="confirmPasswordFormControl" [errorStateMatcher]="matcher" placeholder=" ">
+            <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide confirmPassword'" [attr.aria-pressed]="hideConfirmPassword">
                 <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             @if (confirmPasswordFormControl.hasError('required')) {
-            <mat-error>Password is <strong>required</strong></mat-error>
+            <mat-error>La confirmación de contraseña es <strong>requerida</strong></mat-error>
+            }
+            @if (confirmPasswordFormControl.hasError('passwordMismatch')) {
+            <mat-error>Las contraseñas no coinciden</mat-error>
             }
         </mat-form-field>
 
-        <mat-form-field class="user-form-full-width">
-            <mat-label>Rol</mat-label>
-            <mat-icon matSuffix>badge</mat-icon>
-            <mat-select name="rol" [formControl]="rolFormControl" [errorStateMatcher]="matcher">
-                <mat-option value="1">Administrador</mat-option>
-                <mat-option value="2">Usuario</mat-option>
-            </mat-select>
-            @if (rolFormControl.hasError('required')) {
-            <mat-error>Rol is <strong>required</strong></mat-error>
-            }
-        </mat-form-field>
+        <mat-dialog-actions align="end">
+            <button mat-button [mat-dialog-close]="true" cdkFocusInitial type="submit"
+                [disabled]="!nameFormControl.valid || !emailFormControl.valid || !passwordFormControl.valid || !confirmPasswordFormControl.valid"
+                style="background-color: lightgreen; color: black;">
+                <mat-icon>save</mat-icon>
+                Guardar
+            </button>
+            <button mat-button mat-dialog-close style="background-color: lightgrey; color: black;">
+                <mat-icon>cancel</mat-icon>
+                Cancelar
+            </button>
+        </mat-dialog-actions>
     </form>
-
 </mat-dialog-content>
-
-<mat-dialog-actions align="end">
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial type="submit"
-        style="background-color: lightgreen; color: black;">
-        <mat-icon>save</mat-icon>
-        Guardar
-    </button>
-    <button mat-button mat-dialog-close style="background-color: lightgrey; color: black;">
-        <mat-icon>cancel</mat-icon>
-        Cancelar
-    </button>
-</mat-dialog-actions>

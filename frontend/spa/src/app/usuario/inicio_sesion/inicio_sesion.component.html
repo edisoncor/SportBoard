@@ -1,33 +1,39 @@
 <div class="container">
     <div class="left-section">
-        <h1>Bienvenido</h1>
-        <p>Tu gestor de eventos deportivos</p>
-        <p>UNL</p>
+      <h1>Bienvenido</h1>
+      <p>Tu gestor de eventos deportivos</p>
+      <p>UNL</p>
     </div>
     <div class="right-section">
-        <mat-card>
+      <mat-card>
         <mat-card-title>Inicio de Sesión</mat-card-title>
         <mat-card-content>
-            <form>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="fill">
-                <mat-label>Nombre de Usuario</mat-label>
-                <input matInput placeholder="Ingrese su nombre de usuario" required>
+              <mat-label>Nombre de Usuario</mat-label>
+              <input matInput formControlName="username" placeholder="Ingrese su nombre de usuario" required>
+              <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+                El nombre de usuario es <strong>requerido</strong>
+              </mat-error>
             </mat-form-field>
-
+  
             <mat-form-field appearance="fill">
-                <mat-label>Contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña" required>
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Ingrese su contraseña" required>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+              </button>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                La contraseña es <strong>requerida</strong>
+              </mat-error>
             </mat-form-field>
-
-            <button mat-raised-button color="primary">Iniciar Sesión</button>
-            </form>
+  
+            <button mat-raised-button color="primary" type="submit">Iniciar Sesión</button>
+          </form>
         </mat-card-content>
         <mat-card-footer>
-            <p>¿Aún no tiene cuenta? <strong (click)="navigateToRegistro()">REGISTRARSE</strong></p>
+          <p>¿Aún no tiene cuenta? <strong (click)="navigateToRegistro()">REGISTRARSE</strong></p>
         </mat-card-footer>
-        </mat-card>
+      </mat-card>
     </div>
-    </div>
+  </div>

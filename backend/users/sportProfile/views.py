@@ -1,26 +1,27 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .models import *
 from .serializers import *
 
-# Vista para operaciones CRUD estándar de User
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # Acción personalizada para crear un superusuario
     @action(detail=False, methods=['post'])
-    def create_superuser(self, request):
-        serializer = UserSerializer(data=request.data)
+    def login(self, request):
+        serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            user.is_staff = True
-            user.is_superuser = True
-            user.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+            user = serializer.validated_data['user']
+            # Aquí puedes generar un token o devolver información del usuario
+            return Response({
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                # Agrega más campos si es necesario
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Vista para operaciones CRUD de Nacionality
 class NacionalityViewSet(viewsets.ModelViewSet):
     queryset = Nacionality.objects.all()

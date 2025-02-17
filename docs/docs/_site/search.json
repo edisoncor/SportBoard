@@ -152,5 +152,103 @@
     "title": "Documentación del Proyecto Móvil",
     "section": "6 Autor",
     "text": "6 Autor\nEdisonCor"
+  },
+  {
+    "objectID": "components/microservices/users.html",
+    "href": "components/microservices/users.html",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "",
+    "text": "El microservicio de gestión de usuarios forma parte del proyecto SportBoard. Se encarga de la administración de usuarios registrados en el sistema, incluyendo su creación, actualización, eliminación y visualización.\nEsta implementacion se ha realizado usando Django web framework y emplea una base de datos de postgres para almacenar los datos que se registran."
+  },
+  {
+    "objectID": "components/microservices/users.html#introducción",
+    "href": "components/microservices/users.html#introducción",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "",
+    "text": "El microservicio de gestión de usuarios forma parte del proyecto SportBoard. Se encarga de la administración de usuarios registrados en el sistema, incluyendo su creación, actualización, eliminación y visualización."
+  },
+  {
+    "objectID": "components/microservices/users.html#models",
+    "href": "components/microservices/users.html#models",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "2 Models",
+    "text": "2 Models\nDentro de los módulos, tenemos la aplicación SportProfile, en la que se encuentra definido el modelo.\nclass Nacionality(models.Model): nacionality_name = models.CharField(max_length=20, null=False, unique=True)\ndef str(self): return self.nacionality_name\nclass Role(models.TextChoices): ADMIN = ‘ADMIN’, ‘Administrator’ USER = ‘USER’, ‘User’ PLAYER = ‘PLAYER’, ‘Player’ ARBITER = ‘ARBITER’, ‘Arbiter’ SUPPORT = ‘SUPPORT’, ‘Support’ COACH = ‘COACH’, ‘Coach’ VAR = ‘VAR’, ‘Var’\nclass Status(models.TextChoices): ACTIVE = ‘ACTIVE’, ‘Active’ INACTIVE = ‘INACTIVE’, ‘Inactive’ INJURED = ‘INJURED’, ‘Injured’ RETIRED = ‘RETIRED’, ‘Retired’\nclass UserManager(BaseUserManager): def create_user(self, username, email, password=None, extra_fields): if not email: raise ValueError(‘The Email field must be set’) email = self.normalize_email(email) user = self.model(username=username, email=email, extra_fields) user.set_password(password) user.save(using=self._db) return user\ndef create_superuser(self, username, email, password=None, **extra_fields): extra_fields.setdefault(‘is_staff’, True) extra_fields.setdefault(‘is_superuser’, True)\n if extra_fields.get('is_staff') is not True:\n     raise ValueError('Superuser must have is_staff=True.')\n if extra_fields.get('is_superuser') is not True:\n     raise ValueError('Superuser must have is_superuser=True.')\n\n return self.create_user(username, email, password, **extra_fields)\nclass User(AbstractUser): nationality = models.ForeignKey( Nacionality, on_delete=models.SET_NULL, null=True, blank=True, related_name=‘users’ ) birthdate = models.DateField(null=True, blank=True) weigth = models.FloatField(null=True, blank=True) role = models.CharField( max_length=10, choices=Role.choices, default=Role.PLAYER ) status = models.CharField( max_length=10, choices=Status.choices, default=Status.ACTIVE ) first_name = models.CharField(max_length=30, null=True, blank=True) last_name = models.CharField(max_length=150, null=True, blank=True)\nobjects = UserManager()\ngroups = models.ManyToManyField( ‘auth.Group’, related_name=‘custom_user_set’, blank=True, help_text=‘The groups this user belongs to.’ ) user_permissions = models.ManyToManyField( ‘auth.Permission’, related_name=‘custom_user_permissions_set’, blank=True, help_text=‘Specific permissions for this user.’ )\ndef str(self): return self.username\nclass Profile(models.Model): user = models.OneToOneField( User, on_delete=models.CASCADE, related_name=‘profile’, null=True, blank=True ) bio = models.TextField(null=True, blank=True) avatar = models.ImageField(upload_to=‘avatars/’, null=True, blank=True)\ndef str(self): return f”Profile of {self.user.username}” if self.user else “Unassigned Profile”\nclass Player(User): team = models.CharField(max_length=100, null=True, blank=True) jersey_number = models.IntegerField(null=True, blank=True) position = models.CharField(max_length=50, null=True, blank=True) player_status = models.CharField( max_length=10, choices=Status.choices, default=Status.ACTIVE )\nclass Meta: verbose_name = “Player” verbose_name_plural = “Players”\ndef str(self): return f”{self.username} - {self.position or ‘No Position’}”"
+  },
+  {
+    "objectID": "components/microservices/users.html#descripción-de-microservicio",
+    "href": "components/microservices/users.html#descripción-de-microservicio",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "",
+    "text": "El microservicio de gestión de usuarios forma parte del proyecto SportBoard. Se encarga de la administración de usuarios registrados en el sistema, incluyendo su creación, actualización, eliminación y visualización.\nEsta implementacion se ha realizado usando Django web framework y emplea una base de datos de postgres para almacenar los datos que se registran."
+  },
+  {
+    "objectID": "components/microservices/users.html#endpoints",
+    "href": "components/microservices/users.html#endpoints",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "3 Endpoints",
+    "text": "3 Endpoints\nPara realizar las operaciones CRUD de la gestion de usuarios y nacionalidades, y jugadores se emplean los siguientes endpoints\n\n\n\n\n\n\n\n\nOperacion\nEndpoint\nDetalle\n\n\n\n\nPOST\n/api/users/\nRegistra los datos de un usuario.\n\n\nGET\n/api/users/\nObtiene una lista de todos los usuarios registrados\n\n\nPUT\n/api/users/{id}/\nPara la modificacion de un usuario registrado por medio del id\n\n\nPOST\n/api/profiles/\nRegistra los datos para el perfil de un usuario\n\n\nGET\n/api/profile/\nObtiene la lista de todos los perfiles de usuario registrados\n\n\nPUT\n/api/profiles/{id}/\nPara la modificacion del perfil de un usuario por medio del id\n\n\nPOST\n/api/users/login/\nPara el inicio de sesion de un usuario\n\n\nPOST\n/api/nacionalities/\nPara el registro de nacionalidades\n\n\nGET\n/api/nacionalities/\nObtiene una lista de toda la nacionalidades registradas\n\n\nPOST\n/api/players/\nPara el registro de jugadores\n\n\nGET\n/api/players/\nObtiene el resgistro de todos los jugadores registrados\n\n\nPUT\n/api/players/{id}/\nPara la modificacion de un jugadors por medio del id"
+  },
+  {
+    "objectID": "components/microservices/users.html#ejemplo",
+    "href": "components/microservices/users.html#ejemplo",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "4 Ejemplo",
+    "text": "4 Ejemplo\nse realiza una peticion GET al siguiente endpoint /api/profiles/ como resultado se obtiene la siguiente lista de perfiles que se encuentran registrados.\n\n\n\nImagen de peticion GET"
+  },
+  {
+    "objectID": "components/microservices/users.html#integración-de-kong-gateway",
+    "href": "components/microservices/users.html#integración-de-kong-gateway",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "10 Integración de Kong Gateway",
+    "text": "10 Integración de Kong Gateway\nKong es un API Gateway que facilita la gestion y el enrutamiento del API de sistema, se hace uso de Docker para la implementación de Kong y sus servicios asociados. La configuración de Kong incluye:\n\nKong Database (Postgres): Esta base de datos guarda las configuraciones y demas datos relacionados al microservicio que gestiona Kong\nKong Migrations: Efectua las migraciones en la base de datos para lograr inicializar con el esquema que se requiera.\nKong Gateway: Es el API Gateway central para el enrutamiento de las solicitudes a los microservicios.\nKong: Es una interfaz gráfica para la administración de Kong, permitiendo gestionar las API y microservicios de manera fácil.\n\nEn el directorio de docker/api-gateway se encuenta un archivo kong.yml en el cual se define un servicio para ms1-usermanagement, se incluye static files, media-files, url, routers y paths para configurar la redirección de los endpoints de la aplicacion de gestin de usuarios de Django para que sea gestionada por kong.\n\n\n\nImplementacion de kong"
+  },
+  {
+    "objectID": "components/microservices/users.html#modelo-c4",
+    "href": "components/microservices/users.html#modelo-c4",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "5 Modelo C4",
+    "text": "5 Modelo C4\nEsta metodologia facilita la comprensión de la arquitectura que se emplea en el proyecto, en donde se cuenta con varias capas que brindan un nivel de detalle diferente,permitiendo asi al equipo de desarrollo entender la estructura y funcionamiento del sistema."
+  },
+  {
+    "objectID": "components/microservices/users.html#servicio-docker",
+    "href": "components/microservices/users.html#servicio-docker",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "11 Servicio Docker",
+    "text": "11 Servicio Docker\nPara levantar correctamente lo servicios de Kong Gateway se tiene el archivo de configuracion docker-compose.override.yml junto con demas dependencias como la base de datos\n```yaml\nversion: “3.8” name: SportBoard-container\nservices:\n  postgres-usermanagement:\n      image: postgres:13\n      container_name: postgres-usermanagement\n      restart: always\n      environment:\n          POSTGRES_USER: 'postgres'\n          POSTGRES_DB: 'user_manage'\n          POSTGRES_PASSWORD: '11012000'\n      ports:\n          - \"5434:5432\"\n      networks:\n          - sportboard-network\n\n  ms1-usermanagement:\n      build:\n          context: ../../../\n          dockerfile: docker/backend/ms1-usermanagement/Dockerfile\n      container_name: ms1-usermanagement\n      restart: always\n      environment:\n          - DJANGO_SETTINGS_MODULE=users.settings\n          - DATABASE_URL=postgres://postgres:11012000@postgres-usermanagement:5432/user_manage\n      ports:\n          - \"8004:8004\"\n      depends_on:\n          - postgres-usermanagement\n      networks:\n          - sportboard-network\n  networks:\n    sportboard-network:\n        external: true"
+  },
+  {
+    "objectID": "components/microservices/users.html#funcionalidades",
+    "href": "components/microservices/users.html#funcionalidades",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "2 Funcionalidades",
+    "text": "2 Funcionalidades\n\nRegistro de usuarios: Permite la creación de cuentas de usuarios con rol de USERpara poder iniciar sesión en el sistema.\nInicio de Sesión: Para acceder al entorno y demas funcionalidades del sistema, se ingresa el nombre de usuario y clave previamente registradas.\nActualización de datos de usuario: Para modificar la informacion del usuario y añadir datos secundarios como Nombre, Apellido, Nacionalidad, Fecha de nacimiento, etc.\nActualización de datos de perfil de usuario: Para modificar, actualizar la informacion del perfil de un usuario como bio, avatar.\nRegistro de nacionalidad:  Permite al ADMIN ingresar nuevas nacionalidades para ser escogidas por los demas usuarios.\nRegistro de Perfiles: Para registrar los datos de un perfil de un usuario\nVisualización de usuarios registrados:  Permite obtener el listado completo de los usuarios que se encuentran registrados en el sistema.\nRegistro de Jugadores: Para el registro de los participantes en una competencia"
+  },
+  {
+    "objectID": "components/microservices/users.html#capa-nivel-1",
+    "href": "components/microservices/users.html#capa-nivel-1",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "6 Capa nivel 1",
+    "text": "6 Capa nivel 1\nEl diagrama de Contexto se ubica en el nivel más alto brindando la visión global del sistema. Este diagrama esta enfocado en el sistema como un todo y mostrando la interacción con usuarios externos, sistemas o servicios. No se profundiza en los detalles internos, en su lugar, establece el alcance y la interaccion externa.\n\n\n\nDiagrama de implementación C1"
+  },
+  {
+    "objectID": "components/microservices/users.html#capa-nivel-2",
+    "href": "components/microservices/users.html#capa-nivel-2",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "7 Capa nivel 2",
+    "text": "7 Capa nivel 2\nEl diagrama de Contenedores realiza una descomposición del sistema en contenedores, estos representan las aplicaciones o servicios ejecutables. Cada contenedor es un proceso que se ejecuta y teniendo una funcionalidad propia, como pueder ser una base de datos, un servicio web o una aplicación móvil.\n\n\n\nDiagrama de implementación C2"
+  },
+  {
+    "objectID": "components/microservices/users.html#capa-nivel-3",
+    "href": "components/microservices/users.html#capa-nivel-3",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "8 Capa nivel 3",
+    "text": "8 Capa nivel 3\nEl diagrama de Componentes descompone los contenedores en sus partes más pequeñas y mostrando los componentes relevantes dentro de cada contenedor. Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).\n\n\n\nDiagrama de implementación C3"
+  },
+  {
+    "objectID": "components/microservices/users.html#capa-nivel-4",
+    "href": "components/microservices/users.html#capa-nivel-4",
+    "title": "Documentación de Microservicio de Gestión de Usuarios",
+    "section": "9 Capa nivel 4",
+    "text": "9 Capa nivel 4\nEl diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código."
   }
 ]

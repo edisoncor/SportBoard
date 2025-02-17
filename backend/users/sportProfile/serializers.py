@@ -3,7 +3,28 @@ from .models import User, Nacionality, Profile, Player
 
 from rest_framework import serializers
 from .models import User, Nacionality, Profile, Player
+from django.contrib.auth import authenticate
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user:
+                if not user.is_active:
+                    raise serializers.ValidationError('Usuario inactivo.')
+                data['user'] = user
+            else:
+                raise serializers.ValidationError('Credenciales incorrectas.')
+        else:
+            raise serializers.ValidationError('Debe proporcionar un nombre de usuario y una contraseña.')
+
+        return data
 class NacionalitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Nacionality
@@ -47,10 +68,11 @@ class UserSerializer(serializers.ModelSerializer):
         if nationality:
             user.nationality = nationality
             user.save()
-        
+        Profile.objects.create(user=user, bio='', avatar='')
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Profile
         fields = ['id', 'user', 'bio', 'avatar']

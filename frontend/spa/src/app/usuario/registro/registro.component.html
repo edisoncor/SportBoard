@@ -1,51 +1,71 @@
 <div class="container">
     <div class="left-section">
-        <h1>Bienvenido</h1>
-        <p>Tu gestor de eventos deportivos</p>
-        <p>UNL</p>
+      <h1>Bienvenido</h1>
+      <p>Tu gestor de eventos deportivos</p>
+      <p>UNL</p>
     </div>
     <div class="right-section">
-        <mat-card>
-        <mat-card-title>Ingrese sus datos</mat-card-title>
+      <mat-card>
+        <mat-card-title>Registro de cuenta</mat-card-title>
         <mat-card-content>
-            <form>
+          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+  
             <mat-form-field appearance="fill">
-                <mat-label>Nombre</mat-label>
-                <input matInput placeholder="Ingrese su nombre" required>
+              <mat-label>Nombre de usuario</mat-label>
+              <input matInput formControlName="username" placeholder="Ingrese su nombre de usuario" required>
+              <mat-error *ngIf="registroForm.get('username')?.hasError('required')">
+                El nombre de usuario es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="registroForm.get('username')?.hasError('minlength')">
+                El nombre de usuario debe tener al menos <strong>2 caracteres</strong>
+              </mat-error>
             </mat-form-field>
-
+  
             <mat-form-field appearance="fill">
-                <mat-label>Apellido</mat-label>
-                <input matInput placeholder="Ingrese su apellido" required>
+              <mat-label>Correo electrónico</mat-label>
+              <input matInput formControlName="email" placeholder="Ingrese su correo electrónico" required>
+              <mat-error *ngIf="registroForm.get('email')?.hasError('required')">
+                El correo electrónico es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="registroForm.get('email')?.hasError('email')">
+                Por favor, introduce una dirección de correo electrónico válida
+              </mat-error>
             </mat-form-field>
-
+  
             <mat-form-field appearance="fill">
-                <mat-label>Correo Electrónico</mat-label>
-                <input matInput type="email" placeholder="Ingrese su correo electrónico" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña" required>
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Ingrese su contraseña" required>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+              </button>
+              <mat-error *ngIf="registroForm.get('password')?.hasError('required')">
+                La contraseña es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="registroForm.get('password')?.hasError('minlength')">
+                La contraseña debe tener al menos <strong>6 caracteres</strong>
+              </mat-error>
             </mat-form-field>
-
+  
             <mat-form-field appearance="fill">
-                <mat-label>Confirma tu contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Confirma tu contraseña" required>
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+              <mat-label>Confirma tu contraseña</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Confirma tu contraseña" required>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+              </button>
+              <mat-error *ngIf="registroForm.get('confirmPassword')?.hasError('required')">
+                La confirmación de la contraseña es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="registroForm.get('confirmPassword')?.hasError('minlength')">
+                La confirmación de la contraseña debe tener al menos <strong>6 caracteres</strong>
+              </mat-error>
             </mat-form-field>
-
-            <button mat-raised-button color="primary">Registrar</button>
-            </form>
+  
+            <button mat-raised-button color="primary" type="submit">Registrar</button>
+          </form>
         </mat-card-content>
         <mat-card-footer>
-            <p>¿Ya tienes una cuenta? <strong (click)="navigateToInicioSesion()">Haz clic aquí</strong></p>
+          <p>¿Ya tienes una cuenta? <strong (click)="navigateToInicioSesion()">Haz clic aquí</strong></p>
         </mat-card-footer>
-        </mat-card>
+      </mat-card>
     </div>
-    </div>
+  </div>

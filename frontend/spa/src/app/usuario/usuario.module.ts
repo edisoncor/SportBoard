@@ -20,7 +20,6 @@ import { MatOptionModule } from '@angular/material/core'; // Importa MatOptionMo
 import { GestionUsuarioComponent } from './gestion-usuario/gestion-usuario.component';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component';
 
-
 @NgModule({
   declarations: [
     

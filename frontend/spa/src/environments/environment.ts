@@ -3,7 +3,7 @@ export const environment = {
     production: false,
     protocol: 'http',
     baseUrl: 'localhost',
-    port: 8000,
+    port: 5000,
     suffix: '', // '/api',
     apiUrl: '',
     services: {
@@ -39,6 +39,18 @@ export const environment = {
                 media: '/media',
             },
         },
+        user_manage: {
+            base: '/api',
+            endpoints: {
+                root: '',
+                staticFiles: '/static',
+                users: '/users',
+                nacionalities: '/nacionalities',
+                profiles: '/profiles',
+                players: '/players',
+                login: '/users/login',
+            },
+        },
     },
 };
 
@@ -71,3 +83,13 @@ environment.services.competencies.endpoints.localities = `${environment.services
 environment.services.competencies.endpoints.countries = `${environment.services.competencies.base}/countries/`;
 environment.services.competencies.endpoints.formats = `${environment.services.competencies.base}/formats/`;
 environment.services.competencies.endpoints.media = `${environment.services.competencies.base}/media/`;
+
+// ms1-user-manage
+environment.services.user_manage.base = `${environment.apiUrl}${environment.services.user_manage.base}`;
+environment.services.user_manage.endpoints.root = `${environment.services.user_manage.base}${environment.services.user_manage.endpoints.root}`;
+environment.services.user_manage.endpoints.staticFiles = `${environment.services.user_manage.base}${environment.services.user_manage.endpoints.staticFiles}`;
+environment.services.user_manage.endpoints.users = `${environment.services.user_manage.base}/users/`;
+environment.services.user_manage.endpoints.nacionalities = `${environment.services.user_manage.base}/nacionalities/`;
+environment.services.user_manage.endpoints.profiles = `${environment.services.user_manage.base}/profiles/`;
+environment.services.user_manage.endpoints.players = `${environment.services.user_manage.base}/players/`;
+environment.services.user_manage.endpoints.login = `${environment.services.user_manage.base}/users/login/`;

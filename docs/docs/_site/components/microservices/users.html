@@ -2,12 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Angamarca Brayan, Pablo Lopez, Leonardo Peralta">
+<meta name="dcterms.date" content="2025-01-12">
 
-<title>users – Documentación del Proyecto SportBoard</title>
+<title>Documentación de Microservicio de Gestión de Usuarios – SportBoard</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-fd053a38988e21bb3d3b0b617a2084cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,7 +70,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Documentación del Proyecto SportBoard</span>
+    <span class="navbar-title">SportBoard</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -93,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../introduccion.qmd"> 
+    <a class="nav-link" href="../../introduction.html"> 
 <span class="menu-text">Introducción</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -102,16 +103,28 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-arquitectura">    
         <li>
-    <a class="dropdown-item" href="../../arquitectura/overview.qmd">
+    <a class="dropdown-item" href="../../architecture/overview.html">
  <span class="dropdown-text">Visión General</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../arquitectura/c4model.qmd">
+    <a class="dropdown-item" href="../../architecture/c4model.html">
  <span class="dropdown-text">C4 Model</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../arquitectura/context.qmd">
+    <a class="dropdown-item" href="../../architecture/diagrams/context.html">
  <span class="dropdown-text">Contexto</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/containers.html">
+ <span class="dropdown-text">Contenedores</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/components.html">
+ <span class="dropdown-text">Componentes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../architecture/diagrams/code.html">
+ <span class="dropdown-text">Código</span></a>
   </li>  
     </ul>
   </li>
@@ -121,15 +134,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-frontend">    
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/spa.qmd">
+    <a class="dropdown-item" href="../../components/frontend/spa.html">
  <span class="dropdown-text">SPA (Angular)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/app_nativa.qmd">
+    <a class="dropdown-item" href="../../components/frontend/app_native.html">
  <span class="dropdown-text">App Móvil Nativa</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/frontend/app_hibrida.qmd">
+    <a class="dropdown-item" href="../../components/frontend/app_hybrid.html">
  <span class="dropdown-text">App Móvil Híbrida</span></a>
   </li>  
     </ul>
@@ -140,19 +153,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-backend">    
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/bff.qmd">
+    <a class="dropdown-item" href="../../components/backend/bff.html">
  <span class="dropdown-text">BFF (NestJS)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/api_gateway.qmd">
+    <a class="dropdown-item" href="../../components/backend/api_gateway.html">
  <span class="dropdown-text">API Gateway</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/circuit_breaker.qmd">
+    <a class="dropdown-item" href="../../components/backend/circuit_breaker.html">
  <span class="dropdown-text">Circuit Breaker</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/backend/service_registry.qmd">
+    <a class="dropdown-item" href="../../components/backend/service_registry.html">
  <span class="dropdown-text">Service Registry</span></a>
   </li>  
     </ul>
@@ -163,27 +176,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-microservicios">    
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/usuarios.qmd">
+    <a class="dropdown-item" href="../../components/microservices/users.html">
  <span class="dropdown-text">Usuarios</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/competencias.qmd">
+    <a class="dropdown-item" href="../../components/microservices/competencies.html">
  <span class="dropdown-text">Competencias</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/real_time.qmd">
+    <a class="dropdown-item" href="../../components/microservices/real_time.html">
  <span class="dropdown-text">Tiempo Real</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/statistics.qmd">
+    <a class="dropdown-item" href="../../components/microservices/statistics.html">
  <span class="dropdown-text">Estadísticas</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/calendar.qmd">
+    <a class="dropdown-item" href="../../components/microservices/calendar.html">
  <span class="dropdown-text">Calendario</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../componentes/microservicios/catalogs.qmd">
+    <a class="dropdown-item" href="../../components/microservices/catalogs.html">
  <span class="dropdown-text">Catálogos</span></a>
   </li>  
     </ul>
@@ -194,15 +207,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-infraestructura">    
         <li>
-    <a class="dropdown-item" href="../../infraestructura/databases.qmd">
+    <a class="dropdown-item" href="../../infrastructure/databases.html">
  <span class="dropdown-text">Bases de Datos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../infraestructura/deployment.qmd">
+    <a class="dropdown-item" href="../../infrastructure/deployment.html">
  <span class="dropdown-text">Despliegue</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../infraestructura/message_broker.qmd">
+    <a class="dropdown-item" href="../../infrastructure/message_broker.html">
  <span class="dropdown-text">Message Broker</span></a>
   </li>  
     </ul>
@@ -223,8 +236,8 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../futuras_expansiones.qmd"> 
-<span class="menu-text">Futuras Expansiones</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Documentación Técnica</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -237,17 +250,263 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#descripción-de-microservicio" id="toc-descripción-de-microservicio" class="nav-link active" data-scroll-target="#descripción-de-microservicio"><span class="header-section-number">1</span> Descripción de microservicio</a></li>
+  <li><a href="#funcionalidades" id="toc-funcionalidades" class="nav-link" data-scroll-target="#funcionalidades"><span class="header-section-number">2</span> Funcionalidades</a></li>
+  <li><a href="#endpoints" id="toc-endpoints" class="nav-link" data-scroll-target="#endpoints"><span class="header-section-number">3</span> Endpoints</a></li>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo"><span class="header-section-number">4</span> Ejemplo</a></li>
+  <li><a href="#modelo-c4" id="toc-modelo-c4" class="nav-link" data-scroll-target="#modelo-c4"><span class="header-section-number">5</span> Modelo C4</a></li>
+  <li><a href="#capa-nivel-1" id="toc-capa-nivel-1" class="nav-link" data-scroll-target="#capa-nivel-1"><span class="header-section-number">6</span> Capa nivel 1</a></li>
+  <li><a href="#capa-nivel-2" id="toc-capa-nivel-2" class="nav-link" data-scroll-target="#capa-nivel-2"><span class="header-section-number">7</span> Capa nivel 2</a></li>
+  <li><a href="#capa-nivel-3" id="toc-capa-nivel-3" class="nav-link" data-scroll-target="#capa-nivel-3"><span class="header-section-number">8</span> Capa nivel 3</a></li>
+  <li><a href="#capa-nivel-4" id="toc-capa-nivel-4" class="nav-link" data-scroll-target="#capa-nivel-4"><span class="header-section-number">9</span> Capa nivel 4</a></li>
+  <li><a href="#integración-de-kong-gateway" id="toc-integración-de-kong-gateway" class="nav-link" data-scroll-target="#integración-de-kong-gateway"><span class="header-section-number">10</span> Integración de Kong Gateway</a></li>
+  <li><a href="#servicio-docker" id="toc-servicio-docker" class="nav-link" data-scroll-target="#servicio-docker"><span class="header-section-number">11</span> Servicio Docker</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Documentación de Microservicio de Gestión de Usuarios</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Angamarca Brayan, Pablo Lopez, Leonardo Peralta </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 12, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="descripción-de-microservicio" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="descripción-de-microservicio"><span class="header-section-number">1</span> Descripción de microservicio</h2>
+<p>El microservicio de gestión de usuarios forma parte del proyecto SportBoard. Se encarga de la administración de usuarios registrados en el sistema, incluyendo su creación, actualización, eliminación y visualización.</p>
+<p>Esta implementacion se ha realizado usando Django web framework y emplea una base de datos de postgres para almacenar los datos que se registran.</p>
+</section>
+<section id="funcionalidades" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="funcionalidades"><span class="header-section-number">2</span> Funcionalidades</h2>
+<ul>
+<li><strong>Registro de usuarios:</strong> Permite la creación de cuentas de usuarios con rol de <code>USER</code>para poder iniciar sesión en el sistema.</li>
+<li><strong>Inicio de Sesión:</strong> Para acceder al entorno y demas funcionalidades del sistema, se ingresa el nombre de usuario y clave previamente registradas.</li>
+<li><strong>Actualización de datos de usuario:</strong> Para modificar la informacion del usuario y añadir datos secundarios como <code>Nombre</code>, <code>Apellido</code>, <code>Nacionalidad</code>, <code>Fecha de nacimiento</code>, etc.</li>
+<li><strong>Actualización de datos de perfil de usuario:</strong> Para modificar, actualizar la informacion del perfil de un usuario como <code>bio</code>, <code>avatar</code>.</li>
+<li><strong>Registro de nacionalidad: </strong> Permite al <code>ADMIN</code> ingresar nuevas nacionalidades para ser escogidas por los demas usuarios.</li>
+<li><strong>Registro de Perfiles:</strong> Para registrar los datos de un perfil de un usuario</li>
+<li><strong>Visualización de usuarios registrados: </strong> Permite obtener el listado completo de los usuarios que se encuentran registrados en el sistema.</li>
+<li><strong>Registro de Jugadores:</strong> Para el registro de los participantes en una competencia</li>
+</ul>
+<hr>
+</section>
+<section id="endpoints" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="endpoints"><span class="header-section-number">3</span> Endpoints</h2>
+<p>Para realizar las operaciones CRUD de la gestion de usuarios y nacionalidades, y jugadores se emplean los siguientes endpoints</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 22%">
+<col style="width: 62%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Operacion</strong></th>
+<th><strong>Endpoint</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/users/</code></td>
+<td>Registra los datos de un usuario.</td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/users/</code></td>
+<td>Obtiene una lista de todos los usuarios registrados</td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/users/{id}/</code></td>
+<td>Para la modificacion de un usuario registrado por medio del id</td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/profiles/</code></td>
+<td>Registra los datos para el perfil de un usuario</td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/profile/</code></td>
+<td>Obtiene la lista de todos los perfiles de usuario registrados</td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/profiles/{id}/</code></td>
+<td>Para la modificacion del perfil de un usuario por medio del id</td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/users/login/</code></td>
+<td>Para el inicio de sesion de un usuario</td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/nacionalities/</code></td>
+<td>Para el registro de nacionalidades</td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/nacionalities/</code></td>
+<td>Obtiene una lista de toda la nacionalidades registradas</td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/players/</code></td>
+<td>Para el registro de jugadores</td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/players/</code></td>
+<td>Obtiene el resgistro de todos los jugadores registrados</td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/players/{id}/</code></td>
+<td>Para la modificacion de un jugadors por medio del id</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ejemplo" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ejemplo"><span class="header-section-number">4</span> Ejemplo</h2>
+<p>se realiza una peticion GET al siguiente endpoint <code>/api/profiles/</code> como resultado se obtiene la siguiente lista de perfiles que se encuentran registrados.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Files/profiles.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Imagen de peticion GET</figcaption>
+</figure>
+</div>
+</section>
+<section id="modelo-c4" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="modelo-c4"><span class="header-section-number">5</span> Modelo C4</h2>
+<p>Esta metodologia facilita la comprensión de la arquitectura que se emplea en el proyecto, en donde se cuenta con varias capas que brindan un nivel de detalle diferente,permitiendo asi al equipo de desarrollo entender la estructura y funcionamiento del sistema.</p>
+</section>
+<section id="capa-nivel-1" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="capa-nivel-1"><span class="header-section-number">6</span> Capa nivel 1</h2>
+<p>El diagrama de Contexto se ubica en el nivel más alto brindando la visión global del sistema. Este diagrama esta enfocado en el sistema como un todo y mostrando la interacción con usuarios externos, sistemas o servicios. No se profundiza en los detalles internos, en su lugar, establece el alcance y la interaccion externa.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Files/c1.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Diagrama de implementación C1</figcaption>
+</figure>
+</div>
+</section>
+<section id="capa-nivel-2" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="capa-nivel-2"><span class="header-section-number">7</span> Capa nivel 2</h2>
+<p>El diagrama de Contenedores realiza una descomposición del sistema en contenedores, estos representan las aplicaciones o servicios ejecutables. Cada contenedor es un proceso que se ejecuta y teniendo una funcionalidad propia, como pueder ser una base de datos, un servicio web o una aplicación móvil.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Files/c2.png" class="img-fluid figure-img"></p>
+<figcaption>Diagrama de implementación C2</figcaption>
+</figure>
+</div>
+</section>
+<section id="capa-nivel-3" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="capa-nivel-3"><span class="header-section-number">8</span> Capa nivel 3</h2>
+<p>El diagrama de Componentes descompone los contenedores en sus partes más pequeñas y mostrando los componentes relevantes dentro de cada contenedor. Un componente es una unidad funcional del sistema que encapsula una lógica o funcionalidad específica (como un servicio, un módulo o una clase).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Files/c3.png" class="img-fluid figure-img"></p>
+<figcaption>Diagrama de implementación C3</figcaption>
+</figure>
+</div>
+</section>
+<section id="capa-nivel-4" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="capa-nivel-4"><span class="header-section-number">9</span> Capa nivel 4</h2>
+<p>El diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.</p>
+</section>
+<section id="integración-de-kong-gateway" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="integración-de-kong-gateway"><span class="header-section-number">10</span> Integración de Kong Gateway</h2>
+<p>Kong es un API Gateway que facilita la gestion y el enrutamiento del API de sistema, se hace uso de <strong>Docker</strong> para la implementación de Kong y sus servicios asociados. La configuración de Kong incluye:</p>
+<ol type="1">
+<li><strong>Kong Database (Postgres)</strong>: Esta base de datos guarda las configuraciones y demas datos relacionados al microservicio que gestiona Kong</li>
+<li><strong>Kong Migrations</strong>: Efectua las migraciones en la base de datos para lograr inicializar con el esquema que se requiera.</li>
+<li><strong>Kong Gateway</strong>: Es el API Gateway central para el enrutamiento de las solicitudes a los microservicios.</li>
+<li><strong>Kong</strong>: Es una interfaz gráfica para la administración de Kong, permitiendo gestionar las API y microservicios de manera fácil.</li>
+</ol>
+<p>En el directorio de <code>docker/api-gateway</code> se encuenta un archivo <code>kong.yml</code> en el cual se define un servicio para <code>ms1-usermanagement</code>, se incluye <code>static files</code>, <code>media-files</code>, <code>url</code>, <code>routers</code> y <code>paths</code> para configurar la redirección de los endpoints de la aplicacion de gestin de usuarios de <code>Django</code> para que sea gestionada por kong.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Files/profiles.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Implementacion de kong</figcaption>
+</figure>
+</div>
+</section>
+<section id="servicio-docker" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="servicio-docker"><span class="header-section-number">11</span> Servicio Docker</h2>
+<p>Para levantar correctamente lo servicios de Kong Gateway se tiene el archivo de configuracion <code>docker-compose.override.yml</code> junto con demas dependencias como la base de datos</p>
+<p>```yaml</p>
+<p>version: “3.8” name: SportBoard-container</p>
+<p>services:</p>
+<pre><code>  postgres-usermanagement:
+      image: postgres:13
+      container_name: postgres-usermanagement
+      restart: always
+      environment:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_DB: 'user_manage'
+          POSTGRES_PASSWORD: '11012000'
+      ports:
+          - "5434:5432"
+      networks:
+          - sportboard-network
+
+  ms1-usermanagement:
+      build:
+          context: ../../../
+          dockerfile: docker/backend/ms1-usermanagement/Dockerfile
+      container_name: ms1-usermanagement
+      restart: always
+      environment:
+          - DJANGO_SETTINGS_MODULE=users.settings
+          - DATABASE_URL=postgres://postgres:11012000@postgres-usermanagement:5432/user_manage
+      ports:
+          - "8004:8004"
+      depends_on:
+          - postgres-usermanagement
+      networks:
+          - sportboard-network
+  networks:
+    sportboard-network:
+        external: true</code></pre>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

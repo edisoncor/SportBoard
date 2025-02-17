@@ -1,7 +1,6 @@
-
-from django.urls import path,include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import *
+from .views import UserViewSet, NacionalityViewSet, ProfileViewSet, PlayerViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -14,8 +13,8 @@ router.register(r'players', PlayerViewSet)
 
 # Rutas personalizadas (si las necesitas)
 urlpatterns = [
-    # Ejemplo de ruta personalizada
-    # path('custom-route/', custom_view, name='custom-view'),
+    # Ruta para el login
+    path('users/login/', UserViewSet.as_view({'post': 'login'}), name='login'),
 ]
 
 # Agrega las rutas generadas por el router
