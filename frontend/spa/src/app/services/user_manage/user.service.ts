@@ -34,5 +34,5 @@ export class UserService {
     loginUser(user: User): Observable<any> {
         //return this.http.post<any>(environment.services.competencies.endpoints.login, credentials);
         return this.http.post<User>(this.apiUrl, user);
-      }
+    }
 }

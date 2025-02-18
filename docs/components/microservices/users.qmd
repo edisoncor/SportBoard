@@ -80,6 +80,8 @@ Un componente es una unidad funcional del sistema que encapsula una lógica o fu
 El diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. 
 Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.
 
+![Diagrama de implementación C4](Files/c4.jpg)
+
 ## Integración de Kong Gateway
 
 Kong es un API Gateway que facilita la gestion y el enrutamiento del API de sistema, se hace uso de  **Docker** para la implementación de Kong y sus servicios asociados. La configuración de Kong incluye:
@@ -91,7 +93,7 @@ Kong es un API Gateway que facilita la gestion y el enrutamiento del API de sist
 
 En el directorio de `docker/api-gateway` se encuenta un archivo `kong.yml` en el cual se define un servicio para `ms1-usermanagement`, se incluye `static files`, `media-files`, `url`, `routers` y `paths` para configurar la redirección de los endpoints de la aplicacion de gestin de usuarios de `Django` para que sea gestionada por kong.
 
-![Implementacion de kong](Files/profiles.jpeg)
+![Implementacion de kong](Files/kong.jpeg)
 
 ## Servicio Docker
 Para levantar correctamente lo servicios de Kong Gateway se tiene el archivo de configuracion `docker-compose.override.yml` junto con demas dependencias como la base de datos

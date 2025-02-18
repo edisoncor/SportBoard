@@ -249,6 +249,6 @@
     "href": "components/microservices/users.html#capa-nivel-4",
     "title": "Documentación de Microservicio de Gestión de Usuarios",
     "section": "9 Capa nivel 4",
-    "text": "9 Capa nivel 4\nEl diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código."
+    "text": "9 Capa nivel 4\nEl diagrama de Código es el nivel más bajo en cuanto a su especificación y muestra cómo está implementado un componente a nivel de las clases, los métodos y sus relaciones entre estos. Este nivel es útil para los desarrolladores cuando necesitan ver cómo se estructuran los detalles de implementación del código.\n\n\n\nDiagrama de implementación C4"
   }
 ]
