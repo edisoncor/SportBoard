@@ -1,0 +1,15 @@
+# .gitignore para proyectos Django
+venv/
+__pycache__/
+db.sqlite3
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+.DS_Store
+.env
+*.log
+/static/
+/media/
+.idea/
+.vscode/
