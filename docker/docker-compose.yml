@@ -25,6 +25,13 @@ services:
       file: ./backend/ms-catalog/docker-compose.override.yml
       service: catalogs
 
+
+  # RabbitMQ para mensajería
+  rabbitmq:
+    extends:
+      file: ./message-broker/docker-compose.override.yml
+      service: rabbitmq
+
 networks:
   sportboard-network:
     name: sportboard-network
