@@ -20,7 +20,9 @@ def activate_item(code):
         item.save()
         return item
     except CatalogItem.DoesNotExist:
-        raise ObjectDoesNotExist("Ítem no encontrado.")
+        # Lanzar excepción estándar de DRF para que la vista la capture correctamente
+        from rest_framework.exceptions import NotFound
+        raise NotFound("Ítem no encontrado.")
 
 def deactivate_item(code):
     """Desactiva un ítem del catálogo por su código."""
@@ -32,7 +34,9 @@ def deactivate_item(code):
         item.save()
         return item
     except CatalogItem.DoesNotExist:
-        raise ObjectDoesNotExist("Ítem no encontrado.")
+        # Lanzar excepción estándar de DRF para que la vista la capture correctamente
+        from rest_framework.exceptions import NotFound
+        raise NotFound("Ítem no encontrado.")
 
 # --- Operaciones sobre CatalogCategory ---
 def add_item_to_category(category_code, item_code):
@@ -45,7 +49,9 @@ def add_item_to_category(category_code, item_code):
     except CatalogCategory.DoesNotExist:
         raise ObjectDoesNotExist("Categoría no encontrada.")
     except CatalogItem.DoesNotExist:
-        raise ObjectDoesNotExist("Ítem no encontrado.")
+        # Lanzar excepción estándar de DRF para que la vista la capture correctamente
+        from rest_framework.exceptions import NotFound
+        raise NotFound("Ítem no encontrado.")
 
 def remove_item_from_category(category_code, item_code):
     """Elimina un ítem de una categoría."""

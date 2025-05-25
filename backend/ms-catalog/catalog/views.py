@@ -108,8 +108,12 @@ class CatalogItemViewSet(viewsets.ModelViewSet):
             return Response({"message": "Ítem activado correctamente"}, status=status.HTTP_200_OK)
         except ConflictError as e:
             return Response({"message": str(e)}, status=status.HTTP_409_CONFLICT)
-        except CatalogItem.DoesNotExist:
-            return Response({"message": "Ítem no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Si es NotFound de DRF, devolver 404
+            from rest_framework.exceptions import NotFound
+            if isinstance(e, NotFound):
+                return Response({"message": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Error inesperado"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=True, methods=['get'], url_path='get-category')
     def get_category(self, request, code=None):

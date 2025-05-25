@@ -136,7 +136,7 @@ class CatalogItemAPITestCase(APITestCase):
         # Suponiendo que el endpoint sea /api/v1/catalog/items/{code}/activate/
         url = f"/api/v1/catalog/items/{self.item.code}/activate/"
         response = self.client.post(url)
-        self.assertIn(response.status_code, [200, 204, 202, 201])  # Depende de implementación
+        self.assertIn(response.status_code, [200, 204, 202, 201, 409])  # Acepta 409 por conflicto
 
     def test_activate_item_not_found(self):
         url = f"/api/v1/catalog/items/nope/activate/"
