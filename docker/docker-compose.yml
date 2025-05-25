@@ -22,65 +22,6 @@ services:
             file: ./backend/ms-catalog/docker-compose.override.yml
             service: catalogs
 
-# Microservicio Tiempo Real
-    ms3-real-time:
-        extends:
-            file: ./backend/ms3-real-time/docker-compose.override.yml
-            service: ms3-real-time
-
-    mariadb-real-time:
-        extends:
-            file: ./backend/ms3-real-time/docker-compose.override.yml
-            service: mariadb-real-time
-
-# Microservicio de competencias
-    ms2-competencies:
-        extends:
-            file: ./backend/ms2-competencies/docker-compose.override.yml
-            service: ms2-competencies
-        networks:
-            - sportboard-network
-
-    postgres-competencies:
-        extends:
-            file: ./backend/ms2-competencies/docker-compose.override.yml
-            service: postgres-competencies
-
-# Microservicio de calendario
-    ms5-calendar:
-        extends:
-            file: ./backend/ms5-calendar/docker-compose.override.yml
-            service: ms5-calendar
-
-    ms5-calendar-database:
-        extends:
-            file: ./backend/ms5-calendar/docker-compose.override.yml
-            service: ms5-calendar-database
-
-# Microservicio de estadísticas
-    mongodb-estadisticas:
-        extends:
-            file: ./backend/ms4-estadisticas/docker-compose.override.yml
-            service: mongodb-estadisticas
-
-    ms4-estadisticas:
-        extends:
-            file: ./backend/ms4-estadisticas/docker-compose.override.yml
-            service: ms4-estadisticas
-
-
-# Microservicio de usuarios
-    ms1-usermanagement:
-        extends:
-            file: ./backend/ms1-usermanagement/docker-compose.override.yml
-            service: ms1-usermanagement
-        networks:
-            - sportboard-network
-
-    postgres-usermanagement:
-        extends:
-            file: ./backend/ms1-usermanagement/docker-compose.override.yml
-            service: postgres-usermanagement
 networks:
     sportboard-network:
         name: sportboard-network

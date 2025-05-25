@@ -7,7 +7,7 @@ services:
         environment:
             - DJANGO_SETTINGS_MODULE=ms_catalog.settings
         ports:
-            - "8000:8000"
+            - "8009:8009"
         networks:
             - sportboard-network
 networks:
