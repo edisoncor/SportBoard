@@ -1,4 +1,2 @@
-# requirements.txt para el microservicio Catalog
-Django>=5.2
- djangorestframework>=3.15
- drf-yasg>=1.21
+djangorestframework
+ drf-yasg
