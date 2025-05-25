@@ -1,0 +1,16 @@
+---
+title: "Microservicios del ecosistema SportBoard"
+---
+
+# Microservicios principales
+
+El ecosistema SportBoard está compuesto por varios microservicios independientes, cada uno encargado de una funcionalidad específica dentro de la plataforma. A continuación se describen brevemente los principales microservicios:
+
+- **ms-catalog**: Gestión de catálogos jerárquicos, categorías e ítems. Permite operaciones CRUD, relaciones jerárquicas y expone endpoints RESTful. [Ver documentación técnica](ms-catalogs.qmd)
+- **competencies**: Administración de competencias y autenticación de usuarios para competencias deportivas.
+- **Estadisticas**: Microservicio para el manejo y consulta de estadísticas deportivas.
+- **real-time**: Procesamiento y entrega de datos en tiempo real para eventos deportivos.
+- **users**: Gestión de usuarios, perfiles y autenticación general del sistema.
+- **calendarioModule**: Administración de calendarios y eventos deportivos.
+
+Cada microservicio cuenta con su propia documentación técnica y guía de despliegue.

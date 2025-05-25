@@ -5,7 +5,7 @@ services:
   kong-database:
     extends:
       file: ./api-gateway/docker-compose.override.yml
-      service: postgres
+      service: kong-database
 
   # Migraciones de Kong
   kong-migrations:

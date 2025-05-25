@@ -194,5 +194,75 @@
     "title": "Documentación técnica de SportBoard",
     "section": "",
     "text": "Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.\n\n\n\nIntroducción\nArquitectura\nFrontend\nBackend\nMicroservicios\nInfraestructura\nDesarrollo"
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html",
+    "href": "components/microservices/ms-catalogs.html",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "Microservicio RESTful para la gestión de catálogos jerárquicos, desarrollado en Django y Django REST Framework.\n\n\nPermite administrar categorías e ítems de catálogos jerárquicos, soportando operaciones CRUD, relaciones jerárquicas, versionado de API, HATEOAS, paginación, manejo de errores y documentación Swagger.\n\n\n\n\nBasado en arquitectura por capas: URLs → Views → Services → Models → Database.\nSerializers como canal entre Views y Models.\nEndpoints expuestos bajo /api/v1/catalog/.\nDocumentación Swagger disponible en /api/v1/docs/.\n\n\n\n\n\nCRUD de categorías e ítems de catálogo.\nOperaciones jerárquicas: asignar/quitar ítems a categorías, cambiar categoría de un ítem, activar ítems, obtener rutas jerárquicas, etc.\nRespuestas estandarizadas y paginadas.\nVersionado de API y buenas prácticas RESTful.\nManejo de errores con códigos HTTP adecuados (2xx, 4xx, 5xx).\nDocumentación interactiva generada automáticamente.\n\n\n\n\n\nGET /api/v1/catalog/categories/ — Listar categorías\nPOST /api/v1/catalog/categories/ — Crear categoría\nGET /api/v1/catalog/items/ — Listar ítems\nPOST /api/v1/catalog/items/ — Crear ítem\nEndpoints personalizados para operaciones jerárquicas:\n\nGET /categories/{code}/list-catalogs/\nPOST /categories/{code}/add-catalog/\nPOST /items/{code}/change-category/\n…y más (ver README de la app)\n\n\n\n\n\n{\n  \"data\": [...],\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 100,\n      \"next\": \"...\",\n      \"previous\": \"...\"\n    }\n  },\n  \"message\": \"Recursos obtenidos correctamente\"\n}\n\n\n\npython3 -m venv venv\nsource venv/bin/activate\npip install -r requirements.txt\npython manage.py migrate\npython manage.py runserver\n\n\n\n\nPython 3, Django, Django REST Framework\nArquitectura C4 y UML para el diseño\nHATEOAS (HyperlinkedModelSerializer)\nPaginación y respuestas estandarizadas\nDocumentación Swagger/OpenAPI\nCódigo limpio, PEP8, docstrings y buenas prácticas\n\n\n\n\nPara detalles completos, ejemplos de uso, endpoints personalizados y estructura de respuesta, consulta el README de ms-catalog."
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#propósito",
+    "href": "components/microservices/ms-catalogs.html#propósito",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "Permite administrar categorías e ítems de catálogos jerárquicos, soportando operaciones CRUD, relaciones jerárquicas, versionado de API, HATEOAS, paginación, manejo de errores y documentación Swagger."
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#arquitectura",
+    "href": "components/microservices/ms-catalogs.html#arquitectura",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "Basado en arquitectura por capas: URLs → Views → Services → Models → Database.\nSerializers como canal entre Views y Models.\nEndpoints expuestos bajo /api/v1/catalog/.\nDocumentación Swagger disponible en /api/v1/docs/."
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#principales-funcionalidades",
+    "href": "components/microservices/ms-catalogs.html#principales-funcionalidades",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "CRUD de categorías e ítems de catálogo.\nOperaciones jerárquicas: asignar/quitar ítems a categorías, cambiar categoría de un ítem, activar ítems, obtener rutas jerárquicas, etc.\nRespuestas estandarizadas y paginadas.\nVersionado de API y buenas prácticas RESTful.\nManejo de errores con códigos HTTP adecuados (2xx, 4xx, 5xx).\nDocumentación interactiva generada automáticamente."
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#endpoints-principales",
+    "href": "components/microservices/ms-catalogs.html#endpoints-principales",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "GET /api/v1/catalog/categories/ — Listar categorías\nPOST /api/v1/catalog/categories/ — Crear categoría\nGET /api/v1/catalog/items/ — Listar ítems\nPOST /api/v1/catalog/items/ — Crear ítem\nEndpoints personalizados para operaciones jerárquicas:\n\nGET /categories/{code}/list-catalogs/\nPOST /categories/{code}/add-catalog/\nPOST /items/{code}/change-category/\n…y más (ver README de la app)"
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#ejemplo-de-respuesta-restful-estandarizada",
+    "href": "components/microservices/ms-catalogs.html#ejemplo-de-respuesta-restful-estandarizada",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "{\n  \"data\": [...],\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 100,\n      \"next\": \"...\",\n      \"previous\": \"...\"\n    }\n  },\n  \"message\": \"Recursos obtenidos correctamente\"\n}"
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#instalación-y-ejecución-rápida",
+    "href": "components/microservices/ms-catalogs.html#instalación-y-ejecución-rápida",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "python3 -m venv venv\nsource venv/bin/activate\npip install -r requirements.txt\npython manage.py migrate\npython manage.py runserver"
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#tecnologías-y-convenciones",
+    "href": "components/microservices/ms-catalogs.html#tecnologías-y-convenciones",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "Python 3, Django, Django REST Framework\nArquitectura C4 y UML para el diseño\nHATEOAS (HyperlinkedModelSerializer)\nPaginación y respuestas estandarizadas\nDocumentación Swagger/OpenAPI\nCódigo limpio, PEP8, docstrings y buenas prácticas"
+  },
+  {
+    "objectID": "components/microservices/ms-catalogs.html#más-información",
+    "href": "components/microservices/ms-catalogs.html#más-información",
+    "title": "ms-catalog: Microservicio de Catálogos Jerárquicos",
+    "section": "",
+    "text": "Para detalles completos, ejemplos de uso, endpoints personalizados y estructura de respuesta, consulta el README de ms-catalog."
+  },
+  {
+    "objectID": "components/microservices/microservices.html",
+    "href": "components/microservices/microservices.html",
+    "title": "Microservicios del ecosistema SportBoard",
+    "section": "",
+    "text": "1 Microservicios principales\nEl ecosistema SportBoard está compuesto por varios microservicios independientes, cada uno encargado de una funcionalidad específica dentro de la plataforma. A continuación se describen brevemente los principales microservicios:\n\nms-catalog: Gestión de catálogos jerárquicos, categorías e ítems. Permite operaciones CRUD, relaciones jerárquicas y expone endpoints RESTful. Ver documentación técnica\ncompetencies: Administración de competencias y autenticación de usuarios para competencias deportivas.\nEstadisticas: Microservicio para el manejo y consulta de estadísticas deportivas.\nreal-time: Procesamiento y entrega de datos en tiempo real para eventos deportivos.\nusers: Gestión de usuarios, perfiles y autenticación general del sistema.\ncalendarioModule: Administración de calendarios y eventos deportivos.\n\nCada microservicio cuenta con su propia documentación técnica y guía de despliegue."
   }
 ]

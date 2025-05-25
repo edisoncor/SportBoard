@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentación técnica de SportBoard – SportBoard</title>
+<title>ms-catalog: Microservicio de Catálogos Jerárquicos – SportBoard</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +20,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6bbb2ee3340c67b6da55fdc5589aeeb3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-530bf8e59df25186f8bffdc63bad3503.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">SportBoard</span>
     </a>
   </div>
@@ -88,11 +122,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./introduction.html"> 
+    <a class="nav-link" href="../../introduction.html"> 
 <span class="menu-text">Introducción</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -101,27 +135,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-arquitectura">    
         <li>
-    <a class="dropdown-item" href="./architecture/overview.html">
+    <a class="dropdown-item" href="../../architecture/overview.html">
  <span class="dropdown-text">Visión General</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./architecture/c4model.html">
+    <a class="dropdown-item" href="../../architecture/c4model.html">
  <span class="dropdown-text">C4 Model</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./architecture/diagrams/context.html">
+    <a class="dropdown-item" href="../../architecture/diagrams/context.html">
  <span class="dropdown-text">Contexto</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./architecture/diagrams/containers.html">
+    <a class="dropdown-item" href="../../architecture/diagrams/containers.html">
  <span class="dropdown-text">Contenedores</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./architecture/diagrams/components.html">
+    <a class="dropdown-item" href="../../architecture/diagrams/components.html">
  <span class="dropdown-text">Componentes</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./architecture/diagrams/code.html">
+    <a class="dropdown-item" href="../../architecture/diagrams/code.html">
  <span class="dropdown-text">Código</span></a>
   </li>  
     </ul>
@@ -132,15 +166,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-frontend">    
         <li>
-    <a class="dropdown-item" href="./components/frontend/spa.html">
+    <a class="dropdown-item" href="../../components/frontend/spa.html">
  <span class="dropdown-text">SPA (Angular)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/frontend/app_native.html">
+    <a class="dropdown-item" href="../../components/frontend/app_native.html">
  <span class="dropdown-text">App Móvil Nativa</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/frontend/app_hybrid.html">
+    <a class="dropdown-item" href="../../components/frontend/app_hybrid.html">
  <span class="dropdown-text">App Móvil Híbrida</span></a>
   </li>  
     </ul>
@@ -151,19 +185,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-backend">    
         <li>
-    <a class="dropdown-item" href="./components/backend/bff.html">
+    <a class="dropdown-item" href="../../components/backend/bff.html">
  <span class="dropdown-text">BFF (NestJS)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/backend/api_gateway.html">
+    <a class="dropdown-item" href="../../components/backend/api_gateway.html">
  <span class="dropdown-text">API Gateway</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/backend/circuit_breaker.html">
+    <a class="dropdown-item" href="../../components/backend/circuit_breaker.html">
  <span class="dropdown-text">Circuit Breaker</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/backend/service_registry.html">
+    <a class="dropdown-item" href="../../components/backend/service_registry.html">
  <span class="dropdown-text">Service Registry</span></a>
   </li>  
     </ul>
@@ -174,27 +208,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-microservicios">    
         <li>
-    <a class="dropdown-item" href="./components/microservices/users.html">
+    <a class="dropdown-item" href="../../components/microservices/users.html">
  <span class="dropdown-text">Usuarios</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/microservices/competencies.html">
+    <a class="dropdown-item" href="../../components/microservices/competencies.html">
  <span class="dropdown-text">Competencias</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/microservices/real_time.html">
+    <a class="dropdown-item" href="../../components/microservices/real_time.html">
  <span class="dropdown-text">Tiempo Real</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/microservices/statistics.html">
+    <a class="dropdown-item" href="../../components/microservices/statistics.html">
  <span class="dropdown-text">Estadísticas</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/microservices/calendar.html">
+    <a class="dropdown-item" href="../../components/microservices/calendar.html">
  <span class="dropdown-text">Calendario</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./components/microservices/catalogs.qmd">
+    <a class="dropdown-item" href="../../components/microservices/ms-catalogs.html">
  <span class="dropdown-text">Catálogos</span></a>
   </li>  
     </ul>
@@ -205,15 +239,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-infraestructura">    
         <li>
-    <a class="dropdown-item" href="./infrastructure/databases.html">
+    <a class="dropdown-item" href="../../infrastructure/databases.html">
  <span class="dropdown-text">Bases de Datos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./infrastructure/deployment.html">
+    <a class="dropdown-item" href="../../infrastructure/deployment.html">
  <span class="dropdown-text">Despliegue</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./infrastructure/message_broker.html">
+    <a class="dropdown-item" href="../../infrastructure/message_broker.html">
  <span class="dropdown-text">Message Broker</span></a>
   </li>  
     </ul>
@@ -224,17 +258,17 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-desarrollo">    
         <li>
-    <a class="dropdown-item" href="./development/ci_cd.html">
+    <a class="dropdown-item" href="../../development/ci_cd.html">
  <span class="dropdown-text">CI/CD</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./development/local_configuration.html">
+    <a class="dropdown-item" href="../../development/local_configuration.html">
  <span class="dropdown-text">Configuración Local</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Documentación Técnica</span></a>
   </li>  
 </ul>
@@ -253,9 +287,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#documentación-técnica" id="toc-documentación-técnica" class="nav-link active" data-scroll-target="#documentación-técnica"><span class="header-section-number">1</span> Documentación Técnica</a>
+  <li><a href="#ms-catalog" id="toc-ms-catalog" class="nav-link active" data-scroll-target="#ms-catalog"><span class="header-section-number">1</span> ms-catalog</a>
   <ul class="collapse">
-  <li><a href="#secciones" id="toc-secciones" class="nav-link" data-scroll-target="#secciones"><span class="header-section-number">1.1</span> Secciones</a></li>
+  <li><a href="#propósito" id="toc-propósito" class="nav-link" data-scroll-target="#propósito"><span class="header-section-number">1.1</span> Propósito</a></li>
+  <li><a href="#arquitectura" id="toc-arquitectura" class="nav-link" data-scroll-target="#arquitectura"><span class="header-section-number">1.2</span> Arquitectura</a></li>
+  <li><a href="#principales-funcionalidades" id="toc-principales-funcionalidades" class="nav-link" data-scroll-target="#principales-funcionalidades"><span class="header-section-number">1.3</span> Principales funcionalidades</a></li>
+  <li><a href="#endpoints-principales" id="toc-endpoints-principales" class="nav-link" data-scroll-target="#endpoints-principales"><span class="header-section-number">1.4</span> Endpoints principales</a></li>
+  <li><a href="#ejemplo-de-respuesta-restful-estandarizada" id="toc-ejemplo-de-respuesta-restful-estandarizada" class="nav-link" data-scroll-target="#ejemplo-de-respuesta-restful-estandarizada"><span class="header-section-number">1.5</span> Ejemplo de respuesta RESTful estandarizada</a></li>
+  <li><a href="#instalación-y-ejecución-rápida" id="toc-instalación-y-ejecución-rápida" class="nav-link" data-scroll-target="#instalación-y-ejecución-rápida"><span class="header-section-number">1.6</span> Instalación y ejecución rápida</a></li>
+  <li><a href="#tecnologías-y-convenciones" id="toc-tecnologías-y-convenciones" class="nav-link" data-scroll-target="#tecnologías-y-convenciones"><span class="header-section-number">1.7</span> Tecnologías y convenciones</a></li>
+  <li><a href="#más-información" id="toc-más-información" class="nav-link" data-scroll-target="#más-información"><span class="header-section-number">1.8</span> Más información</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -265,7 +306,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Documentación técnica de SportBoard</h1>
+<h1 class="title">ms-catalog: Microservicio de Catálogos Jerárquicos</h1>
 </div>
 
 
@@ -282,20 +323,85 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="documentación-técnica" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="documentación-técnica"><span class="header-section-number">1</span> Documentación Técnica</h2>
-<p>Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.</p>
-<section id="secciones" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="secciones"><span class="header-section-number">1.1</span> Secciones</h3>
+<section id="ms-catalog" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> ms-catalog</h1>
+<p>Microservicio RESTful para la gestión de catálogos jerárquicos, desarrollado en Django y Django REST Framework.</p>
+<section id="propósito" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="propósito"><span class="header-section-number">1.1</span> Propósito</h2>
+<p>Permite administrar categorías e ítems de catálogos jerárquicos, soportando operaciones CRUD, relaciones jerárquicas, versionado de API, HATEOAS, paginación, manejo de errores y documentación Swagger.</p>
+</section>
+<section id="arquitectura" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="arquitectura"><span class="header-section-number">1.2</span> Arquitectura</h2>
 <ul>
-<li><a href="./introduction.html">Introducción</a></li>
-<li><a href="./architecture/overview.html">Arquitectura</a></li>
-<li><a href="./components/frontend/spa.html">Frontend</a></li>
-<li><a href="./components/backend/bff.html">Backend</a></li>
-<li><a href="./components/microservices/microservices.html">Microservicios</a></li>
-<li><a href="./infrastructure/databases.html">Infraestructura</a></li>
-<li><a href="./development/ci_cd.html">Desarrollo</a></li>
+<li>Basado en arquitectura por capas: URLs → Views → Services → Models → Database.</li>
+<li>Serializers como canal entre Views y Models.</li>
+<li>Endpoints expuestos bajo <code>/api/v1/catalog/</code>.</li>
+<li>Documentación Swagger disponible en <code>/api/v1/docs/</code>.</li>
 </ul>
+</section>
+<section id="principales-funcionalidades" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="principales-funcionalidades"><span class="header-section-number">1.3</span> Principales funcionalidades</h2>
+<ul>
+<li>CRUD de categorías e ítems de catálogo.</li>
+<li>Operaciones jerárquicas: asignar/quitar ítems a categorías, cambiar categoría de un ítem, activar ítems, obtener rutas jerárquicas, etc.</li>
+<li>Respuestas estandarizadas y paginadas.</li>
+<li>Versionado de API y buenas prácticas RESTful.</li>
+<li>Manejo de errores con códigos HTTP adecuados (2xx, 4xx, 5xx).</li>
+<li>Documentación interactiva generada automáticamente.</li>
+</ul>
+</section>
+<section id="endpoints-principales" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="endpoints-principales"><span class="header-section-number">1.4</span> Endpoints principales</h2>
+<ul>
+<li><code>GET /api/v1/catalog/categories/</code> — Listar categorías</li>
+<li><code>POST /api/v1/catalog/categories/</code> — Crear categoría</li>
+<li><code>GET /api/v1/catalog/items/</code> — Listar ítems</li>
+<li><code>POST /api/v1/catalog/items/</code> — Crear ítem</li>
+<li>Endpoints personalizados para operaciones jerárquicas:
+<ul>
+<li><code>GET /categories/{code}/list-catalogs/</code></li>
+<li><code>POST /categories/{code}/add-catalog/</code></li>
+<li><code>POST /items/{code}/change-category/</code></li>
+<li>…y más (ver README de la app)</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-de-respuesta-restful-estandarizada" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="ejemplo-de-respuesta-restful-estandarizada"><span class="header-section-number">1.5</span> Ejemplo de respuesta RESTful estandarizada</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data"</span><span class="fu">:</span> <span class="ot">[</span><span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"meta"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"pagination"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"count"</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"next"</span><span class="fu">:</span> <span class="st">"..."</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"previous"</span><span class="fu">:</span> <span class="st">"..."</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Recursos obtenidos correctamente"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="instalación-y-ejecución-rápida" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="instalación-y-ejecución-rápida"><span class="header-section-number">1.6</span> Instalación y ejecución rápida</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> manage.py migrate</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> manage.py runserver</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tecnologías-y-convenciones" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="tecnologías-y-convenciones"><span class="header-section-number">1.7</span> Tecnologías y convenciones</h2>
+<ul>
+<li>Python 3, Django, Django REST Framework</li>
+<li>Arquitectura C4 y UML para el diseño</li>
+<li>HATEOAS (HyperlinkedModelSerializer)</li>
+<li>Paginación y respuestas estandarizadas</li>
+<li>Documentación Swagger/OpenAPI</li>
+<li>Código limpio, PEP8, docstrings y buenas prácticas</li>
+</ul>
+</section>
+<section id="más-información" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="más-información"><span class="header-section-number">1.8</span> Más información</h2>
+<p>Para detalles completos, ejemplos de uso, endpoints personalizados y estructura de respuesta, consulta el <a href="../../../backend/ms-catalog/README.md">README de ms-catalog</a>.</p>
 
 
 </section>

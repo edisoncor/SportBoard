@@ -1,29 +1,41 @@
-# SportBoard
+# SportBoard - Microservicios
 
-SportBoard es una plataforma integral de gestión deportiva.
+Este repositorio contiene los microservicios y componentes principales del ecosistema SportBoard.
 
-## Funcionalidades
+## Descripción de los microservicios
+- **ms-catalog**: Gestión de catálogos jerárquicos, categorías e ítems. Permite operaciones CRUD, relaciones jerárquicas y expone endpoints RESTful. [Ver documentación técnica](docs/components/backend/microservices/ms-catalogs.qmd)
+- **competencies**: Administración de competencias y autenticación de usuarios para competencias deportivas.
+- **Estadisticas**: Microservicio para el manejo y consulta de estadísticas deportivas.
+- **real-time**: Procesamiento y entrega de datos en tiempo real para eventos deportivos.
+- **users**: Gestión de usuarios, perfiles y autenticación general del sistema.
+- **calendarioModule**: Administración de calendarios y eventos deportivos.
 
-### Gestión de Competencias y Equipos:
-*  Crear, editar y eliminar competencias deportivas (torneos, ligas).
-*  Registro de equipos, jugadores y entrenadores.
-*  Gestión de categorías (infantil, juvenil, adulto, etc.).
+Próximamente se integrarán más microservicios y módulos.
 
-### Calendario de Partidos:
-*  Programación de fechas, sedes y horarios para los partidos.
-*  Visualización de un calendario detallado con filtros por categorías, equipos o fechas.
-*  Envío de notificaciones de partidos programados a los equipos y entrenadores.
+## Ejecución general
+Cada microservicio cuenta con su propio README y guía de despliegue. Consulta la documentación específica en el directorio correspondiente.
 
-### Seguimiento en Tiempo Real:
-*  Panel de control para visualizar el seguimiento en tiempo real de los partidos (goles, faltas, sustituciones, etc.).
-*  Actualización de estadísticas en tiempo real: posesión de balón, tiros a gol, tarjetas, etc.
-*  Marcador en vivo.
+## Ejecución con Docker Compose
+Para levantar los microservicios definidos en este repositorio, ejecuta desde la raíz del proyecto:
 
-### Estadísticas y Reportes:
-*  Generación de reportes detallados por equipo, jugador y competencia.
-*  Seguimiento de estadísticas individuales (goles, asistencias, tarjetas) y colectivas (posesión, rendimiento).
-*  Exportación de reportes en formato PDF o Excel.
+```bash
+# Levanta todos los servicios en segundo plano
+docker compose -f docker/docker-compose.yml up -d
 
-### Administración de Usuarios:
-*  Gestión de usuarios y roles (administradores, entrenadores, árbitros).
-*  Control de permisos y acceso a diferentes funcionalidades.
+# Para ver los logs de todos los servicios
+docker compose -f docker/docker-compose.yml logs -f
+
+# Para detener todos los servicios
+docker compose -f docker/docker-compose.yml down
+```
+
+## ms-catalog
+Microservicio RESTful desarrollado en Django y Django REST Framework para la gestión de catálogos jerárquicos. Permite crear, consultar, actualizar y eliminar categorías e ítems, así como gestionar relaciones jerárquicas entre ellos. Incluye endpoints personalizados para operaciones avanzadas, paginación, manejo de errores, versionado de API y documentación Swagger.
+
+- Soporta operaciones CRUD sobre categorías e ítems.
+- Permite relaciones jerárquicas y operaciones sobre la jerarquía.
+- Respuestas estandarizadas y paginadas.
+- Documentación interactiva disponible vía Swagger.
+
+[Ver documentación técnica de ms-catalog (Quarto)](docs/components/microservices/ms-catalogs.qmd)
+

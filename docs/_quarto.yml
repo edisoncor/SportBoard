@@ -55,7 +55,7 @@ website:
           - text: "Calendario"
             href: components/microservices/calendar.qmd
           - text: "Catálogos"
-            href: components/microservices/catalogs.qmd
+            href: components/microservices/ms-catalogs.qmd
       - text: "Infraestructura"
         menu:
           - text: "Bases de Datos"
@@ -75,7 +75,7 @@ website:
 
 format:
   html:
-    theme: yeti
+    theme: minty
     toc: true
     toc-depth: 3
     number-sections: true

@@ -23,7 +23,7 @@ services:
             - kong-database
         environment:
             KONG_DATABASE: postgres
-            KONG_PG_HOST: postgres
+            KONG_PG_HOST: kong-database
             KONG_PG_USER: kong
             KONG_PG_PASSWORD: kong
         command: kong migrations bootstrap
@@ -39,7 +39,7 @@ services:
             - kong-migrations
         environment:
             KONG_DATABASE: postgres # base de datos
-            KONG_PG_HOST: postgres # host de la base de datos
+            KONG_PG_HOST: kong-database # host de la base de datos
             KONG_PG_USER: kong # usuario de la base de datos
             KONG_PG_PASSWORD: kong # contraseña de la base de datos
             KONG_PROXY_ACCESS_LOG: /dev/stdout # logs de acceso
