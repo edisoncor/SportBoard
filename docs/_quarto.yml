@@ -45,15 +45,11 @@ website:
       - text: "Microservicios"
         menu:
           - text: "Usuarios"
-            href: components/microservices/users.qmd
+            href: components/microservices/ms-users.qmd
           - text: "Competencias"
-            href: components/microservices/competencies.qmd
-          - text: "Tiempo Real"
-            href: components/microservices/real_time.qmd
+            href: components/microservices/ms-competencies.qmd
           - text: "Estadísticas"
-            href: components/microservices/statistics.qmd
-          - text: "Calendario"
-            href: components/microservices/calendar.qmd
+            href: components/microservices/ms-statistics.qmd
           - text: "Catálogos"
             href: components/microservices/ms-catalogs.qmd
       - text: "Infraestructura"
