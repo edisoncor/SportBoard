@@ -2,145 +2,23 @@ _format_version: "2.1"
 _transform: true
 
 services:
-  - name: sportboard-backend
-    url: http://ms4-estadisticas:3000
+  - name: ms-catalog-categories-service
+    url: http://ms-catalog:8009/api/v1/catalog/categories
     routes:
-      - name: teams-route
+      - name: ms-catalog-categories-route
         paths:
-          - /api/estadisticas/teams
+          - /catalog/categories
         strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: matches-route-estadisticas
-        paths:
-          - /api/estadisticas/matches
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: competition-route
-        paths:
-          - /api/estadisticas/competition
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: upcoming-matches-route
-        paths:
-          - /api/estadisticas/upcomingMatches
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: leaderboards-route
-        paths:
-          - /api/estadisticas/leaderboards
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: players-route
-        paths:
-          - /api/estadisticas/players
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: generate-pdf-route
-        paths:
-          - /api/estadisticas/generate-teams-pdf
-        strip_path: false
-        methods:
-          - POST
-      - name: download-pdf-route
-        paths:
-          - /api/estadisticas/download-pdf
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-      - name: test-route
-        paths:
-          - /api/estadisticas/test
-        strip_path: false
-        methods:
-          - GET
-          - OPTIONS
-    plugins:
-      - name: jwt
-        config:
-          claims_to_verify:
-            - exp
-          secret_is_base64: false
-          run_on_preflight: true
-          header_names:
-            - authorization
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
-  - name: groups-service
-    url: http://catalogs:5241/api/groups
+  - name: ms-catalog-items-service
+    url: http://ms-catalog:8009/api/v1/catalog/items
     routes:
-      - name: groups-route
+      - name: ms-catalog-items-route
         paths:
-          - /catalog/groups
-
-  - name: catalogs-service
-    url: http://catalogs:5241/api/catalogs
-    routes:
-      - name: catalogs-route
-        paths:
-          - /catalog/catalogs
-
-  - name: real-time-service
-    url: http://ms3-real-time:5001/api
-    routes:
-      - name: matches-route-realtime
-        paths:
-          - /api/partidos
-      - name: events-route
-        paths:
-          - /api/eventos
-
-  - name: ms2-competencies
-    url: http://ms2-competencies:8003
-    routes:
-      - name: ms2-competencies-route
-        paths:
-          - /api
+          - /catalog/items
         strip_path: false
-
-  - name: static-files
-    url: http://ms2-competencies:8003
-    routes:
-      - name: static-files-route
-        paths:
-          - /static/
-        strip_path: false
-
-  - name: media-files
-    url: http://ms2-competencies:8003
-    routes:
-      - name: media-files-route
-        paths:
-          - /media
-        strip_path: false
-        preserve_host: false
-
-        
-  - name: ms1-usermanagement
-    url: http://ms1-usermanagement:8004
-    routes:
-      - name: ms1-usermanagement-route
-        paths:
-          - /ms1/
-        strip_path: false
-
-consumers:
-  - username: sportboard-consumer
-    # jwt_secrets:
-    #   - key: sportboard-statistics
-    #     secret: "1234"
-    #     algorithm: HS256
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
 plugins:
   - name: cors
@@ -148,6 +26,7 @@ plugins:
       origins:
         - http://localhost:4200
         - http://localhost:65293
+        - http://localhost:8002
       methods:
         - GET
         - POST
