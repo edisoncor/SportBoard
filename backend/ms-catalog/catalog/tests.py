@@ -23,11 +23,35 @@ class CatalogCategoryAPITestCase(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_create_category_with_description(self):
+        url = reverse('catalogcategory-list')
+        data = {"name": "CatDesc", "code": "catdesc", "level": 1, "description": "Descripción de prueba"}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('description', response.data)
+        self.assertEqual(response.data['description'], "Descripción de prueba")
+
     def test_retrieve_category(self):
         url = reverse('catalogcategory-detail', args=[self.cat1.code])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], self.cat1.name)
+
+    def test_retrieve_category_description(self):
+        self.cat1.description = "Desc cat1"
+        self.cat1.save()
+        url = reverse('catalogcategory-detail', args=[self.cat1.code])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('description', response.data)
+        self.assertEqual(response.data['description'], "Desc cat1")
+
+    def test_update_category_description(self):
+        url = reverse('catalogcategory-detail', args=[self.cat1.code])
+        data = {"description": "Nueva descripción"}
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['description'], "Nueva descripción")
 
     def test_delete_category(self):
         url = reverse('catalogcategory-detail', args=[self.cat2.code])
@@ -48,7 +72,7 @@ class CatalogCategoryAPITestCase(APITestCase):
 class CatalogItemAPITestCase(APITestCase):
     def setUp(self):
         self.cat = CatalogCategory.objects.create(name="Cat", code="cat", level=0)
-        self.item = CatalogItem.objects.create(name="Item1", code="item1", category=self.cat)
+        self.item = CatalogItem.objects.create(name="Item1", code="item1", category=self.cat, description="Desc item1")
 
     def test_list_items(self):
         url = reverse('catalogitem-list')
@@ -64,11 +88,33 @@ class CatalogItemAPITestCase(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_create_item_with_description(self):
+        url = reverse('catalogitem-list')
+        data = {"name": "Item2", "code": "item2", "category": self.cat.code, "description": "Descripción item2"}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('description', response.data)
+        self.assertEqual(response.data['description'], "Descripción item2")
+
     def test_retrieve_item(self):
         url = reverse('catalogitem-detail', args=[self.item.code])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], self.item.name)
+
+    def test_retrieve_item_description(self):
+        url = reverse('catalogitem-detail', args=[self.item.code])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('description', response.data)
+        self.assertEqual(response.data['description'], "Desc item1")
+
+    def test_update_item_description(self):
+        url = reverse('catalogitem-detail', args=[self.item.code])
+        data = {"description": "Nueva descripción item"}
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['description'], "Nueva descripción item")
 
     def test_delete_item(self):
         url = reverse('catalogitem-detail', args=[self.item.code])

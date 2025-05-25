@@ -19,6 +19,7 @@ class BaseCatalog(models.Model, ICatalogComponent):
     """
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, null=True)
     version = models.IntegerField(default=1)
     isActive = models.BooleanField(default=True)
     parent_catalog = models.ForeignKey('self', related_name='child_catalogs', null=True, blank=True, on_delete=models.CASCADE)
