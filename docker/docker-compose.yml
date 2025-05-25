@@ -17,14 +17,9 @@ services:
             service: kong
 
 # Microservicio de catálogo
-    sqlserver:
+    ms-catalog:
         extends:
-            file: ./backend/ms6-catalog/docker-compose.override.yml
-            service: sqlserver
-    
-    catalogs:
-        extends:
-            file: ./backend/ms6-catalog/docker-compose.override.yml
+            file: ./backend/ms-catalog/docker-compose.override.yml
             service: catalogs
 
 # Microservicio Tiempo Real
