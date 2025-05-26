@@ -23,7 +23,7 @@ La documentación está organizada en las siguientes secciones:
 - [Arquitectura](architecture/overview.qmd)
 - [Frontend](components/frontend/spa.qmd)
 - [Backend](components/backend/bff.qmd)
-- [Microservicios](components/microservices/users.qmd)
+- [Microservicios](components/microservices/microservices.qmd)
 - [Infraestructura](infrastructure/databases.qmd)
 - [Desarrollo](development/ci_cd.qmd)
 

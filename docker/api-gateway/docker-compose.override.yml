@@ -2,28 +2,28 @@ version: "3.8"
 name: SportBoard-container
 
 services:
-    postgres:
-        image: postgres:13
+    kong-database:
+        image: postgres:15
         container_name: kong-database
         restart: always
         environment:
             POSTGRES_USER: kong
             POSTGRES_DB: kong
             POSTGRES_PASSWORD: kong
-        ports:
-            - "5432:5432"
+        volumes:
+          - kong-db-data:/var/lib/postgresql/data
         networks:
             - sportboard-network
 
     kong-migrations:
-        image: kong:3.4
+        image: kong:3.6
         container_name: kong-migrations
         restart: "no"
         depends_on:
-            - postgres
+            - kong-database
         environment:
             KONG_DATABASE: postgres
-            KONG_PG_HOST: postgres
+            KONG_PG_HOST: kong-database
             KONG_PG_USER: kong
             KONG_PG_PASSWORD: kong
         command: kong migrations bootstrap
@@ -31,14 +31,15 @@ services:
             - sportboard-network
 
     kong:
-        image: kong:3.4
+        image: kong:3.6
         container_name: kong
         restart: always # reiniciar siempre
         depends_on:
+            - kong-database # depende de la base de datos
             - kong-migrations
         environment:
             KONG_DATABASE: postgres # base de datos
-            KONG_PG_HOST: postgres # host de la base de datos
+            KONG_PG_HOST: kong-database # host de la base de datos
             KONG_PG_USER: kong # usuario de la base de datos
             KONG_PG_PASSWORD: kong # contraseña de la base de datos
             KONG_PROXY_ACCESS_LOG: /dev/stdout # logs de acceso

@@ -1,0 +1,15 @@
+services:
+    catalogs:
+        container_name: ms-catalog
+        build:
+            context: ../../../backend/ms-catalog
+            dockerfile: Dockerfile
+        environment:
+            - DJANGO_SETTINGS_MODULE=ms_catalog.settings
+        ports:
+            - "8009:8009"
+        networks:
+            - sportboard-network
+networks:
+    sportboard-network:
+        external: true

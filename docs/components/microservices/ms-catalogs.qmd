@@ -1,0 +1,70 @@
+---
+title: "ms-catalog: Microservicio de Catálogos Jerárquicos"
+---
+
+# ms-catalog
+
+Microservicio RESTful para la gestión de catálogos jerárquicos, desarrollado en Django y Django REST Framework.
+
+## Propósito
+Permite administrar categorías e ítems de catálogos jerárquicos, soportando operaciones CRUD, relaciones jerárquicas, versionado de API, HATEOAS, paginación, manejo de errores y documentación Swagger.
+
+## Arquitectura
+- Basado en arquitectura por capas: URLs → Views → Services → Models → Database.
+- Serializers como canal entre Views y Models.
+- Endpoints expuestos bajo `/api/v1/catalog/`.
+- Documentación Swagger disponible en `/api/v1/docs/`.
+
+## Principales funcionalidades
+- CRUD de categorías e ítems de catálogo.
+- Operaciones jerárquicas: asignar/quitar ítems a categorías, cambiar categoría de un ítem, activar ítems, obtener rutas jerárquicas, etc.
+- Respuestas estandarizadas y paginadas.
+- Versionado de API y buenas prácticas RESTful.
+- Manejo de errores con códigos HTTP adecuados (2xx, 4xx, 5xx).
+- Documentación interactiva generada automáticamente.
+
+## Endpoints principales
+- `GET /api/v1/catalog/categories/` — Listar categorías
+- `POST /api/v1/catalog/categories/` — Crear categoría
+- `GET /api/v1/catalog/items/` — Listar ítems
+- `POST /api/v1/catalog/items/` — Crear ítem
+- Endpoints personalizados para operaciones jerárquicas:
+  - `GET /categories/{code}/list-catalogs/`
+  - `POST /categories/{code}/add-catalog/`
+  - `POST /items/{code}/change-category/`
+  - ...y más (ver README de la app)
+
+## Ejemplo de respuesta RESTful estandarizada
+```json
+{
+  "data": [...],
+  "meta": {
+    "pagination": {
+      "count": 100,
+      "next": "...",
+      "previous": "..."
+    }
+  },
+  "message": "Recursos obtenidos correctamente"
+}
+```
+
+## Instalación y ejecución rápida
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+## Tecnologías y convenciones
+- Python 3, Django, Django REST Framework
+- Arquitectura C4 y UML para el diseño
+- HATEOAS (HyperlinkedModelSerializer)
+- Paginación y respuestas estandarizadas
+- Documentación Swagger/OpenAPI
+- Código limpio, PEP8, docstrings y buenas prácticas
+
+## Más información
+Para detalles completos, ejemplos de uso, endpoints personalizados y estructura de respuesta, consulta el [README de ms-catalog](../../../backend/ms-catalog/README.md).

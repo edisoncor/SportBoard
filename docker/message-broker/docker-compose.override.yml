@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"    # Puerto para aplicaciones
+      - "15672:15672"  # Consola de administración web
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - sportboard-network
+
+networks:
+  sportboard-network:
+    external: true
