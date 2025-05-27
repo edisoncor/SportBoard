@@ -1,0 +1,77 @@
+project:
+  type: website
+  output-dir: docs/_site
+
+website:
+  title: "SportBoard"
+  navbar:
+    left:
+      - text: "Inicio"
+        href: index.qmd
+      - text: "Introducción"
+        href: introduction.qmd
+      - text: "Arquitectura"
+        menu:
+          - text: "Visión General"
+            href: architecture/overview.qmd
+          - text: "C4 Model"
+            href: architecture/c4model.qmd
+          - text: "Contexto"
+            href: architecture/diagrams/context.qmd
+          - text: "Contenedores"
+            href: architecture/diagrams/containers.qmd
+          - text: "Componentes"
+            href: architecture/diagrams/components.qmd
+          - text: "Código"
+            href: architecture/diagrams/code.qmd
+      - text: "Frontend"
+        menu:
+          - text: "SPA (Angular)"
+            href: components/frontend/spa.qmd
+          - text: "App Móvil Nativa"
+            href: components/frontend/app_native.qmd
+          - text: "App Móvil Híbrida"
+            href: components/frontend/app_hybrid.qmd
+      - text: "Backend"
+        menu:
+          - text: "BFF (NestJS)"
+            href: components/backend/bff.qmd
+          - text: "API Gateway"
+            href: components/backend/api_gateway.qmd
+          - text: "Circuit Breaker"
+            href: components/backend/circuit_breaker.qmd
+          - text: "Service Registry"
+            href: components/backend/service_registry.qmd
+      - text: "Microservicios"
+        menu:
+          - text: "Usuarios"
+            href: components/microservices/ms-users.qmd
+          - text: "Competencias"
+            href: components/microservices/ms-competencies.qmd
+          - text: "Estadísticas"
+            href: components/microservices/ms-statistics.qmd
+          - text: "Catálogos"
+            href: components/microservices/ms-catalogs.qmd
+      - text: "Infraestructura"
+        menu:
+          - text: "Bases de Datos"
+            href: infrastructure/databases.qmd
+          - text: "Despliegue"
+            href: infrastructure/deployment.qmd
+          - text: "Message Broker"
+            href: infrastructure/message_broker.qmd
+      - text: "Desarrollo"
+        menu:
+          - text: "CI/CD"
+            href: development/ci_cd.qmd
+          - text: "Configuración Local"
+            href: development/local_configuration.qmd
+      - text: "Documentación Técnica"
+        href: index.qmd
+
+format:
+  html:
+    theme: minty
+    toc: true
+    toc-depth: 3
+    number-sections: true

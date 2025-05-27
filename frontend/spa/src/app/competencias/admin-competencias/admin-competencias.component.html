@@ -1,0 +1,170 @@
+<div class="admin-competencias">
+  <app-breadcrumb-competencias [currentRoute]="currentRoute"></app-breadcrumb-competencias>
+  <h1>Gestión de Competencias</h1>
+  
+  <div class="top-actions">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar competencia</mat-label>
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)" placeholder="Buscar por nombre">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button (click)="create()" color="primary">
+        <mat-icon>add_circle</mat-icon>
+        Nueva Competencia
+      </button>
+      <button mat-raised-button 
+              (click)="delete()" 
+              color="warn">
+        <mat-icon>delete_outline</mat-icon>
+        Eliminar
+      </button>
+      <button mat-raised-button (click)="refresh()" matTooltip="Refrescar tabla" color="basic">
+        <mat-icon>refresh</mat-icon>
+        Refrescar
+      </button>
+    </div>
+  </div>
+  
+  <div class="split-layout">
+    <div class="table-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+              <ng-container matColumnDef="logo" sticky>
+                <th mat-header-cell *matHeaderCellDef> Logo </th>
+                <td mat-cell *matCellDef="let competence">
+                  <img [src]="competence?.logo" alt="{{ competence?.name }} logo" width="50" height="50">
+                </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let competence"> {{ competence?.name }} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+                <td mat-cell *matCellDef="let competence"> {{ competence?.description }} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelect(row)" [class.selected]="row === selectedCompetence"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="form-container-fixed" [class.delete-mode]="isDeleteMode">
+      <aside class="form-section">
+        <div class="form-container">
+          <form [formGroup]="form">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre de la Competencia</mat-label>
+              <input matInput formControlName="name" placeholder="Ingrese el nombre">
+              <mat-icon matPrefix>emoji_events</mat-icon>
+              <mat-error *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+                {{ getErrorMessage('name') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Agregar el selector de disciplina después del nombre -->
+            <mat-form-field appearance="outline">
+              <mat-label>Disciplina</mat-label>
+              <mat-select formControlName="discipline">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let discipline of disciplines" [value]="discipline.id">
+                  {{discipline.name}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>sports</mat-icon>
+              <mat-error *ngIf="form.get('discipline')?.invalid && form.get('discipline')?.touched">
+                {{ getErrorMessage('discipline') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Agregar selector de formato después de la disciplina -->
+            <mat-form-field appearance="outline">
+              <mat-label>Formato de Competencia</mat-label>
+              <mat-select formControlName="competence_format">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let format of formats" [value]="format.id">
+                  {{format.name}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>format_list_bulleted</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Descripción</mat-label>
+              <textarea matInput formControlName="description"  
+                        placeholder="Ingrese una descripción"
+                        rows="4"></textarea>
+              <mat-icon matPrefix>description</mat-icon>
+              <mat-error *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+                {{ getErrorMessage('description') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <div *ngIf="!isDeleteMode">
+              <div class="file-drop-area" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+                (click)="fileInput.click()" *ngIf="!fileName || isEditMode">
+                <input type="file" (change)="onFileChange($event)" hidden #fileInput>
+                <img src="assets/img/cloud_upload_150dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="Upload Icon"
+                  class="upload-icon">
+                <p>Drag and drop a file here or click to select a file</p>
+              </div>
+              <div *ngIf="fileName && !isEditMode" class="image-preview-container">
+                <img [src]="filePreview" alt="Vista previa">
+                <div class="preview-actions">
+                  <span class="file-name">{{ fileName }}</span>
+                  <button mat-button (click)="enableEditMode()">
+                    <mat-icon>edit</mat-icon>
+                    Modificar imagen
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Mostrar vista previa en modo eliminación -->
+            <div *ngIf="isDeleteMode && filePreview" class="image-preview-container">
+              <img [src]="filePreview" alt="Vista previa">
+              <div class="preview-actions">
+                <span class="file-name">{{ fileName }}</span>
+              </div>
+            </div>
+
+            <div *ngIf="isDeleteMode" class="delete-warning">
+              <p>¿Está seguro de que desea eliminar esta competencia?</p>
+            </div>
+
+            <mat-dialog-actions align="end">
+              <button mat-button (click)="onCancel()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+              </button>
+              <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!isDeleteMode">
+                <mat-icon>check_circle</mat-icon>
+                {{ selectedCompetence ? 'Actualizar' : 'Crear' }}
+              </button>
+              <button mat-raised-button color="warn" (click)="confirmDelete()" *ngIf="isDeleteMode">
+                <mat-icon>warning</mat-icon>
+                Confirmar Eliminación
+              </button>
+            </mat-dialog-actions>
+          </form>
+        </div>
+      </aside>
+    </div>
+    
+    <!-- Agregar loading spinner -->
+    <div class="loading-overlay" *ngIf="isLoading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  </div>
+</div>

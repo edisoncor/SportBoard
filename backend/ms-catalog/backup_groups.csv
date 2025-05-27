@@ -1,0 +1,23 @@
+Code,ParentCode,Description,IsActive,Name,Version
+"CONDICION_CEDULADO","","Estado de la persona en el registro civil",1,"Estado de la persona en el registro civil",0
+"ESTADO_CIVIL","","Estado civil",1,"Estado civil",0
+"LOCALIZACION","","Descripcion de diversas localizaciones",1,"Localización",0
+"NACIONALIDAD","","Nacionalidad",1,"Nacionalidad",0
+"NACIONALIDAD_INDIGENA","","Nacionalidad Indígena",1,"Nacionalidad Indígena",0
+"NIVEL_FORMACION","","Niveles de formación",1,"Niveles de formación",0
+"NIVEL_INSTRUCCION","","Nivel de Instrucción",1,"Nivel de Instrucción",0
+"NIVEL_OCUPACIONAL","","Nivel ocupacional para los puestos",1,"Nivel ocupacional",0
+"PAIS","LOCALIZACION","Descripción de los paises",1,"País",0
+"PROVINCIA","PAIS","Provincias de paises",1,"Provincia",0
+"CANTON","PROVINCIA","Cantones",1,"Cantones",0
+"PARROQUIA","CANTON","Parroquia",1,"Parroquia",0
+"TIPO_DIRECCION","","Tipo de dirección",1,"Tipo de dirección",0
+"TIPO_DISCAPACIDAD","","Tipo de discapacidad",1,"Tipo de discapacidad",0
+"TIPO_DOCUMENTO","","Tipo de documento",1,"Tipo de documento",0
+"TIPO_ENTIDAD","","Tipo de entidad",1,"Tipo de entidad",0
+"TIPO_ETNIA","","Tipo de etnia",1,"Tipo de etnia",0
+"TIPO_IVA","","Tipo de IVA",1,"Tipo de IVA",0
+"TIPO_RELACION","","Tipo de relación",1,"Tipo de relación",0
+"TIPO_SANGRE","","Tipo de sangre",1,"Tipo de sangre",0
+"TIPO_SEDE","","Tipo de sede",1,"Tipo de sede",0
+"TIPO_SEXO","","Tipo de sexo",1,"Tipo de sexo",0

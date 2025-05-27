@@ -1,0 +1,9 @@
+_format_version: "3.0"
+
+services:
+  - name: real-time-service
+    url: http://flask-app:5000
+    routes:
+      - name: partidos-route
+        paths:
+          - /api/partidos

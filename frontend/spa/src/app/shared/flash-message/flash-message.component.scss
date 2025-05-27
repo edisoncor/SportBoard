@@ -1,0 +1,43 @@
+.flash-message {
+    padding: 20px; /* Aumenta el padding para hacer el componente más alto */
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    position: fixed;
+    z-index: 1000;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    max-width: 90%; /* Aumenta el ancho máximo */
+    min-width: 400px; /* Aumenta el ancho mínimo */
+    display: flex;
+    align-items: center; /* Centra el texto verticalmente */
+    justify-content: center; /* Centra el texto horizontalmente */
+    border: 2px solid; /* Agrega un borde */
+}
+
+.flash-message-icon {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+}
+
+.flash-message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #155724 !important; /* Borde específico para el tipo success */
+}
+
+.flash-message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #721c24 !important; /* Borde específico para el tipo error */
+}
+
+.flash-message-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #0c5460 !important; /* Borde específico para el tipo info */
+}
+
+.flash-message-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #856404 !important; /* Borde específico para el tipo warning */
+}

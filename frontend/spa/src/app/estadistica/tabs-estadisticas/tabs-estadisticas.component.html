@@ -1,0 +1,37 @@
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="Competencia Info">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === ''">
+        <app-competencia></app-competencia>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Resultado Estadística">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === 'resultado-estadistica'">
+        <app-resultados-estadistica></app-resultados-estadistica>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Tabla de Posiciones">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === 'tabla-posiciones'">
+        <app-tabla-posiciones></app-tabla-posiciones>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Jugadores Estadísticas">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === 'jugadores-estadisticas'">
+        <app-jugadores-estadistica></app-jugadores-estadistica>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Equipos Estadísticas">
+    <ng-template matTabContent>
+      <ng-container *ngIf="activeTab === 'equipos-estadisticas'">
+        <app-equipos-estadistica></app-equipos-estadistica>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,222 @@
+.contenedor-calendario {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+
+  .encabezado-calendario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .titulo-calendario {
+      font-size: 2rem;
+      text-align: center;
+      color: #333;
+    }
+
+    .boton-navegacion {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
+
+  .calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .create-match-btn,
+    .manage-matches-btn,
+    .view-groups-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+
+    .view-selector {
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 5px;
+    }
+  }
+
+  .tabla-calendario {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+          background-color: #eee;
+          padding: 10px;
+          text-align: center;
+          font-weight: bold;
+          color: #333;
+      }
+
+      td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          height: 100px;
+          position: relative;
+          text-align: left;
+
+          &:hover {
+              background-color: #f5f5f5;
+              cursor: pointer;
+          }
+
+          .partido {
+              background-color: #f4f8ff; /* Fondo suave para los partidos */
+              border: 1px solid #d1e0f0; /* Bordes más claros */
+              border-radius: 8px; /* Bordes redondeados */
+              padding: 8px 10px;
+              margin-top: 10px;
+              font-size: 13px;
+              display: flex;
+              flex-direction: column; /* Alinea los detalles del partido verticalmente */
+              gap: 5px; /* Espaciado entre elementos */
+              transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+              &:hover {
+                  transform: scale(1.05);
+                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+              }
+
+              .equipo {
+                  display: flex;
+                  justify-content: space-between; /* Nombre del equipo y marcador a extremos opuestos */
+                  font-size: 14px;
+
+                  .nombre {
+                      font-weight: bold;
+                      color: #2c3e50; /* Color oscuro */
+                  }
+
+                  .marcador {
+                      font-weight: bold;
+                      color: #e74c3c; /* Marcador en rojo */
+                  }
+
+                  &.ganador .nombre {
+                      color: #27ae60; /* Verde para el equipo ganador */
+                  }
+
+                  &.perdedor .nombre {
+                      color: #c0392b; /* Rojo para el equipo perdedor */
+                  }
+              }
+
+              .acciones {
+                  display: flex;
+                  justify-content: flex-end; /* Botones alineados a la derecha */
+                  gap: 10px;
+
+                  .edit-match-btn,
+                  .delete-match-btn {
+                      background: none;
+                      border: none;
+                      font-size: 12px;
+                      color: #2980b9; /* Azul para los botones */
+                      cursor: pointer;
+
+                      &:hover {
+                          text-decoration: underline;
+                      }
+                  }
+              }
+          }
+      }
+  }
+
+  .filters {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      margin-bottom: 10px;
+
+      label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      select {
+        width: 100%;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+// Estilos responsivos para dispositivos móviles
+@media (max-width: 768px) {
+  .contenedor-calendario {
+    padding: 10px;
+  }
+
+  .calendar-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tabla-calendario th,
+  .tabla-calendario td {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .create-match-btn,
+  .manage-matches-btn,
+  .view-groups-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .partido {
+    padding: 6px;
+    font-size: 12px;
+
+    .acciones {
+      gap: 5px;
+    }
+
+    .equipo {
+      font-size: 12px;
+
+      .marcador {
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: ms-catalog-categories-service
+    url: http://ms-catalog:8009/api/v1/catalog/categories
+    routes:
+      - name: ms-catalog-categories-route
+        paths:
+          - /catalog/categories
+        strip_path: false
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
+  - name: ms-catalog-items-service
+    url: http://ms-catalog:8009/api/v1/catalog/items
+    routes:
+      - name: ms-catalog-items-route
+        paths:
+          - /catalog/items
+        strip_path: false
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - http://localhost:4200
+        - http://localhost:65293
+        - http://localhost:8002
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - HEAD
+        - OPTIONS
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+        - Origin
+        - X-Requested-With
+      exposed_headers:
+        - X-Auth-Token
+      credentials: true
+      max_age: 3600
+      preflight_continue: false
+

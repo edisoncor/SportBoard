@@ -1,0 +1,104 @@
+<button mat-fab (click)="navigateToSelec()">
+    <mat-icon>arrow_back_ios_new</mat-icon>
+</button>
+<mat-card class="card-partido">
+    <mat-card-content>
+        <div class="estado">
+            <p>En curso</p>
+        </div>
+        <div class="partido-info">
+            <div class="equipo equipo-izquierda">
+                <img
+                    src="/frontend/frontend/src/assets/equipo1.png"
+                    alt="Logo equipo izquierdo"
+                    class="logo-equipo"
+                />
+                <button mat-button (click)="openDialog('ejemplo1')">Quinto</button>
+            </div>
+            <div class="resultado">
+                <span class="goles">1</span>
+                <span>-</span>
+                <span class="goles">0</span>
+            </div>
+            <div class="equipo equipo-derecha">
+                <img
+                    src="assets/equipo1.png"
+                    alt="Logo equipo derecho"
+                    class="logo-equipo"
+                />
+                <button mat-button (click)="openDialog('ejemplo1')">Sexto</button>
+            </div>
+        </div>
+        <div class="detalles-partido">
+            <p>Campeonato CIS</p>
+            <p>75:30</p>
+        </div>
+    </mat-card-content>
+    <mat-tab-group>
+        <mat-tab label="Cronología">
+            <mat-card class="card-partido">
+                <mat-card-content>
+                    <div class="estado">
+                        <p>Cambio</p>
+                    </div>
+                    <div>
+                        <p style="color: rgb(4, 207, 21)">Entra</p>
+                        <div>
+                            <p>Pablo Lopez <br> Quinto -Defensor#23</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="color: crimson">Sale</p>
+                        <p>Leonardo Peralta <br> Quinto - Mediocampista #6</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card class="card-partido">
+                <mat-card-content>
+                    <div class="tarjeta">
+                        <div><p style="background-color: #e9db1d;">Tarjeta Amarilla</p></div>
+                        <div><p>25'</p></div>
+                    </div>
+                    <div>
+                        <p>Bryan Angamarca</p>
+                        <div>
+                            <p>Sexto -Mediocampista#16</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="card-partido">
+                <mat-card-content>
+                    <div>
+                        <div>
+                            <p
+                                style="
+                                    background-color: rgb(4, 158, 4);
+                                    color: #ffffff;
+                                    text-align: center;
+                                    border-radius: 4px;
+                                    height: 45px;
+                                "
+                            >
+                                ¡GOOOOL! <br />27'
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Santiago Apolo</p>
+                        <div>
+                            <p>Quinto - Delantero #20</p>
+                        </div>
+                        <div>
+                            <p>Asistió: L. Peralta</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>        
+        </mat-tab>
+        <mat-tab label="Estadísticas">
+            <app-tr-estadistica></app-tr-estadistica>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

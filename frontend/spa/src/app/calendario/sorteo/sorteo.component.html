@@ -1,0 +1,67 @@
+<h1>Resultados del Sorteo - Fase de Grupos</h1>
+
+<!-- Botón para sortear -->
+<div class="buttons">
+  <button mat-raised-button color="accent" class="draw" (click)="sortear()">
+    Sortear
+  </button>
+</div>
+
+<!-- Tabla inicial de equipos -->
+<table class="teams-table" *ngIf="!sorted">
+  <thead>
+    <tr>
+      <th>Grupo</th>
+      <th>Equipos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let group of groups | keyvalue">
+      <td>Grupo {{ group.key }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let team of group.value">{{ team }}</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Bombos y enfrentamientos -->
+<div class="container" *ngIf="sorted">
+  <div
+    class="bombo"
+    *ngFor="let group of sortedGroups | keyvalue"
+    (click)="selectGroup(group.key)"
+  >
+    <h2>Grupo {{ group.key }}</h2>
+    <ul>
+      <li *ngFor="let team of group.value">{{ team }}</li>
+    </ul>
+  </div>
+
+  <div class="matches" *ngIf="selectedGroup">
+    <h2>Enfrentamientos del Grupo {{ selectedGroup }}</h2>
+    <table class="matches-table">
+      <thead>
+        <tr>
+          <th>Equipo Local</th>
+          <th>Equipo Visitante</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of matches">
+          <td>{{ match.home }}</td>
+          <td>{{ match.away }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Botón para cancelar -->
+<div class="buttons" *ngIf="sorted">
+  <button mat-raised-button color="primary" class="cancel" (click)="reset()">
+    Cancelar
+  </button>
+</div>

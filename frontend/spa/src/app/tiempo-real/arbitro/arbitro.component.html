@@ -1,0 +1,214 @@
+<button mat-fab (click)="navigateToSelec()">
+  <mat-icon>arrow_back_ios_new</mat-icon>
+</button>
+<mat-grid-list cols="1" rowHeight="50%">
+  <div class="partido-info">
+    <div class="equipo equipo-izquierda">
+      <img src="/frontend/frontend/src/assets/equipo1.png" alt="Logo equipo izquierdo" class="logo-equipo" />
+      <p>{{ equipoLocal }}</p>
+    </div>
+    <div class="resultado">
+      <span class="goles">{{ marcadorLocal }}</span>
+      <span>-</span>
+      <span class="goles">{{ marcadorVisitante }}</span>
+    </div>
+    <div class="equipo equipo-derecha">
+      <img src="assets/equipo1.png" alt="Logo equipo derecho" class="logo-equipo" />
+      <p>{{ equipoVisitante }}</p>
+    </div>
+  </div>
+  <div class="detalles-partido">
+    <p>{{ partido?.competencia }}</p>
+    
+  </div>
+</mat-grid-list>
+<div style="text-align: right; margin-top: 20px;">
+  <button mat-raised-button (click)="registrarEvento()">Registrar</button>
+</div>
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <table mat-table [dataSource]="eventos" class="mat-elevation-z8">
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+      </ng-container>
+      <ng-container matColumnDef="minuto">
+        <th mat-header-cell *matHeaderCellDef>Minuto</th>
+        <td mat-cell *matCellDef="let element"> {{element.minuto}} </td>
+      </ng-container>
+      <ng-container matColumnDef="equipo">
+        <th mat-header-cell *matHeaderCellDef>Equipo</th>
+        <td mat-cell *matCellDef="let element"> {{element.equipo}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['tipo', 'minuto', 'equipo']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['tipo', 'minuto', 'equipo'];"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+<mat-tab-group>
+  <mat-tab label="Puntaje">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+          <ng-container matColumnDef="equipos">
+            <th mat-header-cell *matHeaderCellDef>Equipos</th>
+            <td mat-cell *matCellDef="let element"> {{element.equipos}} </td>
+          </ng-container>
+          <ng-container matColumnDef="marcador">
+            <th mat-header-cell *matHeaderCellDef>Marcador</th>
+            <td mat-cell *matCellDef="let element"> {{element.marcador}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tiempo">
+            <th mat-header-cell *matHeaderCellDef>Tiempo</th>
+            <td mat-cell *matCellDef="let element"> {{element.tiempo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef>Responsable</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasTabla1"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasTabla1;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <h2>Registrar Gol</h2>
+        <h4>Equipo</h4>
+        <mat-form-field>
+          <mat-label>Equipo</mat-label>
+          <mat-select>
+            @for (data of equipos; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <h4>Jugador Rsponsable</h4>
+        <mat-form-field>
+          <mat-label>Responsable</mat-label>
+          <mat-select>
+            @for (data of jugadores; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div style="text-align: right; margin-top: 20px;">
+          <button mat-raised-button>Registrar</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Cambios">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+          <ng-container matColumnDef="equipo">
+            <th mat-header-cell *matHeaderCellDef>Equipo</th>
+            <td mat-cell *matCellDef="let element"> {{element.equipo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tiempo">
+            <th mat-header-cell *matHeaderCellDef>Tiempo</th>
+            <td mat-cell *matCellDef="let element"> {{element.tiempo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="entra">
+            <th mat-header-cell *matHeaderCellDef>Entra</th>
+            <td mat-cell *matCellDef="let element"> {{element.entra}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sale">
+            <th mat-header-cell *matHeaderCellDef>Sale</th>
+            <td mat-cell *matCellDef="let element"> {{element.sale}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasTabla2"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasTabla2;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <h5>Registrar Cambio</h5>
+        <h4>Equipo</h4>
+        <mat-form-field>
+          <mat-label>Equipos</mat-label>
+          <mat-select>
+            @for (data of equipos; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <h4>Jugador Sale</h4>
+        <mat-form-field>
+          <mat-label>Sale</mat-label>
+          <mat-select>
+            @for (data of jugadores; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <h4>Jugador Entra</h4>
+        <mat-form-field>
+          <mat-label>Entra</mat-label>
+          <mat-select>
+            @for (data of jugadores; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div style="text-align: right; margin-top: 20px;">
+          <button mat-raised-button>Registrar</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Faltas">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+          <ng-container matColumnDef="equipo">
+            <th mat-header-cell *matHeaderCellDef>Equipo</th>
+            <td mat-cell *matCellDef="let element"> {{element.equipo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tiempo">
+            <th mat-header-cell *matHeaderCellDef>Tiempo</th>
+            <td mat-cell *matCellDef="let element"> {{element.tiempo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="entra">
+            <th mat-header-cell *matHeaderCellDef>Entra</th>
+            <td mat-cell *matCellDef="let element"> {{element.entra}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sale">
+            <th mat-header-cell *matHeaderCellDef>Sale</th>
+            <td mat-cell *matCellDef="let element"> {{element.sale}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasTabla2"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasTabla2;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <h3>Registrar Falta</h3>
+        <h4>Equipo: Sexto</h4>
+        <mat-form-field>
+          <mat-label>Sexto</mat-label>
+          <mat-select multiple>
+            @for (data of jugadores; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <h4>Equipo: Quinto</h4>
+        <mat-form-field>
+          <mat-label>Quinto</mat-label>
+          <mat-select multiple>
+            @for (data of jugadores; track data) {
+              <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div style="text-align: right; margin-top: 20px;">
+          <button mat-raised-button>Registrar</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

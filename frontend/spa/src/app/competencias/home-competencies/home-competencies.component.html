@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="hero">
+    <div class="hero-image">
+      <!-- <img src="/frontend/spa/src/assets/img/hero_img.png" alt="Competencias Hero"> -->
+      <img src="/assets/img/hero_img.png" alt="Competencias Hero">
+    </div>
+    <div class="hero-content">
+      <h1>Administración de Competencias</h1>
+    </div>
+  </div>
+  <div class="masonry">
+    <mat-card *ngFor="let model of models" 
+              (click)="navigateTo(model.route)" 
+              [style.cursor]="model.route ? 'pointer' : 'default'">
+      <div class="card-content-wrapper">
+        <mat-icon class="card-icon">{{ model.icon }}</mat-icon>
+        <div class="card-text">
+          <mat-card-title>{{ model.title }}</mat-card-title>
+          <mat-card-content>
+            <p>{{ model.description }}</p>
+          </mat-card-content>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

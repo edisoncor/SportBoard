@@ -1,0 +1,76 @@
+
+  .partido-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .equipo {
+    text-align: center;
+  }
+  
+  .logo-equipo {
+    width: 30px;
+    height: 50px;
+  }
+  
+  .tarjeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .resultado {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .goles {
+    margin: 0 5px;
+  }
+  
+  .detalles-partido {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  button[mat-fab] {
+    background-color: #ffffff00;
+    color: #000000;
+    border-radius: 30px;
+  
+    &:hover {
+      background-color: #D4EED1; // Customize the hover background color
+    }
+  
+    &:active {
+      background-color: #a2e69a; // Customize the active background color
+    }
+  
+    &:disabled {
+      background-color: #bdbdbd; // Customize the disabled background color
+      color: #757575; // Customize the disabled text color
+    }
+  }
+
+  button[mat-raised-button] {
+    background-color: #4CAF50; // Customize the default background color
+    color: #ffffff; // Customize the default text color
+
+    &:hover {
+      background-color: #45A049; // Customize the hover background color
+    }
+
+    &:active {
+      background-color: #388E3C; // Customize the active background color
+    }
+
+    &:disabled {
+      background-color: #A5D6A7; // Customize the disabled background color
+      color: #E0E0E0; // Customize the disabled text color
+    }
+  }

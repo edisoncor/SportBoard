@@ -1,0 +1,17 @@
+---
+title: "Documentación técnica de SportBoard"
+---
+
+## Documentación Técnica
+
+Bienvenido a la documentación técnica de SportBoard. Aquí encontrarás información detallada sobre la arquitectura, el frontend, el backend, los microservicios, la infraestructura y el desarrollo del proyecto.
+
+### Secciones
+
+- [Introducción](introduction.qmd)
+- [Arquitectura](architecture/overview.qmd)
+- [Frontend](components/frontend/spa.qmd)
+- [Backend](components/backend/bff.qmd)
+- [Microservicios](components/microservices/microservices.qmd)
+- [Infraestructura](infrastructure/databases.qmd)
+- [Desarrollo](development/ci_cd.qmd)

@@ -1,0 +1,64 @@
+<mat-card appearance="outlined" style="margin-bottom: 20px;">
+    <mat-card-content>
+        <p style="margin-top: 1px;">{{ currentDate | date: 'fullDate' }}</p>
+    </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined" style="margin-bottom: 20px;">
+    <mat-card-content>
+        <div style="display: flex; gap: 10px;">
+            <mat-form-field appearance="fill">
+                <mat-label>Temporada</mat-label>
+                <mat-select>
+                    <mat-option value="1">One</mat-option>
+                    <mat-option value="2">Two</mat-option>
+                    <mat-option value="3">Three</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Competencia</mat-label>
+                <mat-select>
+                    <mat-option value="1">One</mat-option>
+                    <mat-option value="2">Two</mat-option>
+                    <mat-option value="3">Three</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Categoria</mat-label>
+                <mat-select>
+                    <mat-option value="1">One</mat-option>
+                    <mat-option value="2">Two</mat-option>
+                    <mat-option value="3">Three</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined" style="margin-bottom: 20px;">
+    <mat-card-content>
+        <table mat-table [dataSource]="partidos" class="mat-elevation-z8">
+            <ng-container matColumnDef="equipos">
+                <th mat-header-cell *matHeaderCellDef>Equipos</th>
+                <td mat-cell *matCellDef="let element"> {{element.equipo_local}} - {{element.equipo_visitante}} </td>
+            </ng-container>
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha | date: 'short'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="accion">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-fab extended (click)="navigateToCronologia(element.id)">
+                        <mat-icon>visibility</mat-icon>
+                        Ver
+                    </button>
+                    <button mat-fab extended (click)="navigateToArbitro()" style="width: 140px;" *ngIf="esArbitro">
+                        <mat-icon>sync_alt</mat-icon>
+                        Actualizar
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-card-content>
+</mat-card>

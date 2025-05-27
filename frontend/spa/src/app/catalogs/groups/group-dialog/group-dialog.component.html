@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>{{ data.code ? 'Editar Grupo' : 'Agregar Grupo' }}</h1>
+<div mat-dialog-content [formGroup]="groupForm" class="form-field-container">
+    <mat-form-field>
+        <mat-label>Code</mat-label>
+        <input matInput formControlName="code" name="code">
+        <mat-error *ngIf="groupForm.get('code')?.hasError('required')">El código es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" name="name">
+        <mat-error *ngIf="groupForm.get('name')?.hasError('required')">El nombre es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Parent Code</mat-label>
+        <mat-select formControlName="parentCode" name="parentCode">
+            <mat-option [value]="null">Ninguno</mat-option>
+            <mat-option *ngFor="let code of allGroupCodes" [value]="code">{{ code }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="description" name="description">
+    </mat-form-field>
+    <div class="checkbox-container">
+        <mat-checkbox formControlName="isActive" name="isActive">Activo</mat-checkbox>
+        <mat-error *ngIf="groupForm.get('isActive')?.hasError('required')">El estado es obligatorio</mat-error>
+    </div>
+    <mat-form-field>
+        <mat-label>Versión</mat-label>
+        <input matInput type="number" formControlName="version" name="version">
+        <mat-error *ngIf="groupForm.get('version')?.hasError('required')">La versión es obligatoria</mat-error>
+        <mat-error *ngIf="groupForm.get('version')?.hasError('min')">La versión debe ser mayor o igual a 0</mat-error>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+    <button mat-flat-button [mat-dialog-close]="groupForm.value" [disabled]="groupForm.invalid">{{ data.code ? 'Guardar' : 'Agregar' }}</button>
+</div>

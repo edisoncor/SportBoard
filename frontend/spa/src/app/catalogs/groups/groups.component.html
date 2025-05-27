@@ -1,0 +1,62 @@
+<app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+<h4>Grupos</h4>
+<div class="header">
+    <p>Gestión de Grupos</p>
+    <button mat-fab color="primary" (click)="openDialog()" class="add-button">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="index">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> N </mat-header-cell>
+        <mat-cell *matCellDef="let group; let i = index"> {{i + 1}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Code </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.code}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="parentCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Parent Code </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.parentCode}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.description}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Activo </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.isActive ? 'Sí' : 'No'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="version">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Versión </mat-header-cell>
+        <mat-cell *matCellDef="let group"> {{group.version}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let group">
+            <button mat-icon-button (click)="selectGroup(group)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteGroup(group.code)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>

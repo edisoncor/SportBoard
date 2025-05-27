@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); // Cargar la fuente Roboto
+
+body {
+    background-color: #ffffff;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    margin: 0;
+}
+table {
+  width: 100%;
+  max-width: 800px; /* Ajusta el ancho máximo para evitar que la tabla sea demasiado grande */
+  border-collapse: separate; /* Permitir bordes individuales */
+  border-spacing: 0; /* Quitar el espaciado entre celdas */
+  margin: 20px auto; /* Espaciado arriba y abajo de 20px, y centrada horizontalmente */
+  font-family: 'Roboto', sans-serif; /* Aplicar la fuente Roboto */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor de la tabla */
+  overflow: hidden; /* Asegura que los bordes redondeados se mantengan */
+}
+
+th, td {
+  padding: 20px; /* Reduce el espacio interno de las celdas */
+  text-align: center;
+  border: none; /* Quita el borde interno de las celdas */
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Estilo para los bordes superior e inferior */
+
+.equipo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.equipo img {
+  width: 24px; /* Reducimos el tamaño de las imágenes de los escudos */
+  height: 24px;
+  border-radius: 50%;
+}
+
+.puntaje {
+  font-weight: bold;
+}
+
+.logos img {
+    width: 80px; /* Aumenta el tamaño de los logos */
+    height: 80px; /* Asegura que mantenga la proporción */
+    margin: 10px; /* Aumenta el espacio entre los logos */
+    border-radius: 50%; /* Hace los logos completamente redondos */
+    border: 2px solid #ccc; /* Agrega un borde fino alrededor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra ligera */
+    transition: transform 0.2s; /* Suaviza la animación */
+}
+
+.logos img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
+    box-shadow: 0 16px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al hacer hover */
+}
+
+.ventana {
+  margin: 20px;
+}
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  margin-right: 5px;
+  background: #f1f1f1;
+}
+.tab.active {
+  background: white;
+  font-weight: bold;
+  border-top: 2px solid blue;
+}
+.logos {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.equipo1-cell, .equipo2-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.escudo {
+  width: 30px;
+  height: auto;
+  max-height: 30px;
+}
+
+.izquierda {
+  margin-right: 10px;
+}
+
+.derecha {
+  margin-left: 10px;
+}
+
+.ventana {
+  padding: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Flexbox para las pestañas */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-color: #007bff;
+}
+
+/* Responsividad de la tabla */
+table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.mat-header-cell, .mat-cell {
+  white-space: nowrap;
+  padding: 0.5rem;
+}
+
+/* Oculta algunas columnas en dispositivos pequeños */
+@media (max-width: 768px) {
+  .mat-header-cell:nth-child(1),
+  .mat-cell:nth-child(1),
+  .mat-header-cell:nth-child(4),
+  .mat-cell:nth-child(4) {
+      display: none;
+  }
+
+  .mat-header-cell, .mat-cell {
+      font-size: 0.9rem;
+  }
+}
+
+/* Responsividad para los logos */
+.logos {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.logos img {
+  width: 50px;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  .tab {
+      font-size: 0.8rem;
+  }
+  
+  .detalles-partido p {
+      font-size: 0.9rem;
+  }
+}
+

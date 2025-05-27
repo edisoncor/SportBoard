@@ -1,0 +1,19 @@
+.titleHeader {
+    background: blue;
+    overflow: hidden;
+}
+
+.alertBox {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 10%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.messageSize {
+    font-size: 20px;
+    overflow: hidden;
+}

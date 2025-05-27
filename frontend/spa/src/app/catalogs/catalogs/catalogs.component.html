@@ -1,0 +1,69 @@
+<app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+<h4>Catálogos</h4>
+
+<div class="header">
+    <p>Gestión de Catálogos</p>
+    <button mat-fab color="primary" (click)="openCatalogDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<div>
+    <mat-form-field>
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." />
+        <button mat-icon-button matSuffix>
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<!-- Agregar el contenedor de scrolling infinito -->
+<div class="catalog-container" cdkScrollable (cdkScroll)="onScroll($event)">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.group.code }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.description }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="version">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Versión </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.version }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isActive">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Activo </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.isActive ? 'Sí' : 'No' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="idCatalog">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Catálogo Padre </th>
+            <td mat-cell *matCellDef="let catalog"> {{ catalog.parentCatalog?.name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let catalog">
+                <button mat-icon-button (click)="editCatalog(catalog)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteCatalog(catalog)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<!-- Eliminar el paginador ya que se usará scrolling infinito -->
+<!-- <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator> -->

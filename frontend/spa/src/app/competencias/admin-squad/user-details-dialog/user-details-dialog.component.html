@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Detalles del Usuario</h2>
+
+<mat-dialog-content>
+  <p><strong>Nombre:</strong> {{ data.user.firstname }}</p>
+  <p><strong>Apellido:</strong> {{ data.user.lastname }}</p>
+  <p><strong>Email:</strong> {{ data.user.email }}</p>
+  <p><strong>Fecha de Nacimiento:</strong> {{ data.user.birth_date | date }}</p>
+  <p><strong>Nacionalidad:</strong> {{ data.user.nationality }}</p>
+  <p><strong>Género:</strong> {{ data.user.gender }}</p>
+  <p><strong>Rol:</strong> {{ data.user.role }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Cerrar</button>
+</mat-dialog-actions>

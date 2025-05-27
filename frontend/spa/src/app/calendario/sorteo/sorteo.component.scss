@@ -1,0 +1,84 @@
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #003580;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &.draw {
+      background-color: #4caf50;
+      color: #fff;
+    }
+
+    &.cancel {
+      background-color: #e57373;
+      color: #fff;
+    }
+  }
+}
+
+.teams-table,
+.matches-table {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  border-collapse: collapse;
+  text-align: center;
+
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #003580;
+    color: white;
+  }
+
+  td {
+    background-color: #f9f9f9;
+  }
+}
+
+.bombo {
+  background: linear-gradient(145deg, #003580, #002147);
+  color: white;
+  width: 220px;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 5px 0;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+table {
+  width: 100%;
+  border-collapse: collapse; /* Quita el espacio entre las celdas */
+}
+
+th, td {
+  border: 1px solid black;
+  text-align: center; /* Centra el texto horizontalmente */
+  vertical-align: middle; /* Centra el texto verticalmente */
+  padding: 10px; /* Añade espacio interno a las celdas */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Quita el espacio entre las celdas */
+  }
+  
+  th, td {
+    border: 1px solid black;
+    text-align: center; /* Centra el texto horizontalmente */
+    vertical-align: middle; /* Centra el texto verticalmente */
+    padding: 10px; /* Añade espacio interno a las celdas */
+  }
+  

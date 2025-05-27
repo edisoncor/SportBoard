@@ -1,0 +1,101 @@
+<div class="ventana">
+    <h1>Tabla de Partidos</h1>
+
+    <div class="tabs">
+        <div 
+            class="tab" 
+            [class.active]="tabSeleccionada === 'pasados'" 
+            (click)="cambiarTab('pasados')">Partidos Pasados
+        </div>
+        <div 
+            class="tab" 
+            [class.active]="tabSeleccionada === 'proximos'" 
+            (click)="cambiarTab('proximos')">Próximos Partidos
+        </div>
+        <div 
+            class="tab" 
+            [class.active]="tabSeleccionada === 'vivo'" 
+            (click)="cambiarTab('vivo')">Partidos en Vivo
+        </div>
+    </div>
+    
+    <table mat-table [dataSource]="getPartidosFiltrados()" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="equipo1">
+            <th mat-header-cell *matHeaderCellDef>Equipo 1</th>
+            <td mat-cell *matCellDef="let partido" class="equipo1-cell">
+                <img [src]="partido.escudo1" alt="{{ partido.nombreEq1 }}" class="escudo izquierda" />
+                {{ partido.nombreEq1 }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="puntaje">
+            <th mat-header-cell *matHeaderCellDef>Puntaje</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.puntaje1 }} - {{ partido.puntaje2 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="equipo2">
+            <th mat-header-cell *matHeaderCellDef>Equipo 2</th>
+            <td mat-cell *matCellDef="let partido" class="equipo2-cell">
+                <span>{{ partido.nombreEq2 }}</span>
+                <img [src]="partido.escudo2" alt="{{ partido.nombreEq2 }}" class="escudo derecha" />
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estadio">
+            <th mat-header-cell *matHeaderCellDef>Estadio</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.estadio }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.fecha }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora">
+            <th mat-header-cell *matHeaderCellDef>Hora</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.hora }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="enVivo">
+            <th mat-header-cell *matHeaderCellDef>enVivo</th>
+            <td mat-cell *matCellDef="let partido">{{ partido.enVivo }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let partido; columns: displayedColumns" (click)="toggleExpansionPanel(partido)"></tr>
+    </table>
+
+    <!-- Fila del panel de expansión -->
+    <ng-container *ngFor="let partido of getPartidosFiltrados()">
+        <tr *ngIf="expandedPartido === partido">
+            <td colspan="displayedColumns.length">
+                <mat-expansion-panel [expanded]="true" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Detalles del Partido
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="detalles-partido">
+                        <p><strong>ID:</strong> {{ partido.id }}</p>
+                        <p><strong>Estadio:</strong> {{ partido.estadio }}</p>
+                        <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
+                        <p><strong>Hora:</strong> {{ partido.hora }}</p>
+                    </div>
+                </mat-expansion-panel>
+            </td>
+        </tr>
+    </ng-container>
+
+    <div class="logos">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK5NyaUWLL4-sz7sFFZ7-56oPz6AqNRLPM5Q&s" alt="Logo Barcelona" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt2Clvv-flwEiq6PieGqzy3-bPvJH9O5Q67g&s" alt="Logo Real Madrid" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxz-JEXZ9Vk-VqZYUq_qFpF6sbNDe3pSIByw&s" alt="Logo Atlético Madrid" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPS1T9f6ni_qcv_7Jir6B7qz2bEVQr1OcTdw&s" alt="Logo Valencia" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8H2Y3iQ-V3Ri2yNuF-3TKigXDJ1d2vQVOSw&s" alt="Logo Sevilla" />
+    </div>
+</div>

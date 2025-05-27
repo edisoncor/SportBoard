@@ -1,0 +1,51 @@
+<div class="button-container-User">
+    <button mat-button (click)="openDialogCrearUser()" style="background-color: black; color: white; justify-content: flex-end;" (mouseenter)="showText = true" (mouseleave)="showText = false">
+        <mat-icon>person_add</mat-icon>
+        <span *ngIf="showText">Crear usuario</span>
+    </button>
+</div>
+
+<h2>Usuarios registrados</h2>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="nro">
+        <th mat-header-cell *matHeaderCellDef>Nro.</th>
+        <td mat-cell *matCellDef="let element">{{ element.nro }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="usuario">
+        <th mat-header-cell *matHeaderCellDef>Usuario</th>
+        <td mat-cell *matCellDef="let element">{{ element.usuario }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef>Correo electrónico</th>
+        <td mat-cell *matCellDef="let element">{{ element.correo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="rol">
+        <th mat-header-cell *matHeaderCellDef>Rol</th>
+        <td mat-cell *matCellDef="let element">{{ element.rol }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;">
+            <a>
+                <button mat-button (click)="openDialogEditUser()" style="background-color: lightgreen; color: black">
+                    <mat-icon>edit</mat-icon>
+                    Editar
+                </button>
+            </a>
+            <a>
+                <button mat-button (click)="openAlertBox()" style="background-color: lightcoral; color: black; margin-left: 20px;">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                </button>
+            </a>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

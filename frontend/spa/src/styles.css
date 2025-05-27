@@ -1,0 +1,13 @@
+.flash-message-dialog .mat-dialog-container {
+    padding: 0;
+    box-shadow: none;
+    border-radius: 5px;
+}
+
+.flash-message-snackbar .mat-snack-bar-container {
+    padding: 0;
+    box-shadow: none;
+    border-radius: 5px;
+    max-width: 500px;
+    min-width: 350px;
+}

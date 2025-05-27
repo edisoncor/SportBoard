@@ -1,0 +1,24 @@
+button[mat-fab][extended] {
+    background-color: #ffffff00; // Customize the background color
+    color: #000000; // Customize the text color
+    font-size: 14px; // Customize the font size
+    padding: 0 24px; // Customize the padding
+    border-radius: 50px; // Customize the border radius
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Customize the box shadow
+    width: 100px; // Customize the width
+    height: 40px; // Customize the height
+    border: 1px solid #00000071; // Customize the border color
+
+    &:hover {
+        background-color: #D4EED1; // Customize the hover background color
+    }
+
+    &:active {
+        background-color: #a2e69a; // Customize the active background color
+    }
+
+    &:disabled {
+        background-color: #bdbdbd; // Customize the disabled background color
+        color: #757575; // Customize the disabled text color
+    }
+}

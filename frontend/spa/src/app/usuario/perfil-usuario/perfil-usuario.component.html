@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="left-section">
+        <h2>{{ usuario.nombre }}</h2>
+        <img [src]="usuario.fotoPerfil" alt="Foto de perfil" class="profile-pic">
+        <button mat-raised-button color="primary">Subir nueva foto</button>
+        <p class="max-size">Tamaño máximo de la imagen: 2MB</p>
+    </div>
+    <div class="right-section">
+        <mat-card>
+            <mat-card-title>Editar Perfil</mat-card-title>
+            <mat-card-content>
+                <form>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput [(ngModel)]="usuario.nombre" name="nombre" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Apellido</mat-label>
+                        <input matInput [(ngModel)]="usuario.apellido" name="apellido" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Correo Electrónico</mat-label>
+                        <input matInput type="email" [(ngModel)]="usuario.email" name="email" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="usuario.password" name="password" required>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary">Guardar Cambios</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

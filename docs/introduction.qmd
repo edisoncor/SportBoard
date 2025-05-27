@@ -1,0 +1,29 @@
+---
+title: "Introducción a SportBoard"
+---
+
+## Introducción
+
+SportBoard es una plataforma innovadora diseñada para gestionar y visualizar datos deportivos en tiempo real. Esta documentación técnica proporciona una visión detallada de los componentes y la arquitectura del sistema, así como guías para el desarrollo y la implementación.
+
+### Objetivos
+
+- Proveer una interfaz intuitiva para la gestión de datos deportivos.
+- Facilitar la integración con diversas fuentes de datos en tiempo real.
+- Ofrecer herramientas avanzadas de análisis y visualización.
+
+### Público Objetivo
+
+Esta documentación está dirigida a desarrolladores, arquitectos de software y otros profesionales técnicos interesados en comprender y contribuir al desarrollo de SportBoard.
+
+### Estructura de la Documentación
+
+La documentación está organizada en las siguientes secciones:
+
+- [Arquitectura](architecture/overview.qmd)
+- [Frontend](components/frontend/spa.qmd)
+- [Backend](components/backend/bff.qmd)
+- [Microservicios](components/microservices/microservices.qmd)
+- [Infraestructura](infrastructure/databases.qmd)
+- [Desarrollo](development/ci_cd.qmd)
+

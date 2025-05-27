@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="left-section">
+        <h1>Bienvenido</h1>
+        <p>Tu gestor de eventos deportivos</p>
+        <p>UNL</p>
+    </div>
+    <div class="right-section">
+        <mat-card>
+        <mat-card-title>Ingrese sus datos</mat-card-title>
+        <mat-card-content>
+            <form>
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Ingrese su nombre" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Apellido</mat-label>
+                <input matInput placeholder="Ingrese su apellido" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Correo Electrónico</mat-label>
+                <input matInput type="email" placeholder="Ingrese su correo electrónico" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Confirma tu contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Confirma tu contraseña" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary">Registrar</button>
+            </form>
+        </mat-card-content>
+        <mat-card-footer>
+            <p>¿Ya tienes una cuenta? <strong (click)="navigateToInicioSesion()">Haz clic aquí</strong></p>
+        </mat-card-footer>
+        </mat-card>
+    </div>
+    </div>

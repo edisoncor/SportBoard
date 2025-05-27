@@ -1,0 +1,256 @@
+<div class="admin-squad">
+  <app-breadcrumb-competencias [currentRoute]="currentRoute"></app-breadcrumb-competencias>
+  <h1>Gestión de Squad</h1>
+
+  <!-- Barra superior con búsqueda y acciones -->
+  <div class="top-actions">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar squad</mat-label>
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)" placeholder="Buscar por equipo">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button (click)="create()" color="primary">
+        <mat-icon>group_add</mat-icon>
+        Nuevo Squad
+      </button>
+      <button mat-raised-button 
+              (click)="delete()" 
+              [disabled]="!selectedSquad" 
+              color="warn">
+        <mat-icon>delete</mat-icon>
+        Eliminar
+      </button>
+      <button mat-raised-button (click)="refresh()" matTooltip="Refrescar tabla" color="basic">
+        <mat-icon>refresh</mat-icon>
+        Refrescar
+      </button>
+    </div>
+  </div>
+
+  <!-- Layout principal dividido en tabla y formulario -->
+  <div class="split-layout">
+    <!-- Sección de la tabla -->
+    <div class="table-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+              <ng-container matColumnDef="team">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipo </th>
+                <td mat-cell *matCellDef="let squad"> 
+                  <div class="team-cell">
+                    <img *ngIf="squad.team?.logo" [src]="squad.team?.logo" alt="Logo equipo" class="team-logo">
+                    <span class="team-name">{{squad.team?.name || 'Sin equipo'}}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="players_count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Jugadores </th>
+                <td mat-cell *matCellDef="let squad"> {{squad.players?.length || 0}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="coaches_count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Entrenadores </th>
+                <td mat-cell *matCellDef="let squad"> {{squad.coaches?.length || 0}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let squad">
+                  <button mat-icon-button color="primary" (click)="onSelect(squad)" matTooltip="Editar">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="deleteSquad(squad)" matTooltip="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                  (click)="onSelect(row)"
+                  [class.selected]="row === selectedSquad">
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Sección del formulario -->
+    <div class="form-container-fixed" [class.delete-mode]="isDeleteMode">
+      <aside class="form-section">
+        <mat-card>
+          <mat-card-content>
+            <form [formGroup]="form">
+              <!-- Selector de equipo -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Seleccionar Equipo</mat-label>
+                <mat-select formControlName="team">
+                  <mat-option *ngFor="let team of teams" [value]="team.id">
+                    {{team.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matPrefix>sports_soccer</mat-icon>
+                <mat-error *ngIf="form.get('team')?.invalid && form.get('team')?.touched">
+                  Debe seleccionar un equipo
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Lista de Jugadores -->
+              <div class="users-section">
+                <div class="section-header">
+                  <h3>
+                    <mat-icon>sports_handball</mat-icon>
+                    Jugadores
+                  </h3>
+                  <button mat-raised-button color="primary" (click)="openCreateUserDialog('Player')">
+                    <mat-icon>person_add</mat-icon>
+                    Nuevo Jugador
+                  </button>
+                </div>
+                
+                
+                <mat-selection-list #playerList class="users-list">
+                  <!-- Jugadores temporales -->
+                  <div *ngIf="tempPlayers.length > 0" class="temp-users-section">
+                    <h4>Jugadores Nuevos</h4>
+                    <mat-list-option *ngFor="let player of tempPlayers" 
+                                    [selected]="selectedPlayers.includes(player)"
+                                    (click)="togglePlayerSelection(player)">
+                      <div class="list-item-content">
+                        <span>{{player.firstname}} {{player.lastname}} (Nuevo)</span>
+                        <div class="list-item-actions">
+                          <button mat-icon-button (click)="editUser(player); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" (click)="deleteUser(player); $event.stopPropagation()">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-list-option>
+                  </div>
+
+                  <!-- Jugadores existentes -->
+                  <div *ngIf="existingPlayers.length > 0" class="existing-users-section">
+                    <h4>Jugadores Registrados</h4>
+                    <mat-list-option *ngFor="let player of existingPlayers" 
+                                    [selected]="selectedPlayers.includes(player)"
+                                    (click)="togglePlayerSelection(player)">
+                      <div class="list-item-content">
+                        <span>{{player.firstname}} {{player.lastname}}</span>
+                        <div class="list-item-actions">
+                          <button mat-icon-button (click)="openUserDetails(player); $event.stopPropagation()">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                          <button mat-icon-button (click)="editUser(player); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-list-option>
+                  </div>
+                </mat-selection-list>
+              </div>
+
+              <!-- Lista de Entrenadores -->
+              <div class="users-section">
+                <div class="section-header">
+                  <h3>
+                    <mat-icon>sports</mat-icon>
+                    Entrenadores
+                  </h3>
+                  <button mat-raised-button color="primary" (click)="openCreateUserDialog('Coach')">
+                    <mat-icon>person_add</mat-icon>
+                    Nuevo Entrenador
+                  </button>
+                </div>
+                <mat-selection-list #coachList class="users-list">
+                  <!-- Sección de entrenadores temporales -->
+                  <div *ngIf="tempCoaches.length > 0" class="temp-users-section">
+                    <h4>Entrenadores Nuevos</h4>
+                    <mat-list-option *ngFor="let coach of tempCoaches" 
+                                    [selected]="selectedCoaches.includes(coach)"
+                                    (click)="toggleCoachSelection(coach)">
+                      <div class="list-item-content">
+                        <span>{{coach.firstname}} {{coach.lastname}} (Nuevo)</span>
+                        <div class="list-item-actions">
+                          <button mat-icon-button (click)="editUser(coach); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" (click)="deleteUser(coach); $event.stopPropagation()">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-list-option>
+                  </div>
+
+                  <!-- Sección de entrenadores existentes -->
+                  <div *ngIf="existingCoaches.length > 0" class="existing-users-section">
+                    <h4>Entrenadores Registrados</h4>
+                    <mat-list-option *ngFor="let coach of existingCoaches" 
+                                    [selected]="selectedCoaches.includes(coach)"
+                                    (click)="toggleCoachSelection(coach)">
+                      <div class="list-item-content">
+                        <span>{{coach.firstname}} {{coach.lastname}}</span>
+                        <div class="list-item-actions">
+                          <button mat-icon-button (click)="openUserDetails(coach); $event.stopPropagation()">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                          <!-- Agregamos el botón de editar -->
+                          <button mat-icon-button (click)="editUser(coach); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-list-option>
+                  </div>
+                  
+                </mat-selection-list>
+              </div>
+
+              <!-- Mensaje de advertencia para eliminación -->
+              <div *ngIf="isDeleteMode" class="delete-warning">
+                <p>¿Está seguro de que desea eliminar este squad?</p>
+              </div>
+
+              <!-- Botones de acción -->
+              <mat-divider></mat-divider>
+              <div class="mat-dialog-actions" align="end">
+                <button mat-button (click)="resetForm()">
+                  <mat-icon>close</mat-icon>
+                  Cancelar
+                </button>
+                <button mat-raised-button 
+                        color="primary" 
+                        (click)="onSubmit()" 
+                        *ngIf="!isDeleteMode"
+                        [disabled]="!form.valid || (selectedPlayers.length === 0 && selectedCoaches.length === 0)">
+                  <mat-icon>check_circle</mat-icon>
+                  {{ selectedSquad ? 'Actualizar' : 'Crear' }} Squad
+                </button>
+                <button mat-raised-button 
+                        color="warn" 
+                        (click)="confirmDelete()" 
+                        *ngIf="isDeleteMode">
+                  <mat-icon>warning</mat-icon>
+                  Confirmar Eliminación
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Overlay de carga -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</div>

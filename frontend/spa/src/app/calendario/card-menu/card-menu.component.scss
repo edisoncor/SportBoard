@@ -1,0 +1,35 @@
+
+.button-container {
+    display: flex; /* Para alinear los botones en fila */
+    gap: 16px; /* Espacio entre los botones */
+    justify-content: center; /* Centra los botones en el contenedor */
+
+.custom-button {
+    background-color: #daf3d7;
+    color: rgb(16, 5, 5);
+    padding: 20px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-color: #daf3d7;
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    transition: background-color 0.3s ease;
+
+    mat-icon {
+        margin-bottom: 8px;
+    }
+    &:hover {
+        background-color: #84ca7e;
+        cursor: pointer;
+    }
+
+    span {
+        font-weight: bold;
+    }
+}
+
+}

@@ -1,0 +1,45 @@
+---
+title: "Documentación del Proyecto Móvil"
+author: "Edison Cor"
+date: "2023-10-01"
+---
+
+## Descripción del Proyecto
+
+Este es el proyecto móvil de SportBoard, una aplicación Flutter diseñada para gestionar eventos deportivos.
+
+## Instalación
+
+Para instalar las dependencias del proyecto, ejecute:
+
+```bash
+flutter pub get
+```
+
+## Ejecución
+
+Para ejecutar la aplicación en un emulador o dispositivo físico, use:
+
+```bash
+flutter run
+```
+
+## Estructura del Proyecto
+
+- `lib/`: Contiene el código fuente de la aplicación.
+- `assets/`: Contiene los recursos estáticos como imágenes y fuentes.
+- `test/`: Contiene las pruebas unitarias del proyecto.
+
+## Contribución
+
+Para contribuir al proyecto, por favor siga estos pasos:
+
+1. Haga un fork del repositorio.
+2. Cree una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realice sus cambios y haga commit (`git commit -am 'Agrega nueva funcionalidad'`).
+4. Haga push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Cree un nuevo Pull Request.
+
+## Autor
+
+EdisonCor

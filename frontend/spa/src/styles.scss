@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Definición de colores en variables
+@use 'variables.scss' as *;
+
+// Estilos globales
+:host {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+}
+
+html, body {
+    background-color: #f0f2f5;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+header, footer {
+    background-color: $primary;
+    color: $font-color-light;
+    padding: 10px;
+    text-align: center;
+}
+
+header {
+    grid-area: header;
+}
+
+footer {
+    grid-area: footer;
+}
+
+nav {
+    grid-area: sidebar;
+    background-color: $secondary;
+    width: 250px;
+    padding: 15px;
+    transition: transform $transition-duration;
+}
+
+main, section {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+main {
+    flex: 1;
+}
+
+section {
+    grid-area: content;
+    background-color: $support;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.form-field-container mat-form-field {
+    width: 100%;
+}
