@@ -7,7 +7,7 @@ services:
         environment:
             - DEBUG=0
             - SECRET_KEY=mysecret
-            - ENVIRONMENT=production
+            - ENVIRONMENT=prod
             - DATABASE_URL=postgresql://auth_user:auth_password@auth-database:5432/auth_db
             - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
             - ALLOWED_HOSTS=localhost,127.0.0.1,ms-auth-service

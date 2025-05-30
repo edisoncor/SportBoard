@@ -105,7 +105,7 @@ start_databases() {
     print_header "🗄️  INICIANDO SERVICIOS DE BASE DE DATOS"
     
     print_message $BLUE "Iniciando PostgreSQL y Redis..."
-    docker-compose -f docker-compose.prod.yml up -d kong-database db redis rabbitmq
+    docker-compose -f docker-compose.prod.yml up -d kong-database auth-database redis rabbitmq
     
     print_message $BLUE "Esperando que las bases de datos estén listas..."
     sleep 30

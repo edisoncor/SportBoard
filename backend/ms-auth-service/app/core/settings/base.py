@@ -49,11 +49,12 @@ INSTALLED_APPS = [
     'core.celery.CeleryConfig',
 
     #Local Apps
+    'institution',
+    'department',
+
     'user',
     'transaction',
-    'institution',
     'administration',
-    'department',
     'measuring_heald',
     'performance',
     'sport_profile',
