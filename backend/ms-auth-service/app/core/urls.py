@@ -34,4 +34,5 @@ urlpatterns = [
     path('api/v1/measuring-heald/', include('measuring_heald.urls')),
     path('api/v1/performance/', include('performance.urls')),
     path('api/v1/sport-profile/', include('sport_profile.urls')),
+    path('api/v1/catalog/', include('catalog.urls')),
 ]

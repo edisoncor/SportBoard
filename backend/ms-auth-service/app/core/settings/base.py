@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'measuring_heald',
     'performance',
     'sport_profile',
+    'catalog',
 
 ]
 
