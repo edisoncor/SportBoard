@@ -6,17 +6,10 @@ echo "Starting SportBoard Auth Service..."
 
 # Wait for database to be ready
 echo "Waiting for database..."
-while ! nc -z db 5432; do
+while ! nc -z auth-database 5432; do
   sleep 0.1
 done
 echo "Database started"
-
-# Wait for Redis to be ready
-echo "Waiting for Redis..."
-while ! nc -z redis 6379; do
-  sleep 0.1
-done
-echo "Redis started"
 
 # Wait for RabbitMQ to be ready
 echo "Waiting for RabbitMQ..."

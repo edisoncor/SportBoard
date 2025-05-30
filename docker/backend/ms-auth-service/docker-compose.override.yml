@@ -7,8 +7,8 @@ services:
         environment:
             - DEBUG=0
             - SECRET_KEY=mysecret
-            - ENVIRONMENT=prod
-            - DATABASE_URL=postgresql://db_user:db_password@host.docker.internal:5432/auth_db
+            - ENVIRONMENT=production
+            - DATABASE_URL=postgresql://auth_user:auth_password@auth-database:5432/auth_db
             - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
             - ALLOWED_HOSTS=localhost,127.0.0.1,ms-auth-service
             - MAX_LOGIN_ATTEMPT=3
@@ -18,11 +18,13 @@ services:
         ports:
             - "8010:8000"
         depends_on:
+            - auth-database
             - rabbitmq
         networks:
             - sportboard-network
         volumes:
             - ../../../backend/ms-auth-service/app/logs:/app/logs
+        command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3
 networks:
     sportboard-network:
         external: true
