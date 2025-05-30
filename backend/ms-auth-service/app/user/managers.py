@@ -21,8 +21,7 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
-        roles = Role.objects.filter(name__in = [SystemRoleEnum.SUPERADMIN])
-        if roles: user.roles.set(roles)
+        # No asignar rol automáticamente en create_user normal
         return user
 
     def create_superuser(self, email, password, **extra_fields):
@@ -34,26 +33,38 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("verified", True)
+        extra_fields.setdefault("is_admin", True)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError(_("Superuser must have is_staff=True."))
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
+        
         user = self.create_user(email, password, **extra_fields)
-        user.save()
-        roles = Role.objects.filter(name__in = [SystemRoleEnum.SUPERADMIN])
-        if roles: user.roles.set(roles)
+        
+        # Asignar rol SUPERADMIN
+        try:
+            superadmin_role = Role.objects.get(name=SystemRoleEnum.SUPERADMIN)
+            user.role = superadmin_role
+            user.save()
+        except Role.DoesNotExist:
+            print(f"WARNING: Role {SystemRoleEnum.SUPERADMIN} does not exist. Creating superuser without role.")
+        
         return user
     
     def create_app_user(self, email, **extra_fields):
-            from .utils import create_token_and_send_user_email
-            roles = extra_fields.pop('roles', None)
-            if not email:
-                raise ValueError(_("The Email must be set"))
-            email = self.normalize_email(email)
-            user = self.model(email=email,  **extra_fields)
+        from .utils import create_token_and_send_user_email
+        roles = extra_fields.pop('roles', None)
+        if not email:
+            raise ValueError(_("The Email must be set"))
+        email = self.normalize_email(email)
+        user = self.model(email=email,  **extra_fields)
+        user.save()
+        
+        # Corregir: usar role en lugar de roles
+        if roles is not None and len(roles) > 0:
+            user.role = roles[0]  # Asignar el primer rol de la lista
             user.save()
-            if roles is not None: user.roles.set(roles)
-            create_token_and_send_user_email(user, token_type = TokenEnum.ACCOUNT_VERIFICATION)
-            return user
-
+            
+        create_token_and_send_user_email(user, token_type = TokenEnum.ACCOUNT_VERIFICATION)
+        return user
