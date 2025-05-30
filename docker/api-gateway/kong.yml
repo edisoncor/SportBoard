@@ -20,6 +20,15 @@ services:
         strip_path: false
         methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
+  - name: ms-competencies
+    url: http://ms-competencies:8010
+    routes:
+      - name: ms-competencies-route
+        paths:
+          - /competencies
+        strip_path: false
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
 plugins:
   - name: cors
     config:

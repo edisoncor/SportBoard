@@ -25,6 +25,11 @@ services:
       file: ./backend/ms-catalog/docker-compose.override.yml
       service: catalogs
 
+  # Microservicio de competencias
+  ms-competencies:
+    extends:
+      file: ./backend/ms-competencies/docker-compose.yml
+      service: competencies
 
   # RabbitMQ para mensajería
   rabbitmq:
