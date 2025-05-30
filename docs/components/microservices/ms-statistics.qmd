@@ -1,0 +1,368 @@
+# Microservicio de Estadísticas
+
+## Descripción General
+
+El microservicio de Estadísticas es un componente central de la plataforma SportBoard, encargado de recopilar, calcular y exponer datos estadísticos de competencias deportivas. Gestiona información sobre el rendimiento de jugadores, equipos, temporadas y competencias, permitiendo:
+
+- Registrar y actualizar estadísticas individuales y colectivas.
+- Consultar estadísticas agregadas y filtradas por diferentes criterios (jugador, equipo, competencia, temporada).
+- Proveer endpoints RESTful para integración con otros microservicios y frontends.
+- Emitir notificaciones y actualizaciones en tiempo real mediante WebSocket (por ejemplo, para marcadores en vivo).
+- Integrarse fácilmente con otros servicios de la plataforma gracias a su arquitectura desacoplada y uso de eventos.
+
+El microservicio está diseñado para ser escalable, seguro y fácil de mantener, utilizando tecnologías modernas como FastAPI, Beanie (ODM para MongoDB), y Redis para cache y mensajería. Toda la configuración es gestionable mediante variables de entorno, facilitando su despliegue en diferentes entornos (desarrollo, pruebas, producción).
+
+## Funcionalidad Principal
+
+- Registro y actualización de estadísticas de jugadores
+- Registro y actualización de estadísticas de equipos
+- Estadísticas por competencia y por temporada
+- Consultas agregadas y filtradas
+- WebSocket para actualización en tiempo real
+
+## Endpoints del Microservicio de Estadísticas
+
+### Estadísticas de Competencia
+- **GET /api/v1/statistics-competence/**: Lista todas las estadísticas de competencia
+- **POST /api/v1/statistics-competence/**: Crea una nueva estadística de competencia
+- **GET /api/v1/statistics-competence/{id}/**: Obtiene los detalles de una estadística de competencia
+- **PUT /api/v1/statistics-competence/{id}/**: Actualiza una estadística de competencia
+- **DELETE /api/v1/statistics-competence/{id}/**: Elimina una estadística de competencia
+
+### Estadísticas Individuales
+- **GET /api/v1/statistics-individual/**: Lista todas las estadísticas individuales
+- **POST /api/v1/statistics-individual/**: Crea una nueva estadística individual
+- **GET /api/v1/statistics-individual/{id}/**: Obtiene los detalles de una estadística individual
+- **PUT /api/v1/statistics-individual/{id}/**: Actualiza una estadística individual
+- **DELETE /api/v1/statistics-individual/{id}/**: Elimina una estadística individual
+
+### Estadísticas de Equipo
+- **GET /api/v1/statistics-team/**: Lista todas las estadísticas de equipo
+- **POST /api/v1/statistics-team/**: Crea una nueva estadística de equipo
+- **GET /api/v1/statistics-team/{id}/**: Obtiene los detalles de una estadística de equipo
+- **PUT /api/v1/statistics-team/{id}/**: Actualiza una estadística de equipo
+- **DELETE /api/v1/statistics-team/{id}/**: Elimina una estadística de equipo
+
+### Estadísticas de Temporada
+- **GET /api/v1/statistics-season/**: Lista todas las estadísticas de temporada
+- **POST /api/v1/statistics-season/**: Crea una nueva estadística de temporada
+- **GET /api/v1/statistics-season/{id}/**: Obtiene los detalles de una estadística de temporada
+- **PUT /api/v1/statistics-season/{id}/**: Actualiza una estadística de temporada
+- **DELETE /api/v1/statistics-season/{id}/**: Elimina una estadística de temporada
+
+### WebSocket
+- **/ws/statistics**: Canal para recibir actualizaciones en tiempo real de estadísticas
+
+### Árbitros
+- **GET /api/v1/arbitre/**: Lista todos los árbitros
+- **POST /api/v1/arbitre/**: Crea un nuevo árbitro
+- **GET /api/v1/arbitre/{id}/**: Obtiene los detalles de un árbitro
+- **PUT /api/v1/arbitre/{id}/**: Actualiza un árbitro
+- **DELETE /api/v1/arbitre/{id}/**: Elimina un árbitro
+
+### Catálogo de Ítems
+- **GET /api/v1/catalog-item/**: Lista todos los ítems de catálogo
+- **POST /api/v1/catalog-item/**: Crea un nuevo ítem de catálogo
+- **GET /api/v1/catalog-item/{id}/**: Obtiene los detalles de un ítem de catálogo
+- **PUT /api/v1/catalog-item/{id}/**: Actualiza un ítem de catálogo
+- **DELETE /api/v1/catalog-item/{id}/**: Elimina un ítem de catálogo
+
+### Competencias
+- **GET /api/v1/competition/**: Lista todas las competencias
+- **POST /api/v1/competition/**: Crea una nueva competencia
+- **GET /api/v1/competition/{id}/**: Obtiene los detalles de una competencia
+- **PUT /api/v1/competition/{id}/**: Actualiza una competencia
+- **DELETE /api/v1/competition/{id}/**: Elimina una competencia
+
+### Eventos de Partido
+- **GET /api/v1/event-match/**: Lista todos los eventos de partido
+- **POST /api/v1/event-match/**: Crea un nuevo evento de partido
+- **GET /api/v1/event-match/{id}/**: Obtiene los detalles de un evento de partido
+- **PUT /api/v1/event-match/{id}/**: Actualiza un evento de partido
+- **DELETE /api/v1/event-match/{id}/**: Elimina un evento de partido
+
+### Partidos
+- **GET /api/v1/matches/**: Lista todos los partidos
+- **POST /api/v1/matches/**: Crea un nuevo partido
+- **GET /api/v1/matches/{id}/**: Obtiene los detalles de un partido
+- **PUT /api/v1/matches/{id}/**: Actualiza un partido
+- **DELETE /api/v1/matches/{id}/**: Elimina un partido
+
+### Jugadores
+- **GET /api/v1/players/**: Lista todos los jugadores
+- **POST /api/v1/players/**: Crea un nuevo jugador
+- **GET /api/v1/players/{id}/**: Obtiene los detalles de un jugador
+- **PUT /api/v1/players/{id}/**: Actualiza un jugador
+- **DELETE /api/v1/players/{id}/**: Elimina un jugador
+
+### Tabla de Posiciones
+- **GET /api/v1/position-table/**: Lista todas las tablas de posiciones
+- **POST /api/v1/position-table/**: Crea una nueva tabla de posiciones
+- **GET /api/v1/position-table/{id}/**: Obtiene los detalles de una tabla de posiciones
+- **PUT /api/v1/position-table/{id}/**: Actualiza una tabla de posiciones
+- **DELETE /api/v1/position-table/{id}/**: Elimina una tabla de posiciones
+
+### Resultados
+- **GET /api/v1/result/**: Lista todos los resultados
+- **POST /api/v1/result/**: Crea un nuevo resultado
+- **GET /api/v1/result/{id}/**: Obtiene los detalles de un resultado
+- **PUT /api/v1/result/{id}/**: Actualiza un resultado
+- **DELETE /api/v1/result/{id}/**: Elimina un resultado
+
+### Marcadores
+- **GET /api/v1/scoreboard/**: Lista todos los marcadores
+- **POST /api/v1/scoreboard/**: Crea un nuevo marcador
+- **GET /api/v1/scoreboard/{id}/**: Obtiene los detalles de un marcador
+- **PUT /api/v1/scoreboard/{id}/**: Actualiza un marcador
+- **DELETE /api/v1/scoreboard/{id}/**: Elimina un marcador
+- **POST /api/v1/scoreboard/{id}/finalize**: Finaliza un marcador (acción específica)
+
+### Temporadas
+- **GET /api/v1/season/**: Lista todas las temporadas
+- **POST /api/v1/season/**: Crea una nueva temporada
+- **GET /api/v1/season/{id}/**: Obtiene los detalles de una temporada
+- **PUT /api/v1/season/{id}/**: Actualiza una temporada
+- **DELETE /api/v1/season/{id}/**: Elimina una temporada
+
+## Ejemplo de Uso
+
+### Crear una estadística de competencia
+```http
+POST /api/v1/statistics/competence/
+Content-Type: application/json
+{
+    "description": "Estadística de la competencia Apertura 2024",
+    "date_generation": "2024-05-30T12:00:00Z",
+    "value": 8.5,
+    "average_score": 2.1,
+    "matches_completed": 10,
+    "record_score": 5,
+    "total_parties": 12,
+    "id_competition": "6658e1f2c2a1b2d3e4f5a6b7"
+}
+```
+
+### Crear una estadística individual
+```http
+POST /api/v1/statistics/individual/
+Content-Type: application/json
+{
+    "description": "Estadística individual de jugador",
+    "date_generation": "2024-05-30T12:00:00Z",
+    "value": 7.8,
+    "goal": 3,
+    "own_goal": 0,
+    "foul": 2,
+    "red_card": 0,
+    "yellow_card": 1,
+    "athlete_id": "6658e1f2c2a1b2d3e4f5a6b8"
+}
+```
+
+### Crear una estadística de equipo
+```http
+POST /api/v1/statistics/team/
+Content-Type: application/json
+{
+    "description": "Estadística de equipo temporada 2024",
+    "date_generation": "2024-05-30T12:00:00Z",
+    "value": 9.2,
+    "games_played": 12,
+    "matches_drawn": 2,
+    "matches_lost": 1,
+    "matches_won": 9,
+    "points": 29,
+    "id_team": "6658e1f2c2a1b2d3e4f5a6b9"
+}
+```
+
+### Crear una estadística de temporada
+```http
+POST /api/v1/statistics/season/
+Content-Type: application/json
+{
+    "description": "Estadística de temporada 2024",
+    "date_generation": "2024-05-30T12:00:00Z",
+    "value": 8.9,
+    "most_fouls": "6658e1f2c2a1b2d3e4f5a6c1",
+    "most_red_cards": "6658e1f2c2a1b2d3e4f5a6c2",
+    "most_yellow_cards": "6658e1f2c2a1b2d3e4f5a6c3",
+    "top_assistant": "6658e1f2c2a1b2d3e4f5a6c4",
+    "top_scorer": "6658e1f2c2a1b2d3e4f5a6c5",
+    "id_season": "6658e1f2c2a1b2d3e4f5a6c6"
+}
+```
+
+### Crear un árbitro
+```http
+POST /api/v1/arbitres/
+Content-Type: application/json
+{
+    "name": "Juan Pérez",
+    "license_number": "ARB-001"
+}
+```
+
+### Crear un ítem de catálogo
+```http
+POST /api/v1/catalog_items/
+Content-Type: application/json
+{
+    "code": "YELLOW_CARD",
+    "description": "Tarjeta amarilla por conducta antideportiva",
+    "category": "disciplinario"
+}
+```
+
+### Crear una competencia
+```http
+POST /api/v1/competition/
+Content-Type: application/json
+{
+    "name": "Liga Nacional Apertura 2024",
+    "start_date": "2024-01-15T00:00:00Z",
+    "end_date": "2024-06-30T00:00:00Z"
+}
+```
+
+### Crear un evento de partido
+```http
+POST /api/v1/event_matches/
+Content-Type: application/json
+{
+    "match_id": "6658e1f2c2a1b2d3e4f5a6d1",
+    "minute": 45,
+    "event_type": "Gol",
+    "player_id": "6658e1f2c2a1b2d3e4f5a6d2"
+}
+```
+
+### Crear un partido
+```http
+POST /api/v1/matches/
+Content-Type: application/json
+{
+    "home_team_id": "6658e1f2c2a1b2d3e4f5a6e1",
+    "away_team_id": "6658e1f2c2a1b2d3e4f5a6e2",
+    "date": "2024-06-01T18:00:00Z"
+}
+```
+
+### Crear un atleta
+```http
+POST /api/v1/athletes/
+Content-Type: application/json
+{
+    "name": "Carlos López",
+    "position": "Delantero",
+    "team_id": "6658e1f2c2a1b2d3e4f5a6e1"
+}
+```
+
+### Crear un equipo
+```http
+POST /api/v1/teams/
+Content-Type: application/json
+{
+    "name": "Club Deportivo Central",
+    "description": "Equipo de la ciudad Central",
+    "founded": 1980,
+    "athletes": ["6658e1f2c2a1b2d3e4f5a6e3", "6658e1f2c2a1b2d3e4f5a6e4"]
+}
+```
+
+### Crear una tabla de posiciones
+```http
+POST /api/v1/position_tables/
+Content-Type: application/json
+{
+    "position": 1,
+    "points_total": 30,
+    "table_rating_id": "6658e1f2c2a1b2d3e4f5a6f1",
+    "team_id": "6658e1f2c2a1b2d3e4f5a6e1"
+}
+```
+
+### Crear un resultado
+```http
+POST /api/v1/results/
+Content-Type: application/json
+{
+    "date_registration": "2024-05-30T20:00:00Z",
+    "details": "Partido cerrado, gol en el último minuto",
+    "loser": "Club Deportivo Sur",
+    "score_local": 2,
+    "score_visitor": 1,
+    "winner": "Club Deportivo Central",
+    "scoreboard_id": "6658e1f2c2a1b2d3e4f5a6f2"
+}
+```
+
+### Crear un marcador
+```http
+POST /api/v1/scoreboards/
+Content-Type: application/json
+{
+    "last_update": "2024-05-30T20:00:00Z",
+    "status_game": "6658e1f2c2a1b2d3e4f5a6f3",
+    "score_local": 2,
+    "score_visitor": 1,
+    "time_restant": 0,
+    "match_id": "6658e1f2c2a1b2d3e4f5a6d1",
+    "is_final": false
+}
+```
+
+### Finalizar un marcador
+```http
+PUT /api/v1/scoreboards/6658e1f2c2a1b2d3e4f5a6f2/finalize
+```
+
+### Crear una temporada
+```http
+POST /api/v1/seasons/
+Content-Type: application/json
+{
+    "name": "Temporada 2024",
+    "description": "Temporada regular 2024",
+    "startDate": "2024-01-01T00:00:00Z",
+    "endDate": "2024-12-31T00:00:00Z"
+}
+```
+
+## Configuración relevante del contenedor
+
+- **Lenguaje base:** Python 3.12
+- **Framework principal:** FastAPI
+- **Base de datos:** MongoDB (persistencia de datos)
+- **Cache y mensajería:** Redis (para cache y pub/sub, usado en notificaciones y WebSocket)
+- **Puerto expuesto:** 8000 (por defecto para FastAPI/Uvicorn)
+- **Variables de entorno principales:**
+    - `MONGODB_URI`: URI de conexión a la base de datos MongoDB
+    - `REDIS_URL`: URI de conexión a Redis
+    - `CORS_ORIGINS`: Orígenes permitidos para CORS
+    - `ENVIRONMENT`: Entorno de despliegue (dev, prod, etc.)
+    - `SECRET_KEY`: Clave secreta para operaciones internas
+- **Comandos de arranque:**
+    - `uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload` (modo desarrollo)
+    - `uvicorn app.main:app --host 0.0.0.0 --port 8000` (modo producción)
+- **Dockerfile:**
+    - Instala dependencias desde `requirements.txt`
+    - Copia el código fuente de la app
+    - Define el punto de entrada con Uvicorn
+- **docker-compose.yml:**
+    - Define servicios para el microservicio, MongoDB y Redis
+    - Configura redes y volúmenes para persistencia y comunicación interna
+    - Permite levantar todo el stack con un solo comando
+
+## Diagrama de Componentes
+
+- API REST para CRUD de estadísticas
+- WebSocket para notificaciones en tiempo real
+- Integración con microservicios de Competencias y Equipos
+- Persistencia en MongoDB
+- Cache y pub/sub en Redis
+
+---
+
+> Documentación generada automáticamente a partir del análisis del código fuente y la estructura del microservicio.
