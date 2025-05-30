@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CompetenceConfig(AppConfig):
+class CompetitionManagementConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'competence'
+    name = 'competition_management'

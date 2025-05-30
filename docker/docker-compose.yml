@@ -28,21 +28,9 @@ services:
   # Microservicio de competencias
   ms-competencies:
     extends:
-      file: ./backend/ms-competencies/docker-compose.override.yml
+      file: ./backend/ms-competencies/docker-compose.yml
       service: competencies
-    # ms-competencies:
-    #   build:
-    #     context: ../backend/ms-compentencies
-    #   container_name: ms_competencies
-    #   ports:
-    #     - "8010:8010"
-    #   volumes:
-    #     - ../backend/ms-compentencies:/app
-    #   environment:
-    #     - PYTHONUNBUFFERED=1
-    #   networks:
-    #     - sportboard-network
-      
+
   # RabbitMQ para mensajería
   rabbitmq:
     extends:
