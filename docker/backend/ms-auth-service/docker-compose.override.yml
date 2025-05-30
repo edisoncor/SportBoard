@@ -1,0 +1,28 @@
+services:
+    ms-auth-service:
+        container_name: ms-auth-service
+        build:
+            context: ../../../backend/ms-auth-service
+            dockerfile: docker/prod/Dockerfile
+        environment:
+            - DEBUG=0
+            - SECRET_KEY=mysecret
+            - ENVIRONMENT=prod
+            - DATABASE_URL=postgresql://db_user:db_password@host.docker.internal:5432/auth_db
+            - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+            - ALLOWED_HOSTS=localhost,127.0.0.1,ms-auth-service
+            - MAX_LOGIN_ATTEMPT=3
+            - SENDER_EMAIL=noreply@sportboard.com
+            - EMAIL_HOST_USER=user@example.com
+            - EMAIL_HOST_PASSWORD=password
+        ports:
+            - "8010:8000"
+        depends_on:
+            - rabbitmq
+        networks:
+            - sportboard-network
+        volumes:
+            - ../../../backend/ms-auth-service/app/logs:/app/logs
+networks:
+    sportboard-network:
+        external: true

@@ -25,6 +25,11 @@ services:
       file: ./backend/ms-catalog/docker-compose.override.yml
       service: catalogs
 
+  # Microservicio de autenticación
+  ms-auth-service:
+    extends:
+      file: ./backend/ms-auth-service/docker-compose.override.yml
+      service: ms-auth-service
   # Microservicio de competencias
   ms-competencies:
     extends:
