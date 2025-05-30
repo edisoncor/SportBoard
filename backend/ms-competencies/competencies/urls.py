@@ -23,12 +23,13 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Competencies API",
+        title="API",
         default_version='v1',
         description="API para gestión de competencias deportivas",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    url="http://localhost:8010", 
 )
 
 urlpatterns = [
