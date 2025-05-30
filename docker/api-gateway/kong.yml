@@ -20,6 +20,15 @@ services:
         strip_path: false
         methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
+  - name: ms-auth-service
+    url: http://ms-auth-service:8000/api/v1
+    routes:
+      - name: ms-auth-route
+        paths:
+          - /auth
+        strip_path: false
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
   - name: ms-competencies
     url: http://ms-competencies:8010
     routes:
@@ -55,4 +64,3 @@ plugins:
       credentials: true
       max_age: 3600
       preflight_continue: false
-
