@@ -147,7 +147,7 @@ services:
     container_name: sportboard-api
     environment:
       - DEBUG=0
-      - ENVIRONMENT=production
+      - ENVIRONMENT=prod
       - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
       - REDIS_URL=redis://redis:6379/0
       - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
@@ -178,7 +178,7 @@ services:
     command: celery -A core worker -l info
     environment:
       - DEBUG=0
-      - ENVIRONMENT=production
+      - ENVIRONMENT=prod
       - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
       - REDIS_URL=redis://redis:6379/0
       - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
@@ -202,7 +202,7 @@ services:
     command: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     environment:
       - DEBUG=0
-      - ENVIRONMENT=production
+      - ENVIRONMENT=prod
       - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
       - REDIS_URL=redis://redis:6379/0
       - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
@@ -226,7 +226,7 @@ services:
     command: celery -A core flower --port=5555
     environment:
       - DEBUG=0
-      - ENVIRONMENT=production
+      - ENVIRONMENT=prod
       - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
       - REDIS_URL=redis://redis:6379/0
       - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672

@@ -6,10 +6,20 @@ echo "Starting SportBoard Auth Service..."
 
 # Wait for database to be ready
 echo "Waiting for database..."
-while ! nc -z auth-database 5432; do
-  sleep 0.1
+echo "Trying to connect to database at auth-database:5432..."
+for i in {1..30}; do
+  if nc -z auth-database 5432; then
+    echo "Database is ready!"
+    break
+  fi
+  echo "Database not ready yet, waiting... (attempt $i/30)"
+  sleep 2
 done
-echo "Database started"
+
+if ! nc -z auth-database 5432; then
+  echo "ERROR: Database is not available after 60 seconds"
+  exit 1
+fi
 
 # Wait for RabbitMQ to be ready
 echo "Waiting for RabbitMQ..."
@@ -17,6 +27,11 @@ while ! nc -z rabbitmq 5672; do
   sleep 0.1
 done
 echo "RabbitMQ started"
+
+# Create logs directory if it doesn't exist (must be done before Django commands)
+echo "Creating logs directory..."
+mkdir -p logs
+mkdir -p core/logs
 
 # Create migrations and migrate (comandos originales importantes)
 echo "Creating migrations..."
@@ -35,23 +50,11 @@ rm -f celerybeat.pid
 rm -f logs/debug.log
 
 # Create superuser if it doesn't exist (only in production)
-if [ "$ENVIRONMENT" = "production" ]; then
-    echo "Creating superuser if needed..."
-    python manage.py shell << EOF
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(email='admin@sportboard.com').exists():
-    User.objects.create_superuser(
-        email='admin@sportboard.com',
-        password='admin123',
-        first_name='Admin',
-        last_name='User'
-    )
-    print('Superuser created successfully')
-else:
-    print('Superuser already exists')
-EOF
-fi
+# Commented out to avoid conflicts during migration setup
+# if [ "$ENVIRONMENT" = "prod" ]; then
+#     echo "Creating superuser if needed..."
+#     python manage.py createsuperuser --noinput --email admin@gmail.com || echo "Superuser creation skipped"
+# fi
 
 # Collect static files
 echo "Collecting static files..."

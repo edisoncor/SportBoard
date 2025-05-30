@@ -8,12 +8,12 @@ def assign_default_role(sender, instance, created, **kwargs):
     """
     Asigna el rol de ESPECTATOR por defecto a usuarios recién creados si no tienen ningún rol.
     """
-    if created or not instance.roles.exists():
+    if created and not instance.role:
         from user.models import Role
         # Obtener o crear el rol de espectador
         spectator_role, _ = Role.objects.get_or_create(name=SystemRoleEnum.ESPECTATOR)
         
         # Asignar el rol al usuario si no tiene ninguno
-        if not instance.roles.exists():
-            instance.roles.add(spectator_role)
-            print(f"Rol ESPECTATOR asignado automáticamente al usuario {instance.email}")
+        instance.role = spectator_role
+        instance.save(update_fields=['role'])
+        print(f"Rol ESPECTATOR asignado automáticamente al usuario {instance.email}")

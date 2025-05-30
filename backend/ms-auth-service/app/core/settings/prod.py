@@ -16,10 +16,10 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(','
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME', 'sportboard_db'),
-        'USER': os.environ.get('DATABASE_USER', 'sportboard_user'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'sportboard_pass'),
-        'HOST': os.environ.get('DATABASE_HOST', 'db'),
+        'NAME': os.environ.get('DATABASE_NAME', 'auth_db'),
+        'USER': os.environ.get('DATABASE_USER', 'auth_user'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'auth_password'),
+        'HOST': os.environ.get('DATABASE_HOST', 'auth-database'),
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
         'OPTIONS': {
             'connect_timeout': 60,
