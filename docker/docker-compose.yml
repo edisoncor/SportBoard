@@ -35,13 +35,13 @@ services:
     ports:
       - "5433:5432"
 
-  # Microservicio de catálogo
+  # Microservicio de catálogo#
   ms-catalog:
     extends:
       file: ./backend/ms-catalog/docker-compose.override.yml
       service: catalogs
 
-  # Microservicio de autenticación
+  # Microservicio de autenticación#
   ms-auth-service:
     extends:
       file: ./backend/ms-auth-service/docker-compose.override.yml
