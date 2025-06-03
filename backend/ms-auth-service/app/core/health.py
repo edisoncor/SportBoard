@@ -1,15 +1,30 @@
 """
 Health check endpoints para SportBoard Auth Service
+
+Este módulo define los endpoints de verificación de salud (health checks) para el microservicio de autenticación de SportBoard.
+Incluye comprobaciones de:
+- Estado de la aplicación Django
+- Conectividad a la base de datos
+- Conectividad a Redis
+- Conectividad a RabbitMQ
 """
 
+# Importa JsonResponse para retornar respuestas JSON en los endpoints.
 from django.http import JsonResponse
+# Importa connection para interactuar con la base de datos.
 from django.db import connection
+# Importa cache para verificar la conectividad con el sistema de caché (Redis).
 from django.core.cache import cache
+# Importa settings para acceder a la configuración global de Django.
 from django.conf import settings
+# Importa redis para la verificación directa de la conectividad con Redis.
 import redis
+# Importa pika para la verificación de la conectividad con RabbitMQ.
 import pika
+# Importa logging para registrar eventos y errores.
 import logging
 
+# Inicializa el logger para el módulo actual.
 logger = logging.getLogger(__name__)
 
 

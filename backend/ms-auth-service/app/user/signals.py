@@ -6,7 +6,19 @@ from user.enums import SystemRoleEnum
 @receiver(post_save, sender=User)
 def assign_default_role(sender, instance, created, **kwargs):
     """
-    Asigna el rol de ESPECTATOR por defecto a usuarios recién creados si no tienen ningún rol.
+    Signal handler that assigns the ESPECTATOR role by default to newly created users if they don't have any role.
+    
+    This function is triggered after a User instance is saved. If the user is newly created
+    and doesn't have any roles assigned, it automatically assigns the ESPECTATOR role.
+    
+    Args:
+        sender: The model class that sent the signal (User).
+        instance: The actual instance of the User model that was saved.
+        created (bool): A boolean indicating if the user was created (True) or updated (False).
+        **kwargs: Additional keyword arguments.
+        
+    Returns:
+        None
     """
     if created and not instance.role.exists():
         from user.models import Role
