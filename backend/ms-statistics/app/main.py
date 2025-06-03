@@ -18,7 +18,6 @@ from app.api.endpoints.scoreboard import router as scoreboard_router
 from app.api.endpoints.table_rating import router as table_rating_router
 from app.api.endpoints.position_table import router as position_table_router
 from app.api.endpoints.catalog_item import router as catalog_item_router
-from app.api.endpoints.statistics_ws import router as statistics_ws_router
 from app.api.endpoints.statistics_competence import router as statistic_competence_router
 from app.api.endpoints.statistic_individual import router as statistic_individual_router
 from app.api.endpoints.statistic_team import router as statistic_team_router
@@ -111,7 +110,7 @@ app.include_router(scoreboard_router)
 app.include_router(table_rating_router)
 app.include_router(position_table_router)
 app.include_router(catalog_item_router)
-app.include_router(statistics_ws_router)
+# app.include_router(statistics_ws_router)
 app.include_router(statistic_competence_router)
 app.include_router(statistic_individual_router)
 app.include_router(statistic_team_router)
