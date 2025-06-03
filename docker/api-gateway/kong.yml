@@ -21,7 +21,7 @@ services:
         methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
   - name: ms-auth-service
-    url: http://ms-auth-service:8000
+    url: http://ms-auth-service:8011
     routes:
       - name: ms-auth-route
         paths:

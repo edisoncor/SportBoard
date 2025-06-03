@@ -16,7 +16,7 @@ services:
             - EMAIL_HOST_USER=user@example.com
             - EMAIL_HOST_PASSWORD=password
         ports:
-            - "8010:8000"
+            - "8011:8011"
         depends_on:
             - auth-database
             - rabbitmq
@@ -24,7 +24,7 @@ services:
             - sportboard-network
         volumes:
             - ../../../backend/ms-auth-service/app/logs:/app/logs
-        command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3
+        command: gunicorn core.wsgi:application --bind 0.0.0.0:8011 --workers 3
 networks:
     sportboard-network:
         external: true

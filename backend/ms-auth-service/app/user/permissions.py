@@ -9,7 +9,7 @@ def get_user_permissions(user: User):
     """
     if user.is_authenticated:
         return list(Permission.objects.filter(
-            role__id__in=user.roles.values_list("id", flat=True)
+            role__id__in=user.role.values_list("id", flat=True)
         ).values_list("name", flat=True))
     raise AuthenticationFailed
 
