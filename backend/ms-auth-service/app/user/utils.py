@@ -11,6 +11,18 @@ from .models import Token, User
 
 
 def send_email(subject:str, email_to: str, html_alternative: Any, attachment: Dict = None):
+    f"""
+    Envía un correo electrónico con contenido HTML.
+    
+    Args:
+        subject (str): Asunto del correo.
+        email_to (str): Dirección de correo del destinatario.
+        html_alternative (Any): Contenido HTML del correo.
+        attachment (Dict, opcional): Información del adjunto. Por defecto None.
+        
+    Returns:
+        None
+    """
     msg = EmailMultiAlternatives(
         subject=subject, from_email=settings.EMAIL_FROM,to= [email_to]
     )
@@ -19,6 +31,16 @@ def send_email(subject:str, email_to: str, html_alternative: Any, attachment: Di
 
 
 def create_token_and_send_user_email(user: User, token_type: str)->None:
+    """
+    Crea un token para un usuario y envía un correo para verificación de cuenta o reseteo de contraseña.
+    
+    Args:
+        user (User): Usuario para el que se crea el token.
+        token_type (str): Tipo de token a crear (ACCOUNT_VERIFICATION o PASSWORD_RESET).
+        
+    Returns:
+        None
+    """
     from .tasks import send_user_creation_email
     token, _ = Token.objects.update_or_create(
         user=user,
@@ -40,32 +62,60 @@ def create_token_and_send_user_email(user: User, token_type: str)->None:
 
 def get_user_role_names(user:User)->list:
     """
-    Returns a list of role names for the given user.
+    Retorna una lista de nombres de roles para el usuario dado.
+    
+    Args:
+        user (User): Usuario del cual obtener los roles.
+        
+    Returns:
+        list: Lista de nombres de roles asociados al usuario.
     """
     return list(user.role.all().values_list('name', flat=True))
 
 def is_admin_user(user:User)->bool:
     """
-    Check an authenticated user is an admin or not
+    Verifica si un usuario autenticado es admin o no.
+    
+    Args:
+        user (User): Usuario a verificar.
+        
+    Returns:
+        bool: True si el usuario es admin, False en caso contrario.
     """
     return user.is_admin or user.role.filter(name=SystemRoleEnum.SUPERADMIN).exists()
 
 
 class IsAdmin(permissions.BasePermission):
-    """Allows access only to Admin users."""
+    """
+    Clase de permiso que permite acceso solo a usuarios Admin.
+    """
     message = "Only Admins are authorized to perform this action."
     
     def has_permission(self, request, view):
+        """
+        Verifica si el usuario tiene permiso para acceder a la vista.
+        
+        Args:
+            request: Objeto request.
+            view: Vista a la que se accede.
+            
+        Returns:
+            bool: True si el usuario está autenticado y es admin, False en caso contrario.
+        """
         if not request.user.is_authenticated:
             return False
-        return  is_admin_user(request.user)
+        return is_admin_user(request.user)
     
-# ...existing code...
-
 def create_default_roles():
     """
-    Creates default roles with predefined permissions.
-    This can be called during app initialization or from the admin interface.
+    Crea roles por defecto con permisos predefinidos.
+    Puede llamarse durante la inicialización de la app o desde la interfaz de administración.
+    
+    La función crea los roles del sistema definidos en SystemRoleEnum y asigna
+    los permisos apropiados a cada rol según sus responsabilidades.
+    
+    Returns:
+        None
     """
     from user.models import Role, Permission
     from user.enums import SystemRoleEnum

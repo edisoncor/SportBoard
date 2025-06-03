@@ -6,6 +6,18 @@ from .utils import send_email
 
 @APP.task()
 def send_password_reset_email(email_data):
+    """
+    Celery task to send a password reset email.
+    
+    Args:
+        email_data (dict): Dictionary containing email information, including:
+            - email: The recipient's email address
+            - token: The password reset token
+            - fullname: The user's full name
+            
+    Returns:
+        None
+    """
     html_template = get_template("emails/password_reset_template.html")
     html_alternative = html_template.render(email_data)
     send_email(
@@ -14,6 +26,18 @@ def send_password_reset_email(email_data):
 
 @APP.task()
 def send_user_creation_email(email_data):
+    """
+    Celery task to send an account verification email.
+    
+    Args:
+        email_data (dict): Dictionary containing email information, including:
+            - email: The recipient's email address
+            - token: The verification token
+            - fullname: The user's full name
+            
+    Returns:
+        None
+    """
     html_template = get_template("emails/account_verification_template.html")
     html_alternative = html_template.render(email_data)
     send_email(
