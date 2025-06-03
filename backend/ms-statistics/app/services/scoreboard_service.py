@@ -1,3 +1,9 @@
+"""
+Servicio para la gestión de marcadores (scoreboards) en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar marcadores, así como la actualización automática de resultados y tablas de posiciones cuando un partido finaliza.
+"""
+
 # app/services/scoreboard_service.py - VERSIÓN CORREGIDA
 from app.repositories.scoreboard_repository import ScoreboardRepository
 from app.schemas.scoreboard_schema import ScoreboardCreate, ScoreboardUpdate, ScoreboardResponse
@@ -10,11 +16,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ScoreboardService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de marcadores (scoreboards).
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de marcadores.
+        """
         self.repo = ScoreboardRepository()
 
     def _convert_string_ids_to_objectid(self, data: dict) -> dict:
-        """Convierte string IDs a ObjectId para almacenar en MongoDB"""
+        """
+        Convierte los IDs en formato string a ObjectId para almacenar en MongoDB.
+
+        Args:
+            data (dict): Diccionario con los datos del marcador.
+        Returns:
+            dict: Diccionario con los IDs convertidos a ObjectId.
+        """
         converted_data = data.copy()
         
         if converted_data.get('status_game'):
@@ -26,7 +45,12 @@ class ScoreboardService:
         return converted_data
 
     async def _create_result_for_match(self, scoreboard) -> None:
-        """Crea un resultado cuando el scoreboard se marca como final"""
+        """
+        Crea un resultado cuando el marcador se marca como final.
+
+        Args:
+            scoreboard: Objeto marcador finalizado.
+        """
         try:
             from app.services.result_service import result_service
             from app.schemas.result_schema import ResultCreate
@@ -66,7 +90,12 @@ class ScoreboardService:
             # No propagar el error para no bloquear la actualización del scoreboard
 
     async def _update_position_tables(self, scoreboard) -> None:
-        """Actualiza las tablas de posiciones basado en el resultado"""
+        """
+        Actualiza las tablas de posiciones basado en el resultado del marcador.
+
+        Args:
+            scoreboard: Objeto marcador finalizado.
+        """
         try:
             from app.models.match import Match
             from app.models.table_rating import TableRating
@@ -137,7 +166,14 @@ class ScoreboardService:
             # No propagar el error
 
     async def _update_team_position(self, table_rating_id: ObjectId, team_id: ObjectId, points: int) -> None:
-        """Actualiza o crea la posición de un equipo específico"""
+        """
+        Actualiza o crea la posición de un equipo específico en la tabla de posiciones.
+
+        Args:
+            table_rating_id (ObjectId): ID de la tabla de posiciones.
+            team_id (ObjectId): ID del equipo.
+            points (int): Puntos a sumar.
+        """
         from app.models.position_table import PositionTable
         
         # Buscar posición existente
@@ -169,6 +205,16 @@ class ScoreboardService:
                     await table_rating.replace()
 
     async def create_scoreboard(self, scoreboard: ScoreboardCreate) -> ScoreboardResponse:
+        """
+        Crea un nuevo marcador en la base de datos.
+
+        Args:
+            scoreboard (ScoreboardCreate): Datos del marcador a crear.
+        Returns:
+            ScoreboardResponse: Marcador creado.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             scoreboard_data = scoreboard.model_dump(exclude_unset=True)
             scoreboard_data = self._convert_string_ids_to_objectid(scoreboard_data)
@@ -193,6 +239,14 @@ class ScoreboardService:
             )
 
     async def list_scoreboards(self) -> list[ScoreboardResponse]:
+        """
+        Obtiene la lista de todos los marcadores registrados.
+
+        Returns:
+            list[ScoreboardResponse]: Lista de marcadores.
+        Raises:
+            HTTPException: Si ocurre un error al obtener los marcadores.
+        """
         try:
             scoreboards = await self.repo.list()
             return [
@@ -215,6 +269,16 @@ class ScoreboardService:
             )
 
     async def get_scoreboard(self, scoreboard_id: PydanticObjectId) -> ScoreboardResponse:
+        """
+        Obtiene un marcador por su ID.
+
+        Args:
+            scoreboard_id (PydanticObjectId): ID del marcador.
+        Returns:
+            ScoreboardResponse: Marcador encontrado.
+        Raises:
+            HTTPException: Si el marcador no existe.
+        """
         scoreboard = await self.repo.get_by_id(scoreboard_id)
         if not scoreboard:
             raise HTTPException(
@@ -234,6 +298,17 @@ class ScoreboardService:
         )
 
     async def update_scoreboard(self, scoreboard_id: PydanticObjectId, scoreboard: ScoreboardUpdate) -> ScoreboardResponse:
+        """
+        Actualiza los datos de un marcador existente. Si el marcador se marca como final, crea el resultado y actualiza la tabla de posiciones.
+
+        Args:
+            scoreboard_id (PydanticObjectId): ID del marcador a actualizar.
+            scoreboard (ScoreboardUpdate): Datos a actualizar.
+        Returns:
+            ScoreboardResponse: Marcador actualizado.
+        Raises:
+            HTTPException: Si el marcador no existe.
+        """
         db_scoreboard = await self.repo.get_by_id(scoreboard_id)
         if not db_scoreboard:
             raise HTTPException(
@@ -269,6 +344,14 @@ class ScoreboardService:
         )
 
     async def delete_scoreboard(self, scoreboard_id: PydanticObjectId) -> None:
+        """
+        Elimina un marcador por su ID.
+
+        Args:
+            scoreboard_id (PydanticObjectId): ID del marcador a eliminar.
+        Raises:
+            HTTPException: Si el marcador no existe.
+        """
         deleted = await self.repo.delete(scoreboard_id)
         if not deleted:
             raise HTTPException(
@@ -277,14 +360,14 @@ class ScoreboardService:
             )
 
     async def finalize_scoreboard(self, scoreboard_id: PydanticObjectId) -> ScoreboardResponse:
-        """Método específico para finalizar un scoreboard"""
-        return await self.update_scoreboard(
-            scoreboard_id, 
-            ScoreboardUpdate(is_final=True)
-        )
+        """
+        Marca un marcador como finalizado y ejecuta las acciones post-partido.
 
-    async def finalize_scoreboard(self, scoreboard_id: PydanticObjectId) -> ScoreboardResponse:
-        """Método específico para finalizar un scoreboard"""
+        Args:
+            scoreboard_id (PydanticObjectId): ID del marcador a finalizar.
+        Returns:
+            ScoreboardResponse: Marcador finalizado.
+        """
         return await self.update_scoreboard(
             scoreboard_id, 
             ScoreboardUpdate(is_final=True)

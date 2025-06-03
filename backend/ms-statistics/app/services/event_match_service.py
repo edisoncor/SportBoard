@@ -1,3 +1,9 @@
+"""
+Servicio para la gestión de eventos de partido en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar eventos de partido, así como la actualización automática de estadísticas individuales de los atletas según el tipo de evento registrado.
+"""
+
 import logging
 from beanie import PydanticObjectId
 from fastapi import HTTPException, status
@@ -16,11 +22,27 @@ from app.schemas.event_match_schema import (
 logger = logging.getLogger(__name__)
 
 class EventMatchService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de eventos de partido.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con los repositorios necesarios.
+        """
         self.repo = EventMatchRepository()
         self.stat_repo = StatisticIndividualRepository()
 
     async def create_event_match(self, event: EventMatchCreate) -> EventMatchResponse:
+        """
+        Crea un nuevo evento de partido y actualiza las estadísticas individuales del atleta si corresponde.
+
+        Args:
+            event (EventMatchCreate): Datos del evento a crear.
+        Returns:
+            EventMatchResponse: Evento de partido creado.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             event_data = event.model_dump(exclude_unset=True)
 
@@ -77,6 +99,14 @@ class EventMatchService:
             )
 
     async def list_event_matches(self) -> list[EventMatchResponse]:
+        """
+        Obtiene la lista de todos los eventos de partido registrados.
+
+        Returns:
+            list[EventMatchResponse]: Lista de eventos de partido.
+        Raises:
+            HTTPException: Si ocurre un error al obtener los eventos.
+        """
         try:
             events = await self.repo.list()
             return [
@@ -97,6 +127,16 @@ class EventMatchService:
             )
 
     async def get_event_match(self, event_id: PydanticObjectId) -> EventMatchResponse:
+        """
+        Obtiene un evento de partido por su ID.
+
+        Args:
+            event_id (PydanticObjectId): ID del evento de partido.
+        Returns:
+            EventMatchResponse: Evento de partido encontrado.
+        Raises:
+            HTTPException: Si el evento no existe.
+        """
         event = await self.repo.get_by_id(event_id)
         if not event:
             raise HTTPException(status_code=404, detail="EventMatch not found")
@@ -110,6 +150,17 @@ class EventMatchService:
         )
 
     async def update_event_match(self, event_id: PydanticObjectId, event: EventMatchUpdate) -> EventMatchResponse:
+        """
+        Actualiza los datos de un evento de partido existente.
+
+        Args:
+            event_id (PydanticObjectId): ID del evento a actualizar.
+            event (EventMatchUpdate): Datos a actualizar.
+        Returns:
+            EventMatchResponse: Evento de partido actualizado.
+        Raises:
+            HTTPException: Si el evento no existe.
+        """
         db_event = await self.repo.get_by_id(event_id)
         if not db_event:
             raise HTTPException(status_code=404, detail="EventMatch not found")
@@ -133,6 +184,14 @@ class EventMatchService:
         )
 
     async def delete_event_match(self, event_id: PydanticObjectId) -> None:
+        """
+        Elimina un evento de partido por su ID.
+
+        Args:
+            event_id (PydanticObjectId): ID del evento a eliminar.
+        Raises:
+            HTTPException: Si el evento no existe.
+        """
         deleted = await self.repo.delete(event_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="EventMatch not found")

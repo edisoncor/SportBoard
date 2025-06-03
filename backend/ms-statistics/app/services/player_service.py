@@ -1,3 +1,9 @@
+"""
+Servicio para la gestión de jugadores (atletas) en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar jugadores, así como la conversión de identificadores de equipo a ObjectId para integridad con MongoDB.
+"""
+
 # Servicio de jugadores
 import logging
 from beanie import PydanticObjectId
@@ -10,10 +16,26 @@ from app.schemas.athlete_schema import AthleteCreate, AthleteUpdate, AthleteResp
 logger = logging.getLogger(__name__)
 
 class PlayerService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de jugadores.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de jugadores.
+        """
         self.repo = PlayerRepository()
 
     async def create_athlete(self, athlete: AthleteCreate) -> AthleteResponse:
+        """
+        Crea un nuevo jugador (atleta) en la base de datos.
+
+        Args:
+            athlete (AthleteCreate): Datos del jugador a crear.
+        Returns:
+            AthleteResponse: Jugador creado.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             athlete_data = athlete.model_dump(exclude_unset=True)
 
@@ -35,6 +57,14 @@ class PlayerService:
             )
 
     async def list_athletes(self) -> list[AthleteResponse]:
+        """
+        Obtiene la lista de todos los jugadores registrados.
+
+        Returns:
+            list[AthleteResponse]: Lista de jugadores.
+        Raises:
+            HTTPException: Si ocurre un error al obtener los jugadores.
+        """
         try:
             athletes = await self.repo.list()
             return [
@@ -53,6 +83,16 @@ class PlayerService:
             )
 
     async def get_athlete(self, athlete_id: PydanticObjectId) -> AthleteResponse:
+        """
+        Obtiene un jugador por su ID.
+
+        Args:
+            athlete_id (PydanticObjectId): ID del jugador.
+        Returns:
+            AthleteResponse: Jugador encontrado.
+        Raises:
+            HTTPException: Si el jugador no existe.
+        """
         athlete = await self.repo.get_by_id(athlete_id)
         if not athlete:
             raise HTTPException(
@@ -68,6 +108,17 @@ class PlayerService:
         )
 
     async def update_athlete(self, athlete_id: PydanticObjectId, athlete: AthleteUpdate) -> AthleteResponse:
+        """
+        Actualiza los datos de un jugador existente.
+
+        Args:
+            athlete_id (PydanticObjectId): ID del jugador a actualizar.
+            athlete (AthleteUpdate): Datos a actualizar.
+        Returns:
+            AthleteResponse: Jugador actualizado.
+        Raises:
+            HTTPException: Si el jugador no existe.
+        """
         db_athlete = await self.repo.get_by_id(athlete_id)
         if not db_athlete:
             raise HTTPException(
@@ -86,6 +137,14 @@ class PlayerService:
         )
 
     async def delete_athlete(self, athlete_id: PydanticObjectId) -> None:
+        """
+        Elimina un jugador por su ID.
+
+        Args:
+            athlete_id (PydanticObjectId): ID del jugador a eliminar.
+        Raises:
+            HTTPException: Si el jugador no existe.
+        """
         deleted = await self.repo.delete(athlete_id)
         if not deleted:
             raise HTTPException(

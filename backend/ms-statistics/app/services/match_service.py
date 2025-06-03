@@ -1,4 +1,9 @@
-# app/services/match_service.py - VERSIÓN CORREGIDA
+"""
+Servicio para la gestión de partidos en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar partidos, así como la conversión de identificadores de cadena a ObjectId para integridad con MongoDB.
+"""
+
 from app.repositories.match_repository import MatchRepository
 from app.schemas.match_schema import MatchCreate, MatchUpdate, MatchResponse
 from beanie import PydanticObjectId
@@ -9,11 +14,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 class MatchService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de partidos.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de partidos.
+        """
         self.repo = MatchRepository()
 
     def _convert_string_ids_to_objectid(self, data: dict) -> dict:
-        """Convierte string IDs a ObjectId para almacenar en MongoDB"""
+        """
+        Convierte los IDs en formato string a ObjectId para almacenar en MongoDB.
+
+        Args:
+            data (dict): Diccionario con los datos del partido.
+        Returns:
+            dict: Diccionario con los IDs convertidos a ObjectId.
+        """
         converted_data = data.copy()
         if converted_data.get('season_id'):
             converted_data['season_id'] = ObjectId(converted_data['season_id'])
@@ -24,6 +42,16 @@ class MatchService:
         return converted_data
 
     async def create_match(self, match: MatchCreate) -> MatchResponse:
+        """
+        Crea un nuevo partido en la base de datos.
+
+        Args:
+            match (MatchCreate): Datos del partido a crear.
+        Returns:
+            MatchResponse: Partido creado.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             match_data = match.model_dump(exclude_unset=True)
             match_data = self._convert_string_ids_to_objectid(match_data)
@@ -43,6 +71,14 @@ class MatchService:
             )
 
     async def list_matches(self) -> list[MatchResponse]:
+        """
+        Obtiene la lista de todos los partidos registrados.
+
+        Returns:
+            list[MatchResponse]: Lista de partidos.
+        Raises:
+            HTTPException: Si ocurre un error al obtener los partidos.
+        """
         try:
             matches = await self.repo.list()
             return [
@@ -62,6 +98,16 @@ class MatchService:
             )
 
     async def get_match(self, match_id: PydanticObjectId) -> MatchResponse:
+        """
+        Obtiene un partido por su ID.
+
+        Args:
+            match_id (PydanticObjectId): ID del partido.
+        Returns:
+            MatchResponse: Partido encontrado.
+        Raises:
+            HTTPException: Si el partido no existe.
+        """
         match = await self.repo.get_by_id(match_id)
         if not match:
             raise HTTPException(
@@ -77,6 +123,17 @@ class MatchService:
         )
 
     async def update_match(self, match_id: PydanticObjectId, match: MatchUpdate) -> MatchResponse:
+        """
+        Actualiza los datos de un partido existente.
+
+        Args:
+            match_id (PydanticObjectId): ID del partido a actualizar.
+            match (MatchUpdate): Datos a actualizar.
+        Returns:
+            MatchResponse: Partido actualizado.
+        Raises:
+            HTTPException: Si el partido no existe.
+        """
         db_match = await self.repo.get_by_id(match_id)
         if not db_match:
             raise HTTPException(
@@ -95,6 +152,14 @@ class MatchService:
         )
 
     async def delete_match(self, match_id: PydanticObjectId) -> None:
+        """
+        Elimina un partido por su ID.
+
+        Args:
+            match_id (PydanticObjectId): ID del partido a eliminar.
+        Raises:
+            HTTPException: Si el partido no existe.
+        """
         deleted = await self.repo.delete(match_id)
         if not deleted:
             raise HTTPException(

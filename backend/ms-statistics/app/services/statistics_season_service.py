@@ -1,3 +1,9 @@
+"""
+Servicio para la gestión de estadísticas de temporada en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar estadísticas de temporada, así como la conversión de identificadores de referencia a ObjectId para integridad con MongoDB.
+"""
+
 import logging
 from beanie import PydanticObjectId
 from fastapi import HTTPException, status
@@ -13,10 +19,26 @@ from app.schemas.statistics_season_schema import (
 logger = logging.getLogger(__name__)
 
 class StatisticSeasonService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de estadísticas de temporada.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de estadísticas de temporada.
+        """
         self.repo = StatisticSeasonRepository()
 
     async def create_statistic_season(self, stat: StatisticSeasonCreate) -> StatisticSeasonResponse:
+        """
+        Crea una nueva estadística de temporada en la base de datos.
+
+        Args:
+            stat (StatisticSeasonCreate): Datos de la estadística a crear.
+        Returns:
+            StatisticSeasonResponse: Estadística de temporada creada.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             stat_data = stat.model_dump(exclude_unset=True)
 
@@ -48,6 +70,14 @@ class StatisticSeasonService:
             )
 
     async def list_statistic_seasons(self) -> list[StatisticSeasonResponse]:
+        """
+        Obtiene la lista de todas las estadísticas de temporada registradas.
+
+        Returns:
+            list[StatisticSeasonResponse]: Lista de estadísticas de temporada.
+        Raises:
+            HTTPException: Si ocurre un error al obtener las estadísticas.
+        """
         try:
             stats = await self.repo.list()
             return [
@@ -72,6 +102,16 @@ class StatisticSeasonService:
             )
 
     async def get_statistic_season(self, stat_id: PydanticObjectId) -> StatisticSeasonResponse:
+        """
+        Obtiene una estadística de temporada por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística de temporada.
+        Returns:
+            StatisticSeasonResponse: Estadística de temporada encontrada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         stat = await self.repo.get_by_id(stat_id)
         if not stat:
             raise HTTPException(status_code=404, detail="StatisticSeason not found")
@@ -89,6 +129,17 @@ class StatisticSeasonService:
         )
 
     async def update_statistic_season(self, stat_id: PydanticObjectId, stat: StatisticSeasonUpdate) -> StatisticSeasonResponse:
+        """
+        Actualiza los datos de una estadística de temporada existente.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a actualizar.
+            stat (StatisticSeasonUpdate): Datos a actualizar.
+        Returns:
+            StatisticSeasonResponse: Estadística de temporada actualizada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         db_stat = await self.repo.get_by_id(stat_id)
         if not db_stat:
             raise HTTPException(status_code=404, detail="StatisticSeason not found")
@@ -116,8 +167,14 @@ class StatisticSeasonService:
         )
 
     async def delete_statistic_season(self, stat_id: PydanticObjectId) -> None:
+        """
+        Elimina una estadística de temporada por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a eliminar.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         deleted = await self.repo.delete(stat_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="StatisticSeason not found")
-
-statistic_season_service = StatisticSeasonService()
