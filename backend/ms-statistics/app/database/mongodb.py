@@ -1,3 +1,9 @@
+"""
+Módulo de conexión y gestión de la base de datos MongoDB para la aplicación de estadísticas deportivas.
+
+Incluye la inicialización de Beanie con todos los modelos, la gestión de la conexión asíncrona y utilidades para obtener la base de datos.
+"""
+
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.config import settings
 import logging
@@ -22,9 +28,15 @@ from app.models.statistic_team import StatisticTeam
 logger = logging.getLogger(__name__)
 
 class MongoDB:
+    """
+    Clase para gestionar la conexión y operaciones principales con MongoDB.
+    """
     client: AsyncIOMotorClient = None
     
     async def connect_to_database(self):
+        """
+        Establece la conexión asíncrona a MongoDB e inicializa Beanie con los modelos de la aplicación.
+        """
         logger.info("Conectando a MongoDB...")
         try:
             self.client = AsyncIOMotorClient(settings.MONGO_URL)
@@ -44,12 +56,23 @@ class MongoDB:
             raise
 
     async def close_database_connection(self):
+        """
+        Cierra la conexión a la base de datos MongoDB.
+        """
         logger.info("Cerrando conexión a MongoDB...")
         if self.client:
             self.client.close()
             logger.info("Conexión a MongoDB cerrada")
 
     def get_database(self):
+        """
+        Obtiene la base de datos por defecto de la conexión actual.
+
+        Returns:
+            Database: Instancia de la base de datos MongoDB.
+        Raises:
+            RuntimeError: Si no hay conexión establecida.
+        """
         if not self.client:
             raise RuntimeError("No hay conexión a MongoDB establecida")
         return self.client.get_default_database()
@@ -57,10 +80,19 @@ class MongoDB:
 mongodb = MongoDB()
 
 async def connect_to_mongo():
+    """
+    Inicializa la conexión global a MongoDB.
+    """
     await mongodb.connect_to_database()
 
 async def close_mongo_connection():
+    """
+    Cierra la conexión global a MongoDB.
+    """
     await mongodb.close_database_connection()
 
 def get_database():
+    """
+    Devuelve la base de datos MongoDB actualmente conectada.
+    """
     return mongodb.get_database()

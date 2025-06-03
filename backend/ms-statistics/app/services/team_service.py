@@ -1,4 +1,9 @@
-# app/services/team_service.py - VERSIÓN CORREGIDA
+"""
+Servicio para la gestión de equipos en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar equipos, así como la creación automática de la estadística de equipo al registrar un nuevo equipo.
+"""
+
 from app.repositories.team_repository import TeamRepository
 from app.schemas.team_schema import TeamCreate, TeamUpdate, TeamResponse
 from beanie import PydanticObjectId
@@ -10,10 +15,26 @@ from app.schemas.statistics_team_schema import StatisticTeamCreate
 logger = logging.getLogger(__name__)
 
 class TeamService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de equipos.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de equipos.
+        """
         self.repo = TeamRepository()
 
     async def create_team(self, team: TeamCreate) -> TeamResponse:
+        """
+        Crea un nuevo equipo en la base de datos y su estadística asociada.
+
+        Args:
+            team (TeamCreate): Datos del equipo a crear.
+        Returns:
+            TeamResponse: Equipo creado.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             team_data = team.model_dump(exclude_unset=True)
             doc = await self.repo.create(team_data)
@@ -36,6 +57,14 @@ class TeamService:
             )
 
     async def list_teams(self) -> list[TeamResponse]:
+        """
+        Obtiene la lista de todos los equipos registrados.
+
+        Returns:
+            list[TeamResponse]: Lista de equipos.
+        Raises:
+            HTTPException: Si ocurre un error al obtener los equipos.
+        """
         try:
             teams = await self.repo.list()
             return [
@@ -55,6 +84,16 @@ class TeamService:
             )
 
     async def get_team(self, team_id: PydanticObjectId) -> TeamResponse:
+        """
+        Obtiene un equipo por su ID.
+
+        Args:
+            team_id (PydanticObjectId): ID del equipo.
+        Returns:
+            TeamResponse: Equipo encontrado.
+        Raises:
+            HTTPException: Si el equipo no existe.
+        """
         team = await self.repo.get_by_id(team_id)
         if not team:
             raise HTTPException(
@@ -71,6 +110,17 @@ class TeamService:
         )
 
     async def update_team(self, team_id: PydanticObjectId, team: TeamUpdate) -> TeamResponse:
+        """
+        Actualiza los datos de un equipo existente.
+
+        Args:
+            team_id (PydanticObjectId): ID del equipo a actualizar.
+            team (TeamUpdate): Datos a actualizar.
+        Returns:
+            TeamResponse: Equipo actualizado.
+        Raises:
+            HTTPException: Si el equipo no existe.
+        """
         db_team = await self.repo.get_by_id(team_id)
         if not db_team:
             raise HTTPException(
@@ -90,6 +140,14 @@ class TeamService:
         )
 
     async def delete_team(self, team_id: PydanticObjectId) -> None:
+        """
+        Elimina un equipo por su ID.
+
+        Args:
+            team_id (PydanticObjectId): ID del equipo a eliminar.
+        Raises:
+            HTTPException: Si el equipo no existe.
+        """
         deleted = await self.repo.delete(team_id)
         if not deleted:
             raise HTTPException(
