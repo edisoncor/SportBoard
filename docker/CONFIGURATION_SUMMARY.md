@@ -68,7 +68,7 @@
 - 8001: Kong Admin
 - 8002: Kong GUI
 - 8009: ms-catalog (directo)
-- 8010: ms-auth-service (directo)
+- 8011: ms-auth-service (directo)
 - 5433: auth-database (directo)
 - 5672: RabbitMQ (directo)
 - 15672: RabbitMQ Admin Web
@@ -78,7 +78,7 @@
 - Kong Admin: http://localhost:8001
 - Kong GUI: http://localhost:8002
 - ms-catalog directo: http://localhost:8009
-- ms-auth-service directo: http://localhost:8010
+- ms-auth-service directo: http://localhost:8011
 - RabbitMQ Admin: http://localhost:15672
 
 ## APIs a través de Kong

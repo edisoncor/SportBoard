@@ -42,13 +42,13 @@ def get_user_role_names(user:User)->list:
     """
     Returns a list of role names for the given user.
     """
-    return user.roles.values_list('name', flat=True)
+    return list(user.role.all().values_list('name', flat=True))
 
 def is_admin_user(user:User)->bool:
     """
     Check an authenticated user is an admin or not
     """
-    return user.is_admin or user.roles.filter(name=SystemRoleEnum.SUPERADMIN).exists() 
+    return user.is_admin or user.role.filter(name=SystemRoleEnum.SUPERADMIN).exists()
 
 
 class IsAdmin(permissions.BasePermission):

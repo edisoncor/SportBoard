@@ -41,7 +41,7 @@ def authenticate_user(api_client, active_user: User,auth_user_password):
         active_user.save()
         if permissions:
             created_role = RoleFactory(permissions=permissions)
-            active_user.roles.add(created_role)
+            active_user.role.add(created_role)
         active_user.refresh_from_db()
         url = reverse("auth:login")
         data = {

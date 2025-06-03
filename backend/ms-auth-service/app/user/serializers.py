@@ -35,7 +35,7 @@ class CustomObtainTokenPairSerializer(TokenObtainPairSerializer):
         token['firstname'] = user.firstname
         token['lastname'] = user.lastname
         token["email"] = user.email
-        token["roles"] = list(user.roles.all().values_list('name', flat=True))
+        token["roles"] = list(user.role.all().values_list('name', flat=True))
         return token
 
 
@@ -93,7 +93,7 @@ class EmailSerializer(serializers.Serializer):
 
 
 class ListUserSerializer(serializers.ModelSerializer):
-    roles = serializers.SlugRelatedField(
+    role = serializers.SlugRelatedField(
         many=True, queryset=Role.objects.all(), slug_field='name')
 
     class Meta:
@@ -106,13 +106,13 @@ class ListUserSerializer(serializers.ModelSerializer):
             "image",
             "verified",
             "created_at",
-            "roles",
+            "role",
             "is_admin",
         ]
 
         extra_kwargs = {
             "verified": {"read_only": True},
-            "roles": {"read_only": True},
+            "role": {"read_only": True},
         }
 
     def to_representation(self, instance):
@@ -120,7 +120,7 @@ class ListUserSerializer(serializers.ModelSerializer):
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    roles = serializers.SlugRelatedField(
+    role = serializers.SlugRelatedField(
         many=True, queryset=Role.objects.all(), slug_field='name',
         error_messages={
             'does_not_exist': "No matching Role found for:'{value}'",
@@ -134,34 +134,34 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             "lastname",
             "image",
             "verified",
-            "roles"
+            "role"
         ]
         extra_kwargs = {
             "last_login": {"read_only": True},
             "verified": {"read_only": True},
-            "roles": {"required": False},
+            "role": {"required": False},
         }
 
     def validate(self, attrs: dict):
         """Only allow admin to modify/assign role"""
         auth_user: User = self.context["request"].user
-        new_role_assignment = attrs.get("roles", None)
+        new_role_assignment = attrs.get("role", None)
         if new_role_assignment and is_admin_user(auth_user):
             pass
         else:
-            attrs.pop('roles', None)
+            attrs.pop('role', None)
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
         """Prevent user from updating password"""
         if validated_data.get("password", False):
             validated_data.pop('password')
-        roles = validated_data.pop('roles', None)
+        roles = validated_data.pop('role', None)
         instance = super().update(instance, validated_data)
         if roles is not None:
-            instance.roles.clear()
+            instance.role.clear()
             for role in roles:
-                instance.roles.add(role)
+                instance.role.add(role)
         return instance
 
 
@@ -176,7 +176,7 @@ class BasicUserInfoSerializer(serializers.ModelSerializer):
 
 class CreateUserSerializer(serializers.ModelSerializer):
     """Serializer for creating user object"""
-    roles = serializers.SlugRelatedField(
+    role = serializers.SlugRelatedField(
         many=True, queryset=Role.objects.all(), slug_field='name',
         error_messages={
             'does_not_exist': "No matching Role found for:'{value}'",
@@ -192,7 +192,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "verified",
             "phone_number",
             "password",
-            "roles",
+            "role",
         )
 
         extra_kwargs = {
@@ -201,7 +201,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "firstname": {"required": True},
             "lastname": {"required": True},
             "password": {"required": True, "write_only": True},
-            "roles": {"required": True},
+            "role": {"required": True},
         }
 
 

@@ -45,8 +45,7 @@ class CustomUserManager(BaseUserManager):
         # Asignar rol SUPERADMIN
         try:
             superadmin_role = Role.objects.get(name=SystemRoleEnum.SUPERADMIN)
-            user.role = superadmin_role
-            user.save()
+            user.role.add(superadmin_role)
         except Role.DoesNotExist:
             print(f"WARNING: Role {SystemRoleEnum.SUPERADMIN} does not exist. Creating superuser without role.")
         
@@ -54,17 +53,16 @@ class CustomUserManager(BaseUserManager):
     
     def create_app_user(self, email, **extra_fields):
         from .utils import create_token_and_send_user_email
-        roles = extra_fields.pop('roles', None)
+        roles = extra_fields.pop('role', None)
         if not email:
             raise ValueError(_("The Email must be set"))
         email = self.normalize_email(email)
         user = self.model(email=email,  **extra_fields)
         user.save()
         
-        # Corregir: usar role en lugar de roles
-        if roles is not None and len(roles) > 0:
-            user.role = roles[0]  # Asignar el primer rol de la lista
-            user.save()
+        # Asignar roles si se proporcionan
+        if roles is not None:
+            user.role.set(roles)
             
         create_token_and_send_user_email(user, token_type = TokenEnum.ACCOUNT_VERIFICATION)
         return user

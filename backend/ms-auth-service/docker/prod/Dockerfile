@@ -25,4 +25,10 @@ RUN chmod +x ./entrypoint.sh
 
 COPY ./app /app
 
+# Expose port 8011
+EXPOSE 8011
+
 ENTRYPOINT [ "./entrypoint.sh" ]
+
+# Default command to run the server on port 8011
+CMD ["gunicorn", "--bind", "0.0.0.0:8011", "--workers", "3", "core.wsgi:application"]

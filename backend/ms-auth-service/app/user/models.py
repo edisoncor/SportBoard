@@ -61,10 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
 
-    # Remove ManyToManyField for roles
-    # roles = models.ManyToManyField(Role)
-
-    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
+    # ManyToManyField for roles (named 'role' but allows multiple roles)
+    role = models.ManyToManyField(Role, blank=True, related_name='users')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -139,7 +139,7 @@ class PasswordChangeView(viewsets.GenericViewSet):
 
 class UserViewsets(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all().prefetch_related(
-        'roles')
+        'role')
     serializer_class = ListUserSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "post", "patch", "delete"]
