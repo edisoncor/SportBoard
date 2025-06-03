@@ -1,41 +1,53 @@
 name: SportBoard-container
 
 services:
-  # Base de datos para Kong
-  kong-database:
-    extends:
-      file: ./api-gateway/docker-compose.override.yml
-      service: kong-database
+    # Base de datos para Kong
+    kong-database:
+        extends:
+            file: ./api-gateway/docker-compose.override.yml
+            service: kong-database
 
-  # Migraciones de Kong
-  kong-migrations:
-    extends:
-      file: ./api-gateway/docker-compose.override.yml
-      service: kong-migrations
+    # Migraciones de Kong
+    kong-migrations:
+        extends:
+            file: ./api-gateway/docker-compose.override.yml
+            service: kong-migrations
 
-  # API Gateway Kong
-  kong:
-    extends:
-      file: ./api-gateway/docker-compose.override.yml
-      service: kong
+    # API Gateway Kong
+    kong:
+        extends:
+            file: ./api-gateway/docker-compose.override.yml
+            service: kong
 
-  # Microservicio de catálogo
-  ms-catalog:
-    extends:
-      file: ./backend/ms-catalog/docker-compose.override.yml
-      service: catalogs
+    # Microservicio de catálogo
+    ms-catalog:
+        extends:
+            file: ./backend/ms-catalog/docker-compose.override.yml
+            service: catalogs
 
+    # Microservicio de estadisticas
+    ms-statistics:
+        extends:
+            file: ./backend/ms-statistics/docker-compose.override.yml
+            service: ms-statistics
 
-  # RabbitMQ para mensajería
-  rabbitmq:
-    extends:
-      file: ./message-broker/docker-compose.override.yml
-      service: rabbitmq
+    # Servicio de base de datos para ms-statistics
+    mongo:
+        extends:
+            file: ./backend/ms-statistics/docker-compose.override.yml
+            service: mongo
+
+    # RabbitMQ para mensajería
+    rabbitmq:
+        extends:
+            file: ./message-broker/docker-compose.override.yml
+            service: rabbitmq
 
 networks:
-  sportboard-network:
-    name: sportboard-network
-    driver: bridge
+    sportboard-network:
+        name: sportboard-network
+        driver: bridge
 
 volumes:
-  kong-db-data:
+    kong-db-data:
+    mongo_data:
