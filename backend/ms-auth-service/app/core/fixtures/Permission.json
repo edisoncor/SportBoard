@@ -1,0 +1,238 @@
+[
+    {
+        "model": "user.permission",
+        "pk": "07eafffd-679d-42c5-966f-89cd7e257f37",
+        "fields": {
+            "created_at": "2023-04-30T17:21:54.559Z",
+            "updated_at": "2023-04-30T17:21:54.559Z",
+            "name": "GenerateReport"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "f190f350-b30e-4ec1-9b3c-0e77e464d810",
+        "fields": {
+            "created_at": "2023-04-30T17:21:41.813Z",
+            "updated_at": "2023-04-30T17:21:44.195Z",
+            "name": "ViewTransaction"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "9a768e31-14c2-4a67-a8d8-2b4432b46c77",
+        "fields": {
+            "created_at": "2023-06-10T10:00:00.000Z",
+            "updated_at": "2023-06-10T10:00:00.000Z",
+            "name": "ViewInstitution"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "c2e90e5c-7c75-4daf-82b2-1a9e856b1c7a",
+        "fields": {
+            "created_at": "2023-06-10T10:01:00.000Z",
+            "updated_at": "2023-06-10T10:01:00.000Z",
+            "name": "CreateInstitution"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "d6e91f6d-64b9-4a8c-9cbf-ad669e2b273b",
+        "fields": {
+            "created_at": "2023-06-10T10:02:00.000Z",
+            "updated_at": "2023-06-10T10:02:00.000Z",
+            "name": "UpdateInstitution"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "e9f12c8a-5a91-4c98-bd1e-48f7e7f001a3",
+        "fields": {
+            "created_at": "2023-06-10T10:03:00.000Z",
+            "updated_at": "2023-06-10T10:03:00.000Z",
+            "name": "DeleteInstitution"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "a3c45d9e-7c13-4ea9-b65d-56f8a1b9c620",
+        "fields": {
+            "created_at": "2023-06-15T10:00:00.000Z",
+            "updated_at": "2023-06-15T10:00:00.000Z",
+            "name": "ViewAdministration"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "b4d56e0f-8d24-5fba-c76e-67g9b2c0d731",
+        "fields": {
+            "created_at": "2023-06-15T10:01:00.000Z",
+            "updated_at": "2023-06-15T10:01:00.000Z",
+            "name": "CreateAdministration"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "c5e67f1g-9e35-6gca-d87f-78h0c3d1e842",
+        "fields": {
+            "created_at": "2023-06-15T10:02:00.000Z",
+            "updated_at": "2023-06-15T10:02:00.000Z",
+            "name": "UpdateAdministration"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "d6f78g2h-0f46-7hdb-e98g-89i1d4e2f953",
+        "fields": {
+            "created_at": "2023-06-15T10:03:00.000Z",
+            "updated_at": "2023-06-15T10:03:00.000Z",
+            "name": "DeleteAdministration"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "e7g89h3i-1f57-8iec-f09h-90j2e5f3g064",
+        "fields": {
+            "created_at": "2023-06-20T10:00:00.000Z",
+            "updated_at": "2023-06-20T10:00:00.000Z",
+            "name": "ViewDepartment"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "f8h90i4j-2g68-9jfd-g10i-01k3f6g4h175",
+        "fields": {
+            "created_at": "2023-06-20T10:01:00.000Z",
+            "updated_at": "2023-06-20T10:01:00.000Z",
+            "name": "CreateDepartment"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "g9i01j5k-3h79-0kge-h21j-12l4g7h5i286",
+        "fields": {
+            "created_at": "2023-06-20T10:02:00.000Z",
+            "updated_at": "2023-06-20T10:02:00.000Z",
+            "name": "UpdateDepartment"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "h0j12k6l-4i80-1lhf-i32k-23m5h8i6j397",
+        "fields": {
+            "created_at": "2023-06-20T10:03:00.000Z",
+            "updated_at": "2023-06-20T10:03:00.000Z",
+            "name": "DeleteDepartment"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "i1k23l7m-5j91-2mig-j43l-34n6i9j7k408",
+        "fields": {
+            "created_at": "2023-06-25T10:00:00.000Z",
+            "updated_at": "2023-06-25T10:00:00.000Z",
+            "name": "ViewHealth"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "j2l34m8n-6k02-3nih-k54m-45o7j0k8l519",
+        "fields": {
+            "created_at": "2023-06-25T10:01:00.000Z",
+            "updated_at": "2023-06-25T10:01:00.000Z",
+            "name": "CreateHealth"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "k3m45n9o-7l13-4oii-l65n-56p8k1l9m620",
+        "fields": {
+            "created_at": "2023-06-25T10:02:00.000Z",
+            "updated_at": "2023-06-25T10:02:00.000Z",
+            "name": "UpdateHealth"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "l4n56o0p-8m24-5pjj-m76o-67q9l2m0n731",
+        "fields": {
+            "created_at": "2023-06-25T10:03:00.000Z",
+            "updated_at": "2023-06-25T10:03:00.000Z",
+            "name": "DeleteHealth"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "m5o67p1q-9n35-6qkk-n87p-78r0m3n1o842",
+        "fields": {
+            "created_at": "2023-06-25T10:03:00.000Z",
+            "updated_at": "2023-06-25T10:03:00.000Z",
+            "name": "ViewPerformance"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "b9a4f024-72dc-4c30-b79f-3a9d44f8de2f",
+        "fields": {
+            "created_at": "2023-06-25T10:03:00.000Z",
+            "updated_at": "2023-06-25T10:03:00.000Z",
+            "name": "CreatePerformance"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "3d6ac6ab-65a2-4e56-ae1e-df6a4f32a9d2",
+        "fields": {
+            "created_at": "2023-06-25T10:03:00.000Z",
+            "updated_at": "2023-06-25T10:03:00.000Z",
+            "name": "UpdatePerformance"
+        }
+    },
+    {
+        "model": "user.permission",
+        "pk": "88a7b15e-8ad4-4df7-bce6-409d597f6f88",
+        "fields": {
+            "created_at": "2023-06-25T10:03:00.000Z",
+            "updated_at": "2023-06-25T10:03:00.000Z",
+            "name": "DeletePerformance"
+        }
+    },
+    {
+    "model": "user.permission",
+    "pk": "m5o67p1q-9n35-6qkk-n87p-78r0m3n1o842",
+    "fields": {
+      "created_at": "2023-07-10T10:00:00.000Z",
+      "updated_at": "2023-07-10T10:00:00.000Z",
+      "name": "ViewSportProfile"
+    }
+  },
+  {
+    "model": "user.permission",
+    "pk": "n6p78q2r-0o46-7rll-o98q-89s1n4o2p953",
+    "fields": {
+      "created_at": "2023-07-10T10:01:00.000Z",
+      "updated_at": "2023-07-10T10:01:00.000Z",
+      "name": "CreateSportProfile"
+    }
+  },
+  {
+    "model": "user.permission",
+    "pk": "o7q89r3s-1p57-8smm-p09r-90t2o5p3q064",
+    "fields": {
+      "created_at": "2023-07-10T10:02:00.000Z",
+      "updated_at": "2023-07-10T10:02:00.000Z",
+      "name": "UpdateSportProfile"
+    }
+  },
+  {
+    "model": "user.permission",
+    "pk": "p8r90s4t-2q68-9tnn-q10s-01u3p6q4r175",
+    "fields": {
+      "created_at": "2023-07-10T10:03:00.000Z",
+      "updated_at": "2023-07-10T10:03:00.000Z",
+      "name": "DeleteSportProfile"
+    }
+  }
+
+
+]

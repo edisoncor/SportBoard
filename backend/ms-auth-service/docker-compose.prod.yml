@@ -1,0 +1,276 @@
+version: '3.8'
+
+services:
+  # Kong Database
+  kong-database:
+    image: postgres:13
+    container_name: kong-database
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+      POSTGRES_DB: kong
+    volumes:
+      - kong_data:/var/lib/postgresql/data
+    networks:
+      - kong-net
+    restart: unless-stopped
+
+  # Kong Database Migration
+  kong-migration:
+    image: kong:3.4
+    container_name: kong-migration
+    command: "kong migrations bootstrap"
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PG_DATABASE: kong
+    depends_on:
+      - kong-database
+    networks:
+      - kong-net
+    restart: "no"
+
+  # Kong Gateway
+  kong:
+    image: kong:3.4
+    container_name: kong-gateway
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PG_DATABASE: kong
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+    ports:
+      - "8000:8000"  # Kong Proxy
+      - "8001:8001"  # Kong Admin API
+      - "8002:8002"  # Kong Manager
+    depends_on:
+      - kong-database
+      - kong-migration
+    networks:
+      - kong-net
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Konga - Kong Admin UI
+  konga:
+    image: pantsel/konga:latest
+    container_name: konga
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-database
+      DB_USER: kong
+      DB_PASSWORD: kong
+      DB_DATABASE: konga
+      NODE_ENV: production
+    ports:
+      - "1337:1337"
+    depends_on:
+      - kong-database
+    networks:
+      - kong-net
+    restart: unless-stopped
+
+  # Application Database
+  db:
+    image: postgres:13
+    container_name: sportboard-db
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-sportboard_db}
+      POSTGRES_USER: ${DATABASE_USER:-sportboard_user}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-sportboard_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-sportboard_user}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sportboard-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: sportboard-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-admin123}
+    ports:
+      - "15672:15672"  # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Django API
+  api:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    container_name: sportboard-api
+    ports:
+      - "8011:8011"
+    environment:
+      - DEBUG=0
+      - ENVIRONMENT=prod
+      - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,kong}
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8011/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Celery Worker
+  celery:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    container_name: sportboard-celery
+    command: celery -A core worker -l info
+    environment:
+      - DEBUG=0
+      - ENVIRONMENT=prod
+      - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
+      - SECRET_KEY=${SECRET_KEY}
+    volumes:
+      - media_volume:/app/media
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Celery Beat
+  celery-beat:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    container_name: sportboard-celery-beat
+    command: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DEBUG=0
+      - ENVIRONMENT=prod
+      - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
+      - SECRET_KEY=${SECRET_KEY}
+    volumes:
+      - media_volume:/app/media
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Flower - Celery Monitoring
+  flower:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    container_name: sportboard-flower
+    command: celery -A core flower --port=5555
+    environment:
+      - DEBUG=0
+      - ENVIRONMENT=prod
+      - DATABASE_URL=postgresql://${DATABASE_USER:-sportboard_user}:${DATABASE_PASSWORD:-sportboard_pass}@db:5432/${DATABASE_NAME:-sportboard_db}
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672
+      - SECRET_KEY=${SECRET_KEY}
+      - FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH:-admin:admin123}
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Nginx (Optional - for serving static files)
+  nginx:
+    image: nginx:alpine
+    container_name: sportboard-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/var/www/static:ro
+      - media_volume:/var/www/media:ro
+    depends_on:
+      - api
+    networks:
+      - app-network
+      - kong-net
+    restart: unless-stopped
+
+volumes:
+  kong_data:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+  static_volume:
+  media_volume:
+
+networks:
+  kong-net:
+    driver: bridge
+  app-network:
+    driver: bridge

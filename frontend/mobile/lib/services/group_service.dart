@@ -2,7 +2,9 @@ import 'package:http/http.dart' as http;
 import '../models/group.dart';
 import '../core/utils/api_endpoints.dart';
 
+/// Service class for handling group-related API operations.
 class GroupService {
+  /// Returns a list of example groups without querying the API.
   static Future<List<Group>> getGroups() async {
     // Datos de ejemplo para devolver sin consultar a la API
     List<Group> exampleGroups = [
@@ -45,7 +47,8 @@ class GroupService {
     return Future.value(exampleGroups);
   }
 
-  // Método para verificar si se puede acceder al endpoint
+  /// Checks if the groups endpoint is accessible by making a GET request.
+  /// Returns true if the endpoint is reachable and returns status 200, otherwise false.
   static Future<bool> canAccessEndpoint() async {
     try {
       final response = await http.get(Uri.parse(ApiEndpoints.groups));
