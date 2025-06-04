@@ -20,6 +20,24 @@ services:
             strip_path: false
             methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
+  - name: ms-auth-service
+    url: http://ms-auth-service:8011
+    routes:
+      - name: ms-auth-route
+        paths:
+          - /auth
+        strip_path: true
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
+  - name: ms-competencies
+    url: http://ms-competencies:8010
+    routes:
+      - name: ms-competencies-route
+        paths:
+          - /competencies
+        strip_path: false
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+
     - name: ms-statistics-service
       url: http://ms-statistics:8012
       routes:
