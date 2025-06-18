@@ -1,3 +1,9 @@
+"""
+Servicio para la gestión de estadísticas individuales en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar estadísticas individuales de atletas, así como la conversión de identificadores de atleta a ObjectId para integridad con MongoDB.
+"""
+
 import logging
 from beanie import PydanticObjectId
 from fastapi import HTTPException, status
@@ -13,10 +19,26 @@ from app.schemas.statistic_individual_schema import (
 logger = logging.getLogger(__name__)
 
 class StatisticIndividualService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de estadísticas individuales.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de estadísticas individuales.
+        """
         self.repo = StatisticIndividualRepository()
 
     async def create_statistic(self, data: StatisticIndividualCreate) -> StatisticIndividualResponse:
+        """
+        Crea una nueva estadística individual en la base de datos.
+
+        Args:
+            data (StatisticIndividualCreate): Datos de la estadística a crear.
+        Returns:
+            StatisticIndividualResponse: Estadística individual creada.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             stat_data = data.model_dump(exclude_unset=True)
 
@@ -41,6 +63,14 @@ class StatisticIndividualService:
             raise HTTPException(status_code=500, detail="Error creating statistic individual")
 
     async def list_statistics(self) -> list[StatisticIndividualResponse]:
+        """
+        Obtiene la lista de todas las estadísticas individuales registradas.
+
+        Returns:
+            list[StatisticIndividualResponse]: Lista de estadísticas individuales.
+        Raises:
+            HTTPException: Si ocurre un error al obtener las estadísticas.
+        """
         try:
             records = await self.repo.list()
             return [
@@ -62,6 +92,16 @@ class StatisticIndividualService:
             raise HTTPException(status_code=500, detail="Error listing statistic individual")
 
     async def get_statistic(self, stat_id: PydanticObjectId) -> StatisticIndividualResponse:
+        """
+        Obtiene una estadística individual por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística individual.
+        Returns:
+            StatisticIndividualResponse: Estadística individual encontrada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         stat = await self.repo.get_by_id(stat_id)
         if not stat:
             raise HTTPException(status_code=404, detail="Statistic not found")
@@ -80,6 +120,17 @@ class StatisticIndividualService:
         )
 
     async def update_statistic(self, stat_id: PydanticObjectId, data: StatisticIndividualUpdate) -> StatisticIndividualResponse:
+        """
+        Actualiza los datos de una estadística individual existente.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a actualizar.
+            data (StatisticIndividualUpdate): Datos a actualizar.
+        Returns:
+            StatisticIndividualResponse: Estadística individual actualizada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         db_stat = await self.repo.get_by_id(stat_id)
         if not db_stat:
             raise HTTPException(status_code=404, detail="Statistic not found")
@@ -104,6 +155,14 @@ class StatisticIndividualService:
         )
 
     async def delete_statistic(self, stat_id: PydanticObjectId) -> None:
+        """
+        Elimina una estadística individual por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a eliminar.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         deleted = await self.repo.delete(stat_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="Statistic not found")

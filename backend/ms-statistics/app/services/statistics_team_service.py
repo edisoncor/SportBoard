@@ -1,4 +1,9 @@
-# app/services/statistics_team_service.py - VERSIÓN CORREGIDA
+"""
+Servicio para la gestión de estadísticas de equipo en el sistema de estadísticas deportivas.
+
+Incluye la lógica para crear, listar, obtener, actualizar y eliminar estadísticas de equipo, así como la actualización automática a partir de la tabla de posiciones y la conversión de identificadores de equipo a ObjectId para integridad con MongoDB.
+"""
+
 import logging
 from beanie import PydanticObjectId
 from fastapi import HTTPException, status
@@ -14,11 +19,24 @@ from app.schemas.statistics_team_schema import (
 logger = logging.getLogger(__name__)
 
 class StatisticTeamService:
+    """
+    Servicio que encapsula la lógica de negocio para la gestión de estadísticas de equipo.
+    """
     def __init__(self):
+        """
+        Inicializa el servicio con una instancia del repositorio de estadísticas de equipo.
+        """
         self.repo = StatisticTeamRepository()
 
     def _convert_string_ids_to_objectid(self, data: dict) -> dict:
-        """Convierte string IDs a ObjectId para almacenar en MongoDB"""
+        """
+        Convierte los IDs en formato string a ObjectId para almacenar en MongoDB.
+
+        Args:
+            data (dict): Diccionario con los datos de la estadística de equipo.
+        Returns:
+            dict: Diccionario con los IDs convertidos a ObjectId.
+        """
         converted_data = data.copy()
         
         # Convertir id_team
@@ -28,6 +46,16 @@ class StatisticTeamService:
         return converted_data
 
     async def create_statistic_team(self, stat: StatisticTeamCreate) -> StatisticTeamResponse:
+        """
+        Crea una nueva estadística de equipo en la base de datos.
+
+        Args:
+            stat (StatisticTeamCreate): Datos de la estadística a crear.
+        Returns:
+            StatisticTeamResponse: Estadística de equipo creada.
+        Raises:
+            HTTPException: Si ocurre un error durante la creación.
+        """
         try:
             # ✅ CORREGIDO: Usar model_dump() y convertir IDs
             stat_data = stat.model_dump(exclude_unset=True)
@@ -56,6 +84,14 @@ class StatisticTeamService:
             )
 
     async def list_statistic_teams(self) -> list[StatisticTeamResponse]:
+        """
+        Obtiene la lista de todas las estadísticas de equipo registradas.
+
+        Returns:
+            list[StatisticTeamResponse]: Lista de estadísticas de equipo.
+        Raises:
+            HTTPException: Si ocurre un error al obtener las estadísticas.
+        """
         try:
             stats = await self.repo.list()
             return [
@@ -80,6 +116,16 @@ class StatisticTeamService:
             )
 
     async def get_statistic_team(self, stat_id: PydanticObjectId) -> StatisticTeamResponse:
+        """
+        Obtiene una estadística de equipo por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística de equipo.
+        Returns:
+            StatisticTeamResponse: Estadística de equipo encontrada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         stat = await self.repo.get_by_id(stat_id)
         if not stat:
             raise HTTPException(
@@ -101,6 +147,17 @@ class StatisticTeamService:
         )
 
     async def update_statistic_team(self, stat_id: PydanticObjectId, stat: StatisticTeamUpdate) -> StatisticTeamResponse:
+        """
+        Actualiza los datos de una estadística de equipo existente.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a actualizar.
+            stat (StatisticTeamUpdate): Datos a actualizar.
+        Returns:
+            StatisticTeamResponse: Estadística de equipo actualizada.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         db_stat = await self.repo.get_by_id(stat_id)
         if not db_stat:
             raise HTTPException(
@@ -127,6 +184,14 @@ class StatisticTeamService:
         )
 
     async def delete_statistic_team(self, stat_id: PydanticObjectId) -> None:
+        """
+        Elimina una estadística de equipo por su ID.
+
+        Args:
+            stat_id (PydanticObjectId): ID de la estadística a eliminar.
+        Raises:
+            HTTPException: Si la estadística no existe.
+        """
         deleted = await self.repo.delete(stat_id)
         if not deleted:
             raise HTTPException(
@@ -138,6 +203,9 @@ class StatisticTeamService:
         """
         Actualiza los campos de StatisticTeam (games_played, matches_won, matches_drawn, matches_lost, points)
         a partir de los datos de una PositionTable. Si no existe StatisticTeam, lo crea automáticamente con los valores correctos.
+
+        Args:
+            position_table: Objeto PositionTable con los datos de la posición del equipo.
         """
         if not position_table.team_id:
             logger.warning("PositionTable sin team_id, omitiendo actualización de StatisticTeam")
