@@ -1,75 +1,59 @@
-# Frontend
+# Spa
 
-Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 18.2.8.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
 
-## Estructura del Proyecto
+## Development server
 
-El proyecto sigue la estructura estándar de un proyecto Angular:
-- `src/`: Contiene el código fuente de la aplicación.
-  - `app/`: Contiene el módulo principal de la aplicación y los componentes.
-    - `services/`: Contiene los servicios de la aplicación.
-    - `models/`: Contiene las clases y interfaces de modelos de datos.
-    - `calendario/`: Módulo de calendario.
-      - `calendar/`: Contiene el componente del calendario.
-      - `matchtable/`: Contiene el componente de la tabla de partidos.
-      - `sorteo/`: Contiene el componente de sorteo.
-      - `calendario-routing.module.ts`: Módulo de enrutamiento del calendario.
-      - `calendario.module.ts`: Módulo del calendario.
-    - `catalogs/`: Módulo de catálogos.
-      - `catalogs/`: Contiene el componente de catálogos.
-      - `groups/`: Contiene el componente de grupos.
-      - `dashboard/`: Contiene el componente del dashboard.
-      - `catalog-dialog/`: Contiene el componente del diálogo de catálogos.
-      - `catalogs-routing.module.ts`: Módulo de enrutamiento de catálogos.
-      - `catalogs.module.ts`: Módulo de catálogos.
-    - `shared/`: Contiene componentes y servicios compartidos.
-      - `breadcrumb/`: Contiene el componente de breadcrumb.
-      - `confirmation-dialog/`: Contiene el componente de diálogo de confirmación.
-      - `flash-message/`: Contiene el componente de mensajes flash.
-      - `shared.module.ts`: Módulo compartido.
-    - `core/`: Contiene componentes y servicios centrales.
-      - `header/`: Contiene el componente de encabezado.
-      - `footer/`: Contiene el componente de pie de página.
-      - `sidebar/`: Contiene el componente de barra lateral.
-    - `app.module.ts`: Módulo principal de la aplicación.
-    - `app.component.ts`: Componente principal de la aplicación.
-    - `app.component.html`: Plantilla del componente principal.
-    - `app.component.scss`: Estilos del componente principal.
-  - `assets/`: Contiene activos estáticos como imágenes y estilos.
-  - `environments/`: Contiene archivos de configuración de entornos.
-- `e2e/`: Contiene pruebas end-to-end.
-- `node_modules/`: Contiene dependencias de npm.
-- `dist/`: Contiene la salida de la compilación.
+To start a local development server, run:
 
-## Librerías Adicionales
+```bash
+ng serve
+```
 
-El proyecto utiliza las siguientes librerías adicionales:
-- `@angular/material`: Angular Material para componentes de UI.
-- `@angular/flex-layout`: Flex Layout para diseño responsivo.
-- `ngx-translate/core`: Para internacionalización y localización.
-- `rxjs`: Extensiones Reactivas para JavaScript.
-- `ngrx/store`: Para gestión de estado.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Servidor de Desarrollo
+## Code scaffolding
 
-Ejecuta `ng serve` para un servidor de desarrollo. Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente si cambias alguno de los archivos fuente.
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-## Generación de Código
+```bash
+ng generate component component-name
+```
 
-Ejecuta `ng generate component nombre-del-componente` para generar un nuevo componente. También puedes usar `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-## Compilación
+```bash
+ng generate --help
+```
 
-Ejecuta `ng build` para compilar el proyecto. Los artefactos de compilación se almacenarán en el directorio `dist/`.
+## Building
 
-## Ejecución de Pruebas Unitarias
+To build the project run:
 
-Ejecuta `ng test` para ejecutar las pruebas unitarias a través de [Karma](https://karma-runner.github.io).
+```bash
+ng build
+```
 
-## Ejecución de Pruebas End-to-End
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-Ejecuta `ng e2e` para ejecutar las pruebas end-to-end a través de una plataforma de tu elección. Para usar este comando, primero necesitas agregar un paquete que implemente capacidades de pruebas end-to-end.
+## Running unit tests
 
-## Más Ayuda
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-Para obtener más ayuda sobre Angular CLI usa `ng help` o visita la página [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
