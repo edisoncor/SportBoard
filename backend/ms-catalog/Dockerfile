@@ -1,5 +1,5 @@
 # Dockerfile para ms-catalog (Django)
-FROM python:3.11-slim-bookworm
+FROM python:3.12.10-slim-bookworm
 
 WORKDIR /app
 
