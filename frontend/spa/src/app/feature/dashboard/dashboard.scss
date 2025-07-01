@@ -1,0 +1,317 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../../../styles.scss' as *;
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+// Welcome Section
+.welcome-section {
+    margin-bottom: 2rem;
+    
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $dark-gray;
+        margin-bottom: 0.5rem;
+        
+        @media (max-width: $breakpoint-md) {
+            font-size: 1.75rem;
+        }
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+        color: $font-secondary-color;
+        
+        @media (max-width: $breakpoint-md) {
+            font-size: 1rem;
+        }
+    }
+}
+
+// Stats Overview
+.stats-overview {
+    margin-bottom: 2.5rem;
+    
+    .stat-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 1.25rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 1rem;
+        
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            margin-right: 1rem;
+            background-color: rgba($primary-color, 0.1);
+            
+            mat-icon {
+                font-size: 28px;
+                color: $primary-color;
+            }
+        }
+        
+        .stat-content {
+            .stat-value {
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin: 0 0 0.25rem 0;
+                color: $dark-gray;
+            }
+            
+            .stat-label {
+                font-size: 0.875rem;
+                color: $font-secondary-color;
+                margin: 0;
+            }
+        }
+    }
+}
+
+// Section Headers
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .view-all-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: none;
+        color: $primary-color;
+        font-weight: 500;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        
+        &:hover {
+            color: color.adjust($primary-color, $lightness: -15%);
+        }
+    }
+}
+
+// Upcoming Events
+.upcoming-events {
+    margin-bottom: 2.5rem;
+    
+    .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        
+        @media (max-width: $breakpoint-sm) {
+            grid-template-columns: 1fr;
+        }
+        
+        .event-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            display: flex;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            }
+            
+            .event-date {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background-color: $primary-color;
+                color: white;
+                padding: 1rem;
+                min-width: 80px;
+                
+                .day {
+                    font-size: 1.75rem;
+                    font-weight: 700;
+                    line-height: 1;
+                }
+                
+                .month {
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                }
+            }
+            
+            .event-details {
+                flex: 1;
+                padding: 1rem;
+                
+                .event-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin: 0 0 0.75rem 0;
+                    color: $dark-gray;
+                }
+                
+                .event-info {
+                    display: flex;
+                    align-items: center;
+                    margin: 0.5rem 0;
+                    color: $font-secondary-color;
+                    font-size: 0.875rem;
+                    
+                    mat-icon {
+                        font-size: 18px;
+                        margin-right: 0.5rem;
+                        color: $primary-color;
+                    }
+                }
+            }
+            
+            .event-actions {
+                padding: 1rem;
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+                
+                button {
+                    border-radius: 20px;
+                }
+            }
+        }
+    }
+}
+
+// Featured Teams
+.featured-teams {
+    margin-bottom: 2.5rem;
+    
+    .teams-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        
+        @media (max-width: $breakpoint-sm) {
+            grid-template-columns: 1fr;
+        }
+        
+        .team-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            }
+            
+            .team-logo {
+                margin-right: 1.5rem;
+                
+                img {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+            
+            .team-info {
+                flex: 1;
+                
+                .team-name {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin: 0 0 0.25rem 0;
+                    color: $dark-gray;
+                }
+                
+                .team-sport {
+                    font-size: 0.875rem;
+                    color: $font-secondary-color;
+                    margin: 0 0 1rem 0;
+                }
+                
+                .team-stats {
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    .stat-item {
+                        text-align: center;
+                        
+                        .stat-value {
+                            display: block;
+                            font-size: 1.25rem;
+                            font-weight: 700;
+                            color: $primary-color;
+                        }
+                        
+                        .stat-label {
+                            font-size: 0.75rem;
+                            color: $font-secondary-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive Adjustments
+@media (max-width: $breakpoint-md) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .stats-overview {
+        .stat-card {
+            margin-bottom: 1rem;
+        }
+    }
+    
+    .team-card {
+        flex-direction: column;
+        
+        .team-logo {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .team-info {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}

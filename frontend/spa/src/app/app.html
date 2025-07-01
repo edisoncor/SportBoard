@@ -4,23 +4,22 @@
 </header>
 
 <!-- Main Content Section -->
-<main role="main">
+<div class="app-container" [ngClass]="{'sidebar-closed': !sidebarOpened}">
+    <!-- Sidebar Navigation -->
+    <aside [ngClass]="{'open': sidebarOpened}">
+        <app-sidebar></app-sidebar>
+    </aside>
+    
+    <!-- Overlay para cerrar el sidebar en móvil -->
+    <div class="sidebar-overlay" *ngIf="sidebarOpened" (click)="toggleSidebar()"></div>
 
-    <mat-drawer-container>
-        <!-- Sidebar Navigation -->
-        <mat-drawer mode="side" [opened]="sidebarOpened">
-            <aside>
-                <app-sidebar></app-sidebar>
-            </aside>
-        </mat-drawer>
-
-        <!-- Main Content Area -->
-        <mat-drawer-content>
-
+    <!-- Main Content Area -->
+    <main role="main" class="fade-in">
+        <div class="content-wrapper">
             <router-outlet></router-outlet>
-        </mat-drawer-content>
-    </mat-drawer-container>
-</main>
+        </div>
+    </main>
+</div>
 
 <!-- Footer Section -->
 <footer class="app-footer" role="contentinfo">

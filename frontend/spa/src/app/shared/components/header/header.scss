@@ -1,14 +1,21 @@
+@use 'sass:color';
+@use 'sass:math';
 @use '../../../../styles.scss' as *;
 
 .header-container {
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
-    height: 60px;
+    height: $header-height;
     justify-content: space-between;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-
+    z-index: 1020;
+    transition: all 0.3s ease;
 }
 
 // Sección izquierda - menú y brand
@@ -20,21 +27,38 @@
 }
 
 .header-menu {
-    border-radius: 4px;
+    border-radius: 50%;
     cursor: pointer;
     padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    mat-icon {
+        color: $primary-color;
+        font-size: 24px;
+    }
 
     &:hover {
-        background-color: $secondary-color;
-        color: $primary-color;
+        background-color: rgba($primary-color, 0.1);
     }
 }
 
 .header-brand {
+    display: flex;
+    align-items: center;
+
     h1 {
         font-size: 1.5rem;
-        font-weight: bold;
+        font-weight: 700;
         margin: 0;
+        color: $primary-color;
+        letter-spacing: 0.5px;
+
+        @media (max-width: $breakpoint-sm) {
+            font-size: 1.2rem;
+        }
     }
 }
 
@@ -44,92 +68,212 @@
     flex: 1;
     justify-content: center;
 
-
     .nav-options {
         display: flex;
         gap: 2rem;
 
-        .nav-link {
-            border-radius: 4px;
-            color: $secondary-color;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            transition: background-color 0.2s;
+        @media (max-width: $breakpoint-md) {
+            display: none;
+        }
 
-            &:hover {
-                background-color: $secondary-color;
+        .nav-link {
+            color: $font-secondary-color;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:hover,
+            &.active {
                 color: $primary-color;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $primary-color;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after,
+            &.active::after {
+                width: 100%;
             }
         }
     }
 }
 
-// Sección derecha - usuario
+.nav-link {
+    border-radius: 4px;
+    color: $secondary-color;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: $secondary-color;
+        color: $primary-color;
+    }
+}
+
+
+// Sección derecha - usuario y acciones
 .header-right {
-    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .notification-icon {
+        position: relative;
+        cursor: pointer;
+
+        mat-icon {
+            color: $font-secondary-color;
+            font-size: 24px;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: $accent-color;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 
     .user-menu {
-        align-items: center;
-        border-radius: 4px;
-        cursor: pointer;
         display: flex;
+        align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem;
+        cursor: pointer;
         position: relative;
-        transition: background-color 0.2s;
+        padding: 0.5rem;
+        border-radius: 24px;
+        transition: all 0.3s ease;
 
         &:hover {
-            background-color: $secondary-color;
-            color: $primary-color;
+            background-color: rgba($primary-color, 0.1);
         }
 
         .user-icon {
-            font-size: 32px;
-            height: 32px;
-            width: 32px;
+            color: $primary-color;
+            font-size: 24px;
         }
 
         .user-name {
             font-weight: 500;
+            color: $font-color;
+
+            @media (max-width: $breakpoint-sm) {
+                display: none;
+            }
         }
 
         .dropdown-icon {
-            font-size: 20px;
+            color: $font-secondary-color;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover .dropdown-icon {
+            transform: rotate(180deg);
         }
 
         .user-dropdown {
             position: absolute;
             top: 100%;
             right: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            padding: 0.5rem 0;
             display: none;
-            min-width: 150px;
-            z-index: 1000;
+            z-index: 1030;
+
+            &.show {
+                display: block;
+                animation: fadeIn 0.2s ease;
+            }
 
             .dropdown-item {
-                display: block;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
                 padding: 0.75rem 1rem;
-                text-decoration: none;
-                color: $primary-color;
+                color: $font-color;
+                transition: all 0.2s ease;
+
+                mat-icon {
+                    font-size: 18px;
+                    color: $font-secondary-color;
+                }
 
                 &:hover {
-                    background-color: $secondary-color;
+                    background-color: $light-gray;
+                    color: $primary-color;
+
+                    mat-icon {
+                        color: $primary-color;
+                    }
                 }
             }
-
-            .dropdown-divider {
-                margin: 0;
-                border: none;
-                border-top: 1px solid #eee;
-            }
         }
+    }
+}
 
-        &:hover .user-dropdown {
-            display: block;
+// Botón móvil de menú
+.mobile-menu-button {
+    display: none;
+
+    @media (max-width: $breakpoint-md) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+
+        mat-icon {
+            font-size: 24px;
+            color: $primary-color;
         }
+    }
+}
+
+// Ajustes responsivos
+@media (max-width: $breakpoint-md) {
+    .header-container {
+        padding: 0 1rem;
+    }
+
+    .header-center {
+        display: none;
+    }
+
+    .header-right {
+        .notification-icon {
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+// Efecto scroll
+.header-scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 56px;
+
+    .header-brand h1 {
+        font-size: 1.3rem;
     }
 }

@@ -1,5 +1,5 @@
-<div class="header-container">
-    <!-- Sección izquierda: menú y brand juntos -->
+<div class="header-container" [ngClass]="{'header-scrolled': isScrolled}">
+    <!-- Sección izquierda: menú y brand -->
     <div class="header-left">
         <div class="header-menu" role="button" aria-label="Abrir menú lateral" (click)="menuClicked.emit()">
             <mat-icon>{{ sidebarOpened ? 'menu_open' : 'menu' }}</mat-icon>
@@ -11,25 +11,47 @@
 
     <!-- Sección centro: opciones/navegación -->
     <div class="header-center">
-        <nav class="nav-options">
-            <a href="#" class="nav-link">Dashboard</a>
-            <a href="#" class="nav-link">Deportes</a>
-            <a href="#" class="nav-link">Estadísticas</a>
+        <nav class="nav-options" aria-label="Navegación principal">
+            <a href="#" class="nav-link" [class.active]="activePage === 'dashboard'">Dashboard</a>
+            <a href="#" class="nav-link" [class.active]="activePage === 'deportes'">Deportes</a>
+            <a href="#" class="nav-link" [class.active]="activePage === 'estadisticas'">Estadísticas</a>
+            <a href="#" class="nav-link" [class.active]="activePage === 'torneos'">Torneos</a>
+            <a href="#" class="nav-link" [class.active]="activePage === 'equipos'">Equipos</a>
         </nav>
     </div>
 
-
-    <!-- Sección derecha: usuario -->
+    <!-- Sección derecha: notificaciones y usuario -->
     <div class="header-right">
-        <div class="user-menu">
+        <!-- Ícono de notificaciones -->
+        <div class="notification-icon" aria-label="Notificaciones" tabindex="0">
+            <mat-icon>notifications</mat-icon>
+            <span class="badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
+        </div>
+        
+        <!-- Menú de usuario -->
+        <div class="user-menu" (click)="toggleUserDropdown()" tabindex="0" role="button" aria-haspopup="true" [attr.aria-expanded]="userDropdownOpen">
             <mat-icon class="user-icon">account_circle</mat-icon>
-            <span class="user-name">Usuario</span>
+            <span class="user-name">{{userName || 'Usuario'}}</span>
             <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
-            <div class="user-dropdown">
-                <a href="#" class="dropdown-item">Perfil</a>
-                <a href="#" class="dropdown-item">Configuración</a>
-                <hr class="dropdown-divider">
-                <a href="#" class="dropdown-item">Cerrar sesión</a>
+            
+            <!-- Dropdown del usuario -->
+            <div class="user-dropdown" [class.show]="userDropdownOpen">
+                <a href="#" class="dropdown-item">
+                    <mat-icon>person</mat-icon>
+                    <span>Perfil</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <mat-icon>settings</mat-icon>
+                    <span>Configuración</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <mat-icon>help</mat-icon>
+                    <span>Ayuda</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <mat-icon>logout</mat-icon>
+                    <span>Cerrar sesión</span>
+                </a>
             </div>
         </div>
     </div>

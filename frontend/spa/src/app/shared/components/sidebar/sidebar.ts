@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Navigation } from '../navigation/navigation';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-sidebar',
-    imports: [Navigation, MatCardModule],
+    standalone: true,
+    imports: [MatCardModule, MatIconModule, CommonModule],
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.scss',
 })
