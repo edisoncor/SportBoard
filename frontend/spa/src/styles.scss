@@ -1,1 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* variables */
+$background-color: #f4f4f4;
+$font-color: #333;
+$font-secondary-color: #555;
+$font-primary-color: #fff;
+$font-secondary-color: #666;
+$font-family: 'Arial', sans-serif;
+$font-size: 16px;
+$header-height: 60px;
+$primary-color: #3498db;
+$secondary-color: #e1e7e3;
+
+
+/* reinicializing the css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* aside debajo del footer */
+aside {
+    background-color: $secondary-color;
+    color: $font-secondary-color;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - #{$header-height} - 40px); /* 60px for header + 40px for footer */
+    padding: 10px;
+    position: fixed;
+    top: 60px; /* 60px for header */
+    left: 0;
+    width: 250px;
+    z-index: 1000;
+}
+
+/* footer: fixed at the bottom y centrado*/
+footer {
+    align-items: center;
+    background-color: $primary-color;
+    bottom: 0;
+    color: $font-primary-color;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    left: 0;
+    padding: 0 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Header fijo en la parte superior */
+header {
+    align-items: center;
+    background-color: $primary-color;
+    color: $font-primary-color;
+    height: 60px;
+    left: 0;
+    padding: 0 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}

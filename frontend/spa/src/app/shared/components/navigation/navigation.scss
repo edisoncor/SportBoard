@@ -1,0 +1,26 @@
+.mat-mdc-list-item {
+    align-items: center !important;
+    display: flex !important;
+    transition: background-color 0.3s ease;
+
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .mat-mdc-list-item-content {
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 12px !important;
+    }
+
+    mat-icon {
+        font-size: 20px !important;
+        height: 20px !important;
+        line-height: 25px !important;
+        margin-right: 5;
+        width: 20px !important;
+    }
+}
+
