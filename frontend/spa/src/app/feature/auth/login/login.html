@@ -1,0 +1,99 @@
+<div class="login-container">
+    <div class="login-content">
+        <div class="login-header">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="SportBoard Logo" 
+                     onerror="this.src='https://via.placeholder.com/150x60?text=SportBoard'; this.style.maxWidth='150px';">
+            </div>
+            <h1>Iniciar Sesión</h1>
+            <p>Bienvenido de nuevo. Por favor, inicia sesión en tu cuenta.</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput formControlName="email" placeholder="ejemplo@correo.com" type="email">
+                <mat-icon matPrefix>email</mat-icon>
+                <mat-error *ngIf="email?.errors?.['required']">El correo electrónico es obligatorio</mat-error>
+                <mat-error *ngIf="email?.errors?.['email']">Introduce un correo electrónico válido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Contraseña</mat-label>
+                <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Tu contraseña">
+                <mat-icon matPrefix>lock</mat-icon>
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password?.errors?.['required']">La contraseña es obligatoria</mat-error>
+                <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</mat-error>
+            </mat-form-field>
+
+            <div class="form-row">
+                <mat-checkbox formControlName="rememberMe" color="primary">Recordarme</mat-checkbox>
+                <a href="javascript:void(0)" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div *ngIf="loginError" class="login-error">
+                <mat-icon>error_outline</mat-icon>
+                <span>Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.</span>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit" class="login-button" [disabled]="loginForm.invalid || isLoading">
+                <mat-icon *ngIf="!isLoading">login</mat-icon>
+                <span *ngIf="!isLoading">Iniciar Sesión</span>
+                <span *ngIf="isLoading">Iniciando sesión...</span>
+            </button>
+        </form>
+
+        <div class="login-divider">
+            <mat-divider></mat-divider>
+            <span>O continúa con</span>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="social-login">
+            <button mat-stroked-button class="social-button google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                Google
+            </button>
+            <button mat-stroked-button class="social-button microsoft">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+                Microsoft
+            </button>
+        </div>
+
+        <div class="register-prompt">
+            <p>¿No tienes una cuenta? <a href="javascript:void(0)">Regístrate ahora</a></p>
+        </div>
+
+        <div class="login-footer">
+            <p>© 2025 SportBoard. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <a href="javascript:void(0)">Términos de Servicio</a>
+                <a href="javascript:void(0)">Política de Privacidad</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-banner">
+        <div class="banner-content">
+            <h2>Gestiona tus competiciones deportivas con SportBoard</h2>
+            <p>La plataforma integral para la gestión de torneos, equipos y estadísticas deportivas.</p>
+            <div class="banner-features">
+                <div class="feature">
+                    <mat-icon>emoji_events</mat-icon>
+                    <span>Gestión de torneos</span>
+                </div>
+                <div class="feature">
+                    <mat-icon>groups</mat-icon>
+                    <span>Administración de equipos</span>
+                </div>
+                <div class="feature">
+                    <mat-icon>insert_chart</mat-icon>
+                    <span>Estadísticas avanzadas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

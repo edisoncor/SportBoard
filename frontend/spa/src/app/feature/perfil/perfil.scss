@@ -1,0 +1,19 @@
+.perfil-container {
+    padding: 20px;
+    
+    .page-header {
+        margin-bottom: 25px;
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        p {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+    }
+}

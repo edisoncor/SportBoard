@@ -1,0 +1,259 @@
+@use 'sass:color';
+
+// Inlined variables
+$primary-color: #1e88e5;
+$secondary-color: #ff9800;
+$background-grey: #f5f5f5;
+$text-color: #333333;
+$text-muted: #757575;
+
+.ayuda-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.ayuda-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 2.5rem;
+    color: $primary-color;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: $text-muted;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+}
+
+.ayuda-tabs {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  ::ng-deep .mat-mdc-tab-labels {
+    background-color: vars-background-grey;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    padding: 2rem;
+  }
+}
+
+// FAQ Styles
+.faq-container {
+  h2 {
+    color: vars-primary-color;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: vars-text-muted;
+    margin-bottom: 2rem;
+  }
+  
+  mat-expansion-panel {
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    
+    &:hover {
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    mat-panel-title {
+      color: vars-text-color;
+      font-weight: 500;
+    }
+  }
+}
+
+// Tutorials Styles
+.tutorials-container {
+  h2 {
+    color: vars-primary-color;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: vars-text-muted;
+    margin-bottom: 2rem;
+  }
+}
+
+.tutorials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.tutorial-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  img {
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  mat-card-title {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
+  
+  mat-card-subtitle {
+    color: vars-text-muted;
+  }
+  
+  mat-card-actions {
+    padding: 0 1rem 1rem;
+  }
+}
+
+// Documentation Styles
+.documentation-container {
+  h2 {
+    color: vars-primary-color;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: vars-text-muted;
+    margin-bottom: 2rem;
+  }
+}
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.doc-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-card-header {
+    margin-bottom: 1rem;
+  }
+  
+  mat-card-content {
+    min-height: 80px;
+  }
+  
+  mat-card-actions {
+    padding: 0 1rem 1rem;
+  }
+}
+
+// Contact Styles
+.contact-container {
+  h2, h3 {
+    color: vars-primary-color;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: vars-text-muted;
+    margin-bottom: 2rem;
+  }
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.contact-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-card-content {
+    min-height: 60px;
+  }
+  
+  .hours-text {
+    font-size: 0.9rem;
+    color: vars-text-muted;
+    margin-top: 0.5rem;
+  }
+  
+  mat-card-actions {
+    padding: 0 1rem 1rem;
+  }
+}
+
+.contact-form-container {
+  background-color: vars-background-grey;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  
+  .form-field {
+    flex: 1;
+    
+    &.full-width {
+      width: 100%;
+    }
+  }
+  
+  .submit-button {
+    align-self: flex-start;
+    padding: 0.5rem 2rem;
+    margin-top: 1rem;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .ayuda-container {
+    padding: 1rem;
+  }
+  
+  .tutorials-grid,
+  .docs-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    padding: 1rem;
+  }
+}

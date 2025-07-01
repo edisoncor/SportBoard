@@ -12,20 +12,48 @@
     <!-- Sección centro: opciones/navegación -->
     <div class="header-center">
         <nav class="nav-options" aria-label="Navegación principal">
-            <a href="#" class="nav-link" [class.active]="activePage === 'dashboard'">Dashboard</a>
-            <a href="#" class="nav-link" [class.active]="activePage === 'deportes'">Deportes</a>
-            <a href="#" class="nav-link" [class.active]="activePage === 'estadisticas'">Estadísticas</a>
-            <a href="#" class="nav-link" [class.active]="activePage === 'torneos'">Torneos</a>
-            <a href="#" class="nav-link" [class.active]="activePage === 'equipos'">Equipos</a>
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+            <a routerLink="/deportes" routerLinkActive="active" class="nav-link">Deportes</a>
+            <a routerLink="/estadisticas/resumen" routerLinkActive="active" class="nav-link">Estadísticas</a>
+            <a routerLink="/torneos" routerLinkActive="active" class="nav-link">Torneos</a>
+            <a routerLink="/equipos" routerLinkActive="active" class="nav-link">Equipos</a>
         </nav>
     </div>
 
     <!-- Sección derecha: notificaciones y usuario -->
     <div class="header-right">
         <!-- Ícono de notificaciones -->
-        <div class="notification-icon" aria-label="Notificaciones" tabindex="0">
+        <div class="notification-icon" (click)="toggleNotificationDropdown($event)" aria-label="Notificaciones" tabindex="0" role="button" aria-haspopup="true" [attr.aria-expanded]="notificationDropdownOpen">
             <mat-icon>notifications</mat-icon>
             <span class="badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            
+            <!-- Dropdown de notificaciones -->
+            <div class="notification-dropdown" [class.show]="notificationDropdownOpen">
+                <div class="notification-header">
+                    <h3>Notificaciones</h3>
+                    <div class="actions">
+                        <button (click)="markAllAsRead($event)">Marcar todas como leídas</button>
+                    </div>
+                </div>
+                <ul class="notification-list">
+                    <li class="notification-item unread" *ngFor="let notification of notifications">
+                        <div class="notification-icon" [ngClass]="notification.type">
+                            <mat-icon>{{notification.icon}}</mat-icon>
+                        </div>
+                        <div class="notification-content">
+                            <h4 class="notification-title">
+                                {{notification.title}}
+                                <span class="notification-dot" *ngIf="!notification.read"></span>
+                            </h4>
+                            <p class="notification-message">{{notification.message}}</p>
+                            <span class="notification-time">{{notification.time}}</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="notification-footer">
+                    <a routerLink="/notificaciones">Ver todas las notificaciones</a>
+                </div>
+            </div>
         </div>
         
         <!-- Menú de usuario -->
@@ -36,19 +64,19 @@
             
             <!-- Dropdown del usuario -->
             <div class="user-dropdown" [class.show]="userDropdownOpen">
-                <a href="#" class="dropdown-item">
+                <a routerLink="/perfil" class="dropdown-item">
                     <mat-icon>person</mat-icon>
                     <span>Perfil</span>
                 </a>
-                <a href="#" class="dropdown-item">
+                <a routerLink="/ajustes" class="dropdown-item">
                     <mat-icon>settings</mat-icon>
                     <span>Configuración</span>
                 </a>
-                <a href="#" class="dropdown-item">
+                <a routerLink="/ayuda" class="dropdown-item">
                     <mat-icon>help</mat-icon>
                     <span>Ayuda</span>
                 </a>
-                <a href="#" class="dropdown-item">
+                <a routerLink="/login" class="dropdown-item">
                     <mat-icon>logout</mat-icon>
                     <span>Cerrar sesión</span>
                 </a>

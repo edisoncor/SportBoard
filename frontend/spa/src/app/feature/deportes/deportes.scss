@@ -1,0 +1,179 @@
+.deportes-container {
+    padding: 20px;
+    
+    .page-header {
+        margin-bottom: 25px;
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        p {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+    }
+    
+    .search-bar {
+        display: flex;
+        margin-bottom: 25px;
+        background: white;
+        border-radius: 8px;
+        padding: 10px 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        
+        input {
+            flex: 1;
+            border: none;
+            padding: 8px 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            
+            &:focus {
+                outline: none;
+            }
+        }
+        
+        .search-icon {
+            display: flex;
+            align-items: center;
+            color: #546e7a;
+        }
+    }
+    
+    .deportes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        
+        .deporte-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            }
+            
+            .card-header {
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                
+                .icon-container {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                }
+                
+                h2 {
+                    margin: 0;
+                    font-size: 1.4rem;
+                }
+            }
+            
+            .card-content {
+                padding: 0 20px 20px;
+                
+                .descripcion {
+                    margin-bottom: 15px;
+                    color: #546e7a;
+                }
+                
+                .estadisticas {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                    
+                    .stat-item {
+                        text-align: center;
+                        
+                        .stat-value {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: 5px;
+                            color: #2c3e50;
+                        }
+                        
+                        .stat-label {
+                            font-size: 0.8rem;
+                            color: #546e7a;
+                        }
+                    }
+                }
+                
+                .popularidad {
+                    margin-top: 15px;
+                    
+                    .progress-label {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 5px;
+                        
+                        span {
+                            font-size: 0.8rem;
+                            color: #546e7a;
+                        }
+                    }
+                    
+                    .progress-bar {
+                        height: 6px;
+                        background-color: #eceff1;
+                        border-radius: 3px;
+                        overflow: hidden;
+                        
+                        .progress {
+                            height: 100%;
+                            border-radius: 3px;
+                        }
+                    }
+                }
+                
+                .actions {
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    button {
+                        padding: 8px 16px;
+                        border-radius: 5px;
+                        border: none;
+                        font-family: inherit;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: background-color 0.2s;
+                        
+                        &.primary {
+                            background-color: #1e88e5;
+                            color: white;
+                            
+                            &:hover {
+                                background-color: #1976d2;
+                            }
+                        }
+                        
+                        &.secondary {
+                            background-color: #eceff1;
+                            color: #546e7a;
+                            
+                            &:hover {
+                                background-color: #cfd8dc;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

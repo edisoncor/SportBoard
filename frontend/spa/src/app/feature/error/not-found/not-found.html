@@ -1,0 +1,21 @@
+<div class="not-found-container">
+    <div class="not-found-content">
+        <div class="not-found-image">
+            <img src="assets/images/404.svg" alt="404 Página no encontrada" 
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/7486/7486830.png'; this.style.maxWidth='300px';">
+        </div>
+        <h1 class="not-found-title">404</h1>
+        <h2 class="not-found-subtitle">Página no encontrada</h2>
+        <p class="not-found-message">
+            Lo sentimos, pero la página que estás buscando no existe o ha sido movida.
+        </p>
+        <div class="not-found-actions">
+            <button mat-raised-button color="primary" (click)="navigateHome()">
+                <mat-icon>home</mat-icon> Ir al Dashboard
+            </button>
+            <button mat-stroked-button color="accent" routerLink="/ayuda">
+                <mat-icon>help_outline</mat-icon> Centro de Ayuda
+            </button>
+        </div>
+    </div>
+</div>

@@ -148,6 +148,180 @@ button {
     padding: 0 1rem;
 }
 
+/* Notification styles */
+.notification-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    display: none;
+    
+    &.show {
+        display: block;
+        animation: slideDownFade 0.3s ease;
+    }
+    
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid $light-gray;
+        
+        h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            
+            button {
+                background: none;
+                border: none;
+                color: $primary-color;
+                cursor: pointer;
+                font-size: 0.9rem;
+                padding: 0;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    
+    .notification-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid $light-gray;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            
+            &:hover {
+                background-color: rgba($primary-color, 0.05);
+            }
+            
+            &.unread {
+                background-color: rgba($primary-color, 0.1);
+                
+                &:hover {
+                    background-color: rgba($primary-color, 0.15);
+                }
+                
+                .notification-dot {
+                    display: block;
+                }
+            }
+            
+            .notification-icon {
+                background-color: rgba($primary-color, 0.1);
+                color: $primary-color;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                &.alert {
+                    background-color: rgba($warning-color, 0.1);
+                    color: $warning-color;
+                }
+                
+                &.error {
+                    background-color: rgba($error-color, 0.1);
+                    color: $error-color;
+                }
+                
+                &.success {
+                    background-color: rgba($success-color, 0.1);
+                    color: $success-color;
+                }
+            }
+            
+            .notification-content {
+                flex: 1;
+                
+                .notification-title {
+                    margin: 0 0 5px;
+                    font-weight: 500;
+                    font-size: 0.95rem;
+                    position: relative;
+                    
+                    .notification-dot {
+                        width: 8px;
+                        height: 8px;
+                        background-color: $primary-color;
+                        border-radius: 50%;
+                        position: absolute;
+                        top: 50%;
+                        right: -15px;
+                        transform: translateY(-50%);
+                        display: none;
+                    }
+                }
+                
+                .notification-message {
+                    margin: 0;
+                    font-size: 0.85rem;
+                    color: $font-secondary-color;
+                    line-height: 1.4;
+                }
+                
+                .notification-time {
+                    margin-top: 5px;
+                    font-size: 0.75rem;
+                    color: $font-secondary-color;
+                }
+            }
+        }
+    }
+    
+    .notification-footer {
+        padding: 10px;
+        text-align: center;
+        border-top: 1px solid $light-gray;
+        
+        a {
+            display: block;
+            padding: 5px;
+            color: $primary-color;
+            font-size: 0.9rem;
+            text-decoration: none;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Card styling */
 .card {
     background-color: white;
