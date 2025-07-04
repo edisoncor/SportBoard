@@ -1,22 +1,58 @@
-<nav class="bottom-navigation">
-  <a routerLink="/dashboard" routerLinkActive="active" [class.active]="activeRoute === 'dashboard' || activeRoute === ''">
-    <mat-icon>dashboard</mat-icon>
+<nav class="bottom-navigation" role="navigation" aria-label="Navegación principal">
+  <a 
+    routerLink="/dashboard" 
+    routerLinkActive="active" 
+    [class.active]="activeRoute === 'dashboard' || activeRoute === ''"
+    [attr.aria-current]="(activeRoute === 'dashboard' || activeRoute === '') ? 'page' : null"
+    aria-label="Ir al inicio"
+    role="tab"
+    [attr.aria-selected]="activeRoute === 'dashboard' || activeRoute === ''"
+    (click)="onNavItemClick('dashboard')"
+  >
+    <mat-icon aria-hidden="true">dashboard</mat-icon>
     <span>Inicio</span>
   </a>
-  <a routerLink="/deportes" routerLinkActive="active" [class.active]="activeRoute === 'deportes'">
-    <mat-icon>sports_soccer</mat-icon>
+  
+  <a 
+    routerLink="/deportes" 
+    routerLinkActive="active" 
+    [class.active]="activeRoute === 'deportes'"
+    [attr.aria-current]="activeRoute === 'deportes' ? 'page' : null"
+    aria-label="Ver deportes disponibles"
+    role="tab"
+    [attr.aria-selected]="activeRoute === 'deportes'"
+    (click)="onNavItemClick('deportes')"
+  >
+    <mat-icon aria-hidden="true">sports_soccer</mat-icon>
     <span>Deportes</span>
   </a>
-  <a routerLink="/estadisticas/resumen" routerLinkActive="active" [class.active]="activeRoute === 'estadisticas'">
-    <mat-icon>bar_chart</mat-icon>
-    <span>Estadísticas</span>
-  </a>
-  <a routerLink="/torneos" routerLinkActive="active" [class.active]="activeRoute === 'torneos'">
-    <mat-icon>emoji_events</mat-icon>
+  
+  
+  <a 
+    routerLink="/torneos" 
+    routerLinkActive="active" 
+    [class.active]="activeRoute === 'torneos'"
+    [attr.aria-current]="activeRoute === 'torneos' ? 'page' : null"
+    aria-label="Ver torneos y competencias"
+    role="tab"
+    [attr.aria-selected]="activeRoute === 'torneos'"
+    (click)="onNavItemClick('torneos')"
+  >
+    <mat-icon aria-hidden="true">emoji_events</mat-icon>
     <span>Torneos</span>
   </a>
-  <a routerLink="/perfil" routerLinkActive="active" [class.active]="activeRoute === 'perfil'">
-    <mat-icon>person</mat-icon>
+  
+  <a 
+    routerLink="/perfil" 
+    routerLinkActive="active" 
+    [class.active]="activeRoute === 'perfil'"
+    [attr.aria-current]="activeRoute === 'perfil' ? 'page' : null"
+    aria-label="Ver perfil de usuario"
+    role="tab"
+    [attr.aria-selected]="activeRoute === 'perfil'"
+    (click)="onNavItemClick('perfil')"
+  >
+    <mat-icon aria-hidden="true">person</mat-icon>
     <span>Perfil</span>
   </a>
 </nav>
