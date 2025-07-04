@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { Subject, takeUntil, filter } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { User } from '../../../core/models/user.model';
 
 interface Notification {
     id: number;
@@ -16,20 +20,24 @@ interface Notification {
 @Component({
     selector: 'app-header',
     standalone: true,
-    imports: [MatIconModule, CommonModule, RouterModule],
+    imports: [MatIconModule, CommonModule, RouterModule, MatSnackBarModule],
     templateUrl: './header.html',
     styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
     @Input() sidebarOpened: boolean = false;
     @Output() menuClicked = new EventEmitter<void>();
     
     userName: string | null = null;
+    userImage: string | null = null;
     userDropdownOpen: boolean = false;
     notificationDropdownOpen: boolean = false;
     notificationCount: number = 5;
     isScrolled: boolean = false;
     activePage: string = 'dashboard';
+    isLoggedIn: boolean = false;
+    isMobile: boolean = false;
+    private destroy$ = new Subject<void>();
     
     notifications: Notification[] = [
         {
@@ -79,15 +87,55 @@ export class Header implements OnInit {
         }
     ];
     
+    constructor(
+        private authService: AuthService,
+        private snackBar: MatSnackBar,
+        private router: Router
+    ) {}
+    
     ngOnInit(): void {
-        // Aquí se podría cargar datos del usuario desde un servicio
-        this.userName = 'Juan Pérez';
+        // Check if mobile
+        this.checkIfMobile();
+        
+        // Subscribirse a los cambios en el estado de autenticación
+        this.authService.currentUser
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((user: User | null) => {
+                this.isLoggedIn = !!user;
+                if (user) {
+                    this.userName = `${user.firstname} ${user.lastname}`;
+                    this.userImage = user.image || null;
+                } else {
+                    this.userName = null;
+                    this.userImage = null;
+                }
+            });
+        
+        // Track current route for active nav highlighting
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            takeUntil(this.destroy$)
+        ).subscribe((event: any) => {
+            const url = event.urlAfterRedirects || event.url;
+            this.activePage = url.split('/')[1] || 'dashboard';
+        });
+        
         this.updateNotificationCount();
+    }
+    
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
     
     @HostListener('window:scroll', [])
     onWindowScroll() {
         this.isScrolled = window.scrollY > 20;
+    }
+    
+    @HostListener('window:resize', [])
+    onResize() {
+        this.checkIfMobile();
     }
     
     toggleUserDropdown() {
@@ -115,6 +163,22 @@ export class Header implements OnInit {
     
     updateNotificationCount() {
         this.notificationCount = this.notifications.filter(notification => !notification.read).length;
+    }
+    
+    logout(event: Event) {
+        event.preventDefault();
+        const name = this.userName || 'Usuario';
+        this.authService.logout();
+        this.snackBar.open(`¡Hasta pronto, ${name}! Has cerrado sesión correctamente.`, 'Cerrar', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: ['success-snackbar']
+        });
+    }
+    
+    checkIfMobile(): void {
+        this.isMobile = window.innerWidth < 768;
     }
     
     @HostListener('document:click', ['$event'])

@@ -529,3 +529,34 @@ main {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+/* Snackbar styles */
+.success-snackbar {
+    background-color: $success-color;
+    color: white;
+    
+    .mat-simple-snackbar-action {
+        color: white;
+        font-weight: bold;
+    }
+}
+
+.error-snackbar {
+    background-color: $error-color;
+    color: white;
+    
+    .mat-simple-snackbar-action {
+        color: white;
+        font-weight: bold;
+    }
+}
+
+.warning-snackbar {
+    background-color: $warning-color;
+    color: $dark-gray;
+    
+    .mat-simple-snackbar-action {
+        color: $dark-gray;
+        font-weight: bold;
+    }
+}

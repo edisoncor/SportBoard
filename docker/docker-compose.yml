@@ -49,20 +49,20 @@ services:
   # Microservicio de competencias
   ms-competencies:
     extends:
-      file: ./backend/ms-competencies/docker-compose.yml
-      service: competencies
+      file: ./backend/ms-competencies/docker-compose.override.yml
+      service: ms-competencies
       
-   # Microservicio de estadisticas
-    ms-statistics:
-        extends:
-            file: ./backend/ms-statistics/docker-compose.override.yml
-            service: ms-statistics
+  # Microservicio de estadisticas
+  ms-statistics:
+    extends:
+      file: ./backend/ms-statistics/docker-compose.override.yml
+      service: ms-statistics
 
   # Servicio de base de datos para ms-statistics
-    mongo:
-        extends:
-            file: ./backend/ms-statistics/docker-compose.override.yml
-            service: mongo
+  mongo:
+    extends:
+      file: ./backend/ms-statistics/docker-compose.override.yml
+      service: mongo
 
   # RabbitMQ para mensajería
   rabbitmq:

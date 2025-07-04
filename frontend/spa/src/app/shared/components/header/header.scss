@@ -60,6 +60,12 @@
             font-size: 1.2rem;
         }
     }
+
+    cursor: pointer;
+
+    &.centered {
+        margin: 0 auto;
+    }
 }
 
 // Sección centro - opciones de navegación
@@ -77,16 +83,25 @@
         }
 
         .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: $font-secondary-color;
             font-weight: 500;
-            padding: 0.5rem 0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
             position: relative;
             text-decoration: none;
             transition: all 0.3s ease;
 
+            mat-icon {
+                font-size: 20px;
+            }
+
             &:hover,
             &.active {
                 color: $primary-color;
+                background-color: rgba($primary-color, 0.05);
             }
 
             &::after {
@@ -122,6 +137,30 @@
     }
 }
 
+// Añadir icono de búsqueda
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    mat-icon {
+        color: $font-secondary-color;
+    }
+
+    &:hover {
+        background-color: rgba($primary-color, 0.1);
+
+        mat-icon {
+            color: $primary-color;
+        }
+    }
+}
 
 // Sección derecha - usuario y acciones
 .header-right {
@@ -168,9 +207,26 @@
             background-color: rgba($primary-color, 0.1);
         }
 
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid $primary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
         .user-icon {
+            font-size: 32px;
             color: $primary-color;
-            font-size: 24px;
         }
 
         .user-name {
@@ -229,6 +285,56 @@
                         color: $primary-color;
                     }
                 }
+
+                &.logout-item {
+                    color: $error-color;
+                    border-top: 1px solid $light-gray;
+                    margin-top: 0.5rem;
+
+                    mat-icon {
+                        color: $error-color;
+                    }
+
+                    &:hover {
+                        background-color: rgba($error-color, 0.1);
+                        color: darken($error-color, 10%);
+
+                        mat-icon {
+                            color: darken($error-color, 10%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .login-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: $primary-color;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 24px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        mat-icon {
+            font-size: 18px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+            padding: 0.5rem;
+
+            span {
+                display: none;
             }
         }
     }
@@ -266,6 +372,15 @@
             margin-right: 0.5rem;
         }
     }
+
+    .mobile-view {
+        height: 56px;
+        padding: 0 0.75rem;
+
+        .header-brand h1 {
+            font-size: 1.2rem;
+        }
+    }
 }
 
 // Efecto scroll
@@ -275,5 +390,198 @@
 
     .header-brand h1 {
         font-size: 1.3rem;
+    }
+}
+
+// Auth buttons container
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .register-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: $primary-color;
+        padding: 0.5rem 1rem;
+        border-radius: 24px;
+        border: 1px solid $primary-color;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        mat-icon {
+            font-size: 18px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+            padding: 0.5rem;
+            border-width: 0;
+
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+// Detalles de estilo para el dropdown de notificaciones
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    display: none;
+
+    &.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid $light-gray;
+
+        h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .actions button {
+            border: none;
+            background: none;
+            color: $primary-color;
+            font-size: 0.8rem;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .notification-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .notification-item {
+            display: flex;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid $light-gray;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: rgba($light-gray, 0.5);
+            }
+
+            &.unread {
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            .notification-icon {
+                flex: 0 0 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: $light-gray;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 0.75rem;
+
+                mat-icon {
+                    font-size: 20px;
+                    color: $font-secondary-color;
+                }
+
+                &.success {
+                    background-color: rgba($success-color, 0.1);
+
+                    mat-icon {
+                        color: $success-color;
+                    }
+                }
+
+                &.error {
+                    background-color: rgba($error-color, 0.1);
+
+                    mat-icon {
+                        color: $error-color;
+                    }
+                }
+
+                &.alert {
+                    background-color: rgba($warning-color, 0.1);
+
+                    mat-icon {
+                        color: $warning-color;
+                    }
+                }
+            }
+
+            .notification-content {
+                flex: 1;
+
+                .notification-title {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    margin: 0 0 0.25rem;
+                    display: flex;
+                    align-items: center;
+
+                    .notification-dot {
+                        width: 8px;
+                        height: 8px;
+                        background-color: $primary-color;
+                        border-radius: 50%;
+                        margin-left: 0.5rem;
+                    }
+                }
+
+                .notification-message {
+                    font-size: 0.8rem;
+                    color: $font-secondary-color;
+                    margin: 0 0 0.25rem;
+                }
+
+                .notification-time {
+                    font-size: 0.7rem;
+                    color: lighten($font-secondary-color, 15%);
+                }
+            }
+        }
+    }
+
+    .notification-footer {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        border-top: 1px solid $light-gray;
+
+        a {
+            color: $primary-color;
+            font-size: 0.8rem;
+            font-weight: 500;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }

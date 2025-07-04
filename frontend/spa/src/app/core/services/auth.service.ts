@@ -1,0 +1,187 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { User } from '../models/user.model';
+import { environment } from '../../../environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
+  private tokenExpirationTimer: any;
+  
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
+    // Initialize from localStorage if available
+    const storedUser = localStorage.getItem('currentUser');
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      storedUser ? JSON.parse(storedUser) : null
+    );
+    this.currentUser = this.currentUserSubject.asObservable();
+    
+    // Check token validity on service initialization
+    if (this.isLoggedIn()) {
+      this.autoLogout();
+    }
+  }
+  
+  // Get current user value without subscribing
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
+  
+  // Check if user is logged in
+  public isLoggedIn(): boolean {
+    const user = this.currentUserValue;
+    return !!user && !!user.access;
+  }
+  
+  // Login method
+  login(email: string, password: string): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/v1/auth/login/`, { email, password })
+      .pipe(
+        tap(user => {
+          // Store user details and tokens in localStorage
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          this.autoLogout();
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          return throwError(() => new Error(error.error?.message || 'Login failed. Please check your credentials.'));
+        })
+      );
+  }
+  
+  // Register new user
+  register(userData: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/v1/user/`, userData)
+      .pipe(
+        catchError(error => {
+          console.error('Registration error:', error);
+          return throwError(() => new Error(error.error?.message || 'Registration failed. Please try again.'));
+        })
+      );
+  }
+  
+  // Request password reset
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/v1/auth/initiate-password-reset/`, { email })
+      .pipe(
+        catchError(error => {
+          console.error('Password reset request error:', error);
+          return throwError(() => new Error(error.error?.message || 'Password reset request failed. Please try again.'));
+        })
+      );
+  }
+  
+  // Reset password with token
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/v1/auth/create-password/`, { token, new_password: newPassword })
+      .pipe(
+        catchError(error => {
+          console.error('Password reset error:', error);
+          return throwError(() => new Error(error.error?.message || 'Password reset failed. Please try again.'));
+        })
+      );
+  }
+  
+  // Refresh token
+  refreshToken(): Observable<any> {
+    const user = this.currentUserValue;
+    if (!user || !user.refresh) {
+      this.logout();
+      return throwError(() => new Error('No refresh token available'));
+    }
+    
+    return this.http.post<{access: string}>(`${environment.apiUrl}/v1/auth/token/refresh/`, { refresh: user.refresh })
+      .pipe(
+        tap(tokens => {
+          // Update stored user with new access token
+          const updatedUser = {
+            ...user,
+            access: tokens.access
+          };
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          this.currentUserSubject.next(updatedUser);
+          this.autoLogout();
+        }),
+        catchError(error => {
+          console.error('Token refresh error:', error);
+          this.logout();
+          return throwError(() => new Error('Session expired. Please log in again.'));
+        })
+      );
+  }
+  
+  // Verify token
+  verifyToken(): Observable<boolean> {
+    const user = this.currentUserValue;
+    if (!user || !user.access) {
+      return of(false);
+    }
+    
+    return this.http.post(`${environment.apiUrl}/v1/auth/token/verify/`, { token: user.access })
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
+  }
+  
+  // Logout user
+  logout(): void {
+    // Clear user from localStorage
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+    
+    // Clear auto logout timer
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+      this.tokenExpirationTimer = null;
+    }
+    
+    // Navigate to login
+    this.router.navigate(['/login']);
+  }
+  
+  // Setup automatic logout when token expires
+  private autoLogout(): void {
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    
+    const user = this.currentUserValue;
+    if (!user || !user.access) return;
+    
+    // Decode token to get expiration time
+    const tokenParts = user.access.split('.');
+    if (tokenParts.length !== 3) return;
+    
+    try {
+      const tokenPayload = JSON.parse(atob(tokenParts[1]));
+      const expirationDate = new Date(tokenPayload.exp * 1000);
+      const timeUntilExpiration = expirationDate.getTime() - Date.now();
+      
+      // Set timer to logout when token expires
+      this.tokenExpirationTimer = setTimeout(() => {
+        this.logout();
+      }, timeUntilExpiration);
+      
+      // Refresh token 5 minutes before expiration
+      const refreshTime = timeUntilExpiration - (5 * 60 * 1000);
+      if (refreshTime > 0) {
+        setTimeout(() => {
+          this.refreshToken().subscribe();
+        }, refreshTime);
+      }
+    } catch (e) {
+      console.error('Error decoding token:', e);
+    }
+  }
+}

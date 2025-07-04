@@ -1,0 +1,102 @@
+<div class="register-container">
+    <div class="register-content">
+        <div class="register-header">
+            <div class="logo">
+            </div>
+            <h1>Crear Cuenta</h1>
+            <p>Únete a SportBoard y comienza a gestionar tus competiciones deportivas.</p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+            <div class="name-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="firstname" placeholder="Tu nombre">
+                    <mat-icon matPrefix>person</mat-icon>
+                    <mat-error *ngIf="firstname?.errors?.['required']">El nombre es obligatorio</mat-error>
+                    <mat-error *ngIf="firstname?.errors?.['minlength']">El nombre debe tener al menos 2 caracteres</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="lastname" placeholder="Tu apellido">
+                    <mat-icon matPrefix>person</mat-icon>
+                    <mat-error *ngIf="lastname?.errors?.['required']">El apellido es obligatorio</mat-error>
+                    <mat-error *ngIf="lastname?.errors?.['minlength']">El apellido debe tener al menos 2 caracteres</mat-error>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput formControlName="email" placeholder="ejemplo@correo.com" type="email">
+                <mat-icon matPrefix>email</mat-icon>
+                <mat-error *ngIf="email?.errors?.['required']">El correo electrónico es obligatorio</mat-error>
+                <mat-error *ngIf="email?.errors?.['email']">Introduce un correo electrónico válido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Contraseña</mat-label>
+                <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Tu contraseña">
+                <mat-icon matPrefix>lock</mat-icon>
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password?.errors?.['required']">La contraseña es obligatoria</mat-error>
+                <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Confirmar contraseña</mat-label>
+                <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirma tu contraseña">
+                <mat-icon matPrefix>lock</mat-icon>
+                <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword">
+                    <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirma tu contraseña</mat-error>
+                <mat-error *ngIf="registerForm.errors?.['passwordMismatch']">Las contraseñas no coinciden</mat-error>
+            </mat-form-field>
+
+            <div *ngIf="registerError" class="register-error">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ errorMessage }}</span>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit" class="register-button" [disabled]="registerForm.invalid || isLoading">
+                <mat-icon *ngIf="!isLoading">person_add</mat-icon>
+                <span *ngIf="!isLoading">Crear Cuenta</span>
+                <mat-spinner *ngIf="isLoading" diameter="20" color="accent"></mat-spinner>
+                <span *ngIf="isLoading">Registrando...</span>
+            </button>
+        </form>
+
+        <div class="login-link">
+            <p>¿Ya tienes cuenta? <a (click)="goToLogin()">Inicia sesión</a></p>
+        </div>
+
+        <div class="register-footer">
+            <p>Al registrarte, aceptas nuestros <a href="javascript:void(0)">Términos de Servicio</a> y <a href="javascript:void(0)">Política de Privacidad</a>.</p>
+            <p class="copyright">© 2025 SportBoard. Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+    <div class="register-banner">
+        <div class="banner-content">
+            <h2>Únete a la comunidad deportiva</h2>
+            <p>Crea y gestiona competiciones, equipos y eventos deportivos en una plataforma diseñada para profesionales.</p>
+            <div class="banner-features">
+                <div class="feature">
+                    <mat-icon>emoji_events</mat-icon>
+                    <span>Torneos Profesionales</span>
+                </div>
+                <div class="feature">
+                    <mat-icon>leaderboard</mat-icon>
+                    <span>Estadísticas Avanzadas</span>
+                </div>
+                <div class="feature">
+                    <mat-icon>sports</mat-icon>
+                    <span>Múltiples Deportes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

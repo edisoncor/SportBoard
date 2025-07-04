@@ -1,0 +1,22 @@
+<nav class="bottom-navigation">
+  <a routerLink="/dashboard" routerLinkActive="active" [class.active]="activeRoute === 'dashboard' || activeRoute === ''">
+    <mat-icon>dashboard</mat-icon>
+    <span>Inicio</span>
+  </a>
+  <a routerLink="/deportes" routerLinkActive="active" [class.active]="activeRoute === 'deportes'">
+    <mat-icon>sports_soccer</mat-icon>
+    <span>Deportes</span>
+  </a>
+  <a routerLink="/estadisticas/resumen" routerLinkActive="active" [class.active]="activeRoute === 'estadisticas'">
+    <mat-icon>bar_chart</mat-icon>
+    <span>Estadísticas</span>
+  </a>
+  <a routerLink="/torneos" routerLinkActive="active" [class.active]="activeRoute === 'torneos'">
+    <mat-icon>emoji_events</mat-icon>
+    <span>Torneos</span>
+  </a>
+  <a routerLink="/perfil" routerLinkActive="active" [class.active]="activeRoute === 'perfil'">
+    <mat-icon>person</mat-icon>
+    <span>Perfil</span>
+  </a>
+</nav>
