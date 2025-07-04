@@ -1,0 +1,307 @@
+<div class="perfil-container slide-in">
+    <div class="page-header">
+        <h1>Perfil de Usuario</h1>
+        <p>Gestiona tu información personal y preferencias</p>
+    </div>
+    
+    <div class="perfil-content">
+        <div class="perfil-sidebar">
+            <div class="user-card">
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name={{usuario.nombre}}+{{usuario.apellido}}&background=1e88e5&color=fff&size=128" alt="Foto de perfil">
+                    <button class="avatar-upload-btn">
+                        <mat-icon>photo_camera</mat-icon>
+                    </button>
+                </div>
+                <div class="user-info">
+                    <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
+                    <p class="user-role">{{usuario.rol}}</p>
+                    <p class="user-location">
+                        <mat-icon>location_on</mat-icon>
+                        <span>{{usuario.ubicacion}}</span>
+                    </p>
+                </div>
+                <div class="user-social">
+                    <a href="#" class="social-link">
+                        <mat-icon>alternate_email</mat-icon>
+                        <span>{{usuario.redesSociales.twitter}}</span>
+                    </a>
+                    <a href="#" class="social-link">
+                        <mat-icon>link</mat-icon>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" class="social-link">
+                        <mat-icon>photo_camera</mat-icon>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+                <div class="deportes-favoritos">
+                    <h3>Deportes favoritos</h3>
+                    <div class="deportes-chips">
+                        <div class="deporte-chip" *ngFor="let deporte of usuario.preferencias.deportesFavoritos">
+                            {{deporte}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="actividad-reciente">
+                <h3>Actividad reciente</h3>
+                <div class="actividad-list">
+                    <div class="actividad-item" *ngFor="let actividad of usuario.actividad">
+                        <div class="actividad-icon" 
+                             [ngClass]="{
+                                'edit': actividad.tipo === 'Edición',
+                                'create': actividad.tipo === 'Creación',
+                                'join': actividad.tipo === 'Participación'
+                             }">
+                            <mat-icon>
+                                {{actividad.tipo === 'Edición' ? 'edit' : 
+                                  actividad.tipo === 'Creación' ? 'add_circle' : 'group_add'}}
+                            </mat-icon>
+                        </div>
+                        <div class="actividad-content">
+                            <p class="actividad-descripcion">{{actividad.descripcion}}</p>
+                            <p class="actividad-fecha">{{actividad.fecha | date:'dd/MM/yyyy - HH:mm'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="perfil-main">
+            <mat-tab-group animationDuration="300ms">
+                <!-- Información Personal -->
+                <mat-tab label="Información Personal">
+                    <div class="tab-content">
+                        <div class="info-section">
+                            <h3>Información básica</h3>
+                            
+                            <div class="form-grid">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput [(ngModel)]="usuario.nombre">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Apellido</mat-label>
+                                    <input matInput [(ngModel)]="usuario.apellido">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nombre de usuario</mat-label>
+                                    <input matInput [(ngModel)]="usuario.nombreUsuario">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Correo electrónico</mat-label>
+                                    <input matInput [(ngModel)]="usuario.email" type="email">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Teléfono</mat-label>
+                                    <input matInput [(ngModel)]="usuario.telefono">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha de nacimiento</mat-label>
+                                    <input matInput [(ngModel)]="usuario.fechaNacimiento" type="date">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Ubicación</mat-label>
+                                    <input matInput [(ngModel)]="usuario.ubicacion">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Biografía</mat-label>
+                                    <textarea matInput [(ngModel)]="usuario.biografia" rows="4"></textarea>
+                                </mat-form-field>
+                            </div>
+                            
+                            <h3>Redes sociales</h3>
+                            
+                            <div class="form-grid">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Twitter</mat-label>
+                                    <input matInput [(ngModel)]="usuario.redesSociales.twitter">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>LinkedIn</mat-label>
+                                    <input matInput [(ngModel)]="usuario.redesSociales.linkedin">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Instagram</mat-label>
+                                    <input matInput [(ngModel)]="usuario.redesSociales.instagram">
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button mat-raised-button color="primary" (click)="actualizarPerfil()">
+                                    Guardar cambios
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                
+                <!-- Contraseña y Seguridad -->
+                <mat-tab label="Contraseña y Seguridad">
+                    <div class="tab-content">
+                        <div class="info-section">
+                            <h3>Cambiar contraseña</h3>
+                            
+                            <div class="form-grid">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Contraseña actual</mat-label>
+                                    <input matInput [(ngModel)]="passwordForm.passwordActual" type="password">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nueva contraseña</mat-label>
+                                    <input matInput [(ngModel)]="passwordForm.nuevoPassword" type="password">
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Confirmar contraseña</mat-label>
+                                    <input matInput [(ngModel)]="passwordForm.confirmarPassword" type="password">
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button mat-raised-button color="primary" (click)="cambiarPassword()">
+                                    Actualizar contraseña
+                                </button>
+                            </div>
+                            
+                            <mat-divider style="margin: 30px 0;"></mat-divider>
+                            
+                            <h3>Dispositivos conectados</h3>
+                            
+                            <div class="dispositivos-list">
+                                <div class="dispositivo-item">
+                                    <div class="dispositivo-icon">
+                                        <mat-icon>computer</mat-icon>
+                                    </div>
+                                    <div class="dispositivo-info">
+                                        <h4>Windows PC - Chrome</h4>
+                                        <p>Madrid, España - Activo ahora</p>
+                                    </div>
+                                    <div class="dispositivo-actions">
+                                        <button mat-stroked-button color="warn">Cerrar sesión</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="dispositivo-item">
+                                    <div class="dispositivo-icon">
+                                        <mat-icon>smartphone</mat-icon>
+                                    </div>
+                                    <div class="dispositivo-info">
+                                        <h4>iPhone 13 - Safari</h4>
+                                        <p>Madrid, España - Hace 2 días</p>
+                                    </div>
+                                    <div class="dispositivo-actions">
+                                        <button mat-stroked-button color="warn">Cerrar sesión</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                
+                <!-- Preferencias -->
+                <mat-tab label="Preferencias">
+                    <div class="tab-content">
+                        <div class="info-section">
+                            <h3>Preferencias de notificaciones</h3>
+                            
+                            <div class="preferencias-grid">
+                                <div class="preferencia-item">
+                                    <div class="preferencia-info">
+                                        <h4>Notificaciones por correo</h4>
+                                        <p>Recibe actualizaciones importantes por correo electrónico</p>
+                                    </div>
+                                    <div class="preferencia-control">
+                                        <mat-slide-toggle 
+                                            [checked]="usuario.preferencias.notificaciones.email"
+                                            (change)="toggleNotificacion('email')">
+                                        </mat-slide-toggle>
+                                    </div>
+                                </div>
+                                
+                                <div class="preferencia-item">
+                                    <div class="preferencia-info">
+                                        <h4>Notificaciones push</h4>
+                                        <p>Recibe notificaciones en tiempo real en tu navegador</p>
+                                    </div>
+                                    <div class="preferencia-control">
+                                        <mat-slide-toggle 
+                                            [checked]="usuario.preferencias.notificaciones.push"
+                                            (change)="toggleNotificacion('push')">
+                                        </mat-slide-toggle>
+                                    </div>
+                                </div>
+                                
+                                <div class="preferencia-item">
+                                    <div class="preferencia-info">
+                                        <h4>Notificaciones SMS</h4>
+                                        <p>Recibe alertas importantes por mensaje de texto</p>
+                                    </div>
+                                    <div class="preferencia-control">
+                                        <mat-slide-toggle 
+                                            [checked]="usuario.preferencias.notificaciones.sms"
+                                            (change)="toggleNotificacion('sms')">
+                                        </mat-slide-toggle>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <mat-divider style="margin: 30px 0;"></mat-divider>
+                            
+                            <h3>Preferencias de visualización</h3>
+                            
+                            <div class="preferencias-grid">
+                                <div class="preferencia-item">
+                                    <div class="preferencia-info">
+                                        <h4>Idioma</h4>
+                                        <p>Selecciona el idioma de la interfaz</p>
+                                    </div>
+                                    <div class="preferencia-control language-select">
+                                        <mat-form-field appearance="outline">
+                                            <mat-select [(ngModel)]="usuario.preferencias.idioma">
+                                                <mat-option *ngFor="let idioma of idiomas" [value]="idioma">
+                                                    {{idioma}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                
+                                <div class="preferencia-item">
+                                    <div class="preferencia-info">
+                                        <h4>Tema oscuro</h4>
+                                        <p>Cambia a un tema con fondo oscuro para reducir la fatiga visual</p>
+                                    </div>
+                                    <div class="preferencia-control">
+                                        <mat-slide-toggle 
+                                            [checked]="usuario.preferencias.temaOscuro"
+                                            (change)="toggleTemaOscuro()">
+                                        </mat-slide-toggle>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button mat-raised-button color="primary" (click)="actualizarPerfil()">
+                                    Guardar preferencias
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

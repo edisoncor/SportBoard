@@ -1,0 +1,190 @@
+<div class="resumen-container slide-in">
+    <div class="page-header">
+        <h1>Resumen de Estadísticas</h1>
+        <p>Vista general del rendimiento y estadísticas de la plataforma</p>
+    </div>
+    
+    <div class="nav-tabs">
+        <div class="tab active">Visión general</div>
+        <div class="tab">Deportes</div>
+        <div class="tab">Torneos</div>
+        <div class="tab">Equipos</div>
+    </div>
+    
+    <div class="stats-overview">
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-title">Torneos</div>
+                <div class="stat-icon torneos">
+                    <mat-icon>emoji_events</mat-icon>
+                </div>
+            </div>
+            <div class="stat-value">{{estadisticasGenerales.torneos.total}}</div>
+            <div class="stat-subtitle">
+                <span>{{estadisticasGenerales.torneos.activos}} activos</span>
+                <span>{{estadisticasGenerales.torneos.porcentaje}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress torneos" [style.width.%]="estadisticasGenerales.torneos.porcentaje"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-title">Equipos</div>
+                <div class="stat-icon equipos">
+                    <mat-icon>groups</mat-icon>
+                </div>
+            </div>
+            <div class="stat-value">{{estadisticasGenerales.equipos.total}}</div>
+            <div class="stat-subtitle">
+                <span>{{estadisticasGenerales.equipos.activos}} activos</span>
+                <span>{{estadisticasGenerales.equipos.porcentaje}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress equipos" [style.width.%]="estadisticasGenerales.equipos.porcentaje"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-title">Partidos</div>
+                <div class="stat-icon partidos">
+                    <mat-icon>sports</mat-icon>
+                </div>
+            </div>
+            <div class="stat-value">{{estadisticasGenerales.partidos.total}}</div>
+            <div class="stat-subtitle">
+                <span>{{estadisticasGenerales.partidos.jugados}} jugados</span>
+                <span>{{estadisticasGenerales.partidos.porcentaje}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress partidos" [style.width.%]="estadisticasGenerales.partidos.porcentaje"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-title">Deportes</div>
+                <div class="stat-icon deportes">
+                    <mat-icon>category</mat-icon>
+                </div>
+            </div>
+            <div class="stat-value">{{estadisticasGenerales.deportes.total}}</div>
+            <div class="stat-subtitle">
+                <span>Cobertura</span>
+                <span>{{estadisticasGenerales.deportes.porcentajeCobertura}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress deportes" [style.width.%]="estadisticasGenerales.deportes.porcentajeCobertura"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Distribución por Deportes</h2>
+                <div class="actions">
+                    <a routerLink="/estadisticas/analisis">Ver más</a>
+                </div>
+            </div>
+            <div class="deportes-stats">
+                <div class="deporte-item" *ngFor="let deporte of deportesStats">
+                    <div class="deporte-info">
+                        <div class="deporte-header">
+                            <div class="deporte-name">{{deporte.nombre}}</div>
+                            <div class="deporte-value">{{deporte.porcentaje}}%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" [style.width.%]="deporte.porcentaje"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Actividad Reciente</h2>
+                <div class="actions">
+                    <a routerLink="/notificaciones">Ver todo</a>
+                </div>
+            </div>
+            <div class="actividad-list">
+                <div class="actividad-item" *ngFor="let actividad of actividadReciente">
+                    <div class="actividad-icon" [style.background-color]="actividad.color">
+                        <mat-icon>{{actividad.icono}}</mat-icon>
+                    </div>
+                    <div class="actividad-content">
+                        <div class="actividad-title">{{actividad.titulo}}</div>
+                        <div class="actividad-desc">{{actividad.descripcion}}</div>
+                    </div>
+                    <div class="actividad-date">{{actividad.fecha}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Próximos Eventos</h2>
+                <div class="actions">
+                    <a routerLink="/torneos">Ver calendario</a>
+                </div>
+            </div>
+            <div class="eventos-list">
+                <div class="evento-item" *ngFor="let evento of proximosEventos">
+                    <div class="evento-date">
+                        <div class="day">{{evento.fecha.split('/')[0]}}</div>
+                        <div class="month">{{evento.fecha.split('/')[1]}}</div>
+                    </div>
+                    <div class="evento-content">
+                        <div class="evento-title">
+                            <mat-icon>{{evento.icono}}</mat-icon>
+                            {{evento.titulo}}
+                        </div>
+                        <div class="evento-details">
+                            {{evento.hora}} <span class="separator">|</span> {{evento.lugar}} <span class="separator">|</span> {{evento.deporte}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Accesos Rápidos</h2>
+            </div>
+            <div class="quick-links">
+                <div class="row">
+                    <div class="col-6" style="margin-bottom: 15px;">
+                        <a routerLink="/torneos" class="quick-link" style="display: block; text-align: center; padding: 20px; background-color: #f5f7fa; border-radius: 8px; text-decoration: none; color: #2c3e50;">
+                            <mat-icon style="font-size: 30px; width: 30px; height: 30px; margin-bottom: 10px; color: #1e88e5;">emoji_events</mat-icon>
+                            <div style="font-weight: 500;">Gestionar Torneos</div>
+                        </a>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 15px;">
+                        <a routerLink="/equipos" class="quick-link" style="display: block; text-align: center; padding: 20px; background-color: #f5f7fa; border-radius: 8px; text-decoration: none; color: #2c3e50;">
+                            <mat-icon style="font-size: 30px; width: 30px; height: 30px; margin-bottom: 10px; color: #4caf50;">groups</mat-icon>
+                            <div style="font-weight: 500;">Gestionar Equipos</div>
+                        </a>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 15px;">
+                        <a routerLink="/estadisticas/rendimiento" class="quick-link" style="display: block; text-align: center; padding: 20px; background-color: #f5f7fa; border-radius: 8px; text-decoration: none; color: #2c3e50;">
+                            <mat-icon style="font-size: 30px; width: 30px; height: 30px; margin-bottom: 10px; color: #ff9800;">leaderboard</mat-icon>
+                            <div style="font-weight: 500;">Ver Rendimiento</div>
+                        </a>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 15px;">
+                        <a routerLink="/estadisticas/analisis" class="quick-link" style="display: block; text-align: center; padding: 20px; background-color: #f5f7fa; border-radius: 8px; text-decoration: none; color: #2c3e50;">
+                            <mat-icon style="font-size: 30px; width: 30px; height: 30px; margin-bottom: 10px; color: #9c27b0;">insights</mat-icon>
+                            <div style="font-weight: 500;">Análisis Deportivo</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<!-- Header Section with Branding -->
+<header role="banner">
+    <app-header [sidebarOpened]="sidebarOpened" (menuClicked)="toggleSidebar()"></app-header>
+</header>
+
+<!-- Main Content Section -->
+<div class="app-container" [ngClass]="{'sidebar-closed': !sidebarOpened}">
+    <!-- Sidebar Navigation -->
+    <aside [ngClass]="{'open': sidebarOpened}">
+        <app-sidebar></app-sidebar>
+    </aside>
+    
+    <!-- Overlay para cerrar el sidebar en móvil -->
+    <div class="sidebar-overlay" *ngIf="sidebarOpened" (click)="toggleSidebar()"></div>
+
+    <!-- Main Content Area -->
+    <main role="main" class="fade-in">
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>
+
+<!-- Bottom Navigation for Mobile -->
+<app-bottom-navigation></app-bottom-navigation>
+
+<!-- Footer Section -->
+<footer class="app-footer" role="contentinfo">
+    <app-footer></app-footer>
+</footer>

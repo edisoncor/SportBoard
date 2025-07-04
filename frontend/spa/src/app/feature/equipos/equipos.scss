@@ -1,0 +1,416 @@
+.equipos-container {
+    padding: 20px;
+    
+    .page-header {
+        margin-bottom: 25px;
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        p {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+    }
+    
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .deportes-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            
+            .deporte-pill {
+                padding: 8px 15px;
+                border-radius: 20px;
+                background-color: #eceff1;
+                color: #546e7a;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s;
+                
+                &:hover {
+                    background-color: #cfd8dc;
+                }
+                
+                &.active {
+                    background-color: #1e88e5;
+                    color: white;
+                }
+            }
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            
+            .search {
+                display: flex;
+                align-items: center;
+                background-color: white;
+                border-radius: 20px;
+                padding: 5px 15px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                
+                input {
+                    border: none;
+                    padding: 5px 10px;
+                    font-size: 0.9rem;
+                    width: 200px;
+                    font-family: inherit;
+                    
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                
+                .search-icon {
+                    color: #546e7a;
+                }
+            }
+            
+            .add-button {
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                font-family: inherit;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                    background-color: #43a047;
+                }
+            }
+        }
+    }
+    
+    .equipos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        
+        .equipo-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+            
+            .card-header {
+                position: relative;
+                height: 120px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                .header-bg {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                }
+                
+                .team-logo {
+                    position: relative;
+                    z-index: 2;
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background-color: white;
+                    padding: 3px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                    
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                }
+                
+                .estado-badge {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    z-index: 2;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    background-color: rgba(255, 255, 255, 0.9);
+                    
+                    &.activo {
+                        color: #4caf50;
+                    }
+                    
+                    &.inactivo {
+                        color: #f44336;
+                    }
+                }
+            }
+            
+            .card-content {
+                padding: 20px;
+                text-align: center;
+                
+                .team-name {
+                    margin: 0 0 5px;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                }
+                
+                .team-sport {
+                    color: #546e7a;
+                    margin-bottom: 15px;
+                    font-size: 0.9rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                }
+                
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                    margin-bottom: 20px;
+                    
+                    .stat-item {
+                        .stat-value {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: #2c3e50;
+                        }
+                        
+                        .stat-label {
+                            font-size: 0.8rem;
+                            color: #546e7a;
+                        }
+                    }
+                }
+                
+                .rendimiento {
+                    margin-bottom: 20px;
+                    
+                    .rendimiento-titulo {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 5px;
+                        
+                        span {
+                            font-size: 0.8rem;
+                            color: #546e7a;
+                            
+                            &.valor {
+                                font-weight: 500;
+                                color: #2c3e50;
+                            }
+                        }
+                    }
+                    
+                    .progress-bar {
+                        height: 6px;
+                        background-color: #eceff1;
+                        border-radius: 3px;
+                        overflow: hidden;
+                        
+                        .progress {
+                            height: 100%;
+                            border-radius: 3px;
+                        }
+                    }
+                }
+                
+                .ultimos-resultados {
+                    margin-bottom: 20px;
+                    
+                    .resultados-titulo {
+                        font-size: 0.8rem;
+                        color: #546e7a;
+                        margin-bottom: 10px;
+                        text-align: left;
+                    }
+                    
+                    .resultados-lista {
+                        display: flex;
+                        gap: 8px;
+                        justify-content: center;
+                        
+                        .resultado {
+                            width: 28px;
+                            height: 28px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 0.8rem;
+                            font-weight: 600;
+                            
+                            &.victoria {
+                                background-color: #4caf50;
+                                color: white;
+                            }
+                            
+                            &.derrota {
+                                background-color: #f44336;
+                                color: white;
+                            }
+                            
+                            &.empate {
+                                background-color: #ff9800;
+                                color: white;
+                            }
+                        }
+                    }
+                }
+                
+                .proximo-partido {
+                    background-color: #f5f7fa;
+                    border-radius: 8px;
+                    padding: 15px;
+                    margin-bottom: 20px;
+                    
+                    .partido-titulo {
+                        font-size: 0.8rem;
+                        color: #546e7a;
+                        margin-bottom: 10px;
+                        text-align: left;
+                    }
+                    
+                    .partido-info {
+                        .rival {
+                            font-weight: 600;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .detalles {
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 0.8rem;
+                            color: #546e7a;
+                            
+                            .torneo {
+                                background-color: rgba(30, 136, 229, 0.1);
+                                color: #1e88e5;
+                                padding: 2px 8px;
+                                border-radius: 10px;
+                            }
+                        }
+                    }
+                }
+                
+                .actions {
+                    display: flex;
+                    gap: 10px;
+                    
+                    button {
+                        flex: 1;
+                        padding: 8px 0;
+                        border: none;
+                        border-radius: 5px;
+                        font-family: inherit;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 5px;
+                        
+                        &.primary {
+                            background-color: #1e88e5;
+                            color: white;
+                            
+                            &:hover {
+                                background-color: #1976d2;
+                            }
+                        }
+                        
+                        &.secondary {
+                            background-color: #eceff1;
+                            color: #546e7a;
+                            
+                            &:hover {
+                                background-color: #cfd8dc;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 50px 0;
+        
+        mat-icon {
+            font-size: 50px;
+            width: 50px;
+            height: 50px;
+            color: #cfd8dc;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: #546e7a;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            color: #90a4ae;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0 auto;
+            
+            &:hover {
+                background-color: #1976d2;
+            }
+        }
+    }
+}

@@ -1,17 +1,26 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+    ApplicationConfig,
+    importProvidersFrom,
+    provideBrowserGlobalErrorListeners,
+    provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideBrowserGlobalErrorListeners(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
-        provideClientHydration(),
-        provideAnimationsAsync(), provideAnimationsAsync(),
-        provideHttpClient(withFetch()),
+        provideAnimations(), // Necesario para Angular Material
+        provideHttpClient(withInterceptorsFromDi()),
+        importProvidersFrom(HttpClientModule),
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }
     ],
 };

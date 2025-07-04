@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database.mongodb import connect_to_mongo, close_mongo_connection
-from app.database.redis_client import redis_client
 import logging
 import pytz
 import uvicorn
@@ -18,7 +17,6 @@ from app.api.endpoints.scoreboard import router as scoreboard_router
 from app.api.endpoints.table_rating import router as table_rating_router
 from app.api.endpoints.position_table import router as position_table_router
 from app.api.endpoints.catalog_item import router as catalog_item_router
-from app.api.endpoints.statistics_ws import router as statistics_ws_router
 from app.api.endpoints.statistics_competence import router as statistic_competence_router
 from app.api.endpoints.statistic_individual import router as statistic_individual_router
 from app.api.endpoints.statistic_team import router as statistic_team_router
@@ -61,7 +59,6 @@ async def shutdown_event():
     try:
         logger.info("Deteniendo el microservicio de estadísticas...")
         await close_mongo_connection()
-        await redis_client.close()
         logger.info("Microservicio de estadísticas detenido exitosamente.")
     except Exception as e:
         logger.error(f"Error al detener el microservicio: {str(e)}")
@@ -76,19 +73,10 @@ async def health_check():
         "status": "ok",
         "details": {
             "mongodb": "ok",
-            "redis": "ok"
         }
     }
     
     try:
-        # Verificar MongoDB
-        db = await redis_client.get("test_key")
-    except Exception as e:
-        health_status["details"]["redis"] = "error"
-        health_status["status"] = "degraded"
-    
-    try:
-        # Verificar Redis
         from app.database.mongodb import get_database
         db = get_database()
         await db.command("ping")
@@ -111,7 +99,6 @@ app.include_router(scoreboard_router)
 app.include_router(table_rating_router)
 app.include_router(position_table_router)
 app.include_router(catalog_item_router)
-app.include_router(statistics_ws_router)
 app.include_router(statistic_competence_router)
 app.include_router(statistic_individual_router)
 app.include_router(statistic_team_router)

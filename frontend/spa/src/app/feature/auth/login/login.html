@@ -1,0 +1,131 @@
+<div class="login-container">
+    <div class="login-content">
+        <div class="login-header">
+            <div class="logo">
+            </div>
+            <h1>Bienvenido a SportBoard</h1>
+            <p>Tu plataforma para gestionar competiciones deportivas</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div class="form-title">
+                <h2>Iniciar Sesión</h2>
+                <p>Introduce tus credenciales para acceder</p>
+            </div>
+            
+            <div class="form-content">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Correo electrónico</mat-label>
+                    <input matInput formControlName="email" placeholder="ejemplo@correo.com" type="email" autocomplete="email">
+                    <mat-icon matPrefix>email</mat-icon>
+                    <mat-error *ngIf="email?.errors?.['required']">El correo electrónico es obligatorio</mat-error>
+                    <mat-error *ngIf="email?.errors?.['email']">Introduce un correo electrónico válido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Tu contraseña" autocomplete="current-password">
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" tabindex="-1" aria-label="Mostrar/ocultar contraseña">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password?.errors?.['required']">La contraseña es obligatoria</mat-error>
+                    <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</mat-error>
+                </mat-form-field>
+
+                <div class="form-row">
+                    <mat-checkbox formControlName="rememberMe" color="primary">Recordarme</mat-checkbox>
+                    <a (click)="goToForgotPassword()" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <div *ngIf="loginError" class="login-error" role="alert">
+                    <mat-icon>error_outline</mat-icon>
+                    <span>{{ errorMessage }}</span>
+                </div>
+
+                <button mat-raised-button color="primary" type="submit" class="login-button" [disabled]="loginForm.invalid || isLoading">
+                    <div class="button-content">
+                        <mat-icon *ngIf="!isLoading">login</mat-icon>
+                        <span *ngIf="!isLoading">Iniciar Sesión</span>
+                        <mat-spinner *ngIf="isLoading" diameter="20" color="accent"></mat-spinner>
+                        <span *ngIf="isLoading">Iniciando sesión...</span>
+                    </div>
+                </button>
+                
+                <div class="login-divider">
+                    <mat-divider></mat-divider>
+                    <span>O continúa con</span>
+                    <mat-divider></mat-divider>
+                </div>
+
+                <div class="social-login">
+                    <button mat-stroked-button class="social-button google" type="button" disabled>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                        <span>Google</span>
+                    </button>
+                    <button mat-stroked-button class="social-button microsoft" type="button" disabled>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+                        <span>Microsoft</span>
+                    </button>
+                </div>
+
+                <div class="register-prompt">
+                    <p>¿No tienes una cuenta? <a (click)="goToRegister()">Regístrate ahora</a></p>
+                </div>
+            </div>
+        </form>
+
+        <div class="login-footer">
+            <p>© 2025 SportBoard. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <a href="javascript:void(0)">Términos de Servicio</a>
+                <a href="javascript:void(0)">Política de Privacidad</a>
+                <a href="javascript:void(0)">Ayuda</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-banner">
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+            <h2>Gestiona tus competiciones deportivas</h2>
+            <p>La plataforma integral para torneos, equipos y estadísticas deportivas</p>
+            
+            <div class="banner-features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <mat-icon>emoji_events</mat-icon>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Gestión de torneos</h3>
+                        <p>Crea y administra torneos de cualquier deporte</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <mat-icon>groups</mat-icon>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Administración de equipos</h3>
+                        <p>Gestiona equipos, jugadores y calendarios</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <mat-icon>insert_chart</mat-icon>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Estadísticas avanzadas</h3>
+                        <p>Análisis detallado del rendimiento deportivo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banner-cta">
+                <button mat-flat-button color="accent" (click)="goToRegister()">
+                    Comenzar ahora
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="sidebar-container">
+    <!-- User Profile Section -->
+    <div class="user-profile">
+        <div class="user-avatar">
+            <img src="https://ui-avatars.com/api/?name=User&background=1e88e5&color=fff" alt="Avatar del usuario">
+        </div>
+        <div class="user-info">
+            <h3 class="user-name">Juan Pérez</h3>
+            <p class="user-role">Administrador</p>
+        </div>
+    </div>
+
+    <!-- Navigation Section -->
+    <nav class="sidebar-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-section">
+            <h4 class="nav-section-title">GENERAL</h4>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                        <mat-icon>dashboard</mat-icon>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/deportes" routerLinkActive="active" class="nav-link">
+                        <mat-icon>sports_soccer</mat-icon>
+                        <span>Deportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/torneos" routerLinkActive="active" class="nav-link">
+                        <mat-icon>emoji_events</mat-icon>
+                        <span>Torneos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/equipos" routerLinkActive="active" class="nav-link">
+                        <mat-icon>groups</mat-icon>
+                        <span>Equipos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/eventos" routerLinkActive="active" class="nav-link">
+                        <mat-icon>event</mat-icon>
+                        <span>Eventos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/calendario" routerLinkActive="active" class="nav-link">
+                        <mat-icon>calendar_today</mat-icon>
+                        <span>Calendario</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h4 class="nav-section-title">ESTADÍSTICAS</h4>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a routerLink="/estadisticas/resumen" routerLinkActive="active" class="nav-link">
+                        <mat-icon>insert_chart</mat-icon>
+                        <span>Resumen</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/estadisticas/rendimiento" routerLinkActive="active" class="nav-link">
+                        <mat-icon>leaderboard</mat-icon>
+                        <span>Rendimiento</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/estadisticas/analisis" routerLinkActive="active" class="nav-link">
+                        <mat-icon>insights</mat-icon>
+                        <span>Análisis</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h4 class="nav-section-title">CONFIGURACIÓN</h4>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a routerLink="/perfil" routerLinkActive="active" class="nav-link">
+                        <mat-icon>person</mat-icon>
+                        <span>Perfil</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/ajustes" routerLinkActive="active" class="nav-link">
+                        <mat-icon>settings</mat-icon>
+                        <span>Ajustes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/ayuda" routerLinkActive="active" class="nav-link">
+                        <mat-icon>help</mat-icon>
+                        <span>Ayuda</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Version Info -->
+    <div class="version-info">
+        <p>v1.0.0</p>
+    </div>
+</div>

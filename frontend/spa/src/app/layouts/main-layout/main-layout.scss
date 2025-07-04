@@ -1,0 +1,84 @@
+@use '../../../styles.scss' as *;
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  margin-top: $header-height;
+  position: relative;
+  transition: all 0.3s ease;
+  
+  &.sidebar-closed {
+    aside {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+aside {
+  width: $sidebar-width;
+  height: calc(100vh - #{$header-height});
+  position: fixed;
+  left: 0;
+  top: $header-height;
+  z-index: 1010;
+  transition: transform 0.3s ease;
+  background-color: white;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1005;
+  display: none;
+}
+
+main {
+  flex: 1;
+  margin-left: $sidebar-width;
+  padding: 1.5rem;
+  transition: margin 0.3s ease;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-footer {
+  margin-bottom: 0;
+  padding: 1rem;
+  text-align: center;
+  background-color: white;
+  border-top: 1px solid $light-gray;
+}
+
+// Responsive adjustments
+@media (max-width: $breakpoint-md) {
+  .app-container {
+    &.sidebar-closed {
+      aside {
+        transform: translateX(-100%);
+      }
+    }
+  }
+  
+  main {
+    margin-left: 0;
+    padding: 1rem;
+    margin-bottom: 56px; // Space for bottom navigation
+  }
+  
+  .sidebar-overlay {
+    display: block;
+  }
+  
+  .app-footer {
+    margin-bottom: 56px; // Space for bottom navigation
+    padding-bottom: env(safe-area-inset-bottom); // For notched iPhones
+  }
+}

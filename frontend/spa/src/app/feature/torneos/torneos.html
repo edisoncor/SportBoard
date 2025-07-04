@@ -1,0 +1,111 @@
+<div class="torneos-container slide-in">
+    <div class="page-header">
+        <h1>Torneos</h1>
+        <p>Gestiona los torneos y competiciones de diferentes deportes</p>
+    </div>
+    
+    <div class="controls">
+        <div class="filters">
+            <button [class.active]="filtroActual === 'todos'" (click)="filtrarTorneos('todos')">
+                Todos <span class="badge">{{totalTorneos}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'en curso'" (click)="filtrarTorneos('en curso')">
+                En curso <span class="badge">{{torneosEnCurso}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'próximamente'" (click)="filtrarTorneos('próximamente')">
+                Próximos <span class="badge">{{torneosFuturos}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'finalizado'" (click)="filtrarTorneos('finalizado')">
+                Finalizados <span class="badge">{{torneosFinalizados}}</span>
+            </button>
+        </div>
+        
+        <div class="search">
+            <mat-icon class="search-icon">search</mat-icon>
+            <input type="text" placeholder="Buscar torneo..." aria-label="Buscar torneo" [(ngModel)]="terminoBusqueda" (input)="buscarTorneos()">
+        </div>
+    </div>
+    
+    <div class="torneos-grid" *ngIf="torneosFiltrados.length > 0">
+        <div class="torneo-card" *ngFor="let torneo of torneosFiltrados">
+            <div class="card-header" [style.background-color]="torneo.colorPrimario">
+                <div class="logo">
+                    <mat-icon>{{torneo.logo}}</mat-icon>
+                </div>
+                <div class="info">
+                    <h2>{{torneo.nombre}}</h2>
+                    <div class="meta">
+                        <span>{{torneo.deporte}}</span>
+                        <span class="estado">{{torneo.estado}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="stats">
+                    <div class="stat">
+                        <div class="value">{{torneo.equipos}}</div>
+                        <div class="label">Equipos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="value">{{torneo.partidos}}</div>
+                        <div class="label">Partidos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="value">{{torneo.partidosJugados}}</div>
+                        <div class="label">Jugados</div>
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <div class="label">Progreso del torneo</div>
+                        <div class="value">{{obtenerPorcentajeCompletado(torneo)}}%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" [style.width.%]="obtenerPorcentajeCompletado(torneo)" [style.background-color]="torneo.colorPrimario"></div>
+                    </div>
+                </div>
+                
+                <div class="patrocinadores">
+                    <h4>Patrocinadores</h4>
+                    <div class="tags">
+                        <div class="tag" *ngFor="let patrocinador of torneo.patrocinadores">{{patrocinador}}</div>
+                    </div>
+                </div>
+                
+                <div class="proximo-partido" *ngIf="torneo.proximoPartido">
+                    <h4>Próximo partido</h4>
+                    <div class="partido-info">
+                        <div class="equipos">
+                            <span>{{torneo.proximoPartido.local}}</span>
+                            <span class="vs">VS</span>
+                            <span>{{torneo.proximoPartido.visitante}}</span>
+                        </div>
+                        <div class="fecha">
+                            <div class="dia">{{torneo.proximoPartido.fecha}}</div>
+                            <div class="hora">{{torneo.proximoPartido.hora}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="primary">
+                        <mat-icon>visibility</mat-icon>
+                        Ver detalles
+                    </button>
+                    <button class="secondary">
+                        <mat-icon>edit</mat-icon>
+                        Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="empty-state" *ngIf="torneosFiltrados.length === 0">
+        <mat-icon>emoji_events</mat-icon>
+        <h3>No hay torneos en esta categoría</h3>
+        <p>No se encontraron torneos que coincidan con el filtro seleccionado.</p>
+        <button (click)="filtrarTorneos('todos')">Ver todos los torneos</button>
+    </div>
+</div>

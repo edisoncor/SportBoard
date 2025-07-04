@@ -1,0 +1,139 @@
+<div class="calendario-container slide-in">
+    <div class="page-header">
+        <h1>Calendario Deportivo</h1>
+        <p>Planifica y visualiza todos los eventos deportivos</p>
+    </div>
+    
+    <div class="calendar-controls">
+        <div class="month-navigation">
+            <button class="nav-btn" (click)="cambiarMes(-1)">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <h2 class="current-month">{{meses[mesSeleccionado]}} {{anoSeleccionado}}</h2>
+            <button class="nav-btn" (click)="cambiarMes(1)">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <button class="today-btn" (click)="irAlMesActual()">
+                <mat-icon>today</mat-icon>
+                Hoy
+            </button>
+        </div>
+        
+        <div class="view-options">
+            <button [class.active]="vistaActual === 'mes'" (click)="cambiarVista('mes')">
+                <mat-icon>calendar_view_month</mat-icon>
+                Mes
+            </button>
+            <button [class.active]="vistaActual === 'semana'" (click)="cambiarVista('semana')">
+                <mat-icon>calendar_view_week</mat-icon>
+                Semana
+            </button>
+        </div>
+    </div>
+    
+    <div class="filters">
+        <div class="filter-section">
+            <label>Filtrar por deporte:</label>
+            <mat-select [(ngModel)]="filtroDeportes" (selectionChange)="generarCalendario()">
+                <mat-option value="todos">Todos los deportes</mat-option>
+                <mat-option *ngFor="let deporte of deportes" [value]="deporte">
+                    {{deporte}}
+                </mat-option>
+            </mat-select>
+        </div>
+        
+        <div class="actions">
+            <button class="primary" routerLink="/eventos/crear">
+                <mat-icon>add</mat-icon>
+                Crear evento
+            </button>
+        </div>
+    </div>
+    
+    <!-- Vista de mes -->
+    <div class="calendar-month" *ngIf="vistaActual === 'mes'">
+        <div class="calendar-header">
+            <div class="weekday" *ngFor="let dia of diasSemana">{{dia}}</div>
+        </div>
+        
+        <div class="calendar-body">
+            <div class="day-cell" *ngFor="let dia of diasCalendario" [class.other-month]="!dia.esMesActual" [class.has-events]="dia.eventos.length > 0">
+                <div class="day-number">{{dia.dia}}</div>
+                
+                <div class="day-events" *ngIf="dia.eventos.length > 0">
+                    <div class="event-item" *ngFor="let evento of dia.eventos.slice(0, 3)" 
+                         [ngStyle]="{'background-color': evento.color}" 
+                         (click)="verDetallesEvento(evento)">
+                        <div class="event-time">{{evento.hora}}</div>
+                        <div class="event-title">{{evento.titulo}}</div>
+                    </div>
+                    
+                    <div class="more-events" *ngIf="dia.eventos.length > 3">
+                        +{{dia.eventos.length - 3}} más
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vista de semana -->
+    <div class="calendar-week" *ngIf="vistaActual === 'semana'">
+        <div class="time-slots">
+            <div class="time-slot-header"></div>
+            <div class="time-slot" *ngFor="let hora of [8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                {{hora}}:00
+            </div>
+        </div>
+        
+        <div class="week-days">
+            <div class="week-day" *ngFor="let dia of diasCalendario | slice:0:7">
+                <div class="day-header">
+                    <div class="weekday">{{diasSemana[getDayOfWeek(dia.fecha)]}}</div>
+                    <div class="day-number" [class.other-month]="!dia.esMesActual">{{dia.dia}}</div>
+                </div>
+                
+                <div class="day-schedule">
+                    <div class="hour-slot" *ngFor="let hora of [8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                        <div class="event-item" *ngFor="let evento of dia.eventos" 
+                             [ngStyle]="{'background-color': evento.color, 'top.px': calcularPosicionEvento(evento.hora)}"
+                             (click)="verDetallesEvento(evento)"
+                             [class.visible]="esHoraVisible(evento.hora)">
+                            <div class="event-time">{{evento.hora}}</div>
+                            <div class="event-title">{{evento.titulo}}</div>
+                            <div class="event-location" *ngIf="evento.ubicacion">
+                                <mat-icon>location_on</mat-icon> {{evento.ubicacion}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leyenda de eventos -->
+    <div class="event-legend">
+        <h3>Tipos de Eventos</h3>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4caf50;"></div>
+                <span>Torneo</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #2196f3;"></div>
+                <span>Campeonato</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ff9800;"></div>
+                <span>Entrenamiento</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e91e63;"></div>
+                <span>Liga</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #607d8b;"></div>
+                <span>Reunión</span>
+            </div>
+        </div>
+    </div>
+</div>

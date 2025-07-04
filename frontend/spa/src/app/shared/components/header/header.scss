@@ -1,0 +1,587 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../../../../styles.scss' as *;
+
+.header-container {
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    height: $header-height;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1020;
+    transition: all 0.3s ease;
+}
+
+// Sección izquierda - menú y brand
+.header-left {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 1rem;
+}
+
+.header-menu {
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    mat-icon {
+        color: $primary-color;
+        font-size: 24px;
+    }
+
+    &:hover {
+        background-color: rgba($primary-color, 0.1);
+    }
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        color: $primary-color;
+        letter-spacing: 0.5px;
+
+        @media (max-width: $breakpoint-sm) {
+            font-size: 1.2rem;
+        }
+    }
+
+    cursor: pointer;
+
+    &.centered {
+        margin: 0 auto;
+    }
+}
+
+// Sección centro - opciones de navegación
+.header-center {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    .nav-options {
+        display: flex;
+        gap: 2rem;
+
+        @media (max-width: $breakpoint-md) {
+            display: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: $font-secondary-color;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            position: relative;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            mat-icon {
+                font-size: 20px;
+            }
+
+            &:hover,
+            &.active {
+                color: $primary-color;
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $primary-color;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after,
+            &.active::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.nav-link {
+    border-radius: 4px;
+    color: $secondary-color;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: $secondary-color;
+        color: $primary-color;
+    }
+}
+
+// Añadir icono de búsqueda
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    mat-icon {
+        color: $font-secondary-color;
+    }
+
+    &:hover {
+        background-color: rgba($primary-color, 0.1);
+
+        mat-icon {
+            color: $primary-color;
+        }
+    }
+}
+
+// Sección derecha - usuario y acciones
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .notification-icon {
+        position: relative;
+        cursor: pointer;
+
+        mat-icon {
+            color: $font-secondary-color;
+            font-size: 24px;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: $accent-color;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        position: relative;
+        padding: 0.5rem;
+        border-radius: 24px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.1);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid $primary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .user-icon {
+            font-size: 32px;
+            color: $primary-color;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: $font-color;
+
+            @media (max-width: $breakpoint-sm) {
+                display: none;
+            }
+        }
+
+        .dropdown-icon {
+            color: $font-secondary-color;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 1030;
+
+            &.show {
+                display: block;
+                animation: fadeIn 0.2s ease;
+            }
+
+            .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1rem;
+                color: $font-color;
+                transition: all 0.2s ease;
+
+                mat-icon {
+                    font-size: 18px;
+                    color: $font-secondary-color;
+                }
+
+                &:hover {
+                    background-color: $light-gray;
+                    color: $primary-color;
+
+                    mat-icon {
+                        color: $primary-color;
+                    }
+                }
+
+                &.logout-item {
+                    color: $error-color;
+                    border-top: 1px solid $light-gray;
+                    margin-top: 0.5rem;
+
+                    mat-icon {
+                        color: $error-color;
+                    }
+
+                    &:hover {
+                        background-color: rgba($error-color, 0.1);
+                        color: darken($error-color, 10%);
+
+                        mat-icon {
+                            color: darken($error-color, 10%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .login-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: $primary-color;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 24px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        mat-icon {
+            font-size: 18px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+            padding: 0.5rem;
+
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+// Botón móvil de menú
+.mobile-menu-button {
+    display: none;
+
+    @media (max-width: $breakpoint-md) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+
+        mat-icon {
+            font-size: 24px;
+            color: $primary-color;
+        }
+    }
+}
+
+// Ajustes responsivos
+@media (max-width: $breakpoint-md) {
+    .header-container {
+        padding: 0 1rem;
+    }
+
+    .header-center {
+        display: none;
+    }
+
+    .header-right {
+        .notification-icon {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .mobile-view {
+        height: 56px;
+        padding: 0 0.75rem;
+
+        .header-brand h1 {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+// Efecto scroll
+.header-scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 56px;
+
+    .header-brand h1 {
+        font-size: 1.3rem;
+    }
+}
+
+// Auth buttons container
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .register-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: $primary-color;
+        padding: 0.5rem 1rem;
+        border-radius: 24px;
+        border: 1px solid $primary-color;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        mat-icon {
+            font-size: 18px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+            padding: 0.5rem;
+            border-width: 0;
+
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+// Detalles de estilo para el dropdown de notificaciones
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    display: none;
+
+    &.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid $light-gray;
+
+        h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .actions button {
+            border: none;
+            background: none;
+            color: $primary-color;
+            font-size: 0.8rem;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .notification-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .notification-item {
+            display: flex;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid $light-gray;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: rgba($light-gray, 0.5);
+            }
+
+            &.unread {
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            .notification-icon {
+                flex: 0 0 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: $light-gray;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 0.75rem;
+
+                mat-icon {
+                    font-size: 20px;
+                    color: $font-secondary-color;
+                }
+
+                &.success {
+                    background-color: rgba($success-color, 0.1);
+
+                    mat-icon {
+                        color: $success-color;
+                    }
+                }
+
+                &.error {
+                    background-color: rgba($error-color, 0.1);
+
+                    mat-icon {
+                        color: $error-color;
+                    }
+                }
+
+                &.alert {
+                    background-color: rgba($warning-color, 0.1);
+
+                    mat-icon {
+                        color: $warning-color;
+                    }
+                }
+            }
+
+            .notification-content {
+                flex: 1;
+
+                .notification-title {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    margin: 0 0 0.25rem;
+                    display: flex;
+                    align-items: center;
+
+                    .notification-dot {
+                        width: 8px;
+                        height: 8px;
+                        background-color: $primary-color;
+                        border-radius: 50%;
+                        margin-left: 0.5rem;
+                    }
+                }
+
+                .notification-message {
+                    font-size: 0.8rem;
+                    color: $font-secondary-color;
+                    margin: 0 0 0.25rem;
+                }
+
+                .notification-time {
+                    font-size: 0.7rem;
+                    color: lighten($font-secondary-color, 15%);
+                }
+            }
+        }
+    }
+
+    .notification-footer {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        border-top: 1px solid $light-gray;
+
+        a {
+            color: $primary-color;
+            font-size: 0.8rem;
+            font-weight: 500;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

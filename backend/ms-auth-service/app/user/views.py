@@ -55,7 +55,7 @@ class AuthViewsets(viewsets.GenericViewSet):
             list: Lista de instancias de clases de permisos.
         """
         permission_classes = self.permission_classes
-        if self.action in ["initiate_password_reset", "create_password", "verify_account"]:
+        if self.action in ["initiate_password_reset", "create_password", "verify_account", "register"]:
             permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
@@ -174,6 +174,73 @@ class AuthViewsets(viewsets.GenericViewSet):
         token.verify_user()
         token.delete()
         return Response({"success": True, "message": "Acount Verification Successful"}, status=200)
+
+    @action(
+        methods=["POST"],
+        detail=False,
+        serializer_class=CreateUserSerializer,
+        url_path="register",
+    )
+    def register(self, request, pk=None):
+        """
+        Registra un nuevo usuario en el sistema de forma pública.
+        
+        Esta endpoint permite el registro público de usuarios sin requerir autenticación.
+        Crea el usuario y envía un email de verificación.
+        
+        Args:
+            request: Objeto HTTP request con los datos del usuario.
+            pk: No usado en esta acción.
+            
+        Returns:
+            Response: Respuesta indicando éxito o fallo del registro.
+        """
+        # Agregar rol "ESPECTATOR" por defecto si no se proporciona
+        data = request.data.copy()
+        if 'role' not in data or not data['role']:
+            # Buscar el rol "ESPECTATOR" o crear uno si no existe
+            default_role, created = Role.objects.get_or_create(
+                name='ESPECTATOR',
+                defaults={'name': 'ESPECTATOR'}
+            )
+            data['role'] = ['ESPECTATOR']
+        
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        
+        # Crear el usuario directamente sin usar create_app_user
+        validated_data = serializer.validated_data
+        roles = validated_data.pop('role', None)
+        
+        # Crear usuario directamente
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password'],
+            firstname=validated_data['firstname'],
+            lastname=validated_data['lastname'],
+            is_active=True,
+            verified=True
+        )
+        
+        # Asignar roles
+        if roles:
+            user.role.set(roles)
+        
+        # No enviamos email de verificación para simplificar el proceso
+        # create_token_and_send_user_email(
+        #     user=user, token_type=TokenEnum.ACCOUNT_VERIFICATION
+        # )
+        
+        return Response({
+            "success": True, 
+            "message": "User registered successfully. You can now log in with your credentials.",
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "firstname": user.firstname,
+                "lastname": user.lastname
+            }
+        }, status=status.HTTP_201_CREATED)
 
 
 class PasswordChangeView(viewsets.GenericViewSet):
