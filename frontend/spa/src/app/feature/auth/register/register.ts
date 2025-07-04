@@ -80,8 +80,8 @@ export class RegisterComponent implements OnInit {
       firstname: this.registerForm.value.firstname,
       lastname: this.registerForm.value.lastname,
       email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
-      role: ['user'] // Default role for new registrations
+      password: this.registerForm.value.password
+      // No enviamos role, el backend asignará automáticamente "ESPECTATOR"
     };
 
     this.authService.register(userData).subscribe({

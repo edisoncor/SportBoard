@@ -54,14 +54,28 @@ export class AuthService {
         }),
         catchError(error => {
           console.error('Login error:', error);
-          return throwError(() => new Error(error.error?.message || 'Login failed. Please check your credentials.'));
+          let errorMessage = 'Login failed. Please check your credentials.';
+          
+          if (error.status === 401) {
+            if (error.error?.detail?.includes('Account not verified')) {
+              errorMessage = 'Account not verified. Please check your email and verify your account before logging in.';
+            } else if (error.error?.detail) {
+              errorMessage = error.error.detail;
+            } else {
+              errorMessage = 'Invalid credentials. Please check your email and password.';
+            }
+          } else if (error.error?.message) {
+            errorMessage = error.error.message;
+          }
+          
+          return throwError(() => new Error(errorMessage));
         })
       );
   }
   
   // Register new user
   register(userData: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/v1/user/`, userData)
+    return this.http.post(`${environment.apiUrl}/v1/auth/register/`, userData)
       .pipe(
         catchError(error => {
           console.error('Registration error:', error);
@@ -177,7 +191,12 @@ export class AuthService {
       const refreshTime = timeUntilExpiration - (5 * 60 * 1000);
       if (refreshTime > 0) {
         setTimeout(() => {
-          this.refreshToken().subscribe();
+          this.refreshToken().subscribe({
+            error: (error) => {
+              console.error('Auto refresh failed:', error);
+              // No hacer logout automático en caso de error de refresh
+            }
+          });
         }, refreshTime);
       }
     } catch (e) {
