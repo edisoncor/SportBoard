@@ -4,15 +4,238 @@
         <p>Análisis de rendimiento de equipos y jugadores</p>
     </div>
     
-    <div class="content-placeholder" style="background-color: white; border-radius: 10px; padding: 30px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-        <mat-icon style="font-size: 60px; height: 60px; width: 60px; color: #cfd8dc; margin-bottom: 20px;">leaderboard</mat-icon>
-        <h2 style="color: #546e7a; margin-bottom: 15px;">Sección en desarrollo</h2>
-        <p style="color: #90a4ae; max-width: 500px; margin: 0 auto 20px;">
-            Estamos trabajando en esta sección para ofrecerte análisis detallados del rendimiento de equipos y jugadores.
-            Pronto podrás consultar estadísticas avanzadas y métricas de rendimiento.
-        </p>
-        <button style="background-color: #1e88e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-family: inherit; cursor: pointer;">
-            Volver al resumen
+    <div class="filtros-container">
+        <div class="filtro-grupo">
+            <label for="filtroEquipo">Equipo:</label>
+            <mat-select id="filtroEquipo" [(ngModel)]="filtroEquipo">
+                <mat-option *ngFor="let filtro of filtrosEquipos" [value]="filtro.valor">
+                    {{filtro.nombre}}
+                </mat-option>
+            </mat-select>
+        </div>
+        
+        <div class="filtro-grupo">
+            <label for="filtroPeriodo">Período:</label>
+            <mat-select id="filtroPeriodo" [(ngModel)]="filtroPeriodo">
+                <mat-option *ngFor="let filtro of filtrosPeriodo" [value]="filtro.valor">
+                    {{filtro.nombre}}
+                </mat-option>
+            </mat-select>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <button mat-raised-button color="primary">
+            <mat-icon>download</mat-icon>
+            Exportar datos
         </button>
+    </div>
+    
+    <div class="rendimiento-tabs">
+        <mat-tab-group animationDuration="300ms">
+            <!-- Pestaña de Jugadores -->
+            <mat-tab label="Jugadores">
+                <div class="rendimiento-resumen">
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>person</mat-icon>
+                            Jugadores analizados
+                        </div>
+                        <div class="card-value">{{jugadores.length}}</div>
+                        <div class="card-subtitle">Total en la temporada</div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>timer</mat-icon>
+                            Minutos promedio
+                        </div>
+                        <div class="card-value">975</div>
+                        <div class="card-subtitle tendencia-positiva">
+                            <mat-icon>trending_up</mat-icon>
+                            <span>+5% vs. mes anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>speed</mat-icon>
+                            Rendimiento promedio
+                        </div>
+                        <div class="card-value">7.9</div>
+                        <div class="card-subtitle tendencia-estable">
+                            <mat-icon>trending_flat</mat-icon>
+                            <span>Sin cambios vs. mes anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>fitness_center</mat-icon>
+                            Condición física
+                        </div>
+                        <div class="card-value">85%</div>
+                        <div class="card-subtitle tendencia-negativa">
+                            <mat-icon>trending_down</mat-icon>
+                            <span>-2% vs. mes anterior</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rendimiento-grafico">
+                    <div class="grafico-header">
+                        <h3>Evolución del rendimiento</h3>
+                        <div class="grafico-leyenda">
+                            <div class="leyenda-item">
+                                <div class="color-indicator rendimiento"></div>
+                                <span>Rendimiento</span>
+                            </div>
+                            <div class="leyenda-item">
+                                <div class="color-indicator promedio"></div>
+                                <span>Promedio</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Aquí iría un componente de gráfico real -->
+                    <div class="grafico-placeholder">
+                        [Gráfico de evolución de rendimiento por partido]
+                    </div>
+                </div>
+                
+                <div class="rendimiento-tabla">
+                    <h3>Rendimiento individual</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Posición</th>
+                                <th>Partidos</th>
+                                <th>Minutos</th>
+                                <th>Puntuación</th>
+                                <th>Tendencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let jugador of jugadores">
+                                <td>{{jugador.nombre}}</td>
+                                <td>{{jugador.posicion}}</td>
+                                <td>{{jugador.partidos}}</td>
+                                <td>{{jugador.minutos}}</td>
+                                <td [ngClass]="{'puntuacion': true, 'alta': jugador.puntuacion >= 8, 'media': jugador.puntuacion >= 7 && jugador.puntuacion < 8, 'baja': jugador.puntuacion < 7}">
+                                    {{jugador.puntuacion.toFixed(1)}}
+                                </td>
+                                <td>
+                                    <div [ngClass]="['tendencia', obtenerClaseTendencia(jugador.tendencia)]">
+                                        <mat-icon>{{obtenerIconoTendencia(jugador.tendencia)}}</mat-icon>
+                                        <span>{{jugador.tendencia === 'subida' ? 'Mejorando' : jugador.tendencia === 'bajada' ? 'Bajando' : 'Estable'}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </mat-tab>
+            
+            <!-- Pestaña de Equipos -->
+            <mat-tab label="Equipos">
+                <div class="rendimiento-resumen">
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>groups</mat-icon>
+                            Equipos analizados
+                        </div>
+                        <div class="card-value">{{equipos.length}}</div>
+                        <div class="card-subtitle">Total en la temporada</div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>emoji_events</mat-icon>
+                            Victorias promedio
+                        </div>
+                        <div class="card-value">7.7</div>
+                        <div class="card-subtitle tendencia-positiva">
+                            <mat-icon>trending_up</mat-icon>
+                            <span>+10% vs. temporada anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>speed</mat-icon>
+                            Rendimiento promedio
+                        </div>
+                        <div class="card-value">8.1</div>
+                        <div class="card-subtitle tendencia-positiva">
+                            <mat-icon>trending_up</mat-icon>
+                            <span>+3% vs. temporada anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-card">
+                        <div class="card-title">
+                            <mat-icon>sports</mat-icon>
+                            Partidos jugados
+                        </div>
+                        <div class="card-value">35</div>
+                        <div class="card-subtitle">Total en la temporada</div>
+                    </div>
+                </div>
+                
+                <div class="rendimiento-grafico">
+                    <div class="grafico-header">
+                        <h3>Comparativa de equipos</h3>
+                        <div class="grafico-leyenda">
+                            <div class="leyenda-item">
+                                <div class="color-indicator rendimiento"></div>
+                                <span>Victorias</span>
+                            </div>
+                            <div class="leyenda-item">
+                                <div class="color-indicator promedio"></div>
+                                <span>Derrotas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Aquí iría un componente de gráfico real -->
+                    <div class="grafico-placeholder">
+                        [Gráfico comparativo de rendimiento por equipo]
+                    </div>
+                </div>
+                
+                <div class="equipos-grid">
+                    <div class="equipo-card" *ngFor="let equipo of equipos">
+                        <div class="equipo-header">
+                            <h3>{{equipo.nombre}}</h3>
+                            <p>{{equipo.deporte}}</p>
+                        </div>
+                        <div class="equipo-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Partidos</div>
+                                <div class="stat-value">{{equipo.partidos}}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Victorias</div>
+                                <div class="stat-value">{{equipo.victorias}}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Derrotas</div>
+                                <div class="stat-value">{{equipo.derrotas}}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Empates</div>
+                                <div class="stat-value">{{equipo.empates}}</div>
+                            </div>
+                        </div>
+                        <div class="equipo-footer">
+                            <div [ngClass]="['tendencia', obtenerClaseTendencia(equipo.tendencia)]">
+                                <mat-icon>{{obtenerIconoTendencia(equipo.tendencia)}}</mat-icon>
+                                <span>{{equipo.tendencia === 'subida' ? 'Mejorando' : equipo.tendencia === 'bajada' ? 'Bajando' : 'Estable'}}</span>
+                            </div>
+                            <div class="puntuacion">{{equipo.puntuacion.toFixed(1)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </div>

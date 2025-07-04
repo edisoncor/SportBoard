@@ -1,0 +1,353 @@
+<div class="equipo-detalle-container slide-in">
+    <div class="page-header">
+        <div class="back-button">
+            <button mat-icon-button routerLink="/equipos">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+        <div class="team-header">
+            <div class="team-logo">
+                <img [src]="equipo.logo" [alt]="equipo.nombre">
+            </div>
+            <div class="team-info">
+                <h1>{{equipo.nombre}}</h1>
+                <div class="team-meta">
+                    <div class="meta-item">
+                        <mat-icon>sports_soccer</mat-icon>
+                        <span>{{equipo.deporte}}</span>
+                    </div>
+                    <div class="meta-item">
+                        <mat-icon>place</mat-icon>
+                        <span>{{equipo.ubicacion}}</span>
+                    </div>
+                    <div class="meta-item">
+                        <mat-icon>event</mat-icon>
+                        <span>Fundado en {{equipo.fundacion}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button mat-raised-button color="primary">
+                    <mat-icon>edit</mat-icon>
+                    Editar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="team-content">
+        <mat-tab-group animationDuration="300ms">
+            <!-- Tab de Información General -->
+            <mat-tab label="Información">
+                <div class="tab-content">
+                    <div class="info-section">
+                        <div class="info-col">
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Detalles del Equipo</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Entrenador</div>
+                                        <div class="detail-value">{{equipo.entrenador}}</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Categoría</div>
+                                        <div class="detail-value">{{equipo.categoria}}</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Estadio</div>
+                                        <div class="detail-value">{{equipo.estadio}}</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Colores</div>
+                                        <div class="detail-value">
+                                            <mat-chip-set>
+                                                <mat-chip *ngFor="let color of equipo.colores">{{color}}</mat-chip>
+                                            </mat-chip-set>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                            
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Logros</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <ul class="achievements-list">
+                                        <li *ngFor="let logro of equipo.logros">
+                                            <mat-icon>emoji_events</mat-icon>
+                                            <span>{{logro}}</span>
+                                        </li>
+                                    </ul>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        
+                        <div class="info-col">
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Descripción</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p class="team-description">{{equipo.descripcion}}</p>
+                                </mat-card-content>
+                            </mat-card>
+                            
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Próximos Partidos</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="matches-list">
+                                        <div class="match-item" *ngFor="let partido of proximosPartidos">
+                                            <div class="match-date">
+                                                <div class="date">{{partido.fecha | date:'dd/MM/yyyy'}}</div>
+                                                <div class="time">{{partido.hora}}</div>
+                                            </div>
+                                            <div class="match-teams">
+                                                <div class="match-home" [class.highlighted]="partido.local">
+                                                    {{partido.local ? equipo.nombre : partido.rival}}
+                                                </div>
+                                                <div class="match-vs">vs</div>
+                                                <div class="match-away" [class.highlighted]="!partido.local">
+                                                    {{partido.local ? partido.rival : equipo.nombre}}
+                                                </div>
+                                            </div>
+                                            <div class="match-info">
+                                                <div class="match-competition">{{partido.competicion}}</div>
+                                                <div class="match-stadium">{{partido.estadio}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            
+            <!-- Tab de Jugadores -->
+            <mat-tab label="Jugadores">
+                <div class="tab-content">
+                    <div class="players-grid">
+                        <mat-card class="player-card" *ngFor="let jugador of jugadores">
+                            <div class="player-header">
+                                <div class="player-number">{{jugador.numero}}</div>
+                                <div class="player-position">{{jugador.posicion}}</div>
+                            </div>
+                            <div class="player-content">
+                                <div class="player-photo">
+                                    <img [src]="jugador.foto" [alt]="jugador.nombre">
+                                </div>
+                                <div class="player-info">
+                                    <h3 class="player-name">{{jugador.nombre}}</h3>
+                                    <div class="player-details">
+                                        <div class="detail-item">
+                                            <mat-icon>flag</mat-icon>
+                                            <span>{{jugador.nacionalidad}}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <mat-icon>cake</mat-icon>
+                                            <span>{{jugador.edad}} años</span>
+                                        </div>
+                                    </div>
+                                    <div class="player-stats">
+                                        <div class="stat">
+                                            <div class="stat-value">{{jugador.estadisticas.partidos}}</div>
+                                            <div class="stat-label">Partidos</div>
+                                        </div>
+                                        <div class="stat">
+                                            <div class="stat-value">{{jugador.estadisticas.goles}}</div>
+                                            <div class="stat-label">Goles</div>
+                                        </div>
+                                        <div class="stat">
+                                            <div class="stat-value">{{jugador.estadisticas.asistencias}}</div>
+                                            <div class="stat-label">Asistencias</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-card-actions>
+                                <button mat-button color="primary" (click)="verDetallesJugador(jugador.id)">VER PERFIL</button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+            
+            <!-- Tab de Competiciones -->
+            <mat-tab label="Competiciones">
+                <div class="tab-content">
+                    <div class="competitions-list">
+                        <mat-card class="competition-card" *ngFor="let torneo of torneos">
+                            <mat-card-header>
+                                <mat-card-title>{{torneo.nombre}}</mat-card-title>
+                                <mat-card-subtitle>Temporada {{torneo.temporada}}</mat-card-subtitle>
+                                <div class="competition-status">
+                                    <mat-chip>{{torneo.estado}}</mat-chip>
+                                </div>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <div class="competition-stats">
+                                    <div class="stat-row">
+                                        <div class="stat-item">
+                                            <div class="stat-label">Partidos</div>
+                                            <div class="stat-value">{{torneo.partidos}}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Victorias</div>
+                                            <div class="stat-value">{{torneo.victorias}}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Empates</div>
+                                            <div class="stat-value">{{torneo.empates}}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Derrotas</div>
+                                            <div class="stat-value">{{torneo.derrotas}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-row">
+                                        <div class="stat-item" *ngIf="torneo.posicion !== null">
+                                            <div class="stat-label">Posición</div>
+                                            <div class="stat-value highlight">{{torneo.posicion}}º</div>
+                                        </div>
+                                        <div class="stat-item" *ngIf="torneo.puntos !== null">
+                                            <div class="stat-label">Puntos</div>
+                                            <div class="stat-value highlight">{{torneo.puntos}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button mat-button color="primary">VER TABLA</button>
+                                <button mat-button color="accent">VER CALENDARIO</button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+            
+            <!-- Tab de Estadísticas -->
+            <mat-tab label="Estadísticas">
+                <div class="tab-content">
+                    <div class="stats-section">
+                        <div class="stats-overview">
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Resumen de Temporada</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="stats-grid">
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>sports_soccer</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.golesMarcados}}</div>
+                                                <div class="stat-label">Goles marcados</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>block</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.golesRecibidos}}</div>
+                                                <div class="stat-label">Goles recibidos</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>emoji_events</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.victorias}}</div>
+                                                <div class="stat-label">Victorias</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>remove</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.empates}}</div>
+                                                <div class="stat-label">Empates</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>close</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.derrotas}}</div>
+                                                <div class="stat-label">Derrotas</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>pie_chart</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.porcentajeVictorias}}%</div>
+                                                <div class="stat-label">% de victorias</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>schedule</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.posesionMedia}}%</div>
+                                                <div class="stat-label">Posesión media</div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <mat-icon>card_membership</mat-icon>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{estadisticasEquipo.tarjetasAmarillas}}</div>
+                                                <div class="stat-label">Tarjetas amarillas</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        
+                        <div class="recent-matches">
+                            <mat-card>
+                                <mat-card-header>
+                                    <mat-card-title>Partidos Recientes</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="recent-match-list">
+                                        <div class="recent-match" *ngFor="let partido of partidosRecientes">
+                                            <div class="match-info">
+                                                <div class="match-date">{{partido.fecha | date:'dd/MM/yyyy'}}</div>
+                                                <div class="match-teams">
+                                                    <span class="team-name">{{equipo.nombre}}</span>
+                                                    <span class="match-result" [style.background-color]="obtenerColorResultado(partido.victoria)">
+                                                        {{partido.resultado}}
+                                                    </span>
+                                                    <span class="team-name">{{partido.rival}}</span>
+                                                </div>
+                                                <div class="match-competition">{{partido.competicion}}</div>
+                                            </div>
+                                            <div class="match-result-icon" [style.color]="obtenerColorResultado(partido.victoria)">
+                                                <mat-icon>{{partido.victoria ? 'check_circle' : 'cancel'}}</mat-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

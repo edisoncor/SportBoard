@@ -182,6 +182,29 @@
                 display: flex;
                 padding: 15px;
                 
+                @media (max-width: 576px) {
+                    flex-direction: column;
+                    
+                    .checkbox-container {
+                        margin-bottom: 10px;
+                        align-self: flex-start;
+                    }
+                    
+                    .notification-icon {
+                        margin-bottom: 10px;
+                    }
+                }
+                
+                @media (min-width: 577px) and (max-width: 768px) {
+                    .notification-content {
+                        .notification-meta {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 10px;
+                        }
+                    }
+                }
+                
                 .checkbox-container {
                     margin-right: 15px;
                     display: flex;
@@ -238,6 +261,13 @@
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        
+                        @media (max-width: 576px) {
+                            flex-direction: column;
+                            align-items: flex-start;
+                        }
                         
                         .notification-time {
                             font-size: 0.8rem;

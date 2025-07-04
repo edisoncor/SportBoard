@@ -4,15 +4,185 @@
         <p>Configura las opciones de la aplicación</p>
     </div>
     
-    <div class="content-placeholder" style="background-color: white; border-radius: 10px; padding: 30px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-        <mat-icon style="font-size: 60px; height: 60px; width: 60px; color: #cfd8dc; margin-bottom: 20px;">settings</mat-icon>
-        <h2 style="color: #546e7a; margin-bottom: 15px;">Sección en desarrollo</h2>
-        <p style="color: #90a4ae; max-width: 500px; margin: 0 auto 20px;">
-            Estamos trabajando en esta sección para que puedas configurar las opciones de la aplicación.
-            Próximamente podrás ajustar tus preferencias de notificaciones, idioma y tema.
-        </p>
-        <button style="background-color: #1e88e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-family: inherit; cursor: pointer;">
-            Volver al inicio
-        </button>
+    <div class="config-tabs">
+        <mat-tab-group animationDuration="300ms">
+            <!-- Pestaña de Notificaciones -->
+            <mat-tab label="Notificaciones">
+                <div class="config-section">
+                    <h3>Preferencias de notificaciones</h3>
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones de torneos
+                                <small>Recibe alertas sobre inscripciones, resultados y cambios</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.torneos"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones de equipos
+                                <small>Actualizaciones sobre tus equipos favoritos</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.equipos"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones de partidos
+                                <small>Alertas de inicio de partidos y eventos importantes</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.partidos"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones de resultados
+                                <small>Recibe los resultados finales de los partidos</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.resultados"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones del sistema
+                                <small>Cambios en la plataforma y nuevas funcionalidades</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.sistema"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h3>Canales de notificación</h3>
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-label">
+                                Correo electrónico
+                                <small>Recibe notificaciones por correo electrónico</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.email"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Notificaciones push
+                                <small>Recibe notificaciones en tu navegador o dispositivo</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.push"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                SMS
+                                <small>Recibe notificaciones por mensaje de texto (pueden aplicar cargos)</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.notificaciones.sms"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            
+            <!-- Pestaña de Privacidad -->
+            <mat-tab label="Privacidad">
+                <div class="config-section">
+                    <h3>Configuración de privacidad</h3>
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-label">
+                                Perfil público
+                                <small>Permite que otros usuarios vean tu perfil</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.privacidad.perfilPublico"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Mostrar estadísticas
+                                <small>Permite que otros usuarios vean tus estadísticas deportivas</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.privacidad.mostrarEstadisticas"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Mostrar equipos
+                                <small>Permite que otros usuarios vean tus equipos</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.privacidad.mostrarEquipos"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Permitir mensajes
+                                <small>Permite que otros usuarios te envíen mensajes</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.privacidad.permitirMensajes"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="privacy-notice">
+                    <h4>Información sobre privacidad</h4>
+                    <p>Tus datos personales están protegidos de acuerdo con nuestra política de privacidad. No compartimos tu información con terceros sin tu consentimiento explícito. Puedes solicitar la eliminación de tus datos en cualquier momento desde la sección de Cuenta.</p>
+                </div>
+            </mat-tab>
+            
+            <!-- Pestaña de Apariencia -->
+            <mat-tab label="Apariencia">
+                <div class="config-section">
+                    <h3>Tema de la aplicación</h3>
+                    <div class="form-group">
+                        <label for="tema">Selecciona el tema</label>
+                        <mat-select id="tema" [(ngModel)]="configuracion.apariencia.tema">
+                            <mat-option *ngFor="let tema of temas" [value]="tema.valor">
+                                {{tema.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Color primario</label>
+                        <div class="color-picker">
+                            <div class="color-option" style="background-color: #1e88e5;" [class.active]="configuracion.apariencia.colorPrimario === '#1e88e5'" (click)="configuracion.apariencia.colorPrimario = '#1e88e5'"></div>
+                            <div class="color-option" style="background-color: #43a047;" [class.active]="configuracion.apariencia.colorPrimario === '#43a047'" (click)="configuracion.apariencia.colorPrimario = '#43a047'"></div>
+                            <div class="color-option" style="background-color: #e53935;" [class.active]="configuracion.apariencia.colorPrimario === '#e53935'" (click)="configuracion.apariencia.colorPrimario = '#e53935'"></div>
+                            <div class="color-option" style="background-color: #fb8c00;" [class.active]="configuracion.apariencia.colorPrimario === '#fb8c00'" (click)="configuracion.apariencia.colorPrimario = '#fb8c00'"></div>
+                            <div class="color-option" style="background-color: #8e24aa;" [class.active]="configuracion.apariencia.colorPrimario === '#8e24aa'" (click)="configuracion.apariencia.colorPrimario = '#8e24aa'"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-label">
+                                Animaciones
+                                <small>Habilitar efectos de animación en la interfaz</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.apariencia.animaciones"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            
+            <!-- Pestaña de Preferencias Regionales -->
+            <mat-tab label="Regional">
+                <div class="config-section">
+                    <h3>Configuración regional</h3>
+                    <div class="form-group">
+                        <label for="idioma">Idioma</label>
+                        <mat-select id="idioma" [(ngModel)]="configuracion.idioma">
+                            <mat-option *ngFor="let idioma of idiomas" [value]="idioma.valor">
+                                {{idioma.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zonaHoraria">Zona horaria</label>
+                        <mat-select id="zonaHoraria" [(ngModel)]="configuracion.zonaHoraria">
+                            <mat-option *ngFor="let zona of zonasHorarias" [value]="zona.valor">
+                                {{zona.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+    
+    <div class="button-container">
+        <button mat-stroked-button>Restablecer valores</button>
+        <button mat-raised-button color="primary" (click)="guardarCambios()">Guardar cambios</button>
     </div>
 </div>

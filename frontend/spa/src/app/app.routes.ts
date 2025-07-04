@@ -13,6 +13,14 @@ export const routes: Routes = [
     
     // Rutas de Equipos
     { path: 'equipos', loadComponent: () => import('./feature/equipos/equipos').then(m => m.EquiposComponent) },
+    { path: 'equipos/:id', loadComponent: () => import('./feature/equipo-detalle/equipo-detalle').then(m => m.EquipoDetalleComponent) },
+    
+    // Rutas de Eventos
+    { path: 'eventos', loadComponent: () => import('./feature/eventos/eventos').then(m => m.EventosComponent) },
+    { path: 'eventos/crear', loadComponent: () => import('./feature/eventos/eventos').then(m => m.EventosComponent) }, // Se podría crear un componente específico para crear eventos
+    
+    // Ruta de Calendario
+    { path: 'calendario', loadComponent: () => import('./feature/calendario/calendario').then(m => m.CalendarioComponent) },
     
     // Rutas de Estadísticas
     { 
