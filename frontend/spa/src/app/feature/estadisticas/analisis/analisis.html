@@ -1,0 +1,243 @@
+<div class="analisis-container slide-in">
+    <div class="page-header">
+        <h1>Análisis</h1>
+        <p>Análisis avanzado de datos deportivos</p>
+    </div>
+    
+    <div class="filtros-container">
+        <div class="filtro-grupo">
+            <label for="filtroDeporte">Deporte:</label>
+            <mat-select id="filtroDeporte" [(ngModel)]="filtroDeporte">
+                <mat-option *ngFor="let filtro of filtrosDeporte" [value]="filtro.valor">
+                    {{filtro.nombre}}
+                </mat-option>
+            </mat-select>
+        </div>
+        
+        <div class="filtro-grupo">
+            <label for="filtroPeriodo">Período:</label>
+            <mat-select id="filtroPeriodo" [(ngModel)]="filtroPeriodo">
+                <mat-option *ngFor="let filtro of filtrosPeriodo" [value]="filtro.valor">
+                    {{filtro.nombre}}
+                </mat-option>
+            </mat-select>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <div class="export-buttons">
+            <button mat-stroked-button (click)="exportarDatos('pdf')">
+                <mat-icon>picture_as_pdf</mat-icon>
+                PDF
+            </button>
+            <button mat-stroked-button (click)="exportarDatos('excel')">
+                <mat-icon>table_chart</mat-icon>
+                Excel
+            </button>
+            <button mat-raised-button color="primary" (click)="exportarDatos('completo')">
+                <mat-icon>download</mat-icon>
+                Exportar completo
+            </button>
+        </div>
+    </div>
+    
+    <div class="analisis-content">
+        <div class="analisis-main">
+            <div class="analisis-tabs">
+                <mat-tab-group animationDuration="300ms">
+                    <!-- Pestaña de Análisis General -->
+                    <mat-tab label="Análisis General">
+                        <div class="estadisticas-grid">
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Total partidos analizados</div>
+                                <div class="estadistica-value">365</div>
+                                <div class="estadistica-subtitle">En la temporada actual</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Promedio de goles/puntos</div>
+                                <div class="estadistica-value">2.8</div>
+                                <div class="estadistica-subtitle">Por partido</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Victorias locales</div>
+                                <div class="estadistica-value">52%</div>
+                                <div class="estadistica-subtitle">De los encuentros</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Equipos analizados</div>
+                                <div class="estadistica-value">48</div>
+                                <div class="estadistica-subtitle">En todos los deportes</div>
+                            </div>
+                        </div>
+                        
+                        <div class="analisis-grafico">
+                            <div class="grafico-header">
+                                <h3>Distribución de resultados</h3>
+                            </div>
+                            <!-- Aquí iría un componente de gráfico real -->
+                            <div class="grafico-placeholder">
+                                [Gráfico de distribución de resultados por deporte]
+                            </div>
+                        </div>
+                        
+                        <div class="comparativa-grid">
+                            <div class="comparativa-card">
+                                <h3>Rendimiento por ubicación</h3>
+                                <!-- Aquí iría un componente de gráfico real -->
+                                <div class="comparativa-placeholder">
+                                    [Gráfico de rendimiento local vs visitante]
+                                </div>
+                            </div>
+                            
+                            <div class="comparativa-card">
+                                <h3>Rendimiento por período</h3>
+                                <!-- Aquí iría un componente de gráfico real -->
+                                <div class="comparativa-placeholder">
+                                    [Gráfico de rendimiento por período de juego]
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    
+                    <!-- Pestaña de Análisis por Deporte -->
+                    <mat-tab label="Análisis por Deporte">
+                        <div class="analisis-grafico">
+                            <div class="grafico-header">
+                                <h3>Comparativa entre deportes</h3>
+                            </div>
+                            <!-- Aquí iría un componente de gráfico real -->
+                            <div class="grafico-placeholder">
+                                [Gráfico comparativo de métricas por deporte]
+                            </div>
+                        </div>
+                        
+                        <div class="comparativa-grid">
+                            <div class="comparativa-card">
+                                <h3>Métricas específicas por deporte</h3>
+                                <!-- Aquí iría un componente de tabla o gráfico real -->
+                                <div class="comparativa-placeholder">
+                                    [Tabla de métricas específicas por deporte]
+                                </div>
+                            </div>
+                            
+                            <div class="comparativa-card">
+                                <h3>Evolución histórica</h3>
+                                <!-- Aquí iría un componente de gráfico real -->
+                                <div class="comparativa-placeholder">
+                                    [Gráfico de evolución histórica por deporte]
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    
+                    <!-- Pestaña de Análisis Predictivo -->
+                    <mat-tab label="Análisis Predictivo">
+                        <div class="estadisticas-grid">
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Precisión del modelo</div>
+                                <div class="estadistica-value">78%</div>
+                                <div class="estadistica-subtitle">En predicciones recientes</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Partidos predichos</div>
+                                <div class="estadistica-value">215</div>
+                                <div class="estadistica-subtitle">En la temporada actual</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Aciertos</div>
+                                <div class="estadistica-value">168</div>
+                                <div class="estadistica-subtitle">Predicciones correctas</div>
+                            </div>
+                            
+                            <div class="estadistica-card">
+                                <div class="estadistica-title">Confianza promedio</div>
+                                <div class="estadistica-value">82%</div>
+                                <div class="estadistica-subtitle">En las predicciones</div>
+                            </div>
+                        </div>
+                        
+                        <div class="analisis-grafico">
+                            <div class="grafico-header">
+                                <h3>Predicciones vs Resultados reales</h3>
+                            </div>
+                            <!-- Aquí iría un componente de gráfico real -->
+                            <div class="grafico-placeholder">
+                                [Gráfico comparativo de predicciones vs resultados reales]
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            
+            <div class="informes-card">
+                <h3>Informes predefinidos</h3>
+                <div class="informe-grid">
+                    <div class="informe-item" *ngFor="let informe of informes" (click)="generarInforme(informe.tipo)">
+                        <div class="informe-header">
+                            <mat-icon>{{informe.icono}}</mat-icon>
+                            <h4>{{informe.titulo}}</h4>
+                        </div>
+                        <div class="informe-desc">
+                            {{informe.descripcion}}
+                        </div>
+                        <div class="informe-accion">
+                            <button mat-button color="primary">Generar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analisis-sidebar">
+            <div class="tendencias-card">
+                <h3>Tendencias actuales</h3>
+                <div class="tendencia-item" *ngFor="let tendencia of tendenciasJuego">
+                    <div class="tendencia-info">
+                        <div class="tendencia-nombre">{{tendencia.nombre}}</div>
+                        <div class="tendencia-valor">{{tendencia.valor}}%</div>
+                    </div>
+                    <div [ngClass]="['tendencia-indicador', obtenerClaseTendencia(tendencia.tendencia)]">
+                        <mat-icon>{{obtenerIconoTendencia(tendencia.tendencia)}}</mat-icon>
+                        <span>{{tendencia.cambio > 0 ? '+' : ''}}{{tendencia.cambio}}%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Análisis personalizado</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Crea un análisis personalizado seleccionando los parámetros específicos que deseas evaluar.</p>
+                    
+                    <div style="margin-top: 15px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Nombre del análisis</mat-label>
+                            <input matInput placeholder="Ej. Análisis ofensivo de mi equipo">
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Selecciona métricas</mat-label>
+                            <mat-select multiple>
+                                <mat-option value="goles">Goles/Puntos</mat-option>
+                                <mat-option value="posesion">Posesión</mat-option>
+                                <mat-option value="pases">Precisión de pases</mat-option>
+                                <mat-option value="tiros">Tiros a puerta</mat-option>
+                                <mat-option value="faltas">Faltas</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button>Limpiar</button>
+                    <button mat-raised-button color="primary">Crear análisis</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

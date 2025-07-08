@@ -21,14 +21,13 @@ RUN pip install -r ./requirements/prod.txt
 # Copy entrypoint.sh
 COPY ./docker/prod/entrypoint.sh ./entrypoint.sh
 
-RUN chmod +x ./entrypoint.sh
+# Convert line endings and set permissions
+RUN sed -i 's/\r$//' ./entrypoint.sh && chmod +x ./entrypoint.sh
 
 COPY ./app /app
 
 # Expose port 8011
 EXPOSE 8011
 
-ENTRYPOINT [ "./entrypoint.sh" ]
-
-# Default command to run the server on port 8011
-CMD ["gunicorn", "--bind", "0.0.0.0:8011", "--workers", "3", "core.wsgi:application"]
+# Default command to run the entrypoint and then the server
+CMD ["/bin/sh", "/app/entrypoint.sh", "gunicorn", "--bind", "0.0.0.0:8011", "--workers", "3", "core.wsgi:application"]

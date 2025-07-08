@@ -27,9 +27,10 @@ class CustomObtainTokenPairSerializer(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
-        if not user.verified:
-            raise exceptions.AuthenticationFailed(
-                _('Account not verified.'), code='authentication')
+        # Comentamos la verificación de cuenta para permitir login sin verificación
+        # if not user.verified:
+        #     raise exceptions.AuthenticationFailed(
+        #         _('Account not verified.'), code='authentication')
         token = super().get_token(user)
         token.id = user.id
         token['firstname'] = user.firstname
@@ -216,6 +217,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         validated_data["password"] = make_password(validated_data["password"])
+        # Asegurar que el usuario esté activo y verificado
+        validated_data["is_active"] = True
+        validated_data["verified"] = True
         user = User.objects.create_app_user(**validated_data)
         return user
 

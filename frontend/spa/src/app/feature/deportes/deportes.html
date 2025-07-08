@@ -1,0 +1,57 @@
+<div class="deportes-container slide-in">
+    <div class="page-header">
+        <h1>Deportes</h1>
+        <p>Explora y gestiona los deportes disponibles en la plataforma</p>
+    </div>
+    
+    <div class="search-bar">
+        <div class="search-icon">
+            <mat-icon>search</mat-icon>
+        </div>
+        <input type="text" placeholder="Buscar deporte..." aria-label="Buscar deporte">
+    </div>
+    
+    <div class="deportes-grid">
+        <div class="deporte-card" *ngFor="let deporte of deportes">
+            <div class="card-header" [style.background-color]="deporte.color">
+                <div class="icon-container" [style.background-color]="deporte.color">
+                    <mat-icon>{{deporte.icono}}</mat-icon>
+                </div>
+                <h2>{{deporte.nombre}}</h2>
+            </div>
+            <div class="card-content">
+                <p class="descripcion">{{deporte.descripcion}}</p>
+                
+                <div class="estadisticas">
+                    <div class="stat-item">
+                        <div class="stat-value">{{deporte.torneos}}</div>
+                        <div class="stat-label">Torneos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{deporte.equipos}}</div>
+                        <div class="stat-label">Equipos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{deporte.popularidad}}%</div>
+                        <div class="stat-label">Popularidad</div>
+                    </div>
+                </div>
+                
+                <div class="popularidad">
+                    <div class="progress-label">
+                        <span>Popularidad</span>
+                        <span>{{deporte.popularidad}}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" [style.width.%]="deporte.popularidad" [style.background-color]="deporte.color"></div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="primary">Ver detalles</button>
+                    <button class="secondary">Ver torneos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,19 +1,17 @@
-#!/bin/bash
-
-set -e
-
+#!/bin/sh
 echo "Starting SportBoard Auth Service..."
-
 # Wait for database to be ready
 echo "Waiting for database..."
 echo "Trying to connect to database at auth-database:5432..."
-for i in {1..30}; do
+i=1
+while [ $i -le 30 ]; do
   if nc -z auth-database 5432; then
     echo "Database is ready!"
     break
   fi
   echo "Database not ready yet, waiting... (attempt $i/30)"
   sleep 2
+  i=$((i + 1))
 done
 
 if ! nc -z auth-database 5432; then
@@ -24,7 +22,7 @@ fi
 # Wait for RabbitMQ to be ready
 echo "Waiting for RabbitMQ..."
 while ! nc -z rabbitmq 5672; do
-  sleep 0.ad
+  sleep 1
 done
 echo "RabbitMQ started"
 

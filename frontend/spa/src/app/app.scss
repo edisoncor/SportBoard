@@ -1,0 +1,99 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../styles.scss' as *;
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    transition: all 0.3s ease;
+    padding-top: $header-height;
+}
+
+// Main content area 
+main {
+    flex: 1;
+    margin-left: $sidebar-width;
+    padding: 1.5rem;
+    transition: margin-left 0.3s ease;
+    min-height: calc(100vh - #{$header-height} - #{$footer-height});
+    
+    @media (max-width: $breakpoint-md) {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .content-wrapper {
+        width: 100%;
+        min-height: 100%;
+        padding: 1rem;
+    }
+}
+
+// Aside/Sidebar settings
+aside {
+    background-color: white;
+    border-right: 1px solid $light-gray;
+    height: calc(100vh - #{$header-height});
+    padding: 0;
+    position: fixed;
+    top: $header-height;
+    left: 0;
+    width: $sidebar-width;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    @media (max-width: $breakpoint-md) {
+        transform: translateX(-100%);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        
+        &.open {
+            transform: translateX(0);
+        }
+    }
+}
+
+// Ajuste para cuando el sidebar está cerrado
+.sidebar-closed {
+    main {
+        margin-left: 0;
+    }
+}
+
+// Para dispositivos móviles, necesitamos un overlay cuando el sidebar está abierto
+.sidebar-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.3s ease;
+    width: 100vw;
+    z-index: 999;
+    
+    @media (min-width: $breakpoint-md) {
+        display: none;
+    }
+}
+
+aside.open + .sidebar-overlay {
+    opacity: 1;
+    pointer-events: all;
+}
+
+// App footer
+.app-footer {
+    background-color: white;
+    border-top: 1px solid $light-gray;
+    padding: 0;
+    z-index: 900;
+}

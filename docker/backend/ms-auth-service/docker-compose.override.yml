@@ -24,7 +24,6 @@ services:
             - sportboard-network
         volumes:
             - ../../../backend/ms-auth-service/app/logs:/app/logs
-        command: gunicorn core.wsgi:application --bind 0.0.0.0:8011 --workers 3
 networks:
     sportboard-network:
         external: true

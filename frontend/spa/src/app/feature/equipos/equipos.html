@@ -1,0 +1,126 @@
+<div class="equipos-container slide-in">
+    <div class="page-header">
+        <h1>Equipos</h1>
+        <p>Administra y visualiza los equipos de diferentes deportes</p>
+    </div>
+    
+    <div class="controls">
+        <div class="deportes-filter">
+            <div 
+                *ngFor="let deporte of deportesUnicos()" 
+                class="deporte-pill" 
+                [class.active]="deporteSeleccionado === deporte"
+                (click)="filtrarPorDeporte(deporte)">
+                {{deporte}}
+            </div>
+        </div>
+        
+        <div class="actions">
+            <div class="search">
+                <mat-icon class="search-icon">search</mat-icon>
+                <input type="text" placeholder="Buscar equipo..." aria-label="Buscar equipo">
+            </div>
+            
+            <button class="add-button">
+                <mat-icon>add</mat-icon>
+                Nuevo equipo
+            </button>
+        </div>
+    </div>
+    
+    <div class="equipos-grid" *ngIf="equiposFiltrados.length > 0">
+        <div class="equipo-card" *ngFor="let equipo of equiposFiltrados">
+            <div class="card-header">
+                <div class="header-bg" [style.background-image]="'linear-gradient(135deg, ' + equipo.colorPrimario + ', ' + equipo.colorSecundario + ')'"></div>
+                <div class="team-logo">
+                    <img [src]="equipo.logo" [alt]="equipo.nombre">
+                </div>
+                <div class="estado-badge" [class.activo]="equipo.estado === 'Activo'" [class.inactivo]="equipo.estado === 'Inactivo'">
+                    {{equipo.estado}}
+                </div>
+            </div>
+            <div class="card-content">
+                <h2 class="team-name">{{equipo.nombre}}</h2>
+                <div class="team-sport">
+                    <mat-icon *ngIf="equipo.deporte === 'Fútbol'">sports_soccer</mat-icon>
+                    <mat-icon *ngIf="equipo.deporte === 'Baloncesto'">sports_basketball</mat-icon>
+                    <mat-icon *ngIf="equipo.deporte === 'Natación'">pool</mat-icon>
+                    <mat-icon *ngIf="equipo.deporte === 'Voleibol'">sports_volleyball</mat-icon>
+                    <mat-icon *ngIf="equipo.deporte === 'Atletismo'">directions_run</mat-icon>
+                    <mat-icon *ngIf="equipo.deporte === 'Rugby'">sports_rugby</mat-icon>
+                    {{equipo.deporte}}
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">{{equipo.jugadores}}</div>
+                        <div class="stat-label">Jugadores</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{equipo.torneos}}</div>
+                        <div class="stat-label">Torneos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{calcularPorcentajeVictorias(equipo)}}%</div>
+                        <div class="stat-label">Victorias</div>
+                    </div>
+                </div>
+                
+                <div class="rendimiento">
+                    <div class="rendimiento-titulo">
+                        <span>Rendimiento</span>
+                        <span class="valor">{{equipo.rendimiento}}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" [style.width.%]="equipo.rendimiento" [style.background-color]="equipo.colorPrimario"></div>
+                    </div>
+                </div>
+                
+                <div class="ultimos-resultados">
+                    <div class="resultados-titulo">Últimos resultados</div>
+                    <div class="resultados-lista">
+                        <div *ngFor="let resultado of equipo.ultimosResultados" 
+                             class="resultado" 
+                             [class.victoria]="resultado === 'V'"
+                             [class.derrota]="resultado === 'D'"
+                             [class.empate]="resultado === 'E'">
+                            {{resultado}}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="proximo-partido" *ngIf="equipo.proximoPartido">
+                    <div class="partido-titulo">Próximo partido</div>
+                    <div class="partido-info">
+                        <div class="rival">vs {{equipo.proximoPartido.rival}}</div>
+                        <div class="detalles">
+                            <span>{{equipo.proximoPartido.fecha}} - {{equipo.proximoPartido.hora}}</span>
+                            <span class="torneo">{{equipo.proximoPartido.torneo}}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="primary">
+                        <mat-icon>visibility</mat-icon>
+                        Ver detalle
+                    </button>
+                    <button class="secondary">
+                        <mat-icon>edit</mat-icon>
+                        Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="empty-state" *ngIf="equiposFiltrados.length === 0">
+        <mat-icon>groups</mat-icon>
+        <h3>No hay equipos para este deporte</h3>
+        <p>No se encontraron equipos que coincidan con el filtro seleccionado.</p>
+        <button (click)="filtrarPorDeporte('Todos')">
+            <mat-icon>refresh</mat-icon>
+            Ver todos los equipos
+        </button>
+    </div>
+</div>

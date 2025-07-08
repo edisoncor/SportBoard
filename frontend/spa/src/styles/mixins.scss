@@ -1,0 +1,199 @@
+// Mixins globales para SportBoard
+@use 'sass:color';
+@use './variables' as vars;
+
+// Mixin para centrar elementos
+@mixin center-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Mixin para botones
+@mixin button-base {
+    cursor: pointer;
+    border: none;
+    border-radius: vars.$border-radius-md;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    font-family: vars.$font-family;
+    font-weight: 500;
+    transition: vars.$transition-normal;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Mixin para botón primario
+@mixin button-primary {
+    @include button-base;
+    background-color: vars.$primary-color;
+    color: vars.$font-primary-color;
+    
+    &:hover:not(:disabled) {
+        background-color: color.adjust(vars.$primary-color, $lightness: -10%);
+    }
+}
+
+// Mixin para botón secundario
+@mixin button-secondary {
+    @include button-base;
+    background-color: vars.$secondary-color;
+    color: vars.$font-primary-color;
+    
+    &:hover:not(:disabled) {
+        background-color: color.adjust(vars.$secondary-color, $lightness: -10%);
+    }
+}
+
+// Mixin para cards
+@mixin card {
+    background-color: white;
+    border-radius: vars.$border-radius-lg;
+    box-shadow: vars.$shadow-md;
+    padding: vars.$spacing-lg;
+    transition: vars.$transition-normal;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: vars.$shadow-lg;
+    }
+}
+
+// Mixin para texto truncado
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Mixin para ocultar scrollbar
+@mixin hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// Mixin para responsive breakpoints
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == xs {
+        @media (max-width: #{vars.$breakpoint-sm - 1px}) {
+            @content;
+        }
+    }
+    @else if $breakpoint == sm {
+        @media (min-width: #{vars.$breakpoint-sm}) {
+            @content;
+        }
+    }
+    @else if $breakpoint == md {
+        @media (min-width: #{vars.$breakpoint-md}) {
+            @content;
+        }
+    }
+    @else if $breakpoint == lg {
+        @media (min-width: #{vars.$breakpoint-lg}) {
+            @content;
+        }
+    }
+    @else if $breakpoint == xl {
+        @media (min-width: #{vars.$breakpoint-xl}) {
+            @content;
+        }
+    }
+}
+
+// Mixin para animaciones de entrada
+@mixin fade-in($duration: vars.$transition-normal) {
+    animation: fadeIn $duration ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+// Mixin para animaciones de deslizamiento
+@mixin slide-in($duration: vars.$transition-normal, $direction: up) {
+    @if $direction == up {
+        animation: slideInUp $duration ease;
+    } @else if $direction == down {
+        animation: slideInDown $duration ease;
+    } @else if $direction == left {
+        animation: slideInLeft $duration ease;
+    } @else if $direction == right {
+        animation: slideInRight $duration ease;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+// Mixin para focus states accesibles
+@mixin focus-outline {
+    outline: 2px solid vars.$primary-color;
+    outline-offset: 2px;
+}
+
+// Mixin para estados de hover en elementos interactivos
+@mixin interactive-hover {
+    transition: vars.$transition-normal;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: vars.$shadow-lg;
+    }
+}

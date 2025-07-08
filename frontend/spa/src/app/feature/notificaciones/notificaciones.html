@@ -1,0 +1,87 @@
+<div class="notificaciones-container slide-in">
+    <div class="page-header">
+        <h1>Notificaciones</h1>
+        <p>Gestiona todas tus notificaciones y mantente al día con las actualizaciones</p>
+    </div>
+    
+    <div class="controls">
+        <div class="filters">
+            <button [class.active]="filtroActual === 'todas'" (click)="filtrarNotificaciones('todas')">
+                Todas
+                <span class="count" *ngIf="hayNotificaciones">{{totalNotificaciones}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'noLeidas'" (click)="filtrarNotificaciones('noLeidas')">
+                No leídas
+                <span class="count" *ngIf="hayNotificacionesNoLeidas">{{notificacionesNoLeidas}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'leidas'" (click)="filtrarNotificaciones('leidas')">
+                Leídas
+                <span class="count" *ngIf="hayNotificacionesLeidas">{{notificacionesLeidas}}</span>
+            </button>
+        </div>
+        
+        <div class="actions">
+            <button class="primary" [disabled]="notificacionesSeleccionadas.length === 0" (click)="marcarSeleccionadasComoLeidas()">
+                <mat-icon>done_all</mat-icon>
+                Marcar como leídas
+            </button>
+            <button class="danger" [disabled]="notificacionesSeleccionadas.length === 0" (click)="eliminarSeleccionadas()">
+                <mat-icon>delete</mat-icon>
+                Eliminar
+            </button>
+        </div>
+    </div>
+    
+    <div class="select-all">
+        <div class="checkbox-container">
+            <mat-checkbox [(ngModel)]="seleccionarTodas" (change)="toggleSeleccionarTodas()"></mat-checkbox>
+            <span class="select-text">Seleccionar todas</span>
+        </div>
+        <div class="selected-count" *ngIf="notificacionesSeleccionadas.length > 0">
+            {{notificacionesSeleccionadas.length}} notificaciones seleccionadas
+        </div>
+    </div>
+    
+    <div class="notifications-list" *ngIf="notificacionesFiltradas.length > 0">
+        <div class="notification-item" *ngFor="let notificacion of notificacionesFiltradas" [class.unread]="!notificacion.read">
+            <div class="notification-container">
+                <div class="checkbox-container">
+                    <mat-checkbox 
+                        [checked]="notificacionesSeleccionadas.includes(notificacion.id)" 
+                        (change)="toggleSeleccion(notificacion.id)">
+                    </mat-checkbox>
+                </div>
+                <div class="notification-icon" [ngClass]="notificacion.type">
+                    <mat-icon>{{notificacion.icon}}</mat-icon>
+                </div>
+                <div class="notification-content">
+                    <h3 class="notification-title">{{notificacion.title}}</h3>
+                    <p class="notification-message">{{notificacion.message}}</p>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <mat-icon>access_time</mat-icon>
+                            {{notificacion.time}} - {{notificacion.date}}
+                        </div>
+                        <div class="notification-actions">
+                            <button class="action-button" *ngIf="notificacion.action">{{notificacion.action}}</button>
+                            <button class="mark-read" *ngIf="!notificacion.read" (click)="marcarComoLeida(notificacion.id)">Marcar como leída</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="empty-state" *ngIf="notificacionesFiltradas.length === 0">
+        <mat-icon>notifications_off</mat-icon>
+        <h3>No hay notificaciones</h3>
+        <p>No tienes notificaciones que coincidan con el filtro seleccionado.</p>
+    </div>
+    
+    <div class="load-more" *ngIf="notificacionesFiltradas.length > 0">
+        <button>
+            <mat-icon>expand_more</mat-icon>
+            Cargar más
+        </button>
+    </div>
+</div>

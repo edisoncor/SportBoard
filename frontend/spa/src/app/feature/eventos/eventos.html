@@ -1,0 +1,203 @@
+<div class="eventos-container slide-in">
+    <div class="page-header">
+        <h1>Eventos Deportivos</h1>
+        <p>Gestiona todos los eventos deportivos en un solo lugar</p>
+    </div>
+    
+    <div class="controls">
+        <div class="filters">
+            <button [class.active]="filtroActual === 'todos'" (click)="filtrarEventos('todos')">
+                Todos los eventos
+            </button>
+            <button [class.active]="filtroActual === 'proximos'" (click)="filtrarEventos('proximos')">
+                Proximos
+                <span class="count">{{eventosProximos.length}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'en-curso'" (click)="filtrarEventos('en-curso')">
+                En curso
+                <span class="count">{{eventosEnCurso.length}}</span>
+            </button>
+            <button [class.active]="filtroActual === 'finalizados'" (click)="filtrarEventos('finalizados')">
+                Finalizados
+                <span class="count">{{eventosFinalizados.length}}</span>
+            </button>
+        </div>
+        
+        <div class="actions">
+            <button class="primary" routerLink="/eventos/crear">
+                <mat-icon>add</mat-icon>
+                Crear evento
+            </button>
+        </div>
+    </div>
+    
+    <!-- Proximos eventos -->
+    <div class="section-container" *ngIf="filtroActual === 'todos' || filtroActual === 'proximos'">
+        <div class="section-header">
+            <h2>Proximos Eventos</h2>
+        </div>
+        
+        <div class="events-grid">
+            <mat-card class="event-card" *ngFor="let evento of eventosProximos">
+                <div class="event-header">
+                    <div class="event-date">
+                        <span class="day">{{evento.dia}}</span>
+                        <span class="month">{{evento.mes}}</span>
+                    </div>
+                    <mat-chip-set>
+                        <mat-chip [ngStyle]="obtenerEstiloChip(evento.estado)">{{evento.estado | titlecase}}</mat-chip>
+                    </mat-chip-set>
+                </div>
+                
+                <mat-card-content>
+                    <h3 class="event-title">{{evento.titulo}}</h3>
+                    <div class="event-info">
+                        <mat-icon>{{evento.icono}}</mat-icon>
+                        <span>{{evento.deporte}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>location_on</mat-icon>
+                        <span>{{evento.lugar}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>{{evento.horario}}</span>
+                    </div>
+                    <div class="event-teams">
+                        <div class="teams-label">Equipos:</div>
+                        <div class="teams-list">
+                            <span *ngFor="let equipo of evento.equipos; let last = last">
+                                {{equipo}}{{!last ? ', ' : ''}}
+                            </span>
+                        </div>
+                    </div>
+                </mat-card-content>
+                
+                <mat-card-actions>
+                    <button mat-button color="primary" (click)="verDetalles(evento.id)">DETALLES</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    
+    <!-- Eventos en curso -->
+    <div class="section-container" *ngIf="filtroActual === 'todos' || filtroActual === 'en-curso'">
+        <div class="section-header">
+            <h2>Eventos En Curso</h2>
+        </div>
+        
+        <div class="events-grid">
+            <mat-card class="event-card active-event" *ngFor="let evento of eventosEnCurso">
+                <div class="event-header">
+                    <div class="event-date">
+                        <span class="day">{{evento.dia}}</span>
+                        <span class="month">{{evento.mes}}</span>
+                    </div>
+                    <mat-chip-set>
+                        <mat-chip [ngStyle]="obtenerEstiloChip(evento.estado)">{{evento.estado | titlecase}}</mat-chip>
+                    </mat-chip-set>
+                </div>
+                
+                <mat-card-content>
+                    <h3 class="event-title">{{evento.titulo}}</h3>
+                    <div class="event-info">
+                        <mat-icon>{{evento.icono}}</mat-icon>
+                        <span>{{evento.deporte}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>location_on</mat-icon>
+                        <span>{{evento.lugar}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>{{evento.horario}}</span>
+                    </div>
+                    
+                    <div *ngIf="evento.resultado" class="live-score">
+                        <div class="score-header">
+                            <mat-icon class="live-icon">fiber_manual_record</mat-icon>
+                            <span>EN VIVO</span>
+                        </div>
+                        <div class="teams-score">
+                            <div class="team">{{evento.resultado.equipo1.nombre}}</div>
+                            <div class="score">{{evento.resultado.equipo1.puntos}} - {{evento.resultado.equipo2.puntos}}</div>
+                            <div class="team">{{evento.resultado.equipo2.nombre}}</div>
+                        </div>
+                    </div>
+                </mat-card-content>
+                
+                <mat-card-actions>
+                    <button mat-button color="primary" (click)="verDetalles(evento.id)">DETALLES</button>
+                    <button mat-button color="accent" routerLink="/estadisticas/analisis">ESTADÍSTICAS EN VIVO</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    
+    <!-- Eventos finalizados -->
+    <div class="section-container" *ngIf="filtroActual === 'todos' || filtroActual === 'finalizados'">
+        <div class="section-header">
+            <h2>Eventos Finalizados</h2>
+        </div>
+        
+        <div class="events-grid">
+            <mat-card class="event-card finished-event" *ngFor="let evento of eventosFinalizados">
+                <div class="event-header">
+                    <div class="event-date">
+                        <span class="day">{{evento.dia}}</span>
+                        <span class="month">{{evento.mes}}</span>
+                    </div>
+                    <mat-chip-set>
+                        <mat-chip [ngStyle]="obtenerEstiloChip(evento.estado)">{{evento.estado | titlecase}}</mat-chip>
+                    </mat-chip-set>
+                </div>
+                
+                <mat-card-content>
+                    <h3 class="event-title">{{evento.titulo}}</h3>
+                    <div class="event-info">
+                        <mat-icon>{{evento.icono}}</mat-icon>
+                        <span>{{evento.deporte}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>location_on</mat-icon>
+                        <span>{{evento.lugar}}</span>
+                    </div>
+                    <div class="event-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>{{evento.horario}}</span>
+                    </div>
+                    
+                    <div class="result-summary">
+                        <div class="result-header">Resultado Final</div>
+                        <div *ngIf="evento.resultado.ganador" class="winner">
+                            <mat-icon>emoji_events</mat-icon>
+                            <span>Ganador: {{evento.resultado.ganador}}</span>
+                        </div>
+                        <div *ngIf="evento.resultado.puntuacion" class="score-result">
+                            Puntuación: {{evento.resultado.puntuacion}}
+                        </div>
+                        <div *ngIf="evento.resultado.tiempo" class="time-result">
+                            Tiempo: {{evento.resultado.tiempo}}
+                        </div>
+                    </div>
+                </mat-card-content>
+                
+                <mat-card-actions>
+                    <button mat-button color="primary" (click)="verDetalles(evento.id)">DETALLES</button>
+                    <button mat-button color="accent" routerLink="/estadisticas/analisis">VER ESTADÍSTICAS</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    
+    <!-- Estado vacío -->
+    <div class="empty-state" *ngIf="
+        (filtroActual === 'proximos' && eventosProximos.length === 0) || 
+        (filtroActual === 'en-curso' && eventosEnCurso.length === 0) || 
+        (filtroActual === 'finalizados' && eventosFinalizados.length === 0)
+    ">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No hay eventos</h3>
+        <p>No hay eventos {{filtroActual}} para mostrar.</p>
+    </div>
+</div>
