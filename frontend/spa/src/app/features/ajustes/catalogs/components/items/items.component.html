@@ -1,12 +1,16 @@
 <div class="items-container">
-  <!-- Header -->
-  <div class="header">
-    <h2>Gestión de Items</h2>
+  <!-- Header con título y botón de crear -->
+  <mat-toolbar class="header-toolbar">
+    <span class="title">
+      <mat-icon>inventory_2</mat-icon>
+      Gestión de Items
+    </span>
+    <span class="spacer"></span>
     <button mat-raised-button color="primary" (click)="openCreateDialog()">
       <mat-icon>add</mat-icon>
       Nuevo Item
     </button>
-  </div>
+  </mat-toolbar>
 
   <!-- Filtros -->
   <mat-card class="filters-card">

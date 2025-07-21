@@ -47,7 +47,7 @@ header {
       position: fixed !important;
       z-index: calc(#{vars.$z-index-modal} - 10);
       transform: translateX(-100%);
-      
+
       &.open {
         transform: translateX(0);
       }
@@ -87,7 +87,7 @@ aside {
     z-index: calc(#{vars.$z-index-modal} - 10);
     transform: translateX(-100%);
     box-shadow: vars.$shadow-lg;
-    
+
     &.open {
       transform: translateX(0);
     }
@@ -103,12 +103,12 @@ aside {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: calc(#{vars.$z-index-modal} - 20);
-  
+
   // Solo visible en pantallas pequeñas
   @media (min-width: vars.$breakpoint-lg) {
     display: none !important;
   }
-  
+
   @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
     display: block;
   }

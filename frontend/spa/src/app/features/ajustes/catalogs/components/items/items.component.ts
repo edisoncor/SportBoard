@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { CatalogService } from '../../../../../core/services/catalogs/catalog.service';
 import { Item, getItemCode as getCodeFromItem, hasChildItems } from '../../../../../core/models/catalogs/Item';
@@ -37,7 +38,8 @@ import { ConfirmDialogComponent } from '../../../../../shared/components/confirm
     MatPaginatorModule,
     MatSortModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    MatToolbarModule
   ],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss'
