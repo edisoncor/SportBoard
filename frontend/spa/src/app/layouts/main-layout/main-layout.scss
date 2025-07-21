@@ -28,31 +28,73 @@ header {
   transition: vars.$transition-all;
   min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
 
-  &.sidebar-closed {
+  // En pantallas grandes (≥992px): sidebar siempre visible al lado
+  @media (min-width: vars.$breakpoint-lg) {
+    &.sidebar-closed {
+      aside {
+        transform: translateX(-100%);
+      }
+
+      main {
+        margin-left: 0;
+      }
+    }
+  }
+
+  // En pantallas pequeñas (<992px): sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
     aside {
+      position: fixed !important;
+      z-index: calc(#{vars.$z-index-modal} - 10);
       transform: translateX(-100%);
+      
+      &.open {
+        transform: translateX(0);
+      }
     }
 
     main {
-      margin-left: 0;
+      margin-left: 0 !important;
+    }
+
+    .sidebar-overlay {
+      display: block;
     }
   }
 }
 
-// Sidebar fijo
+// Sidebar responsivo
 aside {
   width: vars.$sidebar-width;
   height: calc(100vh - #{vars.$header-height});
-  position: fixed;
-  left: 0;
-  top: vars.$header-height;
-  z-index: vars.$z-index-sticky;
-  transition: transform vars.$transition-normal;
   background-color: vars.$white;
   border-right: 1px solid vars.$border-color;
+  transition: transform vars.$transition-normal;
+
+  // En pantallas grandes (≥992px): sidebar fijo al lado
+  @media (min-width: vars.$breakpoint-lg) {
+    position: fixed;
+    left: 0;
+    top: vars.$header-height;
+    z-index: vars.$z-index-sticky;
+  }
+
+  // En pantallas pequeñas (<992px): sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    position: fixed;
+    left: 0;
+    top: vars.$header-height;
+    z-index: calc(#{vars.$z-index-modal} - 10);
+    transform: translateX(-100%);
+    box-shadow: vars.$shadow-lg;
+    
+    &.open {
+      transform: translateX(0);
+    }
+  }
 }
 
-// Overlay para cerrar sidebar en móvil
+// Overlay para cerrar sidebar en pantallas pequeñas
 .sidebar-overlay {
   position: fixed;
   top: vars.$header-height;
@@ -60,14 +102,21 @@ aside {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: calc(#{vars.$z-index-sticky} - 1);
-  display: none;
+  z-index: calc(#{vars.$z-index-modal} - 20);
+  
+  // Solo visible en pantallas pequeñas
+  @media (min-width: vars.$breakpoint-lg) {
+    display: none !important;
+  }
+  
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    display: block;
+  }
 }
 
-// Área de contenido principal
+// Área de contenido principal responsiva
 main {
   flex: 1;
-  margin-left: vars.$sidebar-width;
   padding: vars.$spacing-4;
   transition: margin vars.$transition-normal;
   overflow-y: auto;
@@ -76,6 +125,21 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-4} * 2);
+  }
+
+  // En pantallas grandes (≥992px): dejar espacio para sidebar
+  @media (min-width: vars.$breakpoint-lg) {
+    margin-left: vars.$sidebar-width;
+  }
+
+  // En pantallas pequeñas (<992px): sin margin, sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    margin-left: 0;
+    padding: vars.$spacing-3;
+
+    .content-wrapper {
+      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-3} * 2);
+    }
   }
 }
 
@@ -96,36 +160,18 @@ main {
   box-sizing: border-box;
 }
 
-// Ajustes responsive
-@include mixins.respond-to(md) {
-  .app-container {
-    margin-left: 0;
-
-    &.sidebar-closed aside {
-      transform: translateX(-100%);
-    }
-  }
-
-  main {
-    margin-left: 0;
-    padding: vars.$spacing-3;
-
-    .content-wrapper {
-      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$bottom-nav-height} - #{vars.$spacing-3} * 2);
-    }
-  }
-
-  aside {
-    z-index: calc(#{vars.$z-index-modal} - 10);
-  }
-
-  .sidebar-overlay {
-    display: block;
-    z-index: calc(#{vars.$z-index-modal} - 20);
-  }
-
+// Ajustes adicionales para pantallas muy pequeñas (móviles)
+@media (max-width: vars.$breakpoint-md) {
   .app-footer {
     margin-bottom: 0 !important;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  main {
+    padding: vars.$spacing-2;
+
+    .content-wrapper {
+      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-2} * 2);
+    }
   }
 }
