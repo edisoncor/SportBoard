@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,11 +12,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     selector: 'app-ajustes',
     standalone: true,
     imports: [
-        CommonModule, 
-        MatIconModule, 
-        MatSlideToggleModule, 
-        MatSelectModule, 
-        MatButtonModule, 
+        CommonModule,
+        RouterModule,
+        MatIconModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatButtonModule,
         MatTabsModule,
         FormsModule,
         ReactiveFormsModule
@@ -47,23 +49,27 @@ export class AjustesComponent {
             densidad: 'normal',
             animaciones: true
         },
+        sistema: {
+            mantenimiento: false,
+            logsDetallados: false
+        },
         idioma: 'es',
         zonaHoraria: 'America/Mexico_City'
     };
-    
+
     temas = [
         { valor: 'claro', nombre: 'Claro' },
         { valor: 'oscuro', nombre: 'Oscuro' },
         { valor: 'sistema', nombre: 'Según sistema' }
     ];
-    
+
     idiomas = [
         { valor: 'es', nombre: 'Español' },
         { valor: 'en', nombre: 'English' },
         { valor: 'fr', nombre: 'Français' },
         { valor: 'pt', nombre: 'Português' }
     ];
-    
+
     zonasHorarias = [
         { valor: 'America/Mexico_City', nombre: 'Ciudad de México (UTC-6)' },
         { valor: 'America/New_York', nombre: 'Nueva York (UTC-5)' },
@@ -71,7 +77,7 @@ export class AjustesComponent {
         { valor: 'Europe/London', nombre: 'Londres (UTC+0)' },
         { valor: 'Asia/Tokyo', nombre: 'Tokio (UTC+9)' }
     ];
-    
+
     guardarCambios() {
         // Aquí iría la lógica para guardar los cambios
         console.log('Configuración guardada:', this.configuracion);
