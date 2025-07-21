@@ -31,6 +31,8 @@ body {
     background-color: vars.$background-color;
     min-height: 100vh;
     overflow-x: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 html, body {
@@ -41,6 +43,13 @@ html, body {
     background-color: vars.$background-color;
     line-height: vars.$line-height-relaxed;
     overflow-x: hidden;
+}
+
+// Asegurar que app-root use toda la altura
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Basic element styling */

@@ -1,21 +1,45 @@
 @use '../../../styles/variables' as vars;
 @use '../../../styles/mixins' as mixins;
 
+// Layout principal con sticky footer
+.main-layout-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header fijo
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: vars.$z-index-fixed;
+  height: vars.$header-height;
+}
+
+// Contenedor principal que se expande
 .app-container {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
+  flex: 1;
   margin-top: vars.$header-height;
   position: relative;
   transition: vars.$transition-all;
+  min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
 
   &.sidebar-closed {
     aside {
       transform: translateX(-100%);
     }
+
+    main {
+      margin-left: 0;
+    }
   }
 }
 
+// Sidebar fijo
 aside {
   width: vars.$sidebar-width;
   height: calc(100vh - #{vars.$header-height});
@@ -25,8 +49,10 @@ aside {
   z-index: vars.$z-index-sticky;
   transition: transform vars.$transition-normal;
   background-color: vars.$white;
+  border-right: 1px solid vars.$border-color;
 }
 
+// Overlay para cerrar sidebar en móvil
 .sidebar-overlay {
   position: fixed;
   top: vars.$header-height;
@@ -34,52 +60,68 @@ aside {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1005;
+  z-index: calc(#{vars.$z-index-sticky} - 1);
   display: none;
 }
 
+// Área de contenido principal
 main {
   flex: 1;
   margin-left: vars.$sidebar-width;
   padding: vars.$spacing-4;
   transition: margin vars.$transition-normal;
+  overflow-y: auto;
+
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-4} * 2);
+  }
 }
 
-.content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+// Footer siempre en la parte inferior
 .app-footer {
-  margin-bottom: 0;
-  padding: vars.$spacing-3;
-  text-align: center;
-  background-color: vars.$white;
-  border-top: 1px solid vars.$light-gray;
+  margin-top: auto;
+  margin-bottom: 0 !important;
+  padding: 0;
+  background-color: vars.$darker-gray;
+  border-top: 1px solid vars.$dark-gray;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: vars.$z-index-dropdown;
 }
 
-// Responsive adjustments
+// Ajustes responsive
 @include mixins.respond-to(md) {
   .app-container {
-    &.sidebar-closed {
-      aside {
-        transform: translateX(-100%);
-      }
+    margin-left: 0;
+
+    &.sidebar-closed aside {
+      transform: translateX(-100%);
     }
   }
 
   main {
     margin-left: 0;
     padding: vars.$spacing-3;
-    margin-bottom: vars.$bottom-nav-height; // Space for bottom navigation
+
+    .content-wrapper {
+      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$bottom-nav-height} - #{vars.$spacing-3} * 2);
+    }
+  }
+
+  aside {
+    z-index: calc(#{vars.$z-index-modal} - 10);
   }
 
   .sidebar-overlay {
     display: block;
+    z-index: calc(#{vars.$z-index-modal} - 20);
   }
 
   .app-footer {
-    margin-bottom: vars.$bottom-nav-height; // Space for bottom navigation
-    padding-bottom: env(safe-area-inset-bottom); // For notched iPhones
+    margin-bottom: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
