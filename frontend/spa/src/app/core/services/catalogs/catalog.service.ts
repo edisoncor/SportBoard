@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of, EMPTY } from 'rxjs';
-import { catchError, map, retry, mergeMap, expand, reduce } from 'rxjs/operators';
+import { catchError, map, retry, mergeMap, expand, reduce, tap } from 'rxjs/operators';
 
 import { Category, Item, CreateCategoryDto, UpdateCategoryDto, CreateItemRequest, UpdateItemRequest } from '../../models/catalogs';
 import { ApiResponse, ApiPaginationResponse } from '../../models/api-response';
@@ -25,18 +25,12 @@ export class CatalogService {
    * @returns Observable con array completo de categorías
    */
   getCategories(): Observable<Category[]> {
-    const urlWithLargePageSize = `${ApiUrlBuilder.getCategoriesUrl()}?page_size=1000`;
-    console.log('🔍 DEBUG - getCategories() URL:', urlWithLargePageSize);
+    console.log('🔍 DEBUG - Iniciando carga completa de categorías...');
 
-    return this.http.get<ApiPaginationResponse<Category>>(urlWithLargePageSize)
-      .pipe(
-        retry(2),
-        map(response => response.data),
-        catchError(this.handleError)
-      );
-  }
-
-  /**
+    return this.getAllPages<Category>(ApiUrlBuilder.getCategoriesUrl()).pipe(
+      tap((categories: Category[]) => console.log(`🔍 DEBUG - Categorías cargadas: ${categories.length}`))
+    );
+  }  /**
    * Obtiene una categoría por su código
    * @param code Código de la categoría
    * @returns Observable con la categoría
@@ -91,19 +85,79 @@ export class CatalogService {
   // ==================== ITEMS ====================
 
   /**
-   * Obtiene todos los items disponibles (todas las páginas)
+   * Obtiene todos los items disponibles (todas las páginas válidas)
    * @returns Observable con array completo de items
    */
   getItems(): Observable<Item[]> {
-    const urlWithLargePageSize = `${ApiUrlBuilder.getItemsUrl()}?page_size=5000`;
-    console.log('🔍 DEBUG - getItems() URL:', urlWithLargePageSize);
+    console.log('🔍 DEBUG - Iniciando carga completa de items...');
 
-    return this.http.get<ApiPaginationResponse<Item>>(urlWithLargePageSize)
-      .pipe(
-        retry(2),
-        map(response => response.data),
-        catchError(this.handleError)
-      );
+    return this.getAllPages<Item>(ApiUrlBuilder.getItemsUrl()).pipe(
+      tap((items: Item[]) => {
+        const totalExpected = 1974;
+        const loadedPercentage = Math.round((items.length / totalExpected) * 100);
+        console.log(`🔍 DEBUG - Items cargados: ${items.length} de ${totalExpected} total (${loadedPercentage}%)`);
+
+        if (items.length < totalExpected) {
+          console.warn(`⚠️ ADVERTENCIA - Algunas páginas tuvieron errores. Datos parciales cargados.`);
+        }
+      })
+    );
+  }
+
+  /**
+   * Obtiene todas las páginas de un endpoint paginado
+   * @param baseUrl URL base del endpoint
+   * @returns Observable con todos los elementos
+   */
+  private getAllPages<T>(baseUrl: string): Observable<T[]> {
+    const firstPageUrl = `${baseUrl}?page=1&page_size=100`;
+    let pageCount = 0;
+    const maxPages = 25; // Límite de seguridad
+
+    return this.http.get<ApiPaginationResponse<T>>(firstPageUrl).pipe(
+      expand((response, index) => {
+        pageCount++;
+        console.log(`🔍 DEBUG - Página ${pageCount} cargada, ${response.data.length} elementos`);
+
+        if (pageCount >= maxPages) {
+          console.warn(`⚠️ ADVERTENCIA - Límite de páginas alcanzado (${maxPages})`);
+          return EMPTY;
+        }
+
+        if (response.meta.pagination.next) {
+          const nextUrl = this.convertToKongUrl(response.meta.pagination.next);
+          console.log(`🔍 DEBUG - Cargando siguiente página: ${nextUrl}`);
+
+          return this.http.get<ApiPaginationResponse<T>>(nextUrl).pipe(
+            catchError((error) => {
+              console.error(`❌ Error en página ${pageCount + 1}:`, error);
+              // Si hay error en una página, continuamos sin ella
+              return EMPTY;
+            })
+          );
+        }
+
+        return EMPTY;
+      }),
+      map(response => response.data),
+      reduce((acc: T[], curr: T[]) => [...acc, ...curr], []),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Convierte una URL del microservicio a URL de Kong
+   * @param microserviceUrl URL del microservicio
+   * @returns URL de Kong
+   */
+  private convertToKongUrl(microserviceUrl: string): string {
+    if (microserviceUrl.includes('ms-catalog:8009/api/v1/catalog/items')) {
+      return microserviceUrl.replace('http://ms-catalog:8009/api/v1/catalog/items', 'http://localhost:8000/catalog/items');
+    }
+    if (microserviceUrl.includes('ms-catalog:8009/api/v1/catalog/categories')) {
+      return microserviceUrl.replace('http://ms-catalog:8009/api/v1/catalog/categories', 'http://localhost:8000/catalog/categories');
+    }
+    return microserviceUrl;
   }
 
   /**
