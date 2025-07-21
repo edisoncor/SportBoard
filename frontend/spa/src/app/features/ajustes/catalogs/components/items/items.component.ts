@@ -16,7 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { CatalogService } from '../../../../../core/services/catalogs/catalog.service';
-import { Item, getItemCodeFromUrl, hasChildItems } from '../../../../../core/models/catalogs/Item';
+import { Item, getItemCode as getCodeFromItem, hasChildItems } from '../../../../../core/models/catalogs/Item';
 import { Category } from '../../../../../core/models/catalogs/Category';
 import { ItemDialogComponent } from '../item-dialog/item-dialog.component';
 import { ConfirmDialogComponent } from '../../../../../shared/components/confirm-dialog.component';
@@ -163,7 +163,7 @@ export class ItemsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateItem(getItemCodeFromUrl(item.url), result);
+        this.updateItem(item.code, result);
       }
     });
   }
@@ -184,7 +184,7 @@ export class ItemsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.deleteItem(getItemCodeFromUrl(item.url));
+        this.deleteItem(item.code);
       }
     });
   }
@@ -213,7 +213,7 @@ export class ItemsComponent implements OnInit {
       next: (updatedItem) => {
         this.items.update(items =>
           items.map(item =>
-            getItemCodeFromUrl(item.url) === code ? updatedItem : item
+            item.code === code ? updatedItem : item
           )
         );
         this.showSuccess('Item actualizado exitosamente');
@@ -232,7 +232,7 @@ export class ItemsComponent implements OnInit {
     this.catalogService.deleteItem(code).subscribe({
       next: () => {
         this.items.update(items =>
-          items.filter(item => getItemCodeFromUrl(item.url) !== code)
+          items.filter(item => item.code !== code)
         );
         this.showSuccess('Item eliminado exitosamente');
       },
@@ -244,10 +244,10 @@ export class ItemsComponent implements OnInit {
   }
 
   /**
-   * Obtiene el código de un item desde su URL
+   * Obtiene el código de un item
    */
   getItemCode(item: Item): string {
-    return getItemCodeFromUrl(item.url);
+    return getCodeFromItem(item);
   }
 
   /**

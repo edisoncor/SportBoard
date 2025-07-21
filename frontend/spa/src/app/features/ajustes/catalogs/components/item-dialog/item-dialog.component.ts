@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { Item, CreateItemRequest, UpdateItemRequest, getItemCodeFromUrl } from '../../../../../core/models/catalogs/Item';
+import { Item, CreateItemRequest, UpdateItemRequest } from '../../../../../core/models/catalogs/Item';
 import { Category } from '../../../../../core/models/catalogs/Category';
 
 export interface ItemDialogData {
@@ -70,7 +70,7 @@ export class ItemDialogComponent implements OnInit {
   private populateForm(item: Item) {
     this.itemForm.patchValue({
       name: item.name,
-      code: getItemCodeFromUrl(item.url),
+      code: item.code,
       description: item.description || '',
       category: item.category,
       isActive: item.isActive

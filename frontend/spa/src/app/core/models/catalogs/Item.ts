@@ -3,15 +3,6 @@
  * Representa un item que pertenece a una categoría
  */
 export interface Item {
-  /** URL única del item */
-  url: string;
-
-  /** Código de la categoría a la que pertenece */
-  category: string;
-
-  /** URL del catálogo padre (para jerarquía) */
-  parent_catalog?: string | null;
-
   /** Nombre del item */
   name: string;
 
@@ -27,8 +18,14 @@ export interface Item {
   /** Indica si el item está activo */
   isActive: boolean;
 
+  /** Código de la categoría a la que pertenece (opcional para compatibilidad) */
+  category?: string;
+
+  /** Código del catálogo padre (para jerarquía) */
+  parent_catalog?: string | null;
+
   /** Items hijos (para jerarquía) */
-  child_catalogs?: Item[];
+  child_catalogs?: string[];
 }
 
 /**
@@ -53,10 +50,16 @@ export interface UpdateItemRequest {
   isActive?: boolean;
 }
 
-// Función helper para extraer el código desde la URL
+// Función helper para extraer el código desde la URL (obsoleta, ahora usamos directamente el campo code)
 export function getItemCodeFromUrl(url: string): string {
+  if (!url) return '';
   const parts = url.split('/');
   return parts[parts.length - 2] || '';
+}
+
+// Función helper para obtener el código de un item (usa directamente el campo code)
+export function getItemCode(item: Item): string {
+  return item.code || '';
 }
 
 // Función helper para verificar si un item tiene elementos hijos
