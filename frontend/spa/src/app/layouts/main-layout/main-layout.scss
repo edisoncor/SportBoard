@@ -79,17 +79,21 @@ main {
   }
 }
 
-// Footer siempre en la parte inferior
+// Footer siempre en la parte inferior con 100% width
 .app-footer {
   margin-top: auto;
   margin-bottom: 0 !important;
   padding: 0;
   background-color: vars.$darker-gray;
   border-top: 1px solid vars.$dark-gray;
-  width: 100%;
+  width: 100vw; // Forzar 100% del viewport width
+  max-width: 100vw;
   flex-shrink: 0;
   position: relative;
   z-index: vars.$z-index-dropdown;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
 }
 
 // Ajustes responsive
