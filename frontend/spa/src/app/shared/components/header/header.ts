@@ -27,7 +27,7 @@ interface Notification {
 export class Header implements OnInit, OnDestroy {
     @Input() sidebarOpened: boolean = false;
     @Output() menuClicked = new EventEmitter<void>();
-    
+
     userName: string | null = null;
     userImage: string | null = null;
     userDropdownOpen: boolean = false;
@@ -35,10 +35,11 @@ export class Header implements OnInit, OnDestroy {
     notificationCount: number = 5;
     isScrolled: boolean = false;
     activePage: string = 'dashboard';
-    isLoggedIn: boolean = false;
+    isLoggedIn: boolean = true;
+    showMenuButton: boolean = true;
     isMobile: boolean = false;
     private destroy$ = new Subject<void>();
-    
+
     notifications: Notification[] = [
         {
             id: 1,
@@ -86,17 +87,17 @@ export class Header implements OnInit, OnDestroy {
             type: 'default'
         }
     ];
-    
+
     constructor(
         private authService: AuthService,
         private snackBar: MatSnackBar,
         private router: Router
     ) {}
-    
+
     ngOnInit(): void {
         // Check if mobile
         this.checkIfMobile();
-        
+
         // Subscribirse a los cambios en el estado de autenticación
         this.authService.currentUser
             .pipe(takeUntil(this.destroy$))
@@ -110,7 +111,7 @@ export class Header implements OnInit, OnDestroy {
                     this.userImage = null;
                 }
             });
-        
+
         // Track current route for active nav highlighting
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
@@ -119,32 +120,32 @@ export class Header implements OnInit, OnDestroy {
             const url = event.urlAfterRedirects || event.url;
             this.activePage = url.split('/')[1] || 'dashboard';
         });
-        
+
         this.updateNotificationCount();
     }
-    
+
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
-    
+
     @HostListener('window:scroll', [])
     onWindowScroll() {
         this.isScrolled = window.scrollY > 20;
     }
-    
+
     @HostListener('window:resize', [])
     onResize() {
         this.checkIfMobile();
     }
-    
+
     toggleUserDropdown() {
         this.userDropdownOpen = !this.userDropdownOpen;
         if (this.userDropdownOpen) {
             this.notificationDropdownOpen = false;
         }
     }
-    
+
     toggleNotificationDropdown(event: Event) {
         event.stopPropagation();
         this.notificationDropdownOpen = !this.notificationDropdownOpen;
@@ -152,7 +153,7 @@ export class Header implements OnInit, OnDestroy {
             this.userDropdownOpen = false;
         }
     }
-    
+
     markAllAsRead(event: Event) {
         event.stopPropagation();
         this.notifications.forEach(notification => {
@@ -160,11 +161,11 @@ export class Header implements OnInit, OnDestroy {
         });
         this.updateNotificationCount();
     }
-    
+
     updateNotificationCount() {
         this.notificationCount = this.notifications.filter(notification => !notification.read).length;
     }
-    
+
     logout(event: Event) {
         event.preventDefault();
         const name = this.userName || 'Usuario';
@@ -176,21 +177,21 @@ export class Header implements OnInit, OnDestroy {
             panelClass: ['success-snackbar']
         });
     }
-    
+
     checkIfMobile(): void {
         this.isMobile = window.innerWidth < 768;
     }
-    
+
     @HostListener('document:click', ['$event'])
     onDocumentClick(event: MouseEvent) {
         // Cerrar los dropdowns si se hace clic fuera de ellos
         const userMenuElement = (event.target as HTMLElement).closest('.user-menu');
         const notificationElement = (event.target as HTMLElement).closest('.notification-icon');
-        
+
         if (!userMenuElement && this.userDropdownOpen) {
             this.userDropdownOpen = false;
         }
-        
+
         if (!notificationElement && this.notificationDropdownOpen) {
             this.notificationDropdownOpen = false;
         }
