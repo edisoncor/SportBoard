@@ -14,17 +14,17 @@
     cursor: pointer;
     border: none;
     border-radius: vars.$border-radius-md;
-    padding: vars.$spacing-sm vars.$spacing-md;
-    font-family: vars.$font-family;
-    font-weight: 500;
+    padding: vars.$spacing-2 vars.$spacing-4;
+    font-family: vars.$font-family-primary;
+    font-weight: vars.$font-weight-medium;
     transition: vars.$transition-normal;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    
+
     &:disabled {
-        opacity: 0.6;
+        opacity: vars.$opacity-disabled;
         cursor: not-allowed;
     }
 }
@@ -34,7 +34,7 @@
     @include button-base;
     background-color: vars.$primary-color;
     color: vars.$font-primary-color;
-    
+
     &:hover:not(:disabled) {
         background-color: color.adjust(vars.$primary-color, $lightness: -10%);
     }
@@ -45,7 +45,7 @@
     @include button-base;
     background-color: vars.$secondary-color;
     color: vars.$font-primary-color;
-    
+
     &:hover:not(:disabled) {
         background-color: color.adjust(vars.$secondary-color, $lightness: -10%);
     }
@@ -53,12 +53,12 @@
 
 // Mixin para cards
 @mixin card {
-    background-color: white;
+    background-color: vars.$white;
     border-radius: vars.$border-radius-lg;
     box-shadow: vars.$shadow-md;
     padding: vars.$spacing-lg;
     transition: vars.$transition-normal;
-    
+
     &:hover {
         transform: translateY(-2px);
         box-shadow: vars.$shadow-lg;
@@ -76,7 +76,7 @@
 @mixin hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-    
+
     &::-webkit-scrollbar {
         display: none;
     }
@@ -191,9 +191,154 @@
 // Mixin para estados de hover en elementos interactivos
 @mixin interactive-hover {
     transition: vars.$transition-normal;
-    
+
     &:hover {
         transform: translateY(-2px);
         box-shadow: vars.$shadow-lg;
+    }
+}
+
+// Mixin para inputs/formularios
+@mixin input-base {
+    padding: vars.$input-padding;
+    border: vars.$input-border-width solid vars.$border-color;
+    border-radius: vars.$input-border-radius;
+    font-size: vars.$input-font-size;
+    line-height: vars.$input-line-height;
+    font-family: vars.$font-family-primary;
+    transition: vars.$transition-colors;
+
+    &:focus {
+        outline: none;
+        border-color: vars.$primary-color;
+        box-shadow: 0 0 0 3px rgba(vars.$primary-color, 0.1);
+    }
+
+    &:disabled {
+        background-color: vars.$light-gray;
+        opacity: vars.$opacity-disabled;
+        cursor: not-allowed;
+    }
+
+    &::placeholder {
+        color: vars.$font-tertiary-color;
+    }
+}
+
+// Mixin para loading states
+@mixin loading-spinner($size: 20px, $color: vars.$primary-color) {
+    display: inline-block;
+    width: $size;
+    height: $size;
+    border: 2px solid rgba($color, 0.3);
+    border-radius: vars.$border-radius-full;
+    border-top-color: $color;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Mixin para tooltips
+@mixin tooltip($position: top, $bg: vars.$dark-gray) {
+    position: relative;
+
+    &::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        background-color: $bg;
+        color: vars.$white;
+        padding: vars.$spacing-1 vars.$spacing-2;
+        border-radius: vars.$border-radius-sm;
+        font-size: vars.$font-size-xs;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: vars.$transition-fast;
+        z-index: vars.$z-index-tooltip;
+
+        @if $position == top {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+        } @else if $position == bottom {
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+        } @else if $position == left {
+            right: 100%;
+            top: 50%;
+            transform: translateX(-8px) translateY(-50%);
+        } @else if $position == right {
+            left: 100%;
+            top: 50%;
+            transform: translateX(8px) translateY(-50%);
+        }
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+// Mixin para glassmorphism effect
+@mixin glass-effect {
+    background: vars.$glass-bg;
+    backdrop-filter: vars.$glass-backdrop-filter;
+    border: 1px solid vars.$glass-border;
+    box-shadow: vars.$shadow-lg;
+}
+
+// Mixin para gradientes
+@mixin gradient($direction: to right, $color1: vars.$primary-color, $color2: vars.$secondary-color) {
+    background: linear-gradient($direction, $color1, $color2);
+}
+
+// Mixin para aspect ratio
+@mixin aspect-ratio($ratio: 1) {
+    position: relative;
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: math.percentage(math.div(1, $ratio));
+    }
+
+    > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// Mixin para overlay
+@mixin overlay($color: rgba(vars.$black, 0.5)) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color;
+    pointer-events: none;
+}
+
+// Mixin para estado disabled
+@mixin disabled-state {
+    opacity: vars.$opacity-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+// Mixin para clearfix
+@mixin clearfix {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
     }
 }

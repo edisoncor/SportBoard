@@ -1,6 +1,7 @@
 @use 'sass:color';
 @use 'sass:math';
-@use '../../../../styles.scss' as *;
+@use '../../../../styles/variables' as vars;
+@use '../../../../styles/mixins' as mixins;
 
 .sidebar-container {
     display: flex;
@@ -12,41 +13,41 @@
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid $light-gray;
-    margin-bottom: 1.5rem;
-    
+    gap: vars.$spacing-4;
+    padding: vars.$spacing-4 0;
+    border-bottom: 1px solid vars.$light-gray;
+    margin-bottom: vars.$spacing-6;
+
     .user-avatar {
         flex-shrink: 0;
         width: 48px;
         height: 48px;
         border-radius: 50%;
         overflow: hidden;
-        
+
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
     }
-    
+
     .user-info {
         overflow: hidden;
-        
+
         .user-name {
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: vars.$font-size-base;
+            font-weight: vars.$font-weight-semibold;
             margin: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: $font-color;
+            color: vars.$font-color;
         }
-        
+
         .user-role {
-            font-size: 0.875rem;
-            color: $font-secondary-color;
+            font-size: vars.$font-size-sm;
+            color: vars.$font-secondary-color;
             margin: 0;
             white-space: nowrap;
             overflow: hidden;
@@ -60,65 +61,65 @@
     flex: 1;
     overflow-y: auto;
     padding-right: 0.5rem;
-    
+
     &::-webkit-scrollbar {
         width: 4px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
-        background: rgba($secondary-color, 0.5);
+        background: rgba(vars.$secondary-color, 0.5);
     }
-    
+
     .nav-section {
         margin-bottom: 1.5rem;
-        
+
         .nav-section-title {
             font-size: 0.75rem;
             font-weight: 700;
-            color: $font-secondary-color;
+            color: vars.$font-secondary-color;
             letter-spacing: 0.5px;
             margin-bottom: 0.75rem;
             padding-left: 0.5rem;
         }
-        
+
         .nav-list {
             list-style: none;
-            
+
             .nav-item {
                 margin-bottom: 0.25rem;
-                
+
                 .nav-link {
                     display: flex;
                     align-items: center;
                     gap: 0.75rem;
-                    padding: 0.75rem 0.5rem;
-                    border-radius: 6px;
-                    color: $font-color;
+                    padding: vars.$spacing-2 vars.$spacing-2;
+                    border-radius: vars.$border-radius-md;
+                    color: vars.$font-color;
                     text-decoration: none;
-                    transition: all 0.2s ease;
-                    
+                    transition: vars.$transition-all;
+
                     mat-icon {
-                        color: $font-secondary-color;
-                        transition: color 0.2s ease;
+                        color: vars.$font-secondary-color;
+                        transition: color vars.$transition-normal;
                     }
-                    
+
                     span {
-                        font-size: 0.95rem;
-                        font-weight: 500;
+                        font-size: vars.$font-size-base;
+                        font-weight: vars.$font-weight-medium;
                     }
-                    
+
                     &:hover, &.active {
-                        background-color: rgba($primary-color, 0.1);
-                        color: $primary-color;
-                        
+                        background-color: rgba(vars.$primary-color, 0.1);
+                        color: vars.$primary-color;
+
                         mat-icon {
-                            color: $primary-color;
+                            color: vars.$primary-color;
                         }
                     }
-                    
+
                     &.active {
-                        background-color: rgba($primary-color, 0.15);
-                        font-weight: 600;
+                        background-color: rgba(vars.$primary-color, 0.15);
+                        font-weight: vars.$font-weight-semibold;
                     }
                 }
             }
@@ -128,21 +129,21 @@
 
 // Version Info
 .version-info {
-    padding: 1rem 0;
-    border-top: 1px solid $light-gray;
+    padding: vars.$spacing-3 0;
+    border-top: 1px solid vars.$light-gray;
     text-align: center;
-    font-size: 0.75rem;
-    color: $font-secondary-color;
+    font-size: vars.$font-size-xs;
+    color: vars.$font-secondary-color;
     margin-top: auto;
 }
 
 // Responsive adjustments
-@media (max-width: $breakpoint-md) {
+@include mixins.respond-to(md) {
     .sidebar-container {
-        padding-top: 1rem;
+        padding-top: vars.$spacing-3;
     }
-    
+
     .user-profile {
-        padding: 0.75rem 0;
+        padding: vars.$spacing-2 0;
     }
 }

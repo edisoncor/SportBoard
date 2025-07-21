@@ -1,67 +1,249 @@
-// Variables globales para SportBoard
+// Variables globales para SportBoard SPA
+// ===========================================
 
-/* Color palette - Sports themed */
-$primary-color: #1e88e5; /* Strong blue */
-$secondary-color: #26a69a; /* Teal accent */
-$accent-color: #ff5722; /* Energetic orange */
-$success-color: #43a047; /* Green for success */
-$warning-color: #ffb300; /* Yellow for warnings */
-$error-color: #e53935; /* Red for errors */
-$light-gray: #eceff1; /* Light background */
-$dark-gray: #37474f; /* Dark text */
+// ===========================================
+// COLORES
+// ===========================================
 
-/* Background and text colors */
-$background-color: #f8f9fa;
-$font-color: #2c3e50;
-$font-secondary-color: #546e7a;
-$font-primary-color: #fff;
+// Paleta principal - Tema deportivo
+$primary-color: #1e88e5 !default; // Azul fuerte
+$secondary-color: #26a69a !default; // Verde azulado (teal)
+$accent-color: #ff5722 !default; // Naranja energético
+$info-color: #2196f3 !default; // Azul información
 
-/* Typography */
-$font-family: 'Montserrat', 'Roboto', sans-serif;
-$font-size: 16px;
+// Estados
+$success-color: #43a047 !default; // Verde éxito
+$warning-color: #ffb300 !default; // Amarillo advertencia
+$error-color: #e53935 !default; // Rojo error
+$danger-color: $error-color !default; // Alias para error
 
-/* Layout dimensions */
-$header-height: 64px;
-$sidebar-width: 250px;
-$footer-height: 50px;
+// Grises y neutros
+$white: #ffffff !default;
+$black: #000000 !default;
+$light-gray: #eceff1 !default;
+$medium-gray: #90a4ae !default;
+$dark-gray: #37474f !default;
+$darker-gray: #263238 !default;
 
-/* Breakpoints for responsive design */
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+// Backgrounds
+$background-color: #f8f9fa !default;
+$background-light: #ffffff !default;
+$background-dark: #1a1a1a !default;
+$background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !default;
 
-/* Z-index layers */
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
+// Texto
+$font-color: #2c3e50 !default;
+$font-secondary-color: #546e7a !default;
+$font-tertiary-color: #90a4ae !default;
+$font-primary-color: #ffffff !default;
+$font-muted: #a0aec0 !default;
 
-/* Spacing */
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-xxl: 3rem;
+// Bordes
+$border-color: #e2e8f0 !default;
+$border-color-light: #f1f5f9 !default;
+$border-color-dark: #cbd5e0 !default;
 
-/* Border radius */
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-xl: 16px;
+// ===========================================
+// TIPOGRAFÍA
+// ===========================================
 
-/* Shadows */
-$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
-$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
-$shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
+// Familias de fuentes
+$font-family-primary: 'Montserrat', 'Roboto', sans-serif !default;
+$font-family-secondary: 'Roboto', sans-serif !default;
+$font-family-monospace: 'Monaco', 'Consolas', 'Courier New', monospace !default;
 
-/* Transitions */
-$transition-fast: 0.15s ease;
-$transition-normal: 0.3s ease;
-$transition-slow: 0.5s ease;
+// Tamaños de fuente
+$font-size-xs: 0.75rem !default;   // 12px
+$font-size-sm: 0.875rem !default;  // 14px
+$font-size-base: 1rem !default;    // 16px
+$font-size-md: 1.125rem !default;  // 18px
+$font-size-lg: 1.25rem !default;   // 20px
+$font-size-xl: 1.5rem !default;    // 24px
+$font-size-2xl: 1.875rem !default; // 30px
+$font-size-3xl: 2.25rem !default;  // 36px
+$font-size-4xl: 3rem !default;     // 48px
+
+// Peso de fuente
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-extrabold: 800 !default;
+
+// Altura de línea
+$line-height-tight: 1.25 !default;
+$line-height-normal: 1.5 !default;
+$line-height-relaxed: 1.6 !default;
+$line-height-loose: 2 !default;
+
+// ===========================================
+// LAYOUT Y DIMENSIONES
+// ===========================================
+
+// Dimensiones principales
+$header-height: 64px !default;
+$sidebar-width: 250px !default;
+$sidebar-width-collapsed: 70px !default;
+$footer-height: 50px !default;
+$bottom-nav-height: 56px !default;
+
+// Contenedores
+$container-max-width: 1400px !default;
+$container-lg: 1200px !default;
+$container-md: 992px !default;
+$container-sm: 768px !default;
+
+// ===========================================
+// BREAKPOINTS RESPONSIVOS
+// ===========================================
+
+$breakpoint-xs: 0 !default;
+$breakpoint-sm: 576px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 992px !default;
+$breakpoint-xl: 1200px !default;
+$breakpoint-xxl: 1400px !default;
+
+// ===========================================
+// Z-INDEX LAYERS
+// ===========================================
+
+$z-index-dropdown: 1000 !default;
+$z-index-sticky: 1020 !default;
+$z-index-fixed: 1030 !default;
+$z-index-modal-backdrop: 1040 !default;
+$z-index-modal: 1050 !default;
+$z-index-popover: 1060 !default;
+$z-index-tooltip: 1070 !default;
+$z-index-notification: 1080 !default;
+
+// ===========================================
+// ESPACIADO
+// ===========================================
+
+$spacing-0: 0 !default;
+$spacing-1: 0.25rem !default;  // 4px
+$spacing-2: 0.5rem !default;   // 8px
+$spacing-3: 0.75rem !default;  // 12px
+$spacing-4: 1rem !default;     // 16px
+$spacing-5: 1.25rem !default;  // 20px
+$spacing-6: 1.5rem !default;   // 24px
+$spacing-8: 2rem !default;     // 32px
+$spacing-10: 2.5rem !default;  // 40px
+$spacing-12: 3rem !default;    // 48px
+$spacing-16: 4rem !default;    // 64px
+$spacing-20: 5rem !default;    // 80px
+
+// Aliases para compatibilidad
+$spacing-xs: $spacing-1 !default;
+$spacing-sm: $spacing-2 !default;
+$spacing-md: $spacing-4 !default;
+$spacing-lg: $spacing-6 !default;
+$spacing-xl: $spacing-8 !default;
+$spacing-xxl: $spacing-12 !default;
+
+// ===========================================
+// BORDER RADIUS
+// ===========================================
+
+$border-radius-none: 0 !default;
+$border-radius-sm: 0.25rem !default;   // 4px
+$border-radius-md: 0.5rem !default;    // 8px
+$border-radius-lg: 0.75rem !default;   // 12px
+$border-radius-xl: 1rem !default;      // 16px
+$border-radius-2xl: 1.25rem !default;  // 20px
+$border-radius-full: 50% !default;
+
+// ===========================================
+// SOMBRAS
+// ===========================================
+
+$shadow-none: none !default;
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05) !default;
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05) !default;
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05) !default;
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1) !default;
+$shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15) !default;
+$shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25) !default;
+$shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.05) !default;
+
+// Sombras específicas para componentes
+$card-shadow: $shadow-md !default;
+$card-shadow-hover: $shadow-lg !default;
+$button-shadow: $shadow-sm !default;
+$modal-shadow: $shadow-2xl !default;
+
+// ===========================================
+// TRANSICIONES Y ANIMACIONES
+// ===========================================
+
+$transition-duration-fast: 0.15s !default;
+$transition-duration-normal: 0.3s !default;
+$transition-duration-slow: 0.5s !default;
+$transition-duration-slower: 0.75s !default;
+
+$transition-timing-ease: ease !default;
+$transition-timing-ease-in: ease-in !default;
+$transition-timing-ease-out: ease-out !default;
+$transition-timing-ease-in-out: ease-in-out !default;
+
+// Transiciones comunes
+$transition-fast: $transition-duration-fast $transition-timing-ease !default;
+$transition-normal: $transition-duration-normal $transition-timing-ease !default;
+$transition-slow: $transition-duration-slow $transition-timing-ease !default;
+
+$transition-all: all $transition-normal !default;
+$transition-colors: background-color $transition-normal, border-color $transition-normal, color $transition-normal !default;
+$transition-opacity: opacity $transition-normal !default;
+$transition-transform: transform $transition-normal !default;
+
+// ===========================================
+// COMPONENTES ESPECÍFICOS
+// ===========================================
+
+// Botones
+$button-padding-xs: $spacing-1 $spacing-2 !default;
+$button-padding-sm: $spacing-2 $spacing-3 !default;
+$button-padding-md: $spacing-2 $spacing-4 !default;
+$button-padding-lg: $spacing-3 $spacing-6 !default;
+$button-padding-xl: $spacing-4 $spacing-8 !default;
+
+$button-border-radius: $border-radius-md !default;
+$button-font-weight: $font-weight-medium !default;
+
+// Formularios
+$input-padding: $spacing-3 $spacing-4 !default;
+$input-border-radius: $border-radius-md !default;
+$input-border-width: 1px !default;
+$input-font-size: $font-size-base !default;
+$input-line-height: $line-height-normal !default;
+
+// Cards
+$card-padding: $spacing-6 !default;
+$card-border-radius: $border-radius-lg !default;
+$card-background: $white !default;
+
+// Modal
+$modal-padding: $spacing-6 !default;
+$modal-border-radius: $border-radius-lg !default;
+$modal-max-width: 500px !default;
+
+// Notification/Toast
+$notification-padding: $spacing-4 !default;
+$notification-border-radius: $border-radius-md !default;
+$notification-max-width: 400px !default;
+
+// ===========================================
+// UTILIDADES
+// ===========================================
+
+// Opacidad
+$opacity-disabled: 0.6 !default;
+$opacity-muted: 0.7 !default;
+$opacity-hover: 0.8 !default;
+
+// Efectos glass/glassmorphism
+$glass-bg: rgba(255, 255, 255, 0.95) !default;
+$glass-border: rgba(255, 255, 255, 0.2) !default;
+$glass-backdrop-filter: blur(10px) !default;

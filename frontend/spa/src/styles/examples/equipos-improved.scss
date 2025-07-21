@@ -1,0 +1,236 @@
+// Ejemplo mejorado de equipos.scss aplicando buenas prácticas
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
+
+.equipos-container {
+    padding: vars.$spacing-5;
+
+    .page-header {
+        margin-bottom: vars.$spacing-6;
+
+        h1 {
+            font-size: vars.$font-size-2xl;
+            font-weight: vars.$font-weight-semibold;
+            margin-bottom: vars.$spacing-3;
+            color: vars.$font-color;
+        }
+
+        p {
+            color: vars.$font-secondary-color;
+            font-size: vars.$font-size-lg;
+        }
+    }
+
+    .controls {
+        @include mixins.center-flex;
+        justify-content: space-between;
+        margin-bottom: vars.$spacing-6;
+        flex-wrap: wrap;
+        gap: vars.$spacing-4;
+
+        @include mixins.respond-to(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .deportes-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: vars.$spacing-3;
+
+            .deporte-pill {
+                padding: vars.$spacing-2 vars.$spacing-4;
+                border-radius: vars.$border-radius-2xl;
+                background-color: vars.$light-gray;
+                color: vars.$font-secondary-color;
+                font-size: vars.$font-size-sm;
+                cursor: pointer;
+                transition: vars.$transition-colors;
+                border: none;
+                font-family: vars.$font-family-primary;
+
+                &:hover {
+                    background-color: vars.$medium-gray;
+                    transform: translateY(-1px);
+                }
+
+                &.active {
+                    background-color: vars.$primary-color;
+                    color: vars.$white;
+                }
+
+                &:focus {
+                    @include mixins.focus-outline;
+                }
+            }
+        }
+
+        .add-button {
+            @include mixins.button-primary;
+
+            .icon {
+                margin-right: vars.$spacing-1;
+            }
+        }
+    }
+
+    .equipos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: vars.$spacing-6;
+
+        @include mixins.respond-to(xs) {
+            grid-template-columns: 1fr;
+        }
+
+        .equipo-card {
+            @include mixins.card;
+            position: relative;
+            overflow: hidden;
+
+            &:hover {
+                @include mixins.interactive-hover;
+            }
+
+            &__header {
+                position: relative;
+                height: 200px;
+                background: vars.$background-gradient;
+                @include mixins.center-flex;
+                margin: calc(-#{vars.$card-padding}) calc(-#{vars.$card-padding}) vars.$spacing-4;
+
+                .logo {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: vars.$border-radius-full;
+                    background-color: vars.$white;
+                    @include mixins.center-flex;
+                    font-size: vars.$font-size-2xl;
+                    color: vars.$primary-color;
+                    box-shadow: vars.$shadow-lg;
+                }
+            }
+
+            &__content {
+                .title {
+                    font-size: vars.$font-size-xl;
+                    font-weight: vars.$font-weight-semibold;
+                    margin-bottom: vars.$spacing-2;
+                    color: vars.$dark-gray;
+                    @include mixins.text-truncate;
+                }
+
+                .deporte {
+                    display: inline-block;
+                    padding: vars.$spacing-1 vars.$spacing-2;
+                    background-color: rgba(vars.$secondary-color, 0.1);
+                    color: vars.$secondary-color;
+                    border-radius: vars.$border-radius-sm;
+                    font-size: vars.$font-size-xs;
+                    font-weight: vars.$font-weight-medium;
+                    margin-bottom: vars.$spacing-3;
+                }
+
+                .stats {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: vars.$spacing-4;
+
+                    .stat {
+                        text-align: center;
+
+                        &__number {
+                            display: block;
+                            font-size: vars.$font-size-lg;
+                            font-weight: vars.$font-weight-bold;
+                            color: vars.$primary-color;
+                        }
+
+                        &__label {
+                            font-size: vars.$font-size-xs;
+                            color: vars.$font-secondary-color;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+                    }
+                }
+            }
+
+            &__actions {
+                display: flex;
+                gap: vars.$spacing-2;
+
+                .btn {
+                    flex: 1;
+
+                    &--primary {
+                        @include mixins.button-primary;
+                    }
+
+                    &--secondary {
+                        @include mixins.button-base;
+                        background-color: transparent;
+                        color: vars.$font-secondary-color;
+                        border: 1px solid vars.$border-color;
+
+                        &:hover {
+                            background-color: vars.$light-gray;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Estados de carga
+    .loading-state {
+        @include mixins.center-flex;
+        min-height: 200px;
+
+        .spinner {
+            @include mixins.loading-spinner(40px, vars.$primary-color);
+        }
+    }
+
+    .empty-state {
+        @include mixins.center-flex;
+        flex-direction: column;
+        min-height: 300px;
+        color: vars.$font-secondary-color;
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: vars.$spacing-4;
+            opacity: 0.5;
+        }
+
+        .message {
+            font-size: vars.$font-size-lg;
+            margin-bottom: vars.$spacing-2;
+        }
+
+        .sub-message {
+            font-size: vars.$font-size-sm;
+            margin-bottom: vars.$spacing-6;
+        }
+
+        .action-button {
+            @include mixins.button-primary;
+        }
+    }
+}
+
+// Responsive adjustments
+@include mixins.respond-to(xs) {
+    .equipos-container {
+        padding: vars.$spacing-4;
+
+        .page-header h1 {
+            font-size: vars.$font-size-xl;
+        }
+
+        .controls {
+            gap: vars.$spacing-3;
+        }
+    }
+}

@@ -23,7 +23,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   background: $background-gradient;
   position: relative;
   overflow: hidden;
-  
+
   // Efectos de fondo animados
   &::before {
     content: '';
@@ -37,27 +37,27 @@ $glass-border: rgba(255, 255, 255, 0.2);
     animation: float 20s ease-in-out infinite;
     z-index: 1;
   }
-  
+
   @keyframes float {
     0%, 100% { transform: translate(0, 0) rotate(0deg); }
     33% { transform: translate(30px, -30px) rotate(120deg); }
     66% { transform: translate(-20px, 20px) rotate(240deg); }
   }
-  
+
   // Responsive breakpoints mejorados
   @media (max-width: 1400px) {
     flex-direction: row;
   }
-  
+
   @media (max-width: 1200px) {
     flex-direction: column;
   }
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     min-height: 100vh;
   }
-  
+
   @media (max-width: 480px) {
     min-height: 100vh;
     overflow-y: auto;
@@ -75,28 +75,28 @@ $glass-border: rgba(255, 255, 255, 0.2);
   position: relative;
   z-index: 10;
   width: 100%;
-  
+
   // Pantallas extra grandes (1400px+)
   @media (min-width: 1400px) {
     max-width: 45%;
     padding: 5rem 4rem;
     min-height: 100vh;
   }
-  
+
   // Pantallas grandes (1200px - 1399px)
   @media (min-width: 1200px) and (max-width: 1399px) {
     max-width: 50%;
     padding: 4rem 3rem;
     min-height: 100vh;
   }
-  
+
   // Pantallas medianas (992px - 1199px)
   @media (min-width: 992px) and (max-width: 1199px) {
     max-width: 100%;
     padding: 3rem 2rem;
     min-height: auto;
   }
-  
+
   // Pantallas pequeñas (768px - 991px)
   @media (min-width: 768px) and (max-width: 991px) {
     max-width: 100%;
@@ -105,7 +105,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
     justify-content: flex-start;
     padding-top: 3rem;
   }
-  
+
   // Pantallas móviles (576px - 767px)
   @media (min-width: 576px) and (max-width: 767px) {
     max-width: 100%;
@@ -114,7 +114,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
     justify-content: flex-start;
     padding-top: 2rem;
   }
-  
+
   // Pantallas muy pequeñas (hasta 575px)
   @media (max-width: 575px) {
     max-width: 100%;
@@ -123,7 +123,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
     justify-content: flex-start;
     padding-top: 1.5rem;
   }
-  
+
   // Pantallas muy pequeñas (hasta 400px)
   @media (max-width: 400px) {
     padding: 1rem 0.75rem;
@@ -135,46 +135,46 @@ $glass-border: rgba(255, 255, 255, 0.2);
   text-align: center;
   margin-bottom: 3rem;
   color: white;
-  
+
   .logo {
     margin-bottom: 2rem;
-    
+
     img {
       height: 80px;
       width: auto;
       filter: brightness(0) invert(1);
-      
+
       @media (max-width: 576px) {
         height: 60px;
       }
     }
   }
-  
+
   h1 {
     font-size: 2.5rem;
     color: white;
     margin-bottom: 0.75rem;
     font-weight: 700;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
+
     @media (min-width: 1400px) {
       font-size: 3rem;
     }
-    
+
     @media (max-width: 576px) {
       font-size: 2rem;
     }
   }
-  
+
   p {
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.2rem;
     font-weight: 300;
-    
+
     @media (min-width: 1400px) {
       font-size: 1.3rem;
     }
-    
+
     @media (max-width: 576px) {
       font-size: 1rem;
     }
@@ -192,60 +192,60 @@ $glass-border: rgba(255, 255, 255, 0.2);
   overflow: hidden;
   margin-bottom: 2rem;
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.25);
   }
-  
+
   .form-title {
     padding: 2rem 2.5rem 1.5rem;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
-    
+
     h2 {
       font-size: 1.75rem;
       color: $text-color;
       margin-bottom: 0.5rem;
       font-weight: 600;
-      
+
       @media (min-width: 1400px) {
         font-size: 2rem;
       }
     }
-    
+
     p {
       color: $text-muted;
       font-size: 1rem;
       margin: 0;
       font-weight: 400;
     }
-    
+
     @media (max-width: 576px) {
       padding: 1.5rem 2rem 1.25rem;
-      
+
       h2 {
         font-size: 1.5rem;
       }
-      
+
       p {
         font-size: 0.9rem;
       }
     }
   }
-  
+
   .form-content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     padding: 2rem 2.5rem 2.5rem;
-    
+
     @media (min-width: 1400px) {
       padding: 2.5rem 3rem;
       gap: 1.75rem;
     }
-    
+
     @media (max-width: 576px) {
       padding: 1.5rem 2rem 2rem;
       gap: 1.25rem;
@@ -255,67 +255,67 @@ $glass-border: rgba(255, 255, 255, 0.2);
 
 .form-field {
   width: 100%;
-  
+
   ::ng-deep .mat-mdc-form-field {
     .mat-mdc-text-field-wrapper {
       background-color: rgba(248, 250, 252, 0.8);
       border-radius: 12px;
       border: 1px solid rgba(226, 232, 240, 0.6);
       transition: all 0.3s ease;
-      
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.9);
         border-color: rgba(102, 126, 234, 0.3);
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
       }
     }
-    
+
     &.mat-focused .mat-mdc-text-field-wrapper {
       background-color: white;
       border-color: $primary-color;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
-    
+
     .mat-mdc-form-field-subscript-wrapper {
       padding: 0;
       margin-top: 0.25rem;
     }
-    
+
     .mat-mdc-form-field-error {
       font-size: 0.875rem;
       color: #ef4444;
     }
-    
+
     .mdc-text-field--outlined .mdc-notched-outline {
       border: none;
     }
-    
+
     .mat-mdc-form-field-icon-prefix,
     .mat-mdc-form-field-icon-suffix {
       color: $text-muted;
       transition: color 0.3s ease;
     }
-    
+
     &.mat-focused .mat-mdc-form-field-icon-prefix {
       color: $primary-color;
     }
-    
+
     .mdc-text-field__input {
       font-size: 1rem;
       font-weight: 400;
       color: $text-color;
-      
+
       &::placeholder {
         color: $text-tertiary;
         opacity: 1;
       }
     }
-    
+
     .mat-mdc-form-field-label {
       color: $text-muted;
       font-weight: 500;
     }
-    
+
     &.mat-focused .mat-mdc-form-field-label {
       color: $primary-color;
     }
@@ -326,19 +326,19 @@ $glass-border: rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   .forgot-password {
     color: $primary-color;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
     cursor: pointer;
-    
+
     &:hover {
       text-decoration: underline;
     }
   }
-  
+
   @media (max-width: 450px) {
     flex-direction: column;
     align-items: flex-start;
@@ -354,7 +354,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  
+
   mat-icon {
     margin-right: 0.5rem;
     font-size: 18px;
@@ -368,55 +368,55 @@ $glass-border: rgba(255, 255, 255, 0.2);
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 16px;
-  background: linear-gradient(135deg, $primary-color 0%, darken($primary-color, 10%) 100%);
+  background: linear-gradient(135deg, $primary-color 0%, color.adjust($primary-color, $lightness: -10%) 100%);
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
   transition: all 0.3s ease;
   text-transform: none;
   letter-spacing: 0.5px;
-  
+
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, lighten($primary-color, 5%) 0%, $primary-color 100%);
+    background: linear-gradient(135deg, color.adjust($primary-color, $lightness: 5%) 0%, $primary-color 100%);
   }
-  
+
   &:active:not(:disabled) {
     transform: translateY(0);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
   }
-  
+
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
   }
-  
+
   .button-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     mat-icon, mat-spinner {
       margin-right: 0.75rem;
-      
+
       &:last-child {
         margin-right: 0;
         margin-left: 0.75rem;
       }
     }
-    
+
     mat-spinner {
       width: 20px !important;
       height: 20px !important;
     }
   }
-  
+
   @media (min-width: 1400px) {
     height: 60px;
     font-size: 1.2rem;
   }
-  
+
   @media (max-width: 576px) {
     height: 52px;
     font-size: 1rem;
@@ -427,11 +427,11 @@ $glass-border: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   margin: 1rem 0;
-  
+
   mat-divider {
     flex: 1;
   }
-  
+
   span {
     color: $text-tertiary;
     padding: 0 1rem;
@@ -443,7 +443,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  
+
   @media (max-width: 480px) {
     flex-direction: column;
   }
@@ -458,20 +458,20 @@ $glass-border: rgba(255, 255, 255, 0.2);
   font-size: 0.95rem;
   border: 1px solid $border-color;
   border-radius: 8px;
-  
+
   img {
     height: 20px;
     margin-right: 0.75rem;
   }
-  
+
   &.google img {
     height: 18px;
   }
-  
+
   &.microsoft img {
     height: 16px;
   }
-  
+
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -481,18 +481,18 @@ $glass-border: rgba(255, 255, 255, 0.2);
 .register-prompt {
   text-align: center;
   margin: 1rem 0 0;
-  
+
   p {
     color: $text-secondary;
     font-size: 0.95rem;
   }
-  
+
   a {
     color: $primary-color;
     text-decoration: none;
     font-weight: 500;
     cursor: pointer;
-    
+
     &:hover {
       text-decoration: underline;
     }
@@ -503,29 +503,29 @@ $glass-border: rgba(255, 255, 255, 0.2);
   margin-top: auto;
   text-align: center;
   padding-top: 1.5rem;
-  
+
   p {
     color: $text-tertiary;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .footer-links {
     display: flex;
     justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
-    
+
     a {
       color: $text-secondary;
       text-decoration: none;
       font-size: 0.9rem;
-      
+
       &:hover {
         color: $primary-color;
       }
     }
-    
+
     @media (max-width: 480px) {
       gap: 1rem;
     }
@@ -541,7 +541,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
   background-color: $primary-color;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -554,22 +554,22 @@ $glass-border: rgba(255, 255, 255, 0.2);
     background-position: center;
     opacity: 0.2;
   }
-  
+
   .banner-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba($primary-color, 0.85), rgba(darken($primary-color, 15%), 0.9));
+    background: linear-gradient(135deg, rgba($primary-color, 0.85), rgba(color.adjust($primary-color, $lightness: -15%), 0.9));
     z-index: 1;
   }
-  
+
   @media (max-width: 991px) {
     max-height: 380px;
     padding: 1.5rem;
   }
-  
+
   @media (max-width: 576px) {
     max-height: 340px;
     padding: 1rem;
@@ -586,33 +586,33 @@ $glass-border: rgba(255, 255, 255, 0.2);
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 16px;
   backdrop-filter: blur(5px);
-  
+
   h2 {
     font-size: 2.25rem;
     margin-bottom: 1rem;
     font-weight: 600;
-    
+
     @media (max-width: 991px) {
       font-size: 2rem;
     }
-    
+
     @media (max-width: 576px) {
       font-size: 1.75rem;
     }
   }
-  
+
   p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     opacity: 0.9;
     line-height: 1.6;
-    
+
     @media (max-width: 576px) {
       font-size: 1rem;
       margin-bottom: 1.5rem;
     }
   }
-  
+
   @media (max-width: 991px) {
     padding: 1.5rem;
   }
@@ -623,7 +623,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  
+
   @media (max-width: 576px) {
     gap: 1rem;
     margin-bottom: 1.5rem;
@@ -634,7 +634,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   text-align: left;
-  
+
   .feature-icon {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
@@ -645,18 +645,18 @@ $glass-border: rgba(255, 255, 255, 0.2);
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
-    
+
     mat-icon {
       font-size: 24px;
       width: 24px;
       height: 24px;
     }
-    
+
     @media (max-width: 576px) {
       width: 40px;
       height: 40px;
       min-width: 40px;
-      
+
       mat-icon {
         font-size: 20px;
         width: 20px;
@@ -664,7 +664,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
       }
     }
   }
-  
+
   .feature-text {
     h3 {
       margin: 0 0 0.25rem;
@@ -672,7 +672,7 @@ $glass-border: rgba(255, 255, 255, 0.2);
       color: white;
       font-weight: 500;
     }
-    
+
     p {
       margin: 0;
       font-size: 0.9rem;
@@ -692,12 +692,12 @@ $glass-border: rgba(255, 255, 255, 0.2);
     font-weight: 500;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
-    
+
     @media (max-width: 576px) {
       padding: 0.6rem 1.5rem;
       font-size: 0.95rem;

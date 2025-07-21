@@ -1,13 +1,14 @@
-@use '../../../styles.scss' as *;
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
 
 .app-container {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - #{$header-height} - #{$footer-height});
-  margin-top: $header-height;
+  min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
+  margin-top: vars.$header-height;
   position: relative;
-  transition: all 0.3s ease;
-  
+  transition: vars.$transition-all;
+
   &.sidebar-closed {
     aside {
       transform: translateX(-100%);
@@ -16,19 +17,19 @@
 }
 
 aside {
-  width: $sidebar-width;
-  height: calc(100vh - #{$header-height});
+  width: vars.$sidebar-width;
+  height: calc(100vh - #{vars.$header-height});
   position: fixed;
   left: 0;
-  top: $header-height;
-  z-index: 1010;
-  transition: transform 0.3s ease;
-  background-color: white;
+  top: vars.$header-height;
+  z-index: vars.$z-index-sticky;
+  transition: transform vars.$transition-normal;
+  background-color: vars.$white;
 }
 
 .sidebar-overlay {
   position: fixed;
-  top: $header-height;
+  top: vars.$header-height;
   left: 0;
   right: 0;
   bottom: 0;
@@ -39,9 +40,9 @@ aside {
 
 main {
   flex: 1;
-  margin-left: $sidebar-width;
-  padding: 1.5rem;
-  transition: margin 0.3s ease;
+  margin-left: vars.$sidebar-width;
+  padding: vars.$spacing-4;
+  transition: margin vars.$transition-normal;
 }
 
 .content-wrapper {
@@ -51,14 +52,14 @@ main {
 
 .app-footer {
   margin-bottom: 0;
-  padding: 1rem;
+  padding: vars.$spacing-3;
   text-align: center;
-  background-color: white;
-  border-top: 1px solid $light-gray;
+  background-color: vars.$white;
+  border-top: 1px solid vars.$light-gray;
 }
 
 // Responsive adjustments
-@media (max-width: $breakpoint-md) {
+@include mixins.respond-to(md) {
   .app-container {
     &.sidebar-closed {
       aside {
@@ -66,19 +67,19 @@ main {
       }
     }
   }
-  
+
   main {
     margin-left: 0;
-    padding: 1rem;
-    margin-bottom: 56px; // Space for bottom navigation
+    padding: vars.$spacing-3;
+    margin-bottom: vars.$bottom-nav-height; // Space for bottom navigation
   }
-  
+
   .sidebar-overlay {
     display: block;
   }
-  
+
   .app-footer {
-    margin-bottom: 56px; // Space for bottom navigation
+    margin-bottom: vars.$bottom-nav-height; // Space for bottom navigation
     padding-bottom: env(safe-area-inset-bottom); // For notched iPhones
   }
 }
