@@ -585,3 +585,125 @@ main {
         font-weight: vars.$font-weight-bold;
     }
 }
+
+/* Material Select styles - Sin transparencia (MDC compatible) */
+.mat-mdc-select,
+.mat-select {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+.mat-mdc-select-trigger,
+.mat-select-trigger {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+.mat-mdc-select-value,
+.mat-select-value {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+/* Panel del dropdown - selectores MDC */
+.mat-mdc-select-panel,
+.mat-select-panel,
+div.mat-mdc-select-panel {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid vars.$border-color !important;
+}
+
+/* Opciones del select - compatibilidad con MDC */
+.mat-mdc-option,
+.mat-option {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+
+    &:hover,
+    &.mdc-list-item--selected {
+        background-color: rgba(vars.$primary-color, 0.1) !important;
+        opacity: 1 !important;
+    }
+
+    &.mat-selected,
+    &.mat-mdc-option-active {
+        background-color: rgba(vars.$primary-color, 0.2) !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Forzar el fondo blanco en el overlay */
+.cdk-overlay-pane .mat-mdc-select-panel,
+.cdk-overlay-container .mat-mdc-select-panel {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+/* Variables CSS personalizadas para sobreescribir las de Material */
+:root {
+    --mat-select-panel-background-color: #{vars.$white} !important;
+    --mat-sys-surface-container: #{vars.$white} !important;
+    --mat-option-selected-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.1) !important;
+    --mat-option-hover-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.05) !important;
+}
+
+/* Estilos adicionales para asegurar opacidad completa */
+.mat-mdc-select-panel.mdc-menu-surface {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+}
+
+.mdc-menu-surface--open {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+/* ================================================= */
+/* CORRECCIÓN FINAL PARA MAT-SELECT TRANSPARENCIA */
+/* ================================================= */
+
+/* Asegurar que el overlay y el panel tengan fondo sólido */
+.cdk-overlay-backdrop-showing {
+    backdrop-filter: none !important;
+}
+
+.cdk-overlay-pane {
+    .mat-mdc-select-panel {
+        background: vars.$white !important;
+        backdrop-filter: none !important;
+
+        &.mdc-menu-surface {
+            background: vars.$white !important;
+            opacity: 1 !important;
+        }
+    }
+}
+
+/* Selectores específicos para las nuevas versiones de Angular Material */
+.mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open {
+    background: vars.$white !important;
+    opacity: 1 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Para las opciones dentro del panel */
+.mat-mdc-option.mdc-list-item {
+    background: vars.$white !important;
+
+    &:hover {
+        background: rgba(vars.$primary-color, 0.08) !important;
+    }
+
+    &.mdc-list-item--selected {
+        background: rgba(vars.$primary-color, 0.12) !important;
+    }
+}
+
+/* Forzar variables CSS específicas */
+.mat-mdc-select-panel {
+    --mdc-menu-container-color: #{vars.$white} !important;
+    --mat-menu-container-color: #{vars.$white} !important;
+}
