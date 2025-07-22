@@ -848,14 +848,14 @@ div.mat-mdc-select-panel {
 :root {
     --mat-select-panel-background-color: #{vars.$white} !important;
     --mat-sys-surface-container: #{vars.$white} !important;
-    --mat-option-selected-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.1) !important;
-    --mat-option-hover-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.05) !important;
+    --mat-option-selected-state-layer-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.1) !important;
+    --mat-option-hover-state-layer-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.05) !important;
     --mat-form-field-container-height: 56px !important;
     --mat-form-field-outline-thickness: 1px !important;
     --mat-form-field-focus-outline-thickness: 2px !important;
-    --mat-form-field-fill-color: rgba(#{red(vars.$light-gray)}, #{green(vars.$light-gray)}, #{blue(vars.$light-gray)}, 0.3) !important;
-    --mat-form-field-hover-fill-color: rgba(#{red(vars.$light-gray)}, #{green(vars.$light-gray)}, #{blue(vars.$light-gray)}, 0.4) !important;
-    --mat-form-field-focus-fill-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.05) !important;
+    --mat-form-field-fill-color: rgba(#{color.channel(vars.$light-gray, "red")}, #{color.channel(vars.$light-gray, "green")}, #{color.channel(vars.$light-gray, "blue")}, 0.3) !important;
+    --mat-form-field-hover-fill-color: rgba(#{color.channel(vars.$light-gray, "red")}, #{color.channel(vars.$light-gray, "green")}, #{color.channel(vars.$light-gray, "blue")}, 0.4) !important;
+    --mat-form-field-focus-fill-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.05) !important;
     --mat-form-field-underline-height: 0px !important;
     --mat-form-field-active-indicator-height: 0px !important;
 }
