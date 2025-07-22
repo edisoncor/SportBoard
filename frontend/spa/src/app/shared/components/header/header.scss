@@ -1,21 +1,22 @@
 @use 'sass:color';
 @use 'sass:math';
-@use '../../../../styles.scss' as *;
+@use '../../../../styles/variables' as vars;
+@use '../../../../styles/mixins' as mixins;
 
 .header-container {
     align-items: center;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: vars.$white;
+    box-shadow: vars.$shadow-md;
     display: flex;
-    height: $header-height;
+    height: vars.$header-height;
     justify-content: space-between;
-    padding: 0 1.5rem;
+    padding: 0 vars.$spacing-6;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1020;
-    transition: all 0.3s ease;
+    z-index: vars.$z-index-sticky;
+    transition: vars.$transition-all;
 }
 
 // Sección izquierda - menú y brand
@@ -36,32 +37,31 @@
     transition: all 0.2s ease;
 
     mat-icon {
-        color: $primary-color;
+        color: vars.$primary-color;
         font-size: 24px;
     }
 
     &:hover {
-        background-color: rgba($primary-color, 0.1);
+        background-color: rgba(vars.$primary-color, 0.1);
     }
 }
 
 .header-brand {
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     h1 {
-        font-size: 1.5rem;
-        font-weight: 700;
+        font-size: vars.$font-size-xl;
+        font-weight: vars.$font-weight-bold;
         margin: 0;
-        color: $primary-color;
+        color: vars.$primary-color;
         letter-spacing: 0.5px;
 
-        @media (max-width: $breakpoint-sm) {
-            font-size: 1.2rem;
+        @include mixins.respond-to(sm) {
+            font-size: vars.$font-size-lg;
         }
     }
-
-    cursor: pointer;
 
     &.centered {
         margin: 0 auto;
@@ -76,17 +76,17 @@
 
     .nav-options {
         display: flex;
-        gap: 2rem;
+        gap: vars.$spacing-5;
 
-        @media (max-width: $breakpoint-md) {
+        @include mixins.respond-to(md) {
             display: none;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: $font-secondary-color;
+            gap: vars.$spacing-2;
+            color: vars.$font-secondary-color;
             font-weight: 500;
             padding: 0.5rem 0.75rem;
             border-radius: 4px;
@@ -100,8 +100,8 @@
 
             &:hover,
             &.active {
-                color: $primary-color;
-                background-color: rgba($primary-color, 0.05);
+                color: vars.$primary-color;
+                background-color: rgba(vars.$primary-color, 0.05);
             }
 
             &::after {
@@ -111,8 +111,8 @@
                 left: 0;
                 width: 0;
                 height: 2px;
-                background-color: $primary-color;
-                transition: width 0.3s ease;
+                background-color: vars.$primary-color;
+                transition: width vars.$transition-normal;
             }
 
             &:hover::after,
@@ -124,16 +124,16 @@
 }
 
 .nav-link {
-    border-radius: 4px;
-    color: $secondary-color;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+    border-radius: vars.$border-radius-sm;
+    color: vars.$secondary-color;
+    font-weight: vars.$font-weight-medium;
+    padding: vars.$spacing-2 vars.$spacing-3;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: background-color vars.$transition-normal;
 
     &:hover {
-        background-color: $secondary-color;
-        color: $primary-color;
+        background-color: vars.$secondary-color;
+        color: vars.$primary-color;
     }
 }
 
@@ -150,14 +150,14 @@
     transition: all 0.2s ease;
 
     mat-icon {
-        color: $font-secondary-color;
+        color: vars.$font-secondary-color;
     }
 
     &:hover {
-        background-color: rgba($primary-color, 0.1);
+        background-color: rgba(vars.$primary-color, 0.1);
 
         mat-icon {
-            color: $primary-color;
+            color: vars.$primary-color;
         }
     }
 }
@@ -173,7 +173,7 @@
         cursor: pointer;
 
         mat-icon {
-            color: $font-secondary-color;
+            color: vars.$font-secondary-color;
             font-size: 24px;
         }
 
@@ -181,7 +181,7 @@
             position: absolute;
             top: -5px;
             right: -5px;
-            background-color: $accent-color;
+            background-color: vars.$accent-color;
             color: white;
             border-radius: 50%;
             width: 18px;
@@ -204,15 +204,15 @@
         transition: all 0.3s ease;
 
         &:hover {
-            background-color: rgba($primary-color, 0.1);
+            background-color: rgba(vars.$primary-color, 0.1);
         }
 
         .user-avatar {
             width: 32px;
             height: 32px;
-            border-radius: 50%;
+            border-radius: vars.$border-radius-full;
             overflow: hidden;
-            border: 2px solid $primary-color;
+            border: 2px solid vars.$primary-color;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -226,21 +226,21 @@
 
         .user-icon {
             font-size: 32px;
-            color: $primary-color;
+            color: vars.$primary-color;
         }
 
         .user-name {
-            font-weight: 500;
-            color: $font-color;
+            font-weight: vars.$font-weight-medium;
+            color: vars.$font-color;
 
-            @media (max-width: $breakpoint-sm) {
+            @include mixins.respond-to(sm) {
                 display: none;
             }
         }
 
         .dropdown-icon {
-            color: $font-secondary-color;
-            transition: transform 0.3s ease;
+            color: vars.$font-secondary-color;
+            transition: transform vars.$transition-normal;
         }
 
         &:hover .dropdown-icon {
@@ -267,40 +267,40 @@
             .dropdown-item {
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
-                padding: 0.75rem 1rem;
-                color: $font-color;
-                transition: all 0.2s ease;
+                gap: vars.$spacing-2;
+                padding: vars.$spacing-2 vars.$spacing-3;
+                color: vars.$font-color;
+                transition: vars.$transition-all;
 
                 mat-icon {
                     font-size: 18px;
-                    color: $font-secondary-color;
+                    color: vars.$font-secondary-color;
                 }
 
                 &:hover {
-                    background-color: $light-gray;
-                    color: $primary-color;
+                    background-color: vars.$light-gray;
+                    color: vars.$primary-color;
 
                     mat-icon {
-                        color: $primary-color;
+                        color: vars.$primary-color;
                     }
                 }
 
                 &.logout-item {
-                    color: $error-color;
-                    border-top: 1px solid $light-gray;
-                    margin-top: 0.5rem;
+                    color: vars.$error-color;
+                    border-top: 1px solid vars.$light-gray;
+                    margin-top: vars.$spacing-2;
 
                     mat-icon {
-                        color: $error-color;
+                        color: vars.$error-color;
                     }
 
                     &:hover {
-                        background-color: rgba($error-color, 0.1);
-                        color: darken($error-color, 10%);
+                        background-color: rgba(vars.$error-color, 0.1);
+                        color: color.adjust(vars.$error-color, $lightness: -10%);
 
                         mat-icon {
-                            color: darken($error-color, 10%);
+                            color: color.adjust(vars.$error-color, $lightness: -10%);
                         }
                     }
                 }
@@ -311,17 +311,17 @@
     .login-button {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        background-color: $primary-color;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 24px;
+        gap: vars.$spacing-2;
+        background-color: vars.$primary-color;
+        color: vars.$white;
+        padding: vars.$spacing-2 vars.$spacing-3;
+        border-radius: vars.$border-radius-2xl;
         text-decoration: none;
-        transition: all 0.3s ease;
-        font-weight: 500;
+        transition: vars.$transition-all;
+        font-weight: vars.$font-weight-medium;
 
         &:hover {
-            background-color: darken($primary-color, 10%);
+            background-color: color.adjust(vars.$primary-color, $lightness: -10%);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -330,8 +330,8 @@
             font-size: 18px;
         }
 
-        @media (max-width: $breakpoint-sm) {
-            padding: 0.5rem;
+        @include mixins.respond-to(sm) {
+            padding: vars.$spacing-2;
 
             span {
                 display: none;
@@ -344,23 +344,23 @@
 .mobile-menu-button {
     display: none;
 
-    @media (max-width: $breakpoint-md) {
+    @include mixins.respond-to(md) {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 1rem;
+        margin-right: vars.$spacing-3;
 
         mat-icon {
             font-size: 24px;
-            color: $primary-color;
+            color: vars.$primary-color;
         }
     }
 }
 
 // Ajustes responsivos
-@media (max-width: $breakpoint-md) {
+@include mixins.respond-to(md) {
     .header-container {
-        padding: 0 1rem;
+        padding: 0 vars.$spacing-3;
     }
 
     .header-center {
@@ -402,27 +402,27 @@
     .register-button {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        color: $primary-color;
-        padding: 0.5rem 1rem;
-        border-radius: 24px;
-        border: 1px solid $primary-color;
+        gap: vars.$spacing-2;
+        color: vars.$primary-color;
+        padding: vars.$spacing-2 vars.$spacing-3;
+        border-radius: vars.$border-radius-2xl;
+        border: 1px solid vars.$primary-color;
         text-decoration: none;
-        transition: all 0.3s ease;
-        font-weight: 500;
+        transition: vars.$transition-all;
+        font-weight: vars.$font-weight-medium;
 
         &:hover {
-            background-color: rgba($primary-color, 0.05);
+            background-color: rgba(vars.$primary-color, 0.05);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: vars.$shadow-md;
         }
 
         mat-icon {
             font-size: 18px;
         }
 
-        @media (max-width: $breakpoint-sm) {
-            padding: 0.5rem;
+        @include mixins.respond-to(sm) {
+            padding: vars.$spacing-2;
             border-width: 0;
 
             span {
@@ -456,7 +456,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 0.75rem 1rem;
-        border-bottom: 1px solid $light-gray;
+        border-bottom: 1px solid vars.$light-gray;
 
         h3 {
             margin: 0;
@@ -467,7 +467,7 @@
         .actions button {
             border: none;
             background: none;
-            color: $primary-color;
+            color: vars.$primary-color;
             font-size: 0.8rem;
             cursor: pointer;
 
@@ -485,22 +485,22 @@
         .notification-item {
             display: flex;
             padding: 0.75rem 1rem;
-            border-bottom: 1px solid $light-gray;
+            border-bottom: 1px solid vars.$light-gray;
             transition: background-color 0.2s;
 
             &:hover {
-                background-color: rgba($light-gray, 0.5);
+                background-color: rgba(vars.$light-gray, 0.5);
             }
 
             &.unread {
-                background-color: rgba($primary-color, 0.05);
+                background-color: rgba(vars.$primary-color, 0.05);
             }
 
             .notification-icon {
                 flex: 0 0 40px;
                 height: 40px;
                 border-radius: 50%;
-                background-color: $light-gray;
+                background-color: vars.$light-gray;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -508,30 +508,30 @@
 
                 mat-icon {
                     font-size: 20px;
-                    color: $font-secondary-color;
+                    color: vars.$font-secondary-color;
                 }
 
                 &.success {
-                    background-color: rgba($success-color, 0.1);
+                    background-color: rgba(vars.$success-color, 0.1);
 
                     mat-icon {
-                        color: $success-color;
+                        color: vars.$success-color;
                     }
                 }
 
                 &.error {
-                    background-color: rgba($error-color, 0.1);
+                    background-color: rgba(vars.$error-color, 0.1);
 
                     mat-icon {
-                        color: $error-color;
+                        color: vars.$error-color;
                     }
                 }
 
                 &.alert {
-                    background-color: rgba($warning-color, 0.1);
+                    background-color: rgba(vars.$warning-color, 0.1);
 
                     mat-icon {
-                        color: $warning-color;
+                        color: vars.$warning-color;
                     }
                 }
             }
@@ -549,7 +549,7 @@
                     .notification-dot {
                         width: 8px;
                         height: 8px;
-                        background-color: $primary-color;
+                        background-color: vars.$primary-color;
                         border-radius: 50%;
                         margin-left: 0.5rem;
                     }
@@ -557,13 +557,13 @@
 
                 .notification-message {
                     font-size: 0.8rem;
-                    color: $font-secondary-color;
+                    color: vars.$font-secondary-color;
                     margin: 0 0 0.25rem;
                 }
 
                 .notification-time {
                     font-size: 0.7rem;
-                    color: lighten($font-secondary-color, 15%);
+                    color: color.adjust(vars.$font-secondary-color, $lightness: 15%);
                 }
             }
         }
@@ -572,10 +572,10 @@
     .notification-footer {
         padding: 0.75rem 1rem;
         text-align: center;
-        border-top: 1px solid $light-gray;
+        border-top: 1px solid vars.$light-gray;
 
         a {
-            color: $primary-color;
+            color: vars.$primary-color;
             font-size: 0.8rem;
             font-weight: 500;
 

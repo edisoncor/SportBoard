@@ -1,39 +1,23 @@
 @use 'sass:color';
 @use 'sass:math';
 
+// Importar variables centralizadas
+@use './styles/variables' as vars;
+
+// Importar mixins
+@use './styles/mixins' as mixins;
+
+// Importar utilidades
+@use './styles/utilities';
+
+// Importar estilos de diálogos
+@use './styles/dialog-styles';
+
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
 
 /* Material Icons */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-/* variables */
-$background-color: #f8f9fa;
-$font-color: #2c3e50;
-$font-secondary-color: #546e7a;
-$font-primary-color: #fff;
-$font-family: 'Montserrat', 'Roboto', sans-serif;
-$font-size: 16px;
-$header-height: 64px;
-$sidebar-width: 250px;
-$footer-height: 50px;
-
-/* Color palette - Sports themed */
-$primary-color: #1e88e5; /* Strong blue */
-$secondary-color: #26a69a; /* Teal accent */
-$accent-color: #ff5722; /* Energetic orange */
-$success-color: #43a047; /* Green for success */
-$warning-color: #ffb300; /* Yellow for warnings */
-$error-color: #e53935; /* Red for errors */
-$light-gray: #eceff1; /* Light background */
-$dark-gray: #37474f; /* Dark text */
-
-/* Breakpoints for responsive design */
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
 
 /* reinicializing the css */
 * {
@@ -43,82 +27,61 @@ $breakpoint-xl: 1200px;
 }
 
 body {
-    font-family: $font-family;
-    font-size: $font-size;
-    line-height: 1.5;
-    color: $font-color;
-    background-color: $background-color;
+    font-family: vars.$font-family-primary;
+    font-size: vars.$font-size-base;
+    line-height: vars.$line-height-normal;
+    color: vars.$font-color;
+    background-color: vars.$background-color;
     min-height: 100vh;
     overflow-x: hidden;
-}
-
-/* Animation classes */
-.fade-in {
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 html, body {
     height: 100%;
-    font-family: $font-family;
-    font-size: $font-size;
-    color: $font-color;
-    background-color: $background-color;
-    line-height: 1.6;
+    font-family: vars.$font-family-primary;
+    font-size: vars.$font-size-base;
+    color: vars.$font-color;
+    background-color: vars.$background-color;
+    line-height: vars.$line-height-relaxed;
     overflow-x: hidden;
+}
+
+// Asegurar que app-root use toda la altura
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Basic element styling */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: $dark-gray;
+    font-weight: vars.$font-weight-semibold;
+    margin-bottom: vars.$spacing-2;
+    color: vars.$dark-gray;
 }
 
 a {
-    color: $primary-color;
+    color: vars.$primary-color;
     text-decoration: none;
-    transition: color 0.3s ease;
-    
+    transition: vars.$transition-colors;
+
     &:hover {
-        color: color.adjust($primary-color, $lightness: -15%);
+        color: color.adjust(vars.$primary-color, $lightness: -15%);
         text-decoration: underline;
     }
 }
 
 button {
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    font-family: $font-family;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    
+    @include mixins.button-base;
+
     &.primary {
-        background-color: $primary-color;
-        color: $font-primary-color;
-        
-        &:hover {
-            background-color: color.adjust($primary-color, $lightness: -10%);
-        }
+        @include mixins.button-primary;
     }
-    
+
     &.secondary {
-        background-color: $secondary-color;
-        color: $font-primary-color;
-        
-        &:hover {
-            background-color: color.adjust($secondary-color, $lightness: -10%);
-        }
+        @include mixins.button-secondary;
     }
 }
 
@@ -128,146 +91,147 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-    background: $light-gray; 
+    background: vars.$light-gray;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-    background: $secondary-color; 
-    border-radius: 4px;
+    background: vars.$secondary-color;
+    border-radius: vars.$border-radius-sm;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: color.adjust($secondary-color, $lightness: -10%); 
+    background: color.adjust(vars.$secondary-color, $lightness: -10%);
 }
 
 /* Layout styles */
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: vars.$container-max-width;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 vars.$spacing-4;
 }
 
 /* Notification styles */
 .notification-dropdown {
     position: absolute;
     top: 60px;
-    right: 10px;
+    right: vars.$spacing-3;
     width: 350px;
     max-height: 400px;
     overflow-y: auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    z-index: 1050;
+    background-color: vars.$white;
+    border-radius: vars.$border-radius-lg;
+    box-shadow: vars.$shadow-xl;
+    z-index: vars.$z-index-modal;
     display: none;
-    
+
     &.show {
         display: block;
-        animation: slideDownFade 0.3s ease;
+        animation: slideDownFade vars.$transition-duration-normal ease;
     }
-    
+
     .notification-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid $light-gray;
-        
+        padding: vars.$spacing-4;
+        border-bottom: 1px solid vars.$border-color;
+
         h3 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: vars.$font-size-lg;
         }
-        
+
         .actions {
             display: flex;
-            gap: 10px;
-            
+            gap: vars.$spacing-3;
+
             button {
                 background: none;
                 border: none;
-                color: $primary-color;
+                color: vars.$primary-color;
                 cursor: pointer;
-                font-size: 0.9rem;
+                font-size: vars.$font-size-sm;
                 padding: 0;
-                
+                transition: vars.$transition-colors;
+
                 &:hover {
                     text-decoration: underline;
                 }
             }
         }
     }
-    
+
     .notification-list {
         list-style: none;
         padding: 0;
         margin: 0;
-        
+
         .notification-item {
-            padding: 15px;
-            border-bottom: 1px solid $light-gray;
-            transition: background-color 0.2s;
+            padding: vars.$spacing-4;
+            border-bottom: 1px solid vars.$border-color;
+            transition: background-color vars.$transition-duration-fast;
             cursor: pointer;
             display: flex;
             align-items: flex-start;
-            gap: 15px;
-            
+            gap: vars.$spacing-4;
+
             &:hover {
-                background-color: rgba($primary-color, 0.05);
+                background-color: rgba(vars.$primary-color, 0.05);
             }
-            
+
             &.unread {
-                background-color: rgba($primary-color, 0.1);
-                
+                background-color: rgba(vars.$primary-color, 0.1);
+
                 &:hover {
-                    background-color: rgba($primary-color, 0.15);
+                    background-color: rgba(vars.$primary-color, 0.15);
                 }
-                
+
                 .notification-dot {
                     display: block;
                 }
             }
-            
+
             .notification-icon {
-                background-color: rgba($primary-color, 0.1);
-                color: $primary-color;
+                background-color: rgba(vars.$primary-color, 0.1);
+                color: vars.$primary-color;
                 width: 36px;
                 height: 36px;
-                border-radius: 50%;
+                border-radius: vars.$border-radius-full;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                
+
                 &.alert {
-                    background-color: rgba($warning-color, 0.1);
-                    color: $warning-color;
+                    background-color: rgba(vars.$warning-color, 0.1);
+                    color: vars.$warning-color;
                 }
-                
+
                 &.error {
-                    background-color: rgba($error-color, 0.1);
-                    color: $error-color;
+                    background-color: rgba(vars.$error-color, 0.1);
+                    color: vars.$error-color;
                 }
-                
+
                 &.success {
-                    background-color: rgba($success-color, 0.1);
-                    color: $success-color;
+                    background-color: rgba(vars.$success-color, 0.1);
+                    color: vars.$success-color;
                 }
             }
-            
+
             .notification-content {
                 flex: 1;
-                
+
                 .notification-title {
-                    margin: 0 0 5px;
-                    font-weight: 500;
-                    font-size: 0.95rem;
+                    margin: 0 0 vars.$spacing-1;
+                    font-weight: vars.$font-weight-medium;
+                    font-size: vars.$font-size-sm;
                     position: relative;
-                    
+
                     .notification-dot {
                         width: 8px;
                         height: 8px;
-                        background-color: $primary-color;
-                        border-radius: 50%;
+                        background-color: vars.$primary-color;
+                        border-radius: vars.$border-radius-full;
                         position: absolute;
                         top: 50%;
                         right: -15px;
@@ -275,35 +239,35 @@ button {
                         display: none;
                     }
                 }
-                
+
                 .notification-message {
                     margin: 0;
-                    font-size: 0.85rem;
-                    color: $font-secondary-color;
-                    line-height: 1.4;
+                    font-size: vars.$font-size-xs;
+                    color: vars.$font-secondary-color;
+                    line-height: vars.$line-height-normal;
                 }
-                
+
                 .notification-time {
-                    margin-top: 5px;
-                    font-size: 0.75rem;
-                    color: $font-secondary-color;
+                    margin-top: vars.$spacing-1;
+                    font-size: vars.$font-size-xs;
+                    color: vars.$font-secondary-color;
                 }
             }
         }
     }
-    
+
     .notification-footer {
-        padding: 10px;
+        padding: vars.$spacing-3;
         text-align: center;
-        border-top: 1px solid $light-gray;
-        
+        border-top: 1px solid vars.$border-color;
+
         a {
             display: block;
-            padding: 5px;
-            color: $primary-color;
-            font-size: 0.9rem;
+            padding: vars.$spacing-1;
+            color: vars.$primary-color;
+            font-size: vars.$font-size-sm;
             text-decoration: none;
-            
+
             &:hover {
                 text-decoration: underline;
             }
@@ -324,26 +288,26 @@ button {
 
 /* Card styling */
 .card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+    background-color: vars.$card-background;
+    border-radius: vars.$card-border-radius;
+    box-shadow: vars.$card-shadow;
+    padding: vars.$card-padding;
+    margin-bottom: vars.$spacing-6;
+    transition: transform vars.$transition-normal, box-shadow vars.$transition-normal;
+
     &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: vars.$card-shadow-hover;
     }
-    
+
     &-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
+        font-size: vars.$font-size-xl;
+        font-weight: vars.$font-weight-semibold;
+        margin-bottom: vars.$spacing-4;
     }
-    
+
     &-body {
-        color: $font-secondary-color;
+        color: vars.$font-secondary-color;
     }
 }
 
@@ -352,67 +316,67 @@ button {
 .text-right { text-align: right; }
 .text-left { text-align: left; }
 
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
-.mt-4 { margin-top: 2rem; }
+.mt-1 { margin-top: vars.$spacing-2; }
+.mt-2 { margin-top: vars.$spacing-4; }
+.mt-3 { margin-top: vars.$spacing-6; }
+.mt-4 { margin-top: vars.$spacing-8; }
 
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
+.mb-1 { margin-bottom: vars.$spacing-2; }
+.mb-2 { margin-bottom: vars.$spacing-4; }
+.mb-3 { margin-bottom: vars.$spacing-6; }
+.mb-4 { margin-bottom: vars.$spacing-8; }
 
-.p-1 { padding: 0.5rem; }
-.p-2 { padding: 1rem; }
-.p-3 { padding: 1.5rem; }
-.p-4 { padding: 2rem; }
+.p-1 { padding: vars.$spacing-2; }
+.p-2 { padding: vars.$spacing-4; }
+.p-3 { padding: vars.$spacing-6; }
+.p-4 { padding: vars.$spacing-8; }
 
 /* Responsive grid system */
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: -#{vars.$spacing-4};
+    margin-left: -#{vars.$spacing-4};
 }
 
 .col {
     flex-basis: 0;
     flex-grow: 1;
     max-width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: vars.$spacing-4;
+    padding-left: vars.$spacing-4;
 }
 
 @for $i from 1 through 12 {
     .col-#{$i} {
         flex: 0 0 math.percentage(math.div($i, 12));
         max-width: math.percentage(math.div($i, 12));
-        padding-right: 15px;
-        padding-left: 15px;
+        padding-right: vars.$spacing-4;
+        padding-left: vars.$spacing-4;
     }
-    
-    @media (min-width: $breakpoint-sm) {
+
+    @media (min-width: vars.$breakpoint-sm) {
         .col-sm-#{$i} {
             flex: 0 0 math.percentage(math.div($i, 12));
             max-width: math.percentage(math.div($i, 12));
         }
     }
-    
-    @media (min-width: $breakpoint-md) {
+
+    @media (min-width: vars.$breakpoint-md) {
         .col-md-#{$i} {
             flex: 0 0 math.percentage(math.div($i, 12));
             max-width: math.percentage(math.div($i, 12));
         }
     }
-    
-    @media (min-width: $breakpoint-lg) {
+
+    @media (min-width: vars.$breakpoint-lg) {
         .col-lg-#{$i} {
             flex: 0 0 math.percentage(math.div($i, 12));
             max-width: math.percentage(math.div($i, 12));
         }
     }
-    
-    @media (min-width: $breakpoint-xl) {
+
+    @media (min-width: vars.$breakpoint-xl) {
         .col-xl-#{$i} {
             flex: 0 0 math.percentage(math.div($i, 12));
             max-width: math.percentage(math.div($i, 12));
@@ -420,41 +384,41 @@ button {
     }
 }
 
+/* Layout components */
 /* Header styles */
 header {
     align-items: center;
-    background-color: $primary-color;
-    color: $font-primary-color;
+    background-color: vars.$primary-color;
+    color: vars.$font-primary-color;
     height: 60px;
     left: 0;
-    padding: 0 5px;
+    padding: 0 vars.$spacing-1;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: vars.$z-index-fixed;
 }
 
-/* Layout components */
 /* aside */
 aside {
-    background-color: white;
-    border-right: 1px solid $light-gray;
-    color: $font-secondary-color;
+    background-color: vars.$white;
+    border-right: 1px solid vars.$border-color;
+    color: vars.$font-secondary-color;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - #{$header-height} - #{$footer-height});
-    padding: 1rem;
+    height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
+    padding: vars.$spacing-4;
     position: fixed;
-    top: $header-height;
+    top: vars.$header-height;
     left: 0;
-    width: $sidebar-width;
-    z-index: 1000;
+    width: vars.$sidebar-width;
+    z-index: vars.$z-index-fixed;
     overflow-y: auto;
-    transition: transform 0.3s ease;
-    
-    @media (max-width: $breakpoint-md) {
+    transition: transform vars.$transition-normal;
+
+    @media (max-width: vars.$breakpoint-md) {
         transform: translateX(-100%);
-        
+
         &.open {
             transform: translateX(0);
         }
@@ -464,30 +428,30 @@ aside {
 /* footer */
 footer {
     align-items: center;
-    background-color: $primary-color;
+    background-color: vars.$primary-color;
     bottom: 0;
-    color: $font-primary-color;
+    color: vars.$font-primary-color;
     display: flex;
-    height: $footer-height;
+    height: vars.$footer-height;
     justify-content: center;
     left: 0;
-    padding: 0 1rem;
+    padding: 0 vars.$spacing-4;
     position: fixed;
     width: 100%;
-    z-index: 1010;
+    z-index: vars.$z-index-sticky;
 }
 
 /* Main content area */
 main {
-    margin-left: $sidebar-width;
-    margin-top: $header-height;
-    min-height: calc(100vh - #{$header-height} - #{$footer-height});
-    padding: 1.5rem;
-    transition: margin-left 0.3s ease;
-    
-    @media (max-width: $breakpoint-md) {
+    margin-left: vars.$sidebar-width;
+    margin-top: vars.$header-height;
+    min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
+    padding: vars.$spacing-6;
+    transition: margin-left vars.$transition-normal;
+
+    @media (max-width: vars.$breakpoint-md) {
         margin-left: 0;
-        padding: 1rem;
+        padding: vars.$spacing-4;
     }
 }
 
@@ -497,17 +461,78 @@ main {
 }
 
 /* Responsive adjustments */
-@media (max-width: $breakpoint-md) {
+@media (max-width: vars.$breakpoint-md) {
     .hide-on-mobile {
         display: none !important;
     }
-    
+
     .show-on-mobile {
         display: block !important;
     }
-    
+
     .container {
-        padding: 0 0.75rem;
+        padding: 0 vars.$spacing-3;
+    }
+}
+
+/* Animation classes */
+.fade-in {
+    animation: fadeIn vars.$transition-duration-slow ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-in {
+    animation: slideIn vars.$transition-duration-slow ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Snackbar styles */
+.success-snackbar {
+    background-color: vars.$success-color;
+    color: vars.$white;
+
+    .mat-simple-snackbar-action {
+        color: vars.$white;
+        font-weight: vars.$font-weight-bold;
+    }
+}
+
+.error-snackbar {
+    background-color: vars.$error-color;
+    color: vars.$white;
+
+    .mat-simple-snackbar-action {
+        color: vars.$white;
+        font-weight: vars.$font-weight-bold;
+    }
+}
+
+.warning-snackbar {
+    background-color: vars.$warning-color;
+    color: vars.$dark-gray;
+
+    .mat-simple-snackbar-action {
+        color: vars.$dark-gray;
+        font-weight: vars.$font-weight-bold;
     }
 }
 
@@ -532,31 +557,428 @@ main {
 
 /* Snackbar styles */
 .success-snackbar {
-    background-color: $success-color;
-    color: white;
-    
+    background-color: vars.$success-color;
+    color: vars.$white;
+
     .mat-simple-snackbar-action {
-        color: white;
-        font-weight: bold;
+        color: vars.$white;
+        font-weight: vars.$font-weight-bold;
     }
 }
 
 .error-snackbar {
-    background-color: $error-color;
-    color: white;
-    
+    background-color: vars.$error-color;
+    color: vars.$white;
+
     .mat-simple-snackbar-action {
-        color: white;
-        font-weight: bold;
+        color: vars.$white;
+        font-weight: vars.$font-weight-bold;
     }
 }
 
 .warning-snackbar {
-    background-color: $warning-color;
-    color: $dark-gray;
-    
+    background-color: vars.$warning-color;
+    color: vars.$dark-gray;
+
     .mat-simple-snackbar-action {
-        color: $dark-gray;
-        font-weight: bold;
+        color: vars.$dark-gray;
+        font-weight: vars.$font-weight-bold;
     }
+}
+
+/* Material Select styles - Estilo moderno y limpio */
+.mat-mdc-select,
+.mat-select {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: vars.$font-color !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+
+    &:hover {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: rgba(vars.$light-gray, 0.1) !important;
+    }
+
+    &.mat-focused {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: rgba(vars.$primary-color, 0.05) !important;
+    }
+}
+
+.mat-mdc-select-trigger,
+.mat-select-trigger {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 24px !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+}
+
+.mat-mdc-select-value,
+.mat-select-value {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    color: vars.$font-color !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    flex: 1 !important;
+}
+
+/* Panel del dropdown - selectores MDC */
+.mat-mdc-select-panel,
+.mat-select-panel,
+div.mat-mdc-select-panel {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid vars.$border-color !important;
+    border-radius: 12px !important;
+    margin-top: 4px !important;
+    overflow: hidden !important;
+}
+
+/* Form field que contiene SOLO el select - estilo moderno y limpio */
+.mat-mdc-form-field:has(mat-select) {
+    &.mat-form-field-appearance-fill {
+        .mat-mdc-form-field-flex {
+            border-radius: 12px !important;
+            background-color: rgba(vars.$light-gray, 0.3) !important;
+            border: 1px solid rgba(vars.$border-color, 0.2) !important;
+            transition: all 0.3s ease !important;
+            padding: 16px !important;
+            min-height: 56px !important;
+            position: relative !important;
+
+            &:hover {
+                background-color: rgba(vars.$light-gray, 0.4) !important;
+                border-color: rgba(vars.$border-color, 0.3) !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            }
+        }
+
+        &.mat-focused .mat-mdc-form-field-flex {
+            background-color: rgba(vars.$primary-color, 0.05) !important;
+            border-color: vars.$primary-color !important;
+            box-shadow: 0 2px 12px rgba(vars.$primary-color, 0.2) !important;
+        }
+
+        .mat-mdc-form-field-underline {
+            display: none !important;
+        }
+
+        .mat-mdc-form-field-ripple {
+            display: none !important;
+        }
+
+        .mat-mdc-form-field-line-ripple {
+            display: none !important;
+        }
+
+        &::before {
+            display: none !important;
+        }
+
+        &::after {
+            display: none !important;
+        }
+    }
+}
+
+/* Mantener estilos normales para otros form-fields */
+.mat-mdc-form-field:not(:has(mat-select)) {
+    &.mat-form-field-appearance-outline {
+        .mat-mdc-form-field-outline {
+            border-radius: 8px !important;
+
+            .mat-mdc-form-field-outline-start,
+            .mat-mdc-form-field-outline-notch,
+            .mat-mdc-form-field-outline-end {
+                border-radius: 8px !important;
+            }
+        }
+
+        .mat-mdc-form-field-flex {
+            border-radius: 8px !important;
+            background-color: vars.$white !important;
+        }
+    }
+}
+
+/* Opciones del select - compatibilidad con MDC */
+.mat-mdc-option,
+.mat-option {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: vars.$font-color !important;
+    border-bottom: 1px solid rgba(vars.$border-color, 0.3) !important;
+    transition: all 0.2s ease !important;
+
+    &:last-child {
+        border-bottom: none !important;
+    }
+
+    &:hover,
+    &.mdc-list-item--selected {
+        background-color: rgba(vars.$primary-color, 0.08) !important;
+        opacity: 1 !important;
+        color: vars.$primary-color !important;
+    }
+
+    &.mat-selected,
+    &.mat-mdc-option-active {
+        background-color: rgba(vars.$primary-color, 0.12) !important;
+        opacity: 1 !important;
+        color: vars.$primary-color !important;
+        font-weight: 500 !important;
+
+        &::before {
+            content: '✓' !important;
+            position: absolute !important;
+            right: 16px !important;
+            color: vars.$primary-color !important;
+            font-weight: bold !important;
+        }
+    }
+}
+
+/* Forzar el fondo blanco en el overlay */
+.cdk-overlay-pane .mat-mdc-select-panel,
+.cdk-overlay-container .mat-mdc-select-panel {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+/* Estilo para el placeholder del select */
+.mat-mdc-select-placeholder,
+.mat-select-placeholder {
+    color: rgba(vars.$font-color, 0.6) !important;
+    font-size: 14px !important;
+}
+
+/* Flecha del select - estilo mejorado */
+.mat-mdc-select-arrow,
+.mat-select-arrow {
+    color: rgba(vars.$font-color, 0.6) !important;
+    transition: all 0.3s ease !important;
+    margin-left: 8px !important;
+    font-size: 20px !important;
+
+    svg {
+        fill: currentColor !important;
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* Cuando está abierto, rotar la flecha */
+.mat-mdc-select.mat-mdc-select-open .mat-mdc-select-arrow,
+.mat-select.mat-select-open .mat-select-arrow {
+    transform: rotate(180deg) !important;
+    color: vars.$primary-color !important;
+}
+
+/* Label flotante SOLO para mat-select - estilo moderno */
+.mat-mdc-form-field:has(mat-select) {
+    .mat-mdc-form-field-label,
+    .mat-form-field-label,
+    .mat-label {
+        color: rgba(vars.$font-color, 0.6) !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        transform-origin: left top !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+
+        &.mat-focused,
+        &.mat-form-field-should-float {
+            color: vars.$primary-color !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            top: 8px !important;
+            transform: translateY(0) scale(0.75) !important;
+        }
+    }
+}
+
+/* Estilos específicos para form-field con mat-select y appearance="fill" */
+.mat-form-field-appearance-fill:has(mat-select) {
+    /* Cuando hay valor seleccionado, mantener el label flotando */
+    &.mat-form-field-has-value {
+        .mat-mdc-form-field-label,
+        .mat-form-field-label,
+        .mat-label {
+            top: 8px !important;
+            transform: translateY(0) scale(0.75) !important;
+            color: rgba(vars.$font-color, 0.7) !important;
+        }
+    }
+
+    .mat-mdc-form-field-label-wrapper {
+        top: 0 !important;
+        padding-top: 0 !important;
+        overflow: visible !important;
+        position: relative !important;
+    }
+}
+
+/* Variables CSS personalizadas para estilo moderno y limpio */
+:root {
+    --mat-select-panel-background-color: #{vars.$white} !important;
+    --mat-sys-surface-container: #{vars.$white} !important;
+    --mat-option-selected-state-layer-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.1) !important;
+    --mat-option-hover-state-layer-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.05) !important;
+    --mat-form-field-container-height: 56px !important;
+    --mat-form-field-outline-thickness: 1px !important;
+    --mat-form-field-focus-outline-thickness: 2px !important;
+    --mat-form-field-fill-color: rgba(#{color.channel(vars.$light-gray, "red")}, #{color.channel(vars.$light-gray, "green")}, #{color.channel(vars.$light-gray, "blue")}, 0.3) !important;
+    --mat-form-field-hover-fill-color: rgba(#{color.channel(vars.$light-gray, "red")}, #{color.channel(vars.$light-gray, "green")}, #{color.channel(vars.$light-gray, "blue")}, 0.4) !important;
+    --mat-form-field-focus-fill-color: rgba(#{color.channel(vars.$primary-color, "red")}, #{color.channel(vars.$primary-color, "green")}, #{color.channel(vars.$primary-color, "blue")}, 0.05) !important;
+    --mat-form-field-underline-height: 0px !important;
+    --mat-form-field-active-indicator-height: 0px !important;
+}
+
+/* Contenedor del select SOLO para mat-select - estilo mejorado */
+.mat-mdc-form-field:has(mat-select) {
+    .mat-mdc-form-field-infix {
+        padding: 12px 0 12px 0 !important;
+        min-height: 32px !important;
+        border-top: none !important;
+        display: flex !important;
+        align-items: center !important;
+
+        .mat-mdc-select {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            min-height: 32px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
+}
+
+/* Ajustes específicos para appearance="fill" con mat-select - estilo moderno */
+.mat-form-field-appearance-fill:has(mat-select) {
+    .mat-mdc-form-field-infix {
+        padding: 12px 0 12px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+
+        .mat-mdc-select-trigger {
+            padding: 0 !important;
+            min-height: 32px !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+        padding: 0 16px !important;
+        margin-top: 4px !important;
+    }
+
+    /* Eliminar completamente cualquier línea de borde */
+    .mat-mdc-form-field-bottom-align::before {
+        display: none !important;
+    }
+
+    .mat-mdc-form-field-bottom-align::after {
+        display: none !important;
+    }
+}
+
+/* Select deshabilitado - estilo mejorado */
+.mat-mdc-select.mat-mdc-select-disabled,
+.mat-select.mat-select-disabled {
+    background-color: rgba(vars.$light-gray, 0.2) !important;
+    color: rgba(vars.$font-color, 0.4) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+
+    .mat-mdc-select-arrow,
+    .mat-select-arrow {
+        color: rgba(vars.$font-color, 0.3) !important;
+    }
+}
+
+/* Estilos adicionales para asegurar opacidad completa */
+.mat-mdc-select-panel.mdc-menu-surface {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+}
+
+.mdc-menu-surface--open {
+    background-color: vars.$white !important;
+    opacity: 1 !important;
+}
+
+/* ================================================= */
+/* CORRECCIÓN FINAL PARA MAT-SELECT TRANSPARENCIA */
+/* ================================================= */
+
+/* Asegurar que el overlay y el panel tengan fondo sólido */
+.cdk-overlay-backdrop-showing {
+    backdrop-filter: none !important;
+}
+
+.cdk-overlay-pane {
+    .mat-mdc-select-panel {
+        background: vars.$white !important;
+        backdrop-filter: none !important;
+
+        &.mdc-menu-surface {
+            background: vars.$white !important;
+            opacity: 1 !important;
+        }
+    }
+}
+
+/* Selectores específicos para las nuevas versiones de Angular Material */
+.mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open {
+    background: vars.$white !important;
+    opacity: 1 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Para las opciones dentro del panel */
+.mat-mdc-option.mdc-list-item {
+    background: vars.$white !important;
+
+    &:hover {
+        background: rgba(vars.$primary-color, 0.08) !important;
+    }
+
+    &.mdc-list-item--selected {
+        background: rgba(vars.$primary-color, 0.12) !important;
+    }
+}
+
+/* Forzar variables CSS específicas */
+.mat-mdc-select-panel {
+    --mdc-menu-container-color: #{vars.$white} !important;
+    --mat-menu-container-color: #{vars.$white} !important;
 }

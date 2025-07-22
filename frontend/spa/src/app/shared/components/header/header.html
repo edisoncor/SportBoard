@@ -1,7 +1,7 @@
 <div class="header-container" [ngClass]="{'header-scrolled': isScrolled, 'mobile-view': isMobile}">
     <!-- Sección izquierda: menú y brand -->
     <div class="header-left">
-        <div class="header-menu" role="button" aria-label="Abrir menú lateral" (click)="menuClicked.emit()" *ngIf="isLoggedIn">
+        <div class="header-menu" role="button" aria-label="Abrir menú lateral" (click)="menuClicked.emit()" *ngIf="showMenuButton">
             <mat-icon>{{ sidebarOpened ? 'menu_open' : 'menu' }}</mat-icon>
         </div>
         <div class="header-brand" [routerLink]="isLoggedIn ? '/dashboard' : '/login'" [ngClass]="{'centered': !isLoggedIn}">
@@ -48,7 +48,7 @@
             <div class="notification-icon" (click)="toggleNotificationDropdown($event)" aria-label="Notificaciones" tabindex="0" role="button" aria-haspopup="true" [attr.aria-expanded]="notificationDropdownOpen">
                 <mat-icon>notifications</mat-icon>
                 <span class="badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
-                
+
                 <!-- Dropdown de notificaciones -->
                 <div class="notification-dropdown" [class.show]="notificationDropdownOpen">
                     <div class="notification-header">
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Menú de usuario -->
             <div class="user-menu" (click)="toggleUserDropdown()" tabindex="0" role="button" aria-haspopup="true" [attr.aria-expanded]="userDropdownOpen">
                 <div class="user-avatar" *ngIf="userImage">
@@ -86,7 +86,7 @@
                 <mat-icon class="user-icon" *ngIf="!userImage">account_circle</mat-icon>
                 <span class="user-name">{{userName || 'Usuario'}}</span>
                 <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
-                
+
                 <!-- Dropdown del usuario -->
                 <div class="user-dropdown" [class.show]="userDropdownOpen">
                     <a routerLink="/perfil" class="dropdown-item">

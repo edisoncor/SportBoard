@@ -1,84 +1,177 @@
-@use '../../../styles.scss' as *;
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
 
+// Layout principal con sticky footer
+.main-layout-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header fijo
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: vars.$z-index-fixed;
+  height: vars.$header-height;
+}
+
+// Contenedor principal que se expande
 .app-container {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - #{$header-height} - #{$footer-height});
-  margin-top: $header-height;
-  position: relative;
-  transition: all 0.3s ease;
-  
-  &.sidebar-closed {
-    aside {
-      transform: translateX(-100%);
-    }
-  }
-}
-
-aside {
-  width: $sidebar-width;
-  height: calc(100vh - #{$header-height});
-  position: fixed;
-  left: 0;
-  top: $header-height;
-  z-index: 1010;
-  transition: transform 0.3s ease;
-  background-color: white;
-}
-
-.sidebar-overlay {
-  position: fixed;
-  top: $header-height;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1005;
-  display: none;
-}
-
-main {
   flex: 1;
-  margin-left: $sidebar-width;
-  padding: 1.5rem;
-  transition: margin 0.3s ease;
-}
+  margin-top: vars.$header-height;
+  position: relative;
+  transition: vars.$transition-all;
+  min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height});
 
-.content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.app-footer {
-  margin-bottom: 0;
-  padding: 1rem;
-  text-align: center;
-  background-color: white;
-  border-top: 1px solid $light-gray;
-}
-
-// Responsive adjustments
-@media (max-width: $breakpoint-md) {
-  .app-container {
+  // En pantallas grandes (≥992px): sidebar siempre visible al lado
+  @media (min-width: vars.$breakpoint-lg) {
     &.sidebar-closed {
       aside {
         transform: translateX(-100%);
       }
+
+      main {
+        margin-left: 0;
+      }
     }
   }
-  
-  main {
-    margin-left: 0;
-    padding: 1rem;
-    margin-bottom: 56px; // Space for bottom navigation
+
+  // En pantallas pequeñas (<992px): sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    aside {
+      position: fixed !important;
+      z-index: calc(#{vars.$z-index-modal} - 10);
+      transform: translateX(-100%);
+
+      &.open {
+        transform: translateX(0);
+      }
+    }
+
+    main {
+      margin-left: 0 !important;
+    }
+
+    .sidebar-overlay {
+      display: block;
+    }
   }
-  
-  .sidebar-overlay {
+}
+
+// Sidebar responsivo
+aside {
+  width: vars.$sidebar-width;
+  height: calc(100vh - #{vars.$header-height});
+  background-color: vars.$white;
+  border-right: 1px solid vars.$border-color;
+  transition: transform vars.$transition-normal;
+
+  // En pantallas grandes (≥992px): sidebar fijo al lado
+  @media (min-width: vars.$breakpoint-lg) {
+    position: fixed;
+    left: 0;
+    top: vars.$header-height;
+    z-index: vars.$z-index-sticky;
+  }
+
+  // En pantallas pequeñas (<992px): sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    position: fixed;
+    left: 0;
+    top: vars.$header-height;
+    z-index: calc(#{vars.$z-index-modal} - 10);
+    transform: translateX(-100%);
+    box-shadow: vars.$shadow-lg;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Overlay para cerrar sidebar en pantallas pequeñas
+.sidebar-overlay {
+  position: fixed;
+  top: vars.$header-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: calc(#{vars.$z-index-modal} - 20);
+
+  // Solo visible en pantallas pequeñas
+  @media (min-width: vars.$breakpoint-lg) {
+    display: none !important;
+  }
+
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
     display: block;
   }
-  
+}
+
+// Área de contenido principal responsiva
+main {
+  flex: 1;
+  padding: vars.$spacing-4;
+  transition: margin vars.$transition-normal;
+  overflow-y: auto;
+
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-4} * 2);
+  }
+
+  // En pantallas grandes (≥992px): dejar espacio para sidebar
+  @media (min-width: vars.$breakpoint-lg) {
+    margin-left: vars.$sidebar-width;
+  }
+
+  // En pantallas pequeñas (<992px): sin margin, sidebar como overlay
+  @media (max-width: calc(#{vars.$breakpoint-lg} - 1px)) {
+    margin-left: 0;
+    padding: vars.$spacing-3;
+
+    .content-wrapper {
+      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-3} * 2);
+    }
+  }
+}
+
+// Footer siempre en la parte inferior con 100% width
+.app-footer {
+  margin-top: auto;
+  margin-bottom: 0 !important;
+  padding: 0;
+  background-color: vars.$darker-gray;
+  border-top: 1px solid vars.$dark-gray;
+  width: 100vw; // Forzar 100% del viewport width
+  max-width: 100vw;
+  flex-shrink: 0;
+  position: relative;
+  z-index: vars.$z-index-dropdown;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+}
+
+// Ajustes adicionales para pantallas muy pequeñas (móviles)
+@media (max-width: vars.$breakpoint-md) {
   .app-footer {
-    margin-bottom: 56px; // Space for bottom navigation
-    padding-bottom: env(safe-area-inset-bottom); // For notched iPhones
+    margin-bottom: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  main {
+    padding: vars.$spacing-2;
+
+    .content-wrapper {
+      min-height: calc(100vh - #{vars.$header-height} - #{vars.$footer-height} - #{vars.$spacing-2} * 2);
+    }
   }
 }

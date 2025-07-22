@@ -3,7 +3,7 @@
         <h1>Ajustes</h1>
         <p>Configura las opciones de la aplicación</p>
     </div>
-    
+
     <div class="config-tabs">
         <mat-tab-group animationDuration="300ms">
             <!-- Pestaña de Notificaciones -->
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="config-section">
                     <h3>Canales de notificación</h3>
                     <div class="option-group">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </mat-tab>
-            
+
             <!-- Pestaña de Privacidad -->
             <mat-tab label="Privacidad">
                 <div class="config-section">
@@ -112,13 +112,13 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="privacy-notice">
                     <h4>Información sobre privacidad</h4>
                     <p>Tus datos personales están protegidos de acuerdo con nuestra política de privacidad. No compartimos tu información con terceros sin tu consentimiento explícito. Puedes solicitar la eliminación de tus datos en cualquier momento desde la sección de Cuenta.</p>
                 </div>
             </mat-tab>
-            
+
             <!-- Pestaña de Apariencia -->
             <mat-tab label="Apariencia">
                 <div class="config-section">
@@ -131,7 +131,7 @@
                             </mat-option>
                         </mat-select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Color primario</label>
                         <div class="color-picker">
@@ -142,7 +142,7 @@
                             <div class="color-option" style="background-color: #8e24aa;" [class.active]="configuracion.apariencia.colorPrimario === '#8e24aa'" (click)="configuracion.apariencia.colorPrimario = '#8e24aa'"></div>
                         </div>
                     </div>
-                    
+
                     <div class="option-group">
                         <div class="option-row">
                             <div class="option-label">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </mat-tab>
-            
+
             <!-- Pestaña de Preferencias Regionales -->
             <mat-tab label="Regional">
                 <div class="config-section">
@@ -167,7 +167,7 @@
                             </mat-option>
                         </mat-select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="zonaHoraria">Zona horaria</label>
                         <mat-select id="zonaHoraria" [(ngModel)]="configuracion.zonaHoraria">
@@ -178,9 +178,67 @@
                     </div>
                 </div>
             </mat-tab>
+
+            <!-- Pestaña de Administración -->
+            <mat-tab label="Administración">
+                <div class="config-section">
+                    <h3>Gestión de Catálogos</h3>
+                    <p>Administra las categorías y elementos del sistema</p>
+
+                    <div class="admin-cards">
+                        <div class="admin-card">
+                            <div class="card-icon">
+                                <mat-icon>category</mat-icon>
+                            </div>
+                            <div class="card-content">
+                                <h4>Categorías</h4>
+                                <p>Gestiona las categorías del sistema de catálogos</p>
+                                <button mat-raised-button color="primary" routerLink="/ajustes/categorias">
+                                    <mat-icon>settings</mat-icon>
+                                    Gestionar Categorías
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="admin-card">
+                            <div class="card-icon">
+                                <mat-icon>inventory_2</mat-icon>
+                            </div>
+                            <div class="card-content">
+                                <h4>Items</h4>
+                                <p>Administra los elementos del catálogo</p>
+                                <button mat-raised-button color="accent" routerLink="/ajustes/items">
+                                    <mat-icon>settings</mat-icon>
+                                    Gestionar Items
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Configuración del Sistema</h3>
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-label">
+                                Modo de mantenimiento
+                                <small>Habilita el modo de mantenimiento para el sistema</small>
+                            </div>
+                            <mat-slide-toggle color="warn" [(ngModel)]="configuracion.sistema.mantenimiento"></mat-slide-toggle>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-label">
+                                Logs detallados
+                                <small>Habilita logs detallados para debugging</small>
+                            </div>
+                            <mat-slide-toggle color="primary" [(ngModel)]="configuracion.sistema.logsDetallados"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
         </mat-tab-group>
     </div>
-    
+
     <div class="button-container">
         <button mat-stroked-button>Restablecer valores</button>
         <button mat-raised-button color="primary" (click)="guardarCambios()">Guardar cambios</button>

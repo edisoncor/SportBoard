@@ -1,0 +1,272 @@
+.items-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-toolbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    color: #333;
+    font-weight: 500;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.filters-card {
+  margin-bottom: 20px;
+
+  .filters-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .search-field {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .category-filter {
+      min-width: 200px;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+  }
+}
+
+.table-card {
+  .results-info {
+    padding: 16px 0;
+    color: #666;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 16px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .items-table {
+      width: 100%;
+
+      .mat-mdc-header-cell {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .mat-mdc-cell {
+        padding: 12px 8px;
+      }
+
+      .code-chip {
+        display: inline-block;
+        background-color: #f5f5f5;
+        color: #333;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .name-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .item-name {
+          font-weight: 500;
+        }
+
+        .has-children-icon {
+          color: #4CAF50;
+          font-size: 18px;
+        }
+      }
+
+      .description-text {
+        color: #666;
+        font-style: italic;
+      }
+
+      .actions-cell {
+        display: flex;
+        gap: 4px;
+
+        button {
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+          }
+        }
+      }
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+
+    mat-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    h3 {
+      margin: 16px 0 8px 0;
+      font-weight: 400;
+    }
+
+    p {
+      margin: 8px 0;
+      opacity: 0.8;
+    }
+  }
+
+  .loading-container {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+
+    .loading-spinner {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 16px;
+      animation: spin 2s linear infinite;
+    }
+
+    p {
+      margin: 16px 0 0 0;
+    }
+  }
+}
+
+// Animación de rotación para el spinner
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Estilos responsivos
+@media (max-width: 768px) {
+  .items-container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+
+    h2 {
+      text-align: center;
+    }
+  }
+
+  .filters-card .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+
+    .search-field, .category-filter {
+      min-width: unset;
+    }
+  }
+
+  .table-container {
+    .items-table {
+      .mat-mdc-cell, .mat-mdc-header-cell {
+        padding: 8px 4px;
+        font-size: 0.875rem;
+      }
+
+      .name-cell {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+  }
+}
+
+// Estilos para los chips de Material
+.mat-mdc-chip {
+  &.mat-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  &.mat-warn {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+// Estilos para el snackbar
+.success-snackbar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+}
+
+// Estilos para el paginador
+.mat-mdc-paginator {
+  margin-top: 16px;
+  border-top: 1px solid #e0e0e0;
+
+  .mat-mdc-paginator-range-label {
+    margin: 0 16px;
+  }
+
+  .mat-mdc-icon-button {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &[disabled] {
+      opacity: 0.3;
+    }
+  }
+}

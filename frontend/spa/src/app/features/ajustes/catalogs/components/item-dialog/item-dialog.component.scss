@@ -1,0 +1,146 @@
+.item-dialog {
+  min-width: 500px;
+  max-width: 600px;
+
+  h2 {
+    margin: 0;
+    color: #333;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 16px;
+  }
+
+  .form-container {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .checkbox-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      mat-checkbox {
+        margin-bottom: 8px;
+      }
+
+      mat-hint {
+        font-size: 0.75rem;
+        color: #666;
+        margin-left: 32px;
+      }
+    }
+
+    // Estilos específicos para campos de formulario
+    mat-form-field {
+      .mat-mdc-form-field-subscript-wrapper {
+        .mat-mdc-form-field-hint-wrapper {
+          .mat-mdc-form-field-hint {
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+
+    // Estilo para campos readonly
+    input[readonly] {
+      background-color: #f5f5f5;
+      color: #666;
+    }
+
+    // Transformar texto a mayúsculas para el código
+    input[style*="text-transform: uppercase"] {
+      text-transform: uppercase;
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 16px 0 0 0;
+    margin: 0;
+    gap: 12px;
+
+    button {
+      min-width: 100px;
+
+      &[mat-raised-button] {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Estilos responsivos
+@media (max-width: 600px) {
+  .item-dialog {
+    min-width: unset;
+    width: 95vw;
+    max-width: 95vw;
+
+    .form-container {
+      padding: 16px 0;
+      gap: 16px;
+    }
+
+    mat-dialog-actions {
+      flex-direction: column-reverse;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Estilos para mejorar la usabilidad
+.mat-mdc-form-field {
+  &.mat-form-field-appearance-outline {
+    .mat-mdc-form-field-outline {
+      color: #ddd;
+    }
+
+    &.mat-focused .mat-mdc-form-field-outline-thick {
+      color: #1976d2;
+    }
+
+    &.mat-form-field-invalid .mat-mdc-form-field-outline-thick {
+      color: #f44336;
+    }
+  }
+}
+
+// Estilos para el checkbox
+.mat-mdc-checkbox {
+  .mdc-checkbox {
+    &.mdc-checkbox--checked {
+      .mdc-checkbox__background {
+        background-color: #1976d2;
+        border-color: #1976d2;
+      }
+    }
+  }
+
+  .mdc-form-field {
+    color: #333;
+  }
+}
+
+// Animaciones suaves
+.item-dialog {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

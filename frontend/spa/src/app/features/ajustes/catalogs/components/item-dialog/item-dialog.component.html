@@ -1,0 +1,105 @@
+<div class="item-dialog">
+  <h2 mat-dialog-title>{{getTitle()}}</h2>
+
+  <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-container">
+
+        <!-- Campo Nombre -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del item</mat-label>
+          <input matInput
+                 formControlName="name"
+                 placeholder="Ingrese el nombre del item"
+                 maxlength="100"
+                 required>
+          <mat-hint align="end">{{itemForm.get('name')?.value?.length || 0}}/100</mat-hint>
+          <mat-error *ngIf="hasError('name', 'required')">
+            El nombre es requerido
+          </mat-error>
+          <mat-error *ngIf="hasError('name', 'maxlength')">
+            El nombre no puede exceder los 100 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Campo Código -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Código del item</mat-label>
+          <input matInput
+                 formControlName="code"
+                 placeholder="Ingrese el código único del item"
+                 maxlength="20"
+                 [readonly]="isEditMode"
+                 style="text-transform: uppercase"
+                 required>
+          <mat-hint *ngIf="!isEditMode" align="start">
+            Solo letras mayúsculas, números, guiones y guiones bajos
+          </mat-hint>
+          <mat-hint *ngIf="isEditMode" align="start">
+            El código no se puede modificar
+          </mat-hint>
+          <mat-hint align="end">{{itemForm.get('code')?.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="hasError('code', 'required')">
+            El código es requerido
+          </mat-error>
+          <mat-error *ngIf="hasError('code', 'maxlength')">
+            El código no puede exceder los 20 caracteres
+          </mat-error>
+          <mat-error *ngIf="hasError('code', 'pattern')">
+            Solo se permiten letras mayúsculas, números, guiones y guiones bajos
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Campo Categoría -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="category" required>
+            <mat-option value="">Seleccione una categoría</mat-option>
+            <mat-option *ngFor="let category of data.categories" [value]="category.code">
+              {{category.name}} ({{category.code}})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('category', 'required')">
+            La categoría es requerida
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Campo Descripción -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput
+                    formControlName="description"
+                    placeholder="Descripción opcional del item"
+                    maxlength="500"
+                    rows="3">
+          </textarea>
+          <mat-hint align="end">{{itemForm.get('description')?.value?.length || 0}}/500</mat-hint>
+          <mat-error *ngIf="hasError('description', 'maxlength')">
+            La descripción no puede exceder los 500 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Campo Estado -->
+        <div class="checkbox-field">
+          <mat-checkbox formControlName="isActive">
+            Item activo
+          </mat-checkbox>
+          <mat-hint>Los items inactivos no aparecen en las consultas por defecto</mat-hint>
+        </div>
+
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="itemForm.invalid">
+        {{getConfirmButtonText()}}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

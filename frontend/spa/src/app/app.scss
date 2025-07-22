@@ -2,6 +2,8 @@
 @use 'sass:math';
 @use '../styles.scss' as *;
 
+// Comentamos los estilos conflictivos para usar los del main-layout
+/*
 .app-container {
     display: flex;
     min-height: 100vh;
@@ -10,24 +12,24 @@
     padding-top: $header-height;
 }
 
-// Main content area 
+// Main content area
 main {
     flex: 1;
     margin-left: $sidebar-width;
     padding: 1.5rem;
     transition: margin-left 0.3s ease;
     min-height: calc(100vh - #{$header-height} - #{$footer-height});
-    
+
     @media (max-width: $breakpoint-md) {
         margin-left: 0;
         padding: 1rem;
     }
-    
+
     .container {
         max-width: 1200px;
         margin: 0 auto;
     }
-    
+
     .content-wrapper {
         width: 100%;
         min-height: 100%;
@@ -49,11 +51,11 @@ aside {
     overflow-y: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    
+
     @media (max-width: $breakpoint-md) {
         transform: translateX(-100%);
         box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-        
+
         &.open {
             transform: translateX(0);
         }
@@ -79,7 +81,7 @@ aside {
     transition: opacity 0.3s ease;
     width: 100vw;
     z-index: 999;
-    
+
     @media (min-width: $breakpoint-md) {
         display: none;
     }
@@ -90,10 +92,12 @@ aside.open + .sidebar-overlay {
     pointer-events: all;
 }
 
-// App footer
+// App footer - Comentado para usar el del main-layout
+/*
 .app-footer {
     background-color: white;
     border-top: 1px solid $light-gray;
     padding: 0;
     z-index: 900;
 }
+*/

@@ -1,3 +1,4 @@
+<div class="main-layout-wrapper">
 <!-- Header Section with Branding -->
 <header role="banner">
     <app-header [sidebarOpened]="sidebarOpened" (menuClicked)="toggleSidebar()"></app-header>
@@ -9,7 +10,7 @@
     <aside [ngClass]="{'open': sidebarOpened}">
         <app-sidebar></app-sidebar>
     </aside>
-    
+
     <!-- Overlay para cerrar el sidebar en móvil -->
     <div class="sidebar-overlay" *ngIf="sidebarOpened" (click)="toggleSidebar()"></div>
 
@@ -28,3 +29,4 @@
 <footer class="app-footer" role="contentinfo">
     <app-footer></app-footer>
 </footer>
+</div>

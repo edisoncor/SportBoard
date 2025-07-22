@@ -1,0 +1,161 @@
+@use 'sass:color';
+@use './variables' as vars;
+
+/* ============================================
+   ESTILOS PERSONALIZADOS PARA DIÁLOGOS
+   ============================================ */
+
+// Estilo del contenedor del diálogo
+.mat-mdc-dialog-container {
+    border-radius: vars.$border-radius-lg !important;
+    box-shadow: vars.$shadow-2xl !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+
+    .mdc-dialog__surface {
+        border-radius: vars.$border-radius-lg !important;
+        background-color: vars.$white !important;
+    }
+}
+
+// Animación de entrada del diálogo
+.mat-mdc-dialog-container {
+    animation: dialogSlideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes dialogSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// Backdrop del diálogo
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(4px);
+}
+
+// Estilos para el contenido del diálogo
+.mat-mdc-dialog-content {
+    padding: vars.$spacing-6 !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+
+    // Título del diálogo
+    h2, h3 {
+        margin: 0 0 vars.$spacing-4 0 !important;
+        color: vars.$font-color !important;
+        font-weight: vars.$font-weight-semibold !important;
+        font-size: vars.$font-size-xl !important;
+        border-bottom: 2px solid vars.$primary-color !important;
+        padding-bottom: vars.$spacing-2 !important;
+    }
+}
+
+// Estilos para las acciones del diálogo
+.mat-mdc-dialog-actions {
+    padding: vars.$spacing-4 vars.$spacing-6 vars.$spacing-6 vars.$spacing-6 !important;
+    margin: 0 !important;
+    border-top: 1px solid vars.$border-color !important;
+    background-color: vars.$background-light !important;
+    gap: vars.$spacing-3 !important;
+    justify-content: flex-end !important;
+
+    // Botón secundario (cancelar)
+    button:not([color="primary"]):not(.primary-button) {
+        background-color: transparent !important;
+        color: vars.$medium-gray !important;
+        border: 1px solid vars.$border-color !important;
+        min-width: 100px !important;
+        transition: all 0.3s ease !important;
+
+        &:hover {
+            background-color: vars.$light-gray !important;
+            color: vars.$dark-gray !important;
+            border-color: vars.$medium-gray !important;
+            transform: translateY(-1px) !important;
+        }
+    }
+
+    // Botón principal (crear, guardar, confirmar)
+    button[color="primary"],
+    button.primary-button,
+    .mat-primary {
+        background: linear-gradient(135deg, vars.$primary-color 0%, color.adjust(vars.$primary-color, $lightness: -10%) 100%) !important;
+        color: vars.$white !important;
+        border: none !important;
+        min-width: 120px !important;
+        font-weight: vars.$font-weight-semibold !important;
+        font-size: vars.$font-size-sm !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: vars.$shadow-md !important;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        &:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: vars.$shadow-lg !important;
+            background: linear-gradient(135deg, color.adjust(vars.$primary-color, $lightness: 5%) 0%, color.adjust(vars.$primary-color, $lightness: -5%) 100%) !important;
+
+            &::before {
+                opacity: 1;
+            }
+        }
+
+        &:active {
+            transform: translateY(0) !important;
+            box-shadow: vars.$shadow-sm !important;
+        }
+
+        &:disabled {
+            background: vars.$medium-gray !important;
+            color: vars.$white !important;
+            transform: none !important;
+            box-shadow: none !important;
+            opacity: 0.6 !important;
+        }
+    }
+}
+
+// Responsive para diálogos en móviles
+@media (max-width: vars.$breakpoint-md) {
+    .mat-mdc-dialog-container {
+        margin: vars.$spacing-4 !important;
+        max-width: calc(100vw - #{vars.$spacing-8}) !important;
+        max-height: calc(100vh - #{vars.$spacing-8}) !important;
+    }
+
+    .mat-mdc-dialog-content {
+        padding: vars.$spacing-4 !important;
+        max-height: 60vh !important;
+    }
+
+    .mat-mdc-dialog-actions {
+        padding: vars.$spacing-3 vars.$spacing-4 vars.$spacing-4 vars.$spacing-4 !important;
+        flex-direction: column-reverse !important;
+
+        button {
+            width: 100% !important;
+            margin: vars.$spacing-1 0 !important;
+        }
+    }
+}

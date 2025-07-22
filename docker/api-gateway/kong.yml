@@ -2,41 +2,49 @@ _format_version: "2.1"
 _transform: true
 
 services:
-    - name: ms-catalog-categories-service
-      url: http://ms-catalog:8009/api/v1/catalog/categories
+    - name: ms-catalog-service
+      url: http://ms-catalog:8009
       routes:
           - name: ms-catalog-categories-route
             paths:
                 - /catalog/categories
-            strip_path: false
+                - /catalog/categories/
+            strip_path: true
             methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
-
-    - name: ms-catalog-items-service
-      url: http://ms-catalog:8009/api/v1/catalog/items
-      routes:
+            plugins:
+                - name: request-transformer
+                  config:
+                    replace:
+                        uri: /api/v1/catalog/categories/
           - name: ms-catalog-items-route
             paths:
                 - /catalog/items
-            strip_path: false
+                - /catalog/items/
+            strip_path: true
             methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            plugins:
+                - name: request-transformer
+                  config:
+                    replace:
+                        uri: /api/v1/catalog/items/
 
-  - name: ms-auth-service
-    url: http://ms-auth-service:8011
-    routes:
-      - name: ms-auth-route
-        paths:
-          - /auth
-        strip_path: true
-        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+    - name: ms-auth-service
+      url: http://ms-auth-service:8011
+      routes:
+        - name: ms-auth-route
+          paths:
+            - /auth
+          strip_path: true
+          methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
-  - name: ms-competencies
-    url: http://ms-competencies:8010
-    routes:
-      - name: ms-competencies-route
-        paths:
-          - /competencies
-        strip_path: false
-        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+    - name: ms-competencies
+      url: http://ms-competencies:8010
+      routes:
+        - name: ms-competencies-route
+          paths:
+            - /competencies
+          strip_path: false
+          methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
     - name: ms-statistics-service
       url: http://ms-statistics:8012

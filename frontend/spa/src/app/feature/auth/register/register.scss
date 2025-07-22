@@ -23,7 +23,7 @@ $border-color: #e0e0e0;
   padding: 3rem;
   max-width: 550px;
   margin: 0 auto;
-  
+
   @media (max-width: 991px) {
     max-width: 100%;
   }
@@ -32,22 +32,22 @@ $border-color: #e0e0e0;
 .register-header {
   text-align: center;
   margin-bottom: 2rem;
-  
+
   .logo {
     margin-bottom: 1.5rem;
-    
+
     img {
       height: 60px;
       width: auto;
     }
   }
-  
+
   h1 {
     font-size: 2.2rem;
     color: $primary-color;
     margin-bottom: 0.5rem;
   }
-  
+
   p {
     color: $text-secondary;
     font-size: 1.1rem;
@@ -64,7 +64,7 @@ $border-color: #e0e0e0;
 .name-row {
   display: flex;
   gap: 1rem;
-  
+
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 0;
@@ -73,7 +73,7 @@ $border-color: #e0e0e0;
 
 .form-field {
   width: 100%;
-  
+
   ::ng-deep .mat-mdc-form-field-subscript-wrapper {
     padding: 0;
   }
@@ -88,7 +88,7 @@ $border-color: #e0e0e0;
   border-radius: 4px;
   margin-top: 0.5rem;
   font-size: 0.9rem;
-  
+
   mat-icon {
     margin-right: 0.5rem;
     font-size: 18px;
@@ -101,7 +101,7 @@ $border-color: #e0e0e0;
   height: 48px;
   font-size: 1rem;
   margin-top: 1rem;
-  
+
   mat-icon, mat-spinner {
     margin-right: 0.5rem;
   }
@@ -110,17 +110,17 @@ $border-color: #e0e0e0;
 .login-link {
   text-align: center;
   margin: 1.5rem 0;
-  
+
   p {
     color: $text-secondary;
   }
-  
+
   a {
     color: $primary-color;
     text-decoration: none;
     font-weight: 500;
     cursor: pointer;
-    
+
     &:hover {
       text-decoration: underline;
     }
@@ -131,22 +131,22 @@ $border-color: #e0e0e0;
   margin-top: auto;
   text-align: center;
   padding-top: 2rem;
-  
+
   p {
     color: $text-tertiary;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
-    
+
     a {
       color: $primary-color;
       text-decoration: none;
-      
+
       &:hover {
         text-decoration: underline;
       }
     }
   }
-  
+
   .copyright {
     margin-top: 1rem;
   }
@@ -155,10 +155,10 @@ $border-color: #e0e0e0;
 .register-banner {
   display: none;
   flex: 1;
-  background: linear-gradient(135deg, darken($primary-color, 10%), lighten($primary-color, 10%));
+  background: linear-gradient(135deg, color.adjust($primary-color, $lightness: -10%), color.adjust($primary-color, $lightness: 10%));
   color: white;
   padding: 3rem;
-  
+
   @media (min-width: 992px) {
     display: flex;
     align-items: center;
@@ -168,12 +168,12 @@ $border-color: #e0e0e0;
 
 .banner-content {
   max-width: 500px;
-  
+
   h2 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
@@ -185,18 +185,18 @@ $border-color: #e0e0e0;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  
+
   .feature {
     display: flex;
     align-items: center;
-    
+
     mat-icon {
       font-size: 2rem;
       height: 2rem;
       width: 2rem;
       margin-right: 1rem;
     }
-    
+
     span {
       font-size: 1.2rem;
     }
