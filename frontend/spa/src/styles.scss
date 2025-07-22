@@ -586,23 +586,47 @@ main {
     }
 }
 
-/* Material Select styles - Sin transparencia (MDC compatible) */
+/* Material Select styles - Estilo moderno con esquinas redondeadas */
 .mat-mdc-select,
 .mat-select {
     background-color: vars.$white !important;
     opacity: 1 !important;
+    border-radius: 8px !important;
+    border: 1px solid vars.$border-color !important;
+    min-height: 48px !important;
+    padding: 0 12px !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+
+    &:hover {
+        border-color: vars.$primary-color !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    &.mat-focused {
+        border-color: vars.$primary-color !important;
+        box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2) !important;
+    }
 }
 
 .mat-mdc-select-trigger,
 .mat-select-trigger {
-    background-color: vars.$white !important;
+    background-color: transparent !important;
     opacity: 1 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 24px !important;
 }
 
 .mat-mdc-select-value,
 .mat-select-value {
-    background-color: vars.$white !important;
+    background-color: transparent !important;
     opacity: 1 !important;
+    color: vars.$font-color !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
 }
 
 /* Panel del dropdown - selectores MDC */
@@ -611,8 +635,38 @@ main {
 div.mat-mdc-select-panel {
     background-color: vars.$white !important;
     opacity: 1 !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     border: 1px solid vars.$border-color !important;
+    border-radius: 12px !important;
+    margin-top: 4px !important;
+    overflow: hidden !important;
+}
+
+/* Form field que contiene el select - estilo redondeado */
+.mat-mdc-form-field {
+    &.mat-form-field-appearance-outline {
+        .mat-mdc-form-field-outline {
+            border-radius: 8px !important;
+
+            .mat-mdc-form-field-outline-start,
+            .mat-mdc-form-field-outline-notch,
+            .mat-mdc-form-field-outline-end {
+                border-radius: 8px !important;
+            }
+        }
+
+        .mat-mdc-form-field-flex {
+            border-radius: 8px !important;
+            background-color: vars.$white !important;
+        }
+    }
+
+    &.mat-form-field-appearance-fill {
+        .mat-mdc-form-field-flex {
+            border-radius: 8px 8px 0 0 !important;
+            background-color: rgba(vars.$light-gray, 0.6) !important;
+        }
+    }
 }
 
 /* Opciones del select - compatibilidad con MDC */
@@ -620,17 +674,38 @@ div.mat-mdc-select-panel {
 .mat-option {
     background-color: vars.$white !important;
     opacity: 1 !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: vars.$font-color !important;
+    border-bottom: 1px solid rgba(vars.$border-color, 0.3) !important;
+    transition: all 0.2s ease !important;
+
+    &:last-child {
+        border-bottom: none !important;
+    }
 
     &:hover,
     &.mdc-list-item--selected {
-        background-color: rgba(vars.$primary-color, 0.1) !important;
+        background-color: rgba(vars.$primary-color, 0.08) !important;
         opacity: 1 !important;
+        color: vars.$primary-color !important;
     }
 
     &.mat-selected,
     &.mat-mdc-option-active {
-        background-color: rgba(vars.$primary-color, 0.2) !important;
+        background-color: rgba(vars.$primary-color, 0.12) !important;
         opacity: 1 !important;
+        color: vars.$primary-color !important;
+        font-weight: 500 !important;
+
+        &::before {
+            content: '✓' !important;
+            position: absolute !important;
+            right: 16px !important;
+            color: vars.$primary-color !important;
+            font-weight: bold !important;
+        }
     }
 }
 
@@ -641,12 +716,71 @@ div.mat-mdc-select-panel {
     opacity: 1 !important;
 }
 
+/* Estilo para el placeholder del select */
+.mat-mdc-select-placeholder,
+.mat-select-placeholder {
+    color: rgba(vars.$font-color, 0.6) !important;
+    font-size: 14px !important;
+}
+
+/* Flecha del select */
+.mat-mdc-select-arrow,
+.mat-select-arrow {
+    color: rgba(vars.$font-color, 0.6) !important;
+    transition: all 0.3s ease !important;
+
+    svg {
+        fill: currentColor !important;
+    }
+}
+
+/* Cuando está abierto, rotar la flecha */
+.mat-mdc-select.mat-mdc-select-open .mat-mdc-select-arrow,
+.mat-select.mat-select-open .mat-select-arrow {
+    transform: rotate(180deg) !important;
+    color: vars.$primary-color !important;
+}
+
+/* Label flotante */
+.mat-mdc-form-field-label,
+.mat-form-field-label {
+    color: rgba(vars.$font-color, 0.7) !important;
+    font-size: 14px !important;
+
+    &.mat-focused {
+        color: vars.$primary-color !important;
+    }
+}
+
 /* Variables CSS personalizadas para sobreescribir las de Material */
 :root {
     --mat-select-panel-background-color: #{vars.$white} !important;
     --mat-sys-surface-container: #{vars.$white} !important;
     --mat-option-selected-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.1) !important;
     --mat-option-hover-state-layer-color: rgba(#{red(vars.$primary-color)}, #{green(vars.$primary-color)}, #{blue(vars.$primary-color)}, 0.05) !important;
+    --mat-form-field-container-height: 48px !important;
+    --mat-form-field-outline-thickness: 1px !important;
+    --mat-form-field-focus-outline-thickness: 2px !important;
+}
+
+/* Contenedor del select para forma redondeada */
+.mat-mdc-form-field-infix {
+    padding: 12px 0 !important;
+    min-height: 24px !important;
+    border-top: none !important;
+}
+
+/* Select deshabilitado */
+.mat-mdc-select.mat-mdc-select-disabled,
+.mat-select.mat-select-disabled {
+    background-color: rgba(vars.$light-gray, 0.5) !important;
+    color: rgba(vars.$font-color, 0.4) !important;
+    cursor: not-allowed !important;
+
+    .mat-mdc-select-arrow,
+    .mat-select-arrow {
+        color: rgba(vars.$font-color, 0.3) !important;
+    }
 }
 
 /* Estilos adicionales para asegurar opacidad completa */
