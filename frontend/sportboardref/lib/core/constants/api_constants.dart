@@ -7,11 +7,6 @@ class ApiConstants {
       'http://localhost:8000/auth'; // Web/iOS Simulator -> Kong
   // static const String baseUrl = 'http://192.168.1.XXX:8000/auth';  // Physical device -> Kong
 
-  // Mock Backend URL (backup)
-  // static const String baseUrl = 'http://10.0.2.2:3001/api';  // Android Emulator -> Mock Backend
-  // static const String baseUrl = 'http://localhost:3001/api'; // Web/iOS Simulator -> Mock Backend
-  // static const String baseUrl = 'http://192.168.1.XXX:3001/api';  // Physical device -> Mock Backend
-
   // Auth routes (updated to match actual microservice endpoints)
   static const String authBaseUrl = '$baseUrl/api/v1/auth';
   static const String userBaseUrl = '$baseUrl/api/v1/user';
