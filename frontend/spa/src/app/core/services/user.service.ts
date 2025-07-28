@@ -43,15 +43,21 @@ export class UserService {
 
     return new HttpHeaders({
       'Authorization': `Bearer ${user.access}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     });
   }
 
   // Get user profile by ID
   getUserProfile(userId: string): Observable<UserProfile> {
     const headers = this.getAuthHeaders();
+    // Add timestamp to prevent caching
+    const timestamp = new Date().getTime();
+    const url = `${environment.apiUrl}/v1/user/${userId}/?_t=${timestamp}`;
 
-    return this.http.get<UserProfile>(`${environment.apiUrl}/v1/user/${userId}/`, { headers })
+    return this.http.get<UserProfile>(url, { headers })
       .pipe(
         catchError(error => {
           console.error('Error fetching user profile:', error);

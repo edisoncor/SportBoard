@@ -97,9 +97,12 @@ export class PerfilComponent implements OnInit {
 
   loadUserProfile(): void {
     this.isLoading = true;
+    // Force fresh data by clearing any component state
+    this.userProfile = null;
+
     this.userService.getCurrentUserProfile().subscribe({
       next: (profile) => {
-        console.log('Perfil cargado:', profile); // Debug
+        console.log('Perfil cargado (fresh data):', profile); // Debug
         this.userProfile = profile;
         this.perfilForm.patchValue({
           firstname: profile.firstname,
@@ -200,4 +203,10 @@ export class PerfilComponent implements OnInit {
   get currentPassword() { return this.passwordForm.get('currentPassword'); }
   get newPassword() { return this.passwordForm.get('newPassword'); }
   get confirmPassword() { return this.passwordForm.get('confirmPassword'); }
+
+  // Force refresh profile data
+  forceRefreshProfile(): void {
+    console.log('Forcing profile refresh...');
+    this.loadUserProfile();
+  }
 }
