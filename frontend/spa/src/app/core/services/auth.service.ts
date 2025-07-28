@@ -36,6 +36,20 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  // Decode JWT token to extract user information
+  private decodeToken(token: string): any {
+    try {
+      const tokenParts = token.split('.');
+      if (tokenParts.length !== 3) return null;
+
+      const payload = JSON.parse(atob(tokenParts[1]));
+      return payload;
+    } catch (e) {
+      console.error('Error decoding token:', e);
+      return null;
+    }
+  }
+
   // Check if user is logged in
   public isLoggedIn(): boolean {
     const user = this.currentUserValue;
@@ -44,8 +58,31 @@ export class AuthService {
 
   // Login method
   login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/v1/auth/login/`, { email, password })
+    return this.http.post<{access: string, refresh: string}>(`${environment.apiUrl}/v1/auth/login/`, { email, password })
       .pipe(
+        map(tokens => {
+          // Decode the access token to get user information
+          const tokenPayload = this.decodeToken(tokens.access);
+          console.log('Token payload:', tokenPayload); // Debug log
+          if (!tokenPayload) {
+            throw new Error('Invalid token received');
+          }
+
+          // Create user object from token payload
+          const user: User = {
+            id: tokenPayload.id || tokenPayload.user_id || tokenPayload.sub || '', // Try different possible ID fields
+            email: tokenPayload.email || email,
+            firstname: tokenPayload.firstname || '',
+            lastname: tokenPayload.lastname || '',
+            role: tokenPayload.roles || ['ESPECTATOR'],
+            verified: true, // Assume verified if login succeeded
+            access: tokens.access,
+            refresh: tokens.refresh
+          };
+
+          console.log('Created user object:', user); // Debug log
+          return user;
+        }),
         tap(user => {
           // Store user details and tokens in localStorage
           localStorage.setItem('currentUser', JSON.stringify(user));

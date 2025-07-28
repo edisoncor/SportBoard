@@ -315,9 +315,10 @@ app.post('/api/v1/auth/create-password/', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Mock backend running on port ${PORT}`);
   console.log(`API base URL: http://localhost:${PORT}/api`);
+  console.log(`Android Emulator URL: http://10.0.2.2:${PORT}/api`);
   console.log('Test credentials:');
   console.log('Admin: admin@sportboard.com / admin123');
   console.log('User: user@sportboard.com / user123');
