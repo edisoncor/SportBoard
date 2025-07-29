@@ -33,8 +33,8 @@ services:
       routes:
         - name: ms-auth-route
           paths:
-            - /auth
-          strip_path: true
+            - /api/v1/auth
+          strip_path: false
           methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
     - name: ms-competencies
@@ -43,7 +43,7 @@ services:
         - name: ms-competencies-route
           paths:
             - /competencies
-          strip_path: false
+          strip_path: true
           methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
 
     - name: ms-statistics-service
@@ -74,6 +74,8 @@ plugins:
               - OPTIONS
           headers:
               - Accept
+              - Accept-Encoding
+              - Accept-Language
               - Authorization
               - Content-Type
               - Origin
@@ -81,8 +83,21 @@ plugins:
               - Cache-Control
               - Pragma
               - Expires
+              - x-client-name
+              - x-client-version
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Methods
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Credentials
+              - User-Agent
+              - Referer
+              - X-Forwarded-For
+              - X-Forwarded-Proto
+              - X-Real-IP
           exposed_headers:
               - X-Auth-Token
+              - Content-Type
+              - Authorization
           credentials: true
           max_age: 3600
           preflight_continue: false

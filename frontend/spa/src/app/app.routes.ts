@@ -47,7 +47,20 @@ export const routes: Routes = [
                 children: [
                     { path: '', loadComponent: () => import('./feature/ajustes/ajustes').then(m => m.AjustesComponent) },
                     { path: 'categorias', loadComponent: () => import('./feature/ajustes/catalogs/categories.component').then(m => m.CategoriesComponent) },
-                    { path: 'items', loadComponent: () => import('./features/ajustes/catalogs/components/items/items.component').then(m => m.ItemsComponent) }
+                    { path: 'items', loadComponent: () => import('./features/ajustes/catalogs/components/items/items.component').then(m => m.ItemsComponent) },
+                    
+                    // Rutas de gestión de competencias
+                    { path: 'reglas', loadComponent: () => import('./features/competencies-management/rules/rules.component').then(m => m.RulesComponent) },
+                    { path: 'categorias-competencias', loadComponent: () => import('./features/competencies-management/competency-categories/competency-categories.component').then(m => m.CompetencyCategoriesComponent) },
+                    { path: 'estados-juego', loadComponent: () => import('./features/competencies-management/game-states/game-states.component').then(m => m.GameStatesComponent) },
+                    { path: 'atletas', loadComponent: () => import('./features/competencies-management/athletes/athletes.component').then(m => m.AthletesComponent) },
+                    { path: 'administraciones', loadComponent: () => import('./features/competencies-management/administrations/administrations.component').then(m => m.AdministrationsComponent) },
+                    { path: 'equipos-competencias', loadComponent: () => import('./features/competencies-management/teams/teams.component').then(m => m.TeamsComponent) },
+                    { path: 'competencias', loadComponent: () => import('./features/competencies-management/competitions/competitions.component').then(m => m.CompetitionsComponent) },
+                    { path: 'temporadas', loadComponent: () => import('./features/competencies-management/seasons/seasons.component').then(m => m.SeasonsComponent) },
+                    { path: 'fases', loadComponent: () => import('./features/competencies-management/phases/phases.component').then(m => m.PhasesComponent) },
+                    { path: 'ofertas', loadComponent: () => import('./features/competencies-management/offers/offers.component').then(m => m.OffersComponent) },
+                    { path: 'juegos', loadComponent: () => import('./features/competencies-management/games/games.component').then(m => m.GamesComponent) }
                 ]
             },
             { path: 'ayuda', loadComponent: () => import('./feature/ayuda/ayuda').then(m => m.AyudaComponent) },

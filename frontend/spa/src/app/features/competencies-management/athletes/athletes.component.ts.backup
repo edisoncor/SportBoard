@@ -1,0 +1,500 @@
+import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule, MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
+import { Athlete } from '../../../core/models/competencies/Athlete';
+import { CompetenciesService } from '../../../core/services/competencies/competencies.service';
+
+@Component({
+  selector: 'app-athletes',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
+  ],
+  template: `
+    <div class="container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-toolbar color="primary">
+              <span>Atletas</span>
+              <span class="spacer"></span>
+              <button mat-raised-button color="accent" (click)="openCreateDialog()">
+                <mat-icon>add</mat-icon>
+                Nuevo Atleta
+              </button>
+            </mat-toolbar>
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <!-- Loading spinner -->
+          <div *ngIf="loading" class="loading-container">
+            <mat-spinner></mat-spinner>
+          </div>
+
+          <!-- Data table -->
+          <div *ngIf="!loading" class="table-container">
+            <table mat-table [dataSource]="dataSource" mat-sort class="mat-elevation-z8">
+              
+              <!-- ID Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+              </ng-container>
+
+              <!-- User Column -->
+              <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+                <td mat-cell *matCellDef="let element">{{getUserDisplay(element.user)}}</td>
+              </ng-container>
+
+              <!-- Birth Date Column -->
+              <ng-container matColumnDef="birthDate">
+                <th mat-header-cell *matHeaderCellDef>Fecha de Nacimiento</th>
+                <td mat-cell *matCellDef="let element">{{formatDate(element.birthDate)}}</td>
+              </ng-container>
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>Posición</th>
+                <td mat-cell *matCellDef="let element">{{element.position}}</td>
+              </ng-container>
+
+              <!-- Height Column -->
+              <ng-container matColumnDef="height">
+                <th mat-header-cell *matHeaderCellDef>Altura (cm)</th>
+                <td mat-cell *matCellDef="let element">{{element.height}}</td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef>Peso (kg)</th>
+                <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+              </ng-container>
+
+              <!-- IsActive Column -->
+              <ng-container matColumnDef="isActive">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element">
+                  <span [class]="element.isActive ? 'status-active' : 'status-inactive'">
+                    {{element.isActive ? 'Activo' : 'Inactivo'}}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button color="primary" (click)="openEditDialog(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="openDeleteDialog(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  `,
+  styles: [`
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .table-container {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .status-active {
+      color: #4caf50;
+      font-weight: 500;
+    }
+
+    .status-inactive {
+      color: #f44336;
+      font-weight: 500;
+    }
+  `]
+})
+export class AthletesComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id', 'user', 'birthDate', 'position', 'height', 'weight', 'isActive', 'actions'];
+  dataSource = new MatTableDataSource<Athlete>();
+  loading = false;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(
+    private competenciesService: CompetenciesService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.loadAthletes();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  loadAthletes() {
+    this.loading = true;
+    // Mock data for now - will be replaced with actual service call
+    setTimeout(() => {
+      const mockData: Athlete[] = [
+        { 
+          id: 1, 
+          user: 1, 
+          birthDate: '1995-03-15', 
+          position: 'Delantero', 
+          height: 180, 
+          weight: 75,
+          isActive: true 
+        },
+        { 
+          id: 2, 
+          user: 2, 
+          birthDate: '1998-07-22', 
+          position: 'Medio', 
+          height: 175, 
+          weight: 70,
+          isActive: true 
+        },
+        { 
+          id: 3, 
+          user: 3, 
+          birthDate: '1992-11-08', 
+          position: 'Defensa', 
+          height: 185, 
+          weight: 80,
+          isActive: true 
+        },
+        { 
+          id: 4, 
+          user: 4, 
+          birthDate: '1996-05-30', 
+          position: 'Portero', 
+          height: 190, 
+          weight: 85,
+          isActive: false 
+        }
+      ];
+      this.dataSource.data = mockData;
+      this.loading = false;
+    }, 1000);
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES');
+  }
+
+  getUserDisplay(user: number | any): string {
+    if (typeof user === 'number') {
+      return `Usuario ID: ${user}`;
+    }
+    if (user && typeof user === 'object') {
+      return `${user.first_name || ''} ${user.last_name || ''}`.trim() || `Usuario ID: ${user.id}`;
+    }
+    return 'Usuario no definido';
+  }
+
+  openCreateDialog() {
+    const dialogRef = this.dialog.open(AthleteFormDialogComponent, {
+      width: '600px',
+      data: { athlete: null, isEdit: false }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadAthletes();
+      }
+    });
+  }
+
+  openEditDialog(athlete: Athlete) {
+    const dialogRef = this.dialog.open(AthleteFormDialogComponent, {
+      width: '600px',
+      data: { athlete: athlete, isEdit: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadAthletes();
+      }
+    });
+  }
+
+  openDeleteDialog(athlete: Athlete) {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '400px',
+      data: { 
+        title: 'Eliminar Atleta',
+        message: `¿Está seguro que desea eliminar al atleta con ID ${athlete.id}?`,
+        entity: athlete
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteAthlete(athlete);
+      }
+    });
+  }
+
+  deleteAthlete(athlete: Athlete) {
+    // TODO: Replace with actual service call
+    this.snackBar.open('Atleta eliminado correctamente', 'Cerrar', { duration: 3000 });
+    this.loadAthletes();
+  }
+}
+
+// Athlete Form Dialog Component
+@Component({
+  selector: 'app-athlete-form-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
+  ],
+  template: `
+    <h2 mat-dialog-title>{{data.isEdit ? 'Editar' : 'Crear'}} Atleta</h2>
+    
+    <form [formGroup]="athleteForm" (ngSubmit)="onSubmit()">
+      <mat-dialog-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <mat-select formControlName="user">
+            <mat-option value="1">Usuario 1</mat-option>
+            <mat-option value="2">Usuario 2</mat-option>
+            <mat-option value="3">Usuario 3</mat-option>
+            <mat-option value="4">Usuario 4</mat-option>
+          </mat-select>
+          <mat-error *ngIf="athleteForm.get('user')?.hasError('required')">
+            El usuario es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birthDate" placeholder="Seleccione la fecha">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="athleteForm.get('birthDate')?.hasError('required')">
+            La fecha de nacimiento es requerida
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Posición</mat-label>
+          <input matInput formControlName="position" placeholder="Ingrese la posición">
+          <mat-error *ngIf="athleteForm.get('position')?.hasError('required')">
+            La posición es requerida
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Altura (cm)</mat-label>
+          <input matInput formControlName="height" placeholder="Ingrese la altura" type="number">
+          <mat-error *ngIf="athleteForm.get('height')?.hasError('required')">
+            La altura es requerida
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Peso (kg)</mat-label>
+          <input matInput formControlName="weight" placeholder="Ingrese el peso" type="number">
+          <mat-error *ngIf="athleteForm.get('weight')?.hasError('required')">
+            El peso es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="isActive">Atleta Activo</mat-checkbox>
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="athleteForm.invalid">
+          {{data.isEdit ? 'Actualizar' : 'Crear'}}
+        </button>
+      </mat-dialog-actions>
+    </form>
+  `
+})
+export class AthleteFormDialogComponent implements OnInit {
+  athleteForm: FormGroup;
+
+  constructor(
+    public dialogRef: MatDialogRef<AthleteFormDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private competenciesService: CompetenciesService,
+    private snackBar: MatSnackBar
+  ) {
+    this.athleteForm = this.fb.group({
+      user: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
+      position: ['', [Validators.required]],
+      height: ['', [Validators.required]],
+      weight: ['', [Validators.required]],
+      isActive: [true]
+    });
+  }
+
+  ngOnInit() {
+    if (this.data.isEdit && this.data.athlete) {
+      // Convert date string to Date object for the datepicker
+      const athlete = { ...this.data.athlete };
+      if (athlete.birthDate) {
+        athlete.birthDate = new Date(athlete.birthDate);
+      }
+      this.athleteForm.patchValue(athlete);
+    }
+  }
+
+  onSubmit() {
+    if (this.athleteForm.valid) {
+      const formValue = this.athleteForm.value;
+      const athlete: any = { ...formValue };
+      
+      // Convert Date object back to string
+      if (athlete.birthDate instanceof Date) {
+        athlete.birthDate = athlete.birthDate.toISOString().split('T')[0];
+      }
+
+      if (this.data.isEdit) {
+        athlete.id = this.data.athlete.id;
+        // TODO: Replace with actual service call
+        this.snackBar.open('Atleta actualizado correctamente', 'Cerrar', { duration: 3000 });
+        this.dialogRef.close(true);
+      } else {
+        // TODO: Replace with actual service call
+        this.snackBar.open('Atleta creado correctamente', 'Cerrar', { duration: 3000 });
+        this.dialogRef.close(true);
+      }
+    }
+  }
+
+  onCancel() {
+    this.dialogRef.close(false);
+  }
+}
+
+// Delete Confirmation Dialog Component
+@Component({
+  selector: 'app-delete-confirmation-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule
+  ],
+  template: `
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    
+    <mat-dialog-content>
+      <p>{{data.message}}</p>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">Cancelar</button>
+      <button mat-raised-button color="warn" (click)="onConfirm()">
+        <mat-icon>delete</mat-icon>
+        Eliminar
+      </button>
+    </mat-dialog-actions>
+  `
+})
+export class DeleteConfirmationDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  onConfirm() {
+    this.dialogRef.close(true);
+  }
+
+  onCancel() {
+    this.dialogRef.close(false);
+  }
+}
