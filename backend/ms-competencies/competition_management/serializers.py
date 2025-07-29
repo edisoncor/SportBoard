@@ -19,7 +19,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class AthleteSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(read_only=True)
     class Meta:
         model = Athlete
         fields = ['url', 'id', 'isCoach', 'isCaptain', 'isActive', 'height', 'position', 'weight', 'user']
@@ -102,6 +101,20 @@ class CompetitionSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class RuleSerializer(serializers.HyperlinkedModelSerializer):
+    code = serializers.CharField(required=False)
+    
+    def create(self, validated_data):
+        # Generate code automatically if not provided
+        if 'code' not in validated_data or not validated_data['code']:
+            name = validated_data.get('name', '')
+            # Generate code from name (remove spaces, convert to uppercase, add timestamp)
+            import datetime
+            timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            base_code = name.replace(' ', '').upper()[:10]
+            validated_data['code'] = f"{base_code}_{timestamp}"
+        
+        return super().create(validated_data)
+    
     class Meta:
         model = Rule
         fields = ['url', 'id', 'code', 'description', 'name']

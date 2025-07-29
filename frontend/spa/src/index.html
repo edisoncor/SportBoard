@@ -20,6 +20,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Permissions Policy para reducir warnings del navegador -->
+    <meta http-equiv="Permissions-Policy" content="browsing-topics=()">
+    
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="SportBoard - Plataforma de Gestión Deportiva">
     <meta property="og:description" content="Plataforma integral para la gestión de eventos deportivos, equipos y estadísticas">
@@ -32,7 +35,32 @@
 
 <body>
     <app-root></app-root>
-    <!-- Preloader podría añadirse aquí -->
+    
+    <!-- Script para suprimir warnings del navegador -->
+    <script>
+        // Suprimir warnings específicos del navegador en desarrollo
+        if (window.console && window.console.warn) {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                // Filtrar warnings específicos que no son críticos
+                const message = args.join(' ');
+                if (message.includes('runtime.lastError') || 
+                    message.includes('Browsing Topics API') ||
+                    message.includes('injection-topics.js')) {
+                    return; // No mostrar estos warnings
+                }
+                originalWarn.apply(console, args);
+            };
+        }
+        
+        // Manejo global de errores no críticos
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('runtime.lastError')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
 </body>
 
 </html>

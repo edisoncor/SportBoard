@@ -58,7 +58,7 @@ export class AuthService {
 
   // Login method
   login(email: string, password: string): Observable<User> {
-    return this.http.post<{access: string, refresh: string}>(`${environment.apiUrl}/v1/auth/login/`, { email, password })
+    return this.http.post<{access: string, refresh: string}>(`${environment.authServiceUrl}/api/v1/auth/login/`, { email, password })
       .pipe(
         map(tokens => {
           // Decode the access token to get user information
@@ -121,18 +121,22 @@ export class AuthService {
       role: ['ESPECTATOR'] // Rol por defecto
     };
 
-    return this.http.post(`${environment.apiUrl}/v1/auth/register/`, registerData)
+    return this.http.post(`${environment.authServiceUrl}/api/v1/auth/register/`, registerData)
       .pipe(
         catchError(error => {
           console.error('Registration error:', error);
           let errorMessage = 'Error en el registro. Por favor, intenta de nuevo.';
 
-          if (error.status === 400) {
+          if (error.status === 404) {
+            errorMessage = 'El servicio de registro no está disponible temporalmente. Por favor, contacta al administrador.';
+          } else if (error.status === 400) {
             if (error.error?.email) {
               errorMessage = 'Este email ya está registrado.';
             } else if (error.error?.message) {
               errorMessage = error.error.message;
             }
+          } else if (error.status === 0) {
+            errorMessage = 'No se puede conectar al servidor. Verifique su conexión a internet.';
           }
 
           return throwError(() => new Error(errorMessage));
@@ -142,7 +146,7 @@ export class AuthService {
 
   // Request password reset
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/v1/auth/initiate-password-reset/`, { email })
+    return this.http.post(`${environment.authServiceUrl}/api/v1/auth/initiate-password-reset/`, { email })
       .pipe(
         catchError(error => {
           console.error('Password reset request error:', error);
@@ -153,7 +157,7 @@ export class AuthService {
 
   // Reset password with token
   resetPassword(token: string, newPassword: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/v1/auth/create-password/`, { token, new_password: newPassword })
+    return this.http.post(`${environment.authServiceUrl}/api/v1/auth/create-password/`, { token, new_password: newPassword })
       .pipe(
         catchError(error => {
           console.error('Password reset error:', error);
@@ -170,7 +174,7 @@ export class AuthService {
       return throwError(() => new Error('No refresh token available'));
     }
 
-    return this.http.post<{access: string}>(`${environment.apiUrl}/v1/auth/token/refresh/`, { refresh: user.refresh })
+    return this.http.post<{access: string}>(`${environment.authServiceUrl}/api/v1/auth/token/refresh/`, { refresh: user.refresh })
       .pipe(
         tap(tokens => {
           // Update stored user with new access token
@@ -197,7 +201,7 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http.post(`${environment.apiUrl}/v1/auth/token/verify/`, { token: user.access })
+    return this.http.post(`${environment.authServiceUrl}/api/v1/auth/token/verify/`, { token: user.access })
       .pipe(
         map(() => true),
         catchError(() => of(false))
